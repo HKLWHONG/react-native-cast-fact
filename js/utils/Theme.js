@@ -26,6 +26,16 @@ export const colors = {
   text: {
     subtitle: '#727272',
   },
+  dot: {
+    amber: '#E9B86F',
+    black: '#000000',
+    blue: '#152578',
+    browm: '#39180A',
+    gray: '#5B5A58',
+    green: '#0B4311',
+    hazel: '#521D00',
+    red: '#781515',
+  },
   general: {
     black: '#000000',
     white: '#FFFFFF',

@@ -8,6 +8,7 @@ const en = {
     based_on_projects_format: 'Based On Project {0}',
     feed: 'Feed',
     follow: 'Follow',
+    find_talent: 'Find Talent',
     error: {
       empty_field_message: 'Please complete all requuired fields.',
       password_validation_message: 'A password must be 8-14 alphanumeric characters.',
@@ -25,6 +26,9 @@ const en = {
     },
     feed: {
       header: 'Cast Fact',
+    },
+    search: {
+      header: 'Search',
     },
   },
   providers: {

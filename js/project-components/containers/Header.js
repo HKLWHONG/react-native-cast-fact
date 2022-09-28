@@ -177,7 +177,7 @@ Header.defaultProps = {
   hiddenRight: true,
   navigation: undefined,
   title: undefined,
-  onPressLeft: (navigation) => navigation.pop(),
+  onPressLeft: (navigation) => navigation.goBack(),
   onPressRight: undefined,
 };
 

@@ -8,6 +8,7 @@ const zhHK = {
     based_on_projects_format: 'Based On Project {0}',
     feed: 'Feed',
     follow: 'Follow',
+    find_talent: 'Find Talent',
     error: {
       empty_field_message: '請輸入所需資料。',
       password_validation_message: '密碼必須是由8-14個字的字母及數字所組成。',
@@ -25,6 +26,9 @@ const zhHK = {
     },
     feed: {
       header: 'Cast Fact',
+    },
+    search: {
+      header: 'Search',
     },
   },
   providers: {

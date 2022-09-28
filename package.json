@@ -24,6 +24,7 @@
     "react-i18next": "^11.18.6",
     "react-native": "0.70.1",
     "react-native-asset": "^2.0.1",
+    "react-native-collapsible": "^1.6.0",
     "react-native-device-info": "^10.2.0",
     "react-native-gesture-handler": "^2.6.1",
     "react-native-indicators": "^0.17.0",

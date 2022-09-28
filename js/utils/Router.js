@@ -99,10 +99,10 @@ export const push = (props, stack, name, params) => {
   props.navigation.dispatch(DrawerActions.closeDrawer());
 };
 
-export const pop = (props) => {
+export const goBack = (props) => {
   if (!props || !props.navigation) {
     return;
   }
 
-  props.navigation.pop();
+  props.navigation.goBack();
 };
