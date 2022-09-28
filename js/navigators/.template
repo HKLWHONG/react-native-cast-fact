@@ -1,0 +1,63 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+import React from 'react';
+import { StyleSheet } from 'react-native';
+
+import { connect } from 'react-redux';
+
+import { createTemplateNavigator } from '@react-navigation/template';
+
+import { BaseComponent } from '../components';
+
+import { TemplateView } from '../views';
+
+import { Translation } from 'react-i18next';
+
+const Template = createTemplateNavigator();
+
+class TemplateNavigator extends BaseComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount();
+  }
+
+  render() {
+    const { props } = this;
+
+    const theme = props.theme || {};
+
+    return (
+      <Translation>
+        {(t) => (
+          <Template.Navigator headerMode="screen">
+            <TemplateStack.Screen name="Template" component={TemplateView} />
+          </Template.Navigator>
+        )}
+      </Translation>
+    );
+  }
+}
+
+const styles = StyleSheet.create({});
+
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.Template,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateNavigator);
