@@ -26,11 +26,10 @@ import {
   Section,
   SearchBar,
   FeedList,
+  CollapsibleSection,
   GroupFrame,
   Tag,
 } from '../../project-components';
-
-import Collapsible from 'react-native-collapsible';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -43,9 +42,7 @@ class SearchView extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state={
-      collapsed: false,
-    };
+    this.state={};
   }
 
   componentDidMount() {
@@ -95,6 +92,8 @@ class SearchView extends BaseComponent {
             <SearchBar
               onPress={(text) => {
                 console.log('[search-text] ', text)
+
+                Router.push(props, "FeedStack", "SearchResult");
               }}
             />
             <GroupFrame
@@ -104,11 +103,10 @@ class SearchView extends BaseComponent {
                 rightAccessoryType="delete"
               />
               <Tag
-                dotStyle={{
-                  backgroundColor: Theme.colors.dot.blue,
-                }}
+                dotStyle={{ backgroundColor: Theme.colors.dot.blue }}
                 text={'Blue Eye'}
                 leftAccessoryType="dot"
+                rightAccessoryType="delete"
               />
             </GroupFrame>
             <View
@@ -133,7 +131,7 @@ class SearchView extends BaseComponent {
         )}
       </Translation>
     );
-  }
+  };
 
   renderRecentSearchesSection = (params) => {
     const { props } = this;
@@ -147,16 +145,9 @@ class SearchView extends BaseComponent {
             label={section.title}
             rightAccessoryType="delete">
             <GroupFrame rightAccessoryType="delete">
+              <Tag text={'Muscular'} />
               <Tag
-                dotStyle={{
-                  backgroundColor: 'red',
-                }}
-                text={'Muscular'}
-              />
-              <Tag
-                dotStyle={{
-                  backgroundColor: Theme.colors.dot.black,
-                }}
+                dotStyle={{ backgroundColor: Theme.colors.dot.black }}
                 text={'Black Hair'}
                 leftAccessoryType="dot"
               />
@@ -164,43 +155,21 @@ class SearchView extends BaseComponent {
             <GroupFrame
               style={{ marginTop: 8 }}
               rightAccessoryType="delete">
+              <Tag text={'Female'} />
               <Tag
-                dotStyle={{
-                  backgroundColor: 'red',
-                }}
-                text={'Female'}
-              />
-              <Tag
-                dotStyle={{
-                  backgroundColor: Theme.colors.dot.red,
-                }}
+                dotStyle={{ backgroundColor: Theme.colors.dot.red }}
                 text={'Red Eye'}
                 leftAccessoryType="dot"
               />
-              <Tag
-                dotStyle={{
-                  backgroundColor: 'red',
-                }}
-                text={'~165CM'}
-              />
-              <Tag
-                dotStyle={{
-                  backgroundColor: 'red',
-                }}
-                text={'Film'}
-              />
-              <Tag
-                dotStyle={{
-                  backgroundColor: 'red',
-                }}
-                text={'Korean'}
-              />
+              <Tag text={'~165CM'} />
+              <Tag text={'Film'} />
+              <Tag text={'Korean'} />
             </GroupFrame>
           </Section>
         )}
       </Translation>
     );
-  }
+  };
 
   renderFindTalentSection = (params) => {
     const { props, state } = this;
@@ -212,17 +181,8 @@ class SearchView extends BaseComponent {
           <Section
             iconSource={preview}
             label={section.title}>
-            <Button
-              text={'Gender'}
-              onPress={() => {
-                this.setState({
-                  collapsed: !state.collapsed,
-                });
-              }}/>
-            <Collapsible collapsed={state.collapsed}>
-              <GroupFrame
-                style={{ borderColor: Theme.colors.general.transparent }}
-                rightAccessoryType="delete">
+            <CollapsibleSection text={'Gender'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
                 <Tag text={'Female'} />
                 <Tag text={'Gender-Noconforming'} />
                 <Tag text={'Non-Binary'} />
@@ -230,12 +190,96 @@ class SearchView extends BaseComponent {
                 <Tag text={'Agender'} />
                 <Tag text={'Androgyne'} />
               </GroupFrame>
-            </Collapsible>
+            </CollapsibleSection>
+            <CollapsibleSection
+              style={{ marginTop: 16 }}
+              text={'Ethnicities'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+                <Tag text={'Option A'} />
+                <Tag text={'Option B'} />
+                <Tag text={'Option C'} />
+                <Tag text={'Option D'} />
+                <Tag text={'Option E'} />
+                <Tag text={'Option F'} />
+              </GroupFrame>
+            </CollapsibleSection>
+            <CollapsibleSection
+              style={{ marginTop: 16 }}
+              text={'Body Type'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+                <Tag text={'Option A'} />
+                <Tag text={'Option B'} />
+                <Tag text={'Option C'} />
+                <Tag text={'Option D'} />
+                <Tag text={'Option E'} />
+                <Tag text={'Option F'} />
+              </GroupFrame>
+            </CollapsibleSection>
+            <CollapsibleSection
+              style={{ marginTop: 16 }}
+              text={'Eye Color'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.amber }}
+                  text={'Amber'}
+                  leftAccessoryType="dot"
+                />
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.brown }}
+                  text={'Brown'}
+                  leftAccessoryType="dot"
+                />
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.gray }}
+                  text={'Gray'}
+                  leftAccessoryType="dot"
+                />
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.green }}
+                  text={'Green'}
+                  leftAccessoryType="dot"
+                />
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.hazel }}
+                  text={'Hazel'}
+                  leftAccessoryType="dot"
+                />
+                <Tag
+                  dotStyle={{ backgroundColor: Theme.colors.dot.red }}
+                  text={'Red'}
+                  leftAccessoryType="dot"
+                />
+              </GroupFrame>
+            </CollapsibleSection>
+            <CollapsibleSection
+              style={{ marginTop: 16 }}
+              text={'Height'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+                <Tag text={'Option A'} />
+                <Tag text={'Option B'} />
+                <Tag text={'Option C'} />
+                <Tag text={'Option D'} />
+                <Tag text={'Option E'} />
+                <Tag text={'Option F'} />
+              </GroupFrame>
+            </CollapsibleSection>
+            <CollapsibleSection
+              style={{ marginTop: 16 }}
+              text={'Age'}>
+              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+                <Tag text={'Option A'} />
+                <Tag text={'Option B'} />
+                <Tag text={'Option C'} />
+                <Tag text={'Option D'} />
+                <Tag text={'Option E'} />
+                <Tag text={'Option F'} />
+              </GroupFrame>
+            </CollapsibleSection>
           </Section>
         )}
       </Translation>
     );
-  }
+  };
 
   renderItem = (params) => {
     const { props } = this;
@@ -257,7 +301,7 @@ class SearchView extends BaseComponent {
         return this.renderFindTalentSection(params);
 
       default:
-        return undefined;
+        break;
     }
   };
 

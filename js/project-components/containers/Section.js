@@ -29,6 +29,10 @@ class Section extends Component {
   renderLeftContainer = () => {
     const { props } = this;
 
+    if (!props.iconSource) {
+      return;
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -42,10 +46,14 @@ class Section extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
   renderCenterContainer = () => {
     const { props } = this;
+
+    if (!props.label) {
+      return;
+    }
 
     return (
       <Translation>
@@ -58,7 +66,7 @@ class Section extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
   renderDeleteButton = () => {
     const { props } = this;
@@ -104,8 +112,8 @@ class Section extends Component {
   renderHeaderContainer = () => {
     const { props } = this;
 
-    if (props.hidden) {
-      return null;
+    if (props.hiddenHeader) {
+      return;
     }
 
     return (
@@ -119,14 +127,10 @@ class Section extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
   renderContentContainer = () => {
     const { props } = this;
-
-    if (props.hidden) {
-      return null;
-    }
 
     return (
       <Translation>
@@ -137,7 +141,7 @@ class Section extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
   render() {
     const { props } = this;
@@ -231,6 +235,7 @@ Section.propTypes = {
   iconStyle: ViewPropTypes.style,
   labelStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  hiddenHeader: PropTypes.bool,
   iconSource: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
@@ -249,6 +254,7 @@ Section.defaultProps = {
   iconStyle: undefined,
   labelStyle: undefined,
   hidden: false,
+  hiddenHeader: false,
   iconSource: undefined,
   label: undefined,
   rightAccessoryType: undefined,

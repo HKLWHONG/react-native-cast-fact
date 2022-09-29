@@ -129,6 +129,7 @@ class Tag extends Component {
       </Translation>
     );
   };
+
   render() {
     const { props } = this;
 
@@ -139,13 +140,13 @@ class Tag extends Component {
     return (
       <Translation>
         {(t) => (
-          <View
+          <SingleTouch
             onLayout={props.onLayout}
             style={[styles.container, props.style]}>
             {this.renderLeftContainer()}
             {this.renderCenterContainer()}
             {this.renderRightContainer()}
-          </View>
+          </SingleTouch>
         )}
       </Translation>
     );

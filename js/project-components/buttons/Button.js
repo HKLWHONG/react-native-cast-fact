@@ -77,7 +77,7 @@ class Button extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
   render() {
     const { props } = this;

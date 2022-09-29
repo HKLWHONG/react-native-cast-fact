@@ -3,6 +3,7 @@
  * @flow strict-local
  */
 
+import SearchResultView from './SearchResultView';
 import SearchView from './SearchView';
 
-export { SearchView };
+export { SearchResultView, SearchView };

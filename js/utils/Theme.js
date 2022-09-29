@@ -30,7 +30,7 @@ export const colors = {
     amber: '#E9B86F',
     black: '#000000',
     blue: '#152578',
-    browm: '#39180A',
+    brown: '#39180A',
     gray: '#5B5A58',
     green: '#0B4311',
     hazel: '#521D00',

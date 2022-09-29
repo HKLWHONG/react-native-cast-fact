@@ -37,7 +37,7 @@ import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
 
-class FeedView extends BaseComponent {
+class SearchResultView extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -63,24 +63,35 @@ class FeedView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    this.testAddFeedData(5);
+    this.testAddResultData(10);
   };
 
   clearData = () => {
     const { props } = this;
   };
 
-  testAddFeedData = (num) => {
+  testAddResultData = (num) => {
     const { state } = this;
 
     let data = [];
 
     for (let i = 0; i < num; i += 1) {
+      let uri1 = 'https://kcplace.com/preview.png';
+      let uri2 = 'https://kcplace.com/preview2.png';
+
       data.push(
         {
-          uri: i % 2 == 0 ? 'https://kcplace.com/preview.png' : 'https://kcplace.com/preview2.png',
-          name: 'Wong Siu Yu',
-          title: 'Camera',
+          uri: uri1,
+          uris: [
+            { uri: uri1 },
+            { uri: uri2 },
+            { uri: uri1 },
+            { uri: uri1 },
+            { uri: uri2 },
+            { uri: uri1 },
+          ],
+          name: 'Cath Wong 黃妍',
+          title: 'Photographer',
         },
       );
     }
@@ -111,93 +122,18 @@ class FeedView extends BaseComponent {
         {(t) => (
           <Section
             iconSource={preview}
-            label={section.title}>
-            <SearchBar
-              onPress={(text) => {
-                console.log('[search-text] ', text)
-
-                Router.push(props, "FeedStack", "Search");
-              }}
-            />
-          </Section>
-        )}
-      </Translation>
-    );
-  };
-
-  renderRecentSearchesSection = (params) => {
-    const { props } = this;
-    const { item, index, section, separators } = params;
-
-    return (
-      <Translation>
-        {(t) => (
-          <Section
-            iconSource={preview}
             label={section.title}
             rightAccessoryType="delete">
-            <GroupFrame rightAccessoryType="delete">
-              <Tag text={'Muscular'} />
+            <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+              <Tag text={'Kc Lui'} />
+              <Tag text={'Male'} />
               <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.black }}
-                text={'Black Hair'}
+                dotStyle={{ backgroundColor: Theme.colors.dot.blue }}
+                text={'Blue Eye'}
                 leftAccessoryType="dot"
+                rightAccessoryType="delete"
               />
             </GroupFrame>
-            <GroupFrame
-              style={{ marginTop: 8 }}
-              rightAccessoryType="delete">
-              <Tag text={'Female'} />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.red }}
-                text={'Red Eye'}
-                leftAccessoryType="dot"
-              />
-              <Tag text={'~165CM'} />
-              <Tag text={'Film'} />
-              <Tag text={'Korean'} />
-            </GroupFrame>
-          </Section>
-        )}
-      </Translation>
-    );
-  };
-
-  renderBaseOnProjectsSection = (params) => {
-    const { props } = this;
-    const { item, index, section, separators } = params;
-
-    return (
-      <Translation>
-        {(t) => (
-          <Section
-            iconSource={preview}
-            label={section.title}>
-            <ProfileList
-              // style={{backgroundColor: 'cyan'}}
-              data={[
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Tsz',
-                  title: 'Photographer',
-                },
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Kelvin Chuk',
-                  title: 'Writer',
-                },
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Wong Siu Yu',
-                  title: 'Camera',
-                },
-              ]}
-              onPressItem={({ item, index, separators }) => {
-                console.log('[item] ', item);
-                console.log('[index] ', index);
-                console.log('[separators] ', separators);
-              }}
-            />
           </Section>
         )}
       </Translation>
@@ -207,10 +143,10 @@ class FeedView extends BaseComponent {
   onEndReached = () => {
     console.log('[onEndReached]');
 
-    this.testAddFeedData(5);
+    this.testAddResultData(5);
   };
 
-  renderFeedSection = (params) => {
+  renderResultSection = (params) => {
     const { props, state } = this;
     const { item, index, section, separators } = params;
 
@@ -218,10 +154,11 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            contentContainerStyle={styles.feedSectionContentContainer}
-            iconSource={preview}
+            headerContainerStyle={styles.resultSectionHeaderContainer}
+            contentContainerStyle={styles.resultSectionContentContainer}
             label={section.title}>
             <FeedList
+              type="simple"
               data={state.data}
               onPressItem={({ item, index, separators }) => {
                 console.log('[item] ', item);
@@ -250,13 +187,7 @@ class FeedView extends BaseComponent {
         return this.renderCriteriaSection(params);
 
       case 1:
-        return this.renderRecentSearchesSection(params);
-
-      case 2:
-        return this.renderBaseOnProjectsSection(params);
-
-      case 3:
-        return this.renderFeedSection(params);
+        return this.renderResultSection(params);
 
       default:
         break;
@@ -288,15 +219,7 @@ class FeedView extends BaseComponent {
                   data: [''],
                 },
                 {
-                  title: t('app.recent_searches'),
-                  data: [''],
-                },
-                {
-                  title: t('app.based_on_projects_format').replace('{0}', '1'),
-                  data: [''],
-                },
-                {
-                  title: t('app.feed'),
+                  title: t(''),
                   data: [''],
                 },
               ]}
@@ -347,7 +270,12 @@ const styles = StyleSheet.create({
   listContentContainer: {
     paddingHorizontal: 0,
   },
-  feedSectionContentContainer: {
+  resultSectionHeaderContainer: {
+    // backgroundColor: '#f00',
+    paddingVertical: 8,
+  },
+  resultSectionContentContainer: {
+    // backgroundColor: '#ff0',
     paddingHorizontal: 0,
   },
   footer: {},
@@ -361,4 +289,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedView);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultView);

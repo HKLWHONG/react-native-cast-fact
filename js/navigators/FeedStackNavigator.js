@@ -16,7 +16,7 @@ import { BaseComponent } from '../components';
 
 import { Header } from '../project-components';
 
-import { FeedView, SearchView } from '../views';
+import { FeedView, SearchView, SearchResultView } from '../views';
 
 import { Translation } from 'react-i18next';
 
@@ -69,6 +69,13 @@ class FeedStackNavigator extends BaseComponent {
               component={SearchView}
               options={{
                 title: t('views.search.header'),
+              }}
+            />
+            <Stack.Screen
+              name="SearchResult"
+              component={SearchResultView}
+              options={{
+                title: t('views.search_result.header'),
               }}
             />
           </Stack.Navigator>

@@ -11,7 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SimpleList, SingleTouch } from '../../components';
+import { SimpleList, SingleTouch, FastImage } from '../../components';
 
 import { Theme } from '../../utils';
 
@@ -43,7 +43,7 @@ class ProfileList extends Component {
               }
             }}>
             <View style={styles.itemSubContainer}>
-              <Image
+              <FastImage
                 style={styles.image}
                 defaultSource={preview}
                 source={{ uri: item && item.uri }}
@@ -75,6 +75,7 @@ class ProfileList extends Component {
       <Translation>
         {(t) => (
           <SimpleList
+            {...props}  
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             contentContainerStyle={[

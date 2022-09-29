@@ -5,13 +5,13 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, Image } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SimpleList, SingleTouch, Image } from '../../components';
+import { SimpleList, SingleTouch, FastImage } from '../../components';
 
 import { Button, Separator } from '../../project-components';
 
@@ -37,11 +37,11 @@ class FeedList extends Component {
         {(t) => (
           <View
             style={styles.topContainer}>
-            <Image
+            <FastImage
               style={styles.avatarImage}
               defaultSource={preview}
               source={{ uri: item && item.uri }}
-              resizeMode="contain"
+              resizeMode={"contain"}
             />
             <View style={styles.profileInfoContainer}>
               <Text
@@ -69,27 +69,97 @@ class FeedList extends Component {
     );
   };
 
-  renderCenterContainer = (params) => {
-    const { props, state } = this;
+  renderImage = (params) => {
+    const { props } = this;
     const { item, index, separators } = params;
 
-    const { width } = Dimensions.get('window');
+    return (
+      <Translation>
+        {(t) => (
+          <FastImage
+            style={styles.image}
+            preSize={{ width: Dimensions.get('window').width }}
+            defaultSource={preview}
+            source={{ uri: item && item.uri }}
+            resizeMode={"contain"}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderItemForImages = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    console.log('[item]', item);
+
+    return (
+      <Translation>
+        {(t) => (
+          <FastImage
+            style={styles.image}
+            preSize={{ height: 80 }}
+            defaultSource={preview}
+            source={{ uri: item && item.uri }}
+            resizeMode={"contain"}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderItemSeparatorComponentForImages = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Separator lineStyle={styles.separatorForImages} />
+        )}
+      </Translation>
+    );
+  };
+
+  renderImages = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    console.log('[item.uris]', item.uris);
+
+    return (
+      <Translation>
+        {(t) => (
+          <SimpleList
+            data={item.uris}
+            renderItem={this.renderItemForImages}
+            ItemSeparatorComponent={this.renderItemSeparatorComponentForImages}
+            horizontal
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderCenterContainer = (params) => {
+    const { props } = this;
+
+    let children = this.renderImage(params);
+
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'simple'.toLowerCase()
+    ) {
+      children = this.renderImages(params);
+    }
 
     return (
       <Translation>
         {(t) => (
           <View
             style={styles.centerContainer}>
-            <Image
-              style={styles.image}
-              preSize={{
-                width: width,
-                height: width,
-              }}
-              defaultSource={preview}
-              source={{ uri: item && item.uri }}
-              resizeMode="contain"
-            />
+            {children}
           </View>
         )}
       </Translation>
@@ -99,6 +169,14 @@ class FeedList extends Component {
   renderBottomContainer = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
+
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'simple'.toLowerCase()
+    ) {
+      return;
+    }
 
     return (
       <Translation>
@@ -184,12 +262,15 @@ class FeedList extends Component {
     );
   };
 
-
   renderItemSeparatorComponent = () => {
     const { props } = this;
 
     return (
-      <Separator lineStyle={styles.separator} />
+      <Translation>
+        {(t) => (
+          <Separator lineStyle={styles.separator} />
+        )}
+      </Translation>
     );
   };
 
@@ -204,6 +285,7 @@ class FeedList extends Component {
       <Translation>
         {(t) => (
           <SimpleList
+            {...props}
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             contentContainerStyle={[
@@ -230,7 +312,11 @@ const styles = StyleSheet.create({
   separator: {
     backgroundColor: Theme.colors.general.transparent,
     height: 16,
-    },
+  },
+  separatorForImages: {
+    backgroundColor: Theme.colors.general.transparent,
+    width: 16,
+  },
   itemContainer: {
     // backgroundColor: '#f00',
     // alignItems: 'center',
@@ -401,6 +487,7 @@ FeedList.propTypes = {
   style: ViewPropTypes.style,
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  type: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object),
   onPressItem: PropTypes.func,
   onRefresh: PropTypes.func,
@@ -412,6 +499,7 @@ FeedList.defaultProps = {
   style: undefined,
   contentContainerStyle: undefined,
   hidden: false,
+  type: undefined,
   data: undefined,
   onPressItem: undefined,
   onRefresh: undefined,

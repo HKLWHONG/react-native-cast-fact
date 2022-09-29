@@ -30,6 +30,9 @@ const en = {
     search: {
       header: 'Search',
     },
+    search_result: {
+      header: 'Results',
+    },
   },
   providers: {
     auth: {
