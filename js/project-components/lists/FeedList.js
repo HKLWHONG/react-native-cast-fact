@@ -292,7 +292,6 @@ class FeedList extends Component {
               styles.contentContainer,
               props.contentContainerStyle,
             ]}
-            data={props.data}
             renderItem={this.renderItem}
             ItemSeparatorComponent={this.renderItemSeparatorComponent}
             refreshing={props.refreshing}
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
   },
   separatorForImages: {
     backgroundColor: Theme.colors.general.transparent,
-    width: 16,
+    width: 4,
   },
   itemContainer: {
     // backgroundColor: '#f00',
@@ -488,7 +487,6 @@ FeedList.propTypes = {
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   type: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.object),
   onPressItem: PropTypes.func,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
@@ -500,7 +498,6 @@ FeedList.defaultProps = {
   contentContainerStyle: undefined,
   hidden: false,
   type: undefined,
-  data: undefined,
   onPressItem: undefined,
   onRefresh: undefined,
   refreshing: undefined,

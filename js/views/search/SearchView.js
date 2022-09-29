@@ -255,7 +255,10 @@ class SearchView extends BaseComponent {
               style={{ marginTop: 16 }}
               text={'Height'}>
               <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
+                <Tag
+                  type="input"
+                  text={'170CM'}
+                />
                 <Tag text={'Option B'} />
                 <Tag text={'Option C'} />
                 <Tag text={'Option D'} />

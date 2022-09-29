@@ -9,6 +9,8 @@ import { StyleSheet, SectionList } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
+import { KeyboardAwareSectionList } from 'react-native-keyboard-aware-scroll-view'
+
 export default class List extends Component {
   constructor(props: any) {
     super(props);
@@ -39,7 +41,7 @@ export default class List extends Component {
     }
 
     return (
-      <SectionList {...props}
+      <KeyboardAwareSectionList {...props}
         onLayout={props.onLayout}
         style={[styles.container, props.style]}
         contentContainerStyle={[
@@ -50,9 +52,6 @@ export default class List extends Component {
           return index.toString();
         }}
         sections={sections}
-        ListEmptyComponent={props.ListEmptyComponent}
-        ListHeaderComponent={props.ListHeaderComponent}
-        ListFooterComponent={props.ListFooterComponent}
         renderSectionHeader={({ section }) => {
           if (!props.renderSectionHeader) {
             return;
@@ -67,8 +66,6 @@ export default class List extends Component {
 
           return props.renderItem(params);
         }}
-        SectionSeparatorComponent={props.SectionSeparatorComponent}
-        ItemSeparatorComponent={props.ItemSeparatorComponent}
         onEndReachedThreshold={0.5}
         onEndReached={props.onEndReached}
         onRefresh={props.onRefresh}
@@ -97,13 +94,8 @@ List.propTypes = {
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   sections: PropTypes.arrayOf(PropTypes.object),
-  ListEmptyComponent: PropTypes.func,
-  ListHeaderComponent: PropTypes.func,
-  ListFooterComponent: PropTypes.func,
   renderSectionHeader: PropTypes.func,
   renderItem: PropTypes.func,
-  SectionSeparatorComponent: PropTypes.func,
-  ItemSeparatorComponent: PropTypes.func,
   onEndReached: PropTypes.func,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
@@ -118,13 +110,8 @@ List.defaultProps = {
   contentContainerStyle: undefined,
   hidden: false,
   sections: undefined,
-  ListEmptyComponent: undefined,
-  ListHeaderComponent: undefined,
-  ListFooterComponent: undefined,
   renderSectionHeader: undefined,
   renderItem: undefined,
-  SectionSeparatorComponent: undefined,
-  ItemSeparatorComponent: undefined,
   onEndReached: undefined,
   onRefresh: undefined,
   refreshing: false,

@@ -291,6 +291,7 @@ class LoginView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
+            keyboardAvoiding
             keyboardDismissing>
             {this.renderHeader()}
             {this.renderBody()}

@@ -11,7 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SingleTouch } from '../../components';
+import { SingleTouch, TextInput } from '../../components';
 
 import { Dot } from '../dots';
 
@@ -68,17 +68,70 @@ class Tag extends Component {
     );
   };
 
-  renderCenterContainer = () => {
+  renderImageView = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
+          <View style={styles.leftContainer}>
+            {children}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderTextView = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Text
+            style={styles.text}>
+            {props.text}
+          </Text>
+        )}
+      </Translation>
+    );
+  };
+
+  renderInputView = () => {
+    const { props, state } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <TextInput
+            style={styles.input}
+            textInputStyle={styles.text}
+            value={props.text}
+            disableMessageView
+           />
+        )}
+      </Translation>
+    );
+  };
+
+  renderCenterContainer = () => {
+    const { props } = this;
+
+    let children = this.renderTextView();
+
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'input'.toLowerCase()
+    ) {
+      children = this.renderInputView();
+    }
+
+    return (
+      <Translation>
+        {(t) => (
           <View style={styles.centerContainer}>
-            <Text
-              style={styles.text}>
-              {props.text}
-            </Text>
+            {children}
           </View>
         )}
       </Translation>
@@ -137,12 +190,31 @@ class Tag extends Component {
       return null;
     }
 
+    let disabled = false;
+
+    if (
+      (
+        props.type
+        &&
+        props.type.toLowerCase() === 'input'.toLowerCase()
+      )
+      ||
+      (
+        props.rightAccessoryType
+        &&
+        props.rightAccessoryType.toLowerCase() === 'delete'.toLowerCase()
+      )
+    ) {
+      disabled = true;
+    }
+
     return (
       <Translation>
         {(t) => (
           <SingleTouch
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+            disabled={disabled}>
             {this.renderLeftContainer()}
             {this.renderCenterContainer()}
             {this.renderRightContainer()}
@@ -159,6 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.background.secondary,
     flexDirection: 'row',
     alignSelf: 'center',
+    height: 30,
     borderRadius: 8,
     margin: 4,
   },
@@ -188,6 +261,9 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     paddingVertical: 6,
   },
+  input: {
+    // backgroundColor: '#0f0',
+  },
   text: {
     // backgroundColor: '#0f0',
     color: Theme.colors.general.white,
@@ -195,6 +271,8 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.medium,
     letterSpacing: 1.7,
     textTransform: 'uppercase',
+    padding: 0,
+    margin: 0,
   },
   rightContainer: {
     // backgroundColor: '#00f',
@@ -229,6 +307,7 @@ Tag.propTypes = {
   style: ViewPropTypes.style,
   dotStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  type: PropTypes.string,
   text: PropTypes.string,
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
@@ -239,6 +318,7 @@ Tag.defaultProps = {
   style: undefined,
   dotStyle: undefined,
   hidden: false,
+  type: undefined,
   text: undefined,
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,

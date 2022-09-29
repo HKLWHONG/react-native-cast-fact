@@ -20,7 +20,7 @@ import {
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
-import { HeaderHeightContext } from '@react-navigation/stack';
+import { HeaderHeightContext } from '@react-navigation/elements';
 
 export default class Root extends Component {
   constructor(props: any) {

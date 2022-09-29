@@ -125,8 +125,14 @@ class SearchResultView extends BaseComponent {
             label={section.title}
             rightAccessoryType="delete">
             <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-              <Tag text={'Kc Lui'} />
-              <Tag text={'Male'} />
+              <Tag
+                text={'Kc Lui'}
+                rightAccessoryType="delete"
+              />
+              <Tag
+                text={'Male'}
+                rightAccessoryType="delete"
+              />
               <Tag
                 dotStyle={{ backgroundColor: Theme.colors.dot.blue }}
                 text={'Blue Eye'}

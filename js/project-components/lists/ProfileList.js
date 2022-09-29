@@ -82,7 +82,6 @@ class ProfileList extends Component {
               styles.contentContainer,
               props.contentContainerStyle,
             ]}
-            data={props.data}
             renderItem={this.renderItem}
             refreshing={props.refreshing}
             onRefresh={props.onRefresh}
@@ -137,7 +136,6 @@ ProfileList.propTypes = {
   style: ViewPropTypes.style,
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
-  data: PropTypes.arrayOf(PropTypes.object),
   onPressItem: PropTypes.func,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
@@ -148,7 +146,6 @@ ProfileList.defaultProps = {
   style: undefined,
   contentContainerStyle: undefined,
   hidden: false,
-  data: undefined,
   onPressItem: undefined,
   onRefresh: undefined,
   refreshing: undefined,
