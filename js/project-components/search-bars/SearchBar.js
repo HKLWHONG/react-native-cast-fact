@@ -17,7 +17,8 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
+const ic_search = require('../../../assets/images/ic_search/ic_search.png');
 
 class SearchBar extends Component {
   constructor(props: any) {
@@ -45,11 +46,12 @@ class SearchBar extends Component {
       children = (
         <SingleTouch
           style={styles.leftAccessoryButton}
+          disabled={props.disabled}
           onPress={() => this.onChangeText('')}>
           <Image
             style={styles.leftAccessoryButtonImage}
-            source={preview}
-            resizeMode="contain"
+            source={ic_xmark}
+            resizeMode="center"
           />
         </SingleTouch>
       );
@@ -67,18 +69,26 @@ class SearchBar extends Component {
   };
 
   renderCenterContainer = () => {
-    const { state } = this;
+    const { props, state } = this;
+
+    let children = (
+      <TextInput
+        textInputStyle={styles.textInput}
+        value={state.text}
+        onChangeText={this.onChangeText}
+        disableMessageView
+      />
+    );
+
+    if (props.disabled) {
+      children = undefined;
+    }
 
     return (
       <Translation>
         {(t) => (
           <View style={styles.centerContainer}>
-            <TextInput
-              textInputStyle={styles.textInput}
-              value={state.text}
-              onChangeText={this.onChangeText}
-              disableMessageView
-            />
+            {children}
           </View>
         )}
       </Translation>
@@ -95,6 +105,7 @@ class SearchBar extends Component {
             <SingleTouch
               style={styles.rightAccessoryButton}
               type={'TouchableOpacity'}
+              disabled={props.disabled}
               onPress={() => {
                 if (props.onPress) {
                   props.onPress(state.text)
@@ -102,8 +113,8 @@ class SearchBar extends Component {
               }}>
               <Image
                 style={styles.rightAccessoryButtonImage}
-                source={preview}
-                resizeMode="contain"
+                source={ic_search}
+                resizeMode="center"
               />
             </SingleTouch>
           </View>
@@ -157,8 +168,8 @@ const styles = StyleSheet.create({
   },
   leftAccessoryButtonImage: {
     // backgroundColor: '#0f0',
-    width: 16,
-    height: 15,
+    width: 17,
+    height: 17,
   },
   centerContainer: {
     // backgroundColor: '#00f',
@@ -179,13 +190,14 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ff0',
     justifyContent: 'center',
     paddingRight: 16,
+    paddingVertical: 5,
     borderTopRightRadius: 21,
     borderBottomRightRadius: 21,
   },
   rightAccessoryButtonImage: {
     // backgroundColor: '#0f0',
-    width: 30,
-    height: 26,
+    width: 32,
+    height: 32,
   },
 });
 
@@ -193,6 +205,7 @@ SearchBar.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  disabled: PropTypes.bool,
   onPress: PropTypes.func,
 };
 
@@ -200,6 +213,7 @@ SearchBar.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
+  disabled: false,
   onPress: undefined,
 };
 

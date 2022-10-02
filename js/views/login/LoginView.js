@@ -190,9 +190,9 @@ class LoginView extends BaseComponent {
             onPress={() => {
               console.log('[credentials] ', props.credentials);
 
-              if (!this.validateAll()) {
-                return;
-              }
+              // if (!this.validateAll()) {
+              //   return;
+              // }
 
               // TestApi.request(
               //   props,
@@ -267,7 +267,6 @@ class LoginView extends BaseComponent {
           <Footer style={styles.footer}>
             <SingleTouch
               style={styles.createAccountContainer}
-              activeOpacity={0.7}
               onPress={() => {
                 Router.push(props, "SignUp");
               }}>

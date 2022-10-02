@@ -72,7 +72,7 @@ class Button extends Component {
             style={[styles.image, style, props.imageStyle]}
             defaultSource={preview}
             source={props.source}
-            resizeMode="contain"
+            resizeMode={props.resizeMode}
           />
         )}
       </Translation>
@@ -113,7 +113,6 @@ class Button extends Component {
           <SingleTouch
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
-            activeOpacity={0.7}
             disabled={props.disabled}
             onPress={props.onPress}>
             <View style={[styles.button, style, disabledStyle]}>
@@ -130,10 +129,10 @@ class Button extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.secondary,
     borderRadius: 8,
   },
   button: {
-    backgroundColor: Theme.colors.background.secondary,
     minHeight: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -167,6 +166,7 @@ Button.propTypes = {
     PropTypes.object,
     PropTypes.number,
   ]),
+  resizeMode: PropTypes.string,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
 };
@@ -180,6 +180,7 @@ Button.defaultProps = {
   type: undefined,
   text: undefined,
   source: undefined,
+  resizeMode: "contain",
   disabled: false,
   onPress: undefined,
 };

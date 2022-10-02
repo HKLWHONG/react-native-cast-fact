@@ -40,6 +40,15 @@ const zhHK = {
     search_result: {
       header: 'Results',
     },
+    inbox: {
+      header: 'Inbox',
+    },
+    calendar: {
+      header: 'Calendar',
+    },
+    profile: {
+      header: 'Profile',
+    },
   },
   providers: {
     auth: {

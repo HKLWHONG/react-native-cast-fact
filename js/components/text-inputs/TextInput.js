@@ -90,9 +90,18 @@ export default class TextInput extends Component {
   renderCenterTextInput = () => {
     const { props } = this;
 
+    let style = {};
+
+    if (props.enableLeftInput || props.enableRightInput) {
+      style = {
+        ...style,
+        flex: 6,
+      };
+    }
+
     return (
       <RNTextInput {...props}
-        style={[styles.textInput, props.textInputStyle]}
+        style={[styles.textInput, style, props.textInputStyle]}
         value={props.value}
         placeholder={props.placeholder}
         placeholderTextColor={props.placeholderTextColor}
@@ -181,13 +190,17 @@ export default class TextInput extends Component {
   renderTextInput = () => {
     const { props } = this;
 
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        {this.renderLeftTextInput()}
-        {this.renderCenterTextInput()}
-        {this.renderRightTextInput()}
-      </View>
-    );
+    if (props.enableLeftInput || props.enableRightInput) {
+      return (
+        <View style={{ flexDirection: 'row' }}>
+          {this.renderLeftTextInput()}
+          {this.renderCenterTextInput()}
+          {this.renderRightTextInput()}
+        </View>
+      );
+    }
+
+    return  this.renderCenterTextInput();
   };
 
   renderBottomLineIfNeeded = () => {
@@ -265,7 +278,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     // backgroundColor: '#f00',
-    flex: 6,
     fontSize: 14,
   },
   textInputLeft: {
@@ -274,7 +286,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   textInputRight: {
-    backgroundColor: '#0ff',
+    // backgroundColor: '#0ff',
     flex: 1,
     marginLeft: 8,
   },

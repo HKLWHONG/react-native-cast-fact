@@ -19,7 +19,8 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
+const ic_checkmark = require('../../../assets/images/ic_checkmark/ic_checkmark.png');
 
 class GroupFrame extends Component {
   constructor(props: any) {
@@ -38,8 +39,8 @@ class GroupFrame extends Component {
             style={styles.rightAccessoryButton}>
             <Image
               style={styles.rightAccessoryButtonImage}
-              source={preview}
-              resizeMode="contain"
+              source={ic_xmark}
+              resizeMode="center"
             />
           </SingleTouch>
         )}
@@ -55,9 +56,11 @@ class GroupFrame extends Component {
         {(t) => (
           <Button
             style={styles.checkAccessoryButton}
-            imageStyle={styles.rightAccessoryButtonImage}
+            imageStyle={styles.checkAccessoryButtonImage}
             type="small"
-            source={preview} />
+            source={ic_checkmark}
+            resizeMode="center"
+          />
         )}
       </Translation>
     );
@@ -162,12 +165,16 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   rightAccessoryButtonImage: {
-    width: 14,
-    height: 13,
+    width: 17,
+    height: 17,
   },
   checkAccessoryButton: {
     // backgroundColor: '#0f0',
     aspectRatio: 1,
+  },
+  checkAccessoryButtonImage: {
+    width: 21,
+    height: 21,
   },
 });
 

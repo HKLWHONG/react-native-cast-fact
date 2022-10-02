@@ -16,12 +16,22 @@ import { BaseComponent } from '../components';
 import { Theme } from '../utils';
 
 import FeedStackNavigator from './FeedStackNavigator';
+import InboxStackNavigator from './InboxStackNavigator';
+import CalendarStackNavigator from './CalendarStackNavigator';
+import ProfileStackNavigator from './ProfileStackNavigator';
 
 import { Translation } from 'react-i18next';
 
 import { Router } from '../utils';
 
-const tabFeedIcon = require('../../assets/images/preview/preview.png');
+const ic_tab_bar_search = require('../../assets/images/ic_tab_bar_search/ic_tab_bar_search.png');
+const ic_tab_bar_search_focused = require('../../assets/images/ic_tab_bar_search_focused/ic_tab_bar_search_focused.png');
+const ic_tab_bar_inbox = require('../../assets/images/ic_tab_bar_inbox/ic_tab_bar_inbox.png');
+const ic_tab_bar_inbox_focused = require('../../assets/images/ic_tab_bar_inbox_focused/ic_tab_bar_inbox_focused.png');
+const ic_tab_bar_calendar = require('../../assets/images/ic_tab_bar_calendar/ic_tab_bar_calendar.png');
+const ic_tab_bar_calendar_focused = require('../../assets/images/ic_tab_bar_calendar_focused/ic_tab_bar_calendar_focused.png');
+const ic_tab_bar_profile = require('../../assets/images/ic_tab_bar_profile/ic_tab_bar_profile.png');
+const ic_tab_bar_profile_focused = require('../../assets/images/ic_tab_bar_profile_focused/ic_tab_bar_profile_focused.png');
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -54,12 +64,12 @@ class MainTabNavigator extends BaseComponent {
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
 
-                  if (focused) {
-                    dotStyle = {
-                      ...dotStyle,
-                      backgroundColor: Theme.colors.general.white,
-                    }
-                  }
+                  // if (focused) {
+                  //   dotStyle = {
+                  //     ...dotStyle,
+                  //     backgroundColor: Theme.colors.general.white,
+                  //   }
+                  // }
 
                   return (
                     <View style={{
@@ -68,8 +78,8 @@ class MainTabNavigator extends BaseComponent {
                       }}>
                       <Image
                         style={styles.icon}
-                        source={tabFeedIcon}
-                        resizeMode="contain"
+                        source={focused ? ic_tab_bar_search_focused : ic_tab_bar_search}
+                        resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
                     </View>
@@ -89,18 +99,18 @@ class MainTabNavigator extends BaseComponent {
               })}
             />
             <Tab.Screen
-              name="Stub1Stack"
-              component={View}
+              name="InboxStack"
+              component={InboxStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
 
-                  if (focused) {
-                    dotStyle = {
-                      ...dotStyle,
-                      backgroundColor: Theme.colors.general.white,
-                    }
-                  }
+                  // if (focused) {
+                  //   dotStyle = {
+                  //     ...dotStyle,
+                  //     backgroundColor: Theme.colors.general.white,
+                  //   }
+                  // }
 
                   return (
                     <View style={{
@@ -109,8 +119,8 @@ class MainTabNavigator extends BaseComponent {
                       }}>
                       <Image
                         style={styles.icon}
-                        source={tabFeedIcon}
-                        resizeMode="contain"
+                        source={focused ? ic_tab_bar_inbox_focused : ic_tab_bar_inbox}
+                        resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
                     </View>
@@ -125,23 +135,23 @@ class MainTabNavigator extends BaseComponent {
                   props.selectDrawer(1);
                   props.selectTab(1);
 
-                  Router.jumpTo(props, 'Stub1Stack');
+                  Router.jumpTo(props, 'InboxStack');
                 },
               })}
             />
             <Tab.Screen
-              name="Stub2Stack"
-              component={View}
+              name="CalendarStack"
+              component={CalendarStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
 
-                  if (focused) {
-                    dotStyle = {
-                      ...dotStyle,
-                      backgroundColor: Theme.colors.general.white,
-                    }
-                  }
+                  // if (focused) {
+                  //   dotStyle = {
+                  //     ...dotStyle,
+                  //     backgroundColor: Theme.colors.general.white,
+                  //   }
+                  // }
 
                   return (
                     <View style={{
@@ -150,8 +160,8 @@ class MainTabNavigator extends BaseComponent {
                       }}>
                       <Image
                         style={styles.icon}
-                        source={tabFeedIcon}
-                        resizeMode="contain"
+                        source={focused ? ic_tab_bar_calendar_focused : ic_tab_bar_calendar}
+                        resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
                     </View>
@@ -166,23 +176,23 @@ class MainTabNavigator extends BaseComponent {
                   props.selectDrawer(2);
                   props.selectTab(2);
 
-                  Router.jumpTo(props, 'Stub2Stack');
+                  Router.jumpTo(props, 'CalendarStack');
                 },
               })}
             />
             <Tab.Screen
-              name="Stub3Stack"
-              component={View}
+              name="ProfileStack"
+              component={ProfileStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
 
-                  if (focused) {
-                    dotStyle = {
-                      ...dotStyle,
-                      backgroundColor: Theme.colors.general.white,
-                    }
-                  }
+                  // if (focused) {
+                  //   dotStyle = {
+                  //     ...dotStyle,
+                  //     backgroundColor: Theme.colors.general.white,
+                  //   }
+                  // }
 
                   return (
                     <View style={{
@@ -191,8 +201,8 @@ class MainTabNavigator extends BaseComponent {
                       }}>
                       <Image
                         style={styles.icon}
-                        source={tabFeedIcon}
-                        resizeMode="contain"
+                        source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
+                        resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
                     </View>
@@ -207,7 +217,7 @@ class MainTabNavigator extends BaseComponent {
                   props.selectDrawer(3);
                   props.selectTab(3);
 
-                  Router.jumpTo(props, 'Stub3Stack');
+                  Router.jumpTo(props, 'ProfileStack');
                 },
               })}
             />
@@ -237,7 +247,8 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f00',
     width: 32,
     height: 32,
-    marginBottom: 8,
+    marginVertical: 12,
+    marginBottom: 4
   },
   dot: {
     // backgroundColor: '#f00',

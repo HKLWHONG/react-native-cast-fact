@@ -223,7 +223,7 @@ SingleTouch.defaultProps = {
   disabled: false,
   duration: 500,
   onTimeout: undefined,
-  activeOpacity: undefined,
+  activeOpacity: 0.7,
   underlayColor: undefined,
   onShowUnderlay: undefined,
   onHideUnderlay: undefined,

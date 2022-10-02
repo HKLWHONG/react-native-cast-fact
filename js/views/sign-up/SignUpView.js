@@ -268,9 +268,9 @@ class SignUpView extends BaseComponent {
             onPress={() => {
               console.log('[account] ', props.account);
 
-              if (!this.validateAll()) {
-                return;
-              }
+              // if (!this.validateAll()) {
+              //   return;
+              // }
 
               // TestApi.request(
               //   props,
@@ -369,7 +369,6 @@ class SignUpView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
-            keyboardAvoiding
             keyboardDismissing>
             {this.renderHeader()}
             {this.renderBody()}
@@ -390,7 +389,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   body: {
-    // backgroundColor: '#00FF00',
+    // backgroundColor: '#0f0',
     justifyContent: 'center',
     // alignItems: 'center',
     padding: 32,

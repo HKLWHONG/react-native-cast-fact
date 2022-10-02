@@ -23,7 +23,7 @@ import { Translation } from 'react-i18next';
 
 import { Router } from '../../utils';
 
-const background = require('../../../assets/images/splash_screen_bg/splash_screen_bg.png');
+const ic_splash_screen_bg = require('../../../assets/images/ic_splash_screen_bg/ic_splash_screen_bg.png');
 
 class LaunchView extends BaseComponent {
   constructor(props) {
@@ -101,7 +101,7 @@ class LaunchView extends BaseComponent {
         {(t) => (
           <Root
             style={styles.root}
-            source={background}>
+            source={ic_splash_screen_bg}>
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}

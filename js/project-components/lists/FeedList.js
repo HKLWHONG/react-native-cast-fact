@@ -20,6 +20,14 @@ import { Theme } from '../../utils';
 import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_grid = require('../../../assets/images/ic_grid/ic_grid.png');
+const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
+const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
+const ic_heart = require('../../../assets/images/ic_heart/ic_heart.png');
+const ic_heart_fill = require('../../../assets/images/ic_heart_fill/ic_heart_fill.png');
+const ic_bubble = require('../../../assets/images/ic_bubble/ic_bubble.png');
+const ic_star = require('../../../assets/images/ic_star/ic_star.png');
+const ic_star_fill = require('../../../assets/images/ic_star_fill/ic_star_fill.png');
 
 class FeedList extends Component {
   constructor(props: any) {
@@ -57,12 +65,15 @@ class FeedList extends Component {
               style={styles.calendarButtonContainer}
               imageStyle={styles.calendarButton}
               type="small"
-              source={preview} />
+              source={ic_calendar_plus}
+              resizeMode="center"
+            />
             <Button
               style={styles.followButtonContainer}
               textStyle={styles.followButton}
               type="small"
-              text={t('app.follow')} />
+              text={t('app.follow')}
+            />
           </View>
         )}
       </Translation>
@@ -188,7 +199,9 @@ class FeedList extends Component {
                 style={styles.likeButton}
                 imageStyle={styles.likeButtonImage}
                 type="small"
-                source={preview} />
+                source={index % 2 == 0 ? ic_heart : ic_heart_fill}
+                resizeMode="center"
+              />
               <Text
                 style={styles.likeText}>
                 {'279 LIKES'}
@@ -197,12 +210,16 @@ class FeedList extends Component {
                 style={styles.messageButton}
                 imageStyle={styles.messageButtonImage}
                 type="small"
-                source={preview} />
+                source={ic_bubble}
+                resizeMode="center"
+              />
               <Button
                 style={styles.bookmarkButton}
                 imageStyle={styles.bookmarkButtonImage}
                 type="small"
-                source={preview} />
+                source={index % 2 == 0? ic_star : ic_star_fill}
+                resizeMode="center"
+              />
             </View>
             <View
               style={styles.centerBottomContainer}>
@@ -215,8 +232,8 @@ class FeedList extends Component {
               <View style={styles.infoContainer}>
                 <Image
                   style={styles.categoryImage}
-                  source={preview}
-                  resizeMode="contain"
+                  source={ic_grid}
+                  resizeMode="center"
                 />
                 <Text style={styles.categoryText}>
                   {'MV'}
@@ -225,8 +242,8 @@ class FeedList extends Component {
               <View style={styles.scheduleContainer}>
                 <Image
                   style={styles.scheduleImage}
-                  source={preview}
-                  resizeMode="contain"
+                  source={ic_calendar}
+                  resizeMode="center"
                 />
                 <Text style={styles.scheduleText}>
                   {'18 June 2022, 2 days'}
@@ -357,8 +374,8 @@ const styles = StyleSheet.create({
   },
   calendarButton: {
     // backgroundColor: '#ff0',
-    width: 18,
-    height: 15,
+    width: 21,
+    height: 21,
   },
   followButtonContainer: {
     // backgroundColor: '#ff0',
@@ -385,7 +402,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  likeButton: {},
+  likeButton: {
+    backgroundColor: Theme.colors.general.transparent,
+  },
   likeButtonImage: {
     width: 24,
     height: 24,
@@ -401,13 +420,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   messageButton: {
+    backgroundColor: Theme.colors.general.transparent,
     marginRight: 4,
   },
   messageButtonImage: {
     width: 24,
     height: 24,
   },
-  bookmarkButton: {},
+  bookmarkButton: {
+    backgroundColor: Theme.colors.general.transparent,
+  },
   bookmarkButtonImage: {
     width: 24,
     height: 24,
@@ -439,8 +461,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   categoryImage: {
-    width: 13,
-    height: 13,
+    width: 15,
+    height: 15,
     marginRight: 4,
   },
   categoryText: {
@@ -456,8 +478,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scheduleImage: {
-    width: 13,
-    height: 13,
+    width: 15,
+    height: 15,
     marginRight: 4,
   },
   scheduleText: {

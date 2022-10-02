@@ -18,6 +18,7 @@ import {
   Body,
   Footer,
   List,
+  SingleTouch,
 } from '../../components';
 
 import {
@@ -36,6 +37,10 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
+const ic_clock = require('../../../assets/images/ic_clock/ic_clock.png');
+const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
+const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
 
 class FeedView extends BaseComponent {
   constructor(props) {
@@ -110,15 +115,14 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_checklist}
             label={section.title}>
-            <SearchBar
-              onPress={(text) => {
-                console.log('[search-text] ', text)
-
+            <SingleTouch
+              onPress={() => {
                 Router.push(props, "FeedStack", "Search");
-              }}
-            />
+              }}>
+              <SearchBar disabled />
+            </SingleTouch>
           </Section>
         )}
       </Translation>
@@ -133,7 +137,7 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_clock}
             label={section.title}
             rightAccessoryType="delete">
             <GroupFrame rightAccessoryType="delete">
@@ -171,7 +175,7 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_calendar}
             label={section.title}>
             <ProfileList
               // style={{backgroundColor: 'cyan'}}
@@ -219,7 +223,7 @@ class FeedView extends BaseComponent {
         {(t) => (
           <Section
             contentContainerStyle={styles.feedSectionContentContainer}
-            iconSource={preview}
+            iconSource={ic_stack}
             label={section.title}>
             <FeedList
               data={state.data}

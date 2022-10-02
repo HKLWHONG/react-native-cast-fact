@@ -38,6 +38,9 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
+const ic_clock = require('../../../assets/images/ic_clock/ic_clock.png');
+const ic_search_gray = require('../../../assets/images/ic_search_gray/ic_search_gray.png');
 
 class SearchView extends BaseComponent {
   constructor(props) {
@@ -88,7 +91,7 @@ class SearchView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_checklist}
             label={section.title}>
             <SearchBar
               onPress={(text) => {
@@ -142,7 +145,7 @@ class SearchView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_clock}
             label={section.title}
             rightAccessoryType="delete">
             <GroupFrame rightAccessoryType="delete">
@@ -180,7 +183,7 @@ class SearchView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_search_gray}
             label={section.title}>
             <CollapsibleSection text={'Gender'}>
               <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>

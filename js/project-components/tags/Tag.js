@@ -20,6 +20,7 @@ import { Theme } from '../../utils';
 import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 
 class Tag extends Component {
   constructor(props: any) {
@@ -160,8 +161,8 @@ class Tag extends Component {
             style={styles.rightAccessoryButton}>
             <Image
               style={styles.rightAccessoryButtonImage}
-              source={preview}
-              resizeMode="contain"
+              source={ic_xmark}
+              resizeMode="center"
             />
           </SingleTouch>
         )}
@@ -243,7 +244,6 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.background.secondary,
     flexDirection: 'row',
     alignSelf: 'center',
-    height: 30,
     borderRadius: 8,
     margin: 4,
   },
@@ -289,6 +289,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     // backgroundColor: '#0ff',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
     // backgroundColor: '#0f0',
@@ -329,8 +330,8 @@ const styles = StyleSheet.create({
   },
   rightAccessoryButtonImage: {
     // backgroundColor: '#0f0',
-    width: 14,
-    height: 13,
+    width: 17,
+    height: 17,
   },
 });
 

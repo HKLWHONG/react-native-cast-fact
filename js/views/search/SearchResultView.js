@@ -36,6 +36,7 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
 
 class SearchResultView extends BaseComponent {
   constructor(props) {
@@ -121,7 +122,7 @@ class SearchResultView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={preview}
+            iconSource={ic_checklist}
             label={section.title}
             rightAccessoryType="delete">
             <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>

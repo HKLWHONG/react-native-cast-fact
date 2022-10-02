@@ -18,6 +18,7 @@ import { Theme } from '../../utils';
 import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
+const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 
 class Section extends Component {
   constructor(props: any) {
@@ -40,7 +41,7 @@ class Section extends Component {
             <Image
               style={[styles.icon, props.iconStyle]}
               source={props.iconSource}
-              resizeMode="contain"
+              resizeMode="center"
             />
           </View>
         )}
@@ -78,8 +79,8 @@ class Section extends Component {
             style={styles.rightAccessoryButton}>
             <Image
               style={styles.rightAccessoryButtonImage}
-              source={preview}
-              resizeMode="contain"
+              source={ic_xmark}
+              resizeMode="center"
             />
           </SingleTouch>
         )}
@@ -183,8 +184,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     // backgroundColor: '#ff0',
-    width: 14,
-    height: 13,
+    width: 17,
+    height: 17,
   },
   centerContainer: {
     // backgroundColor: '#f0f',
@@ -213,8 +214,8 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   rightAccessoryButtonImage: {
-    width: 14,
-    height: 13,
+    width: 17,
+    height: 17,
   },
   contentContainer: {
     // backgroundColor: '#00f',

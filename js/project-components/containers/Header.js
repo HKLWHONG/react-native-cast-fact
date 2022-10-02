@@ -17,7 +17,7 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const backIcon = require('../../../assets/images/back/back.png');
+const ic_back = require('../../../assets/images/ic_back/ic_back.png');
 
 class Header extends Component {
   constructor(props: any) {
@@ -41,8 +41,8 @@ class Header extends Component {
           onPress={() => props.onPressLeft(props.navigation)}>
           <Image
             style={styles.leftImage}
-            source={backIcon}
-            resizeMode="contain"
+            source={ic_back}
+            resizeMode="center"
           />
         </SingleTouch>
       </View>
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
   },
   leftImage: {
     // backgroundColor: '#0ff',
-    width: 20,
-    height: 27,
+    width: 25,
+    height: 25,
   },
   centerContainer: {
     flex: 8,

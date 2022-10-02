@@ -36,7 +36,6 @@ class ProfileList extends Component {
           <SingleTouch
             key={index}
             style={styles.itemContainer}
-            activeOpacity={0.7}
             onPress={() => {
               if (props.onPressItem) {
                 props.onPressItem(params);
@@ -75,7 +74,7 @@ class ProfileList extends Component {
       <Translation>
         {(t) => (
           <SimpleList
-            {...props}  
+            {...props}
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             contentContainerStyle={[

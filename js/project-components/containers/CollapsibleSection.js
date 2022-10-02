@@ -38,7 +38,6 @@ class CollapsibleSection extends Component {
         {(t) => (
           <View style={[styles.headerContainer, props.headerContainerStyle]}>
             <SingleTouch
-              activeOpacity={0.7}
               onPress={() => {
                 this.setState({
                   collapsed: !state.collapsed,
