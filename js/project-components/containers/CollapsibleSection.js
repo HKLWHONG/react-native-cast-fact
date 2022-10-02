@@ -33,10 +33,6 @@ class CollapsibleSection extends Component {
   renderHeaderContainer = () => {
     const { props, state } = this;
 
-    if (props.hidden) {
-      return;
-    }
-
     return (
       <Translation>
         {(t) => (
@@ -67,10 +63,6 @@ class CollapsibleSection extends Component {
 
   renderContentContainer = () => {
     const { props, state } = this;
-
-    if (props.hidden) {
-      return;
-    }
 
     return (
       <Translation>

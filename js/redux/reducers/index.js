@@ -12,6 +12,7 @@ import feedReducer from './FeedReducer';
 import launchReducer from './LaunchReducer';
 import loginReducer from './LoginReducer';
 import mainTabReducer from './MainTabReducer';
+import signUpReducer from './SignUpReducer';
 
 const reducers = combineReducers({
   appReducer,
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   launchReducer,
   loginReducer,
   mainTabReducer,
+  signUpReducer,
 });
 
 const rootReducer = (state, action) => {

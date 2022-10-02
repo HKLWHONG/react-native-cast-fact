@@ -14,6 +14,9 @@ export default function mainTabReducer(state = initialState, action) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
+    case MainTabActionType.RESET:
+      return initialState;
+
     case MainTabActionType.SELECTION:
       return {...state, index: action.index};
 

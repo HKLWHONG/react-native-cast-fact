@@ -14,6 +14,9 @@ export default function dataReducer(state = initialState, action) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
+    case DataActionType.RESET:
+      return initialState;
+
     default:
       return state;
   }

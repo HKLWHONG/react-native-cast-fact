@@ -18,8 +18,7 @@ import {
 
 import { DrawerNavigator } from './js/navigators';
 
-import { LaunchView, LoginView } from './js/views';
-// import { LaunchView, LoginView } from './js/views';
+import { LaunchView, LoginView, SignUpView } from './js/views';
 
 import './i18n';
 import { Translation } from 'react-i18next';
@@ -55,9 +54,18 @@ class Main extends BaseComponent {
                 headerShown: false,
                 animationEnabled: false,
               }}>
-              <Stack.Screen name="Launch" component={LaunchView} />
-              <Stack.Screen name="Login" component={LoginView} />
-              <Stack.Screen name="Main" component={DrawerNavigator} />
+              <Stack.Group>
+                <Stack.Screen name="Launch" component={LaunchView} />
+                <Stack.Screen name="Login" component={LoginView} />
+                <Stack.Screen name="Main" component={DrawerNavigator} />
+              </Stack.Group>
+              <Stack.Group
+                screenOptions={{
+                  presentation: 'modal',
+                  animationEnabled: true,
+                }}>
+                <Stack.Screen name="SignUp" component={SignUpView} />
+              </Stack.Group>
             </Stack.Navigator>
           </NavigationContainer>
         )}

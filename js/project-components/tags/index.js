@@ -3,6 +3,7 @@
  * @flow strict-local
  */
 
+import RangeTag from './RangeTag';
 import Tag from './Tag';
 
-export { Tag };
+export { RangeTag, Tag };

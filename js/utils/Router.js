@@ -11,16 +11,29 @@ import {
 
 import { store, MainTabAction } from '../redux';
 
+const config = {
+  coreStacks: [
+    'Launch',
+    'Login',
+    'SignUp',
+    'Main',
+  ],
+};
+
 export const route = (props, stack, name) => {
   if (!props || !props.navigation) {
     return;
   }
 
-  if (
-    stack === 'Launch' ||
-    stack === 'Login' ||
-    stack === 'Main'
-  ) {
+  let isCoreStacks = false;
+
+  config.coreStacks.forEach((item, i) => {
+    if (item === stack) {
+      isCoreStacks = true;
+    }
+  });
+
+  if (isCoreStacks) {
     props.navigation.dispatch(StackActions.replace(stack));
 
     return;
@@ -70,7 +83,13 @@ export const route = (props, stack, name) => {
     // store.dispatch(MainTabAction.select(3));
   }
 
-  props.navigation.dispatch(DrawerActions.closeDrawer());
+  if (
+    stack !== 'Launch' &&
+    stack !== 'Login' &&
+    stack !== 'SignUp'
+  ) {
+    props.navigation.dispatch(DrawerActions.closeDrawer());
+  }
 };
 
 export const jumpTo = (props, stack, name, params) => {
@@ -91,12 +110,22 @@ export const push = (props, stack, name, params) => {
     return;
   }
 
+  let isCoreStacks = false;
+
+  config.coreStacks.forEach((item, i) => {
+    if (item === stack) {
+      isCoreStacks = true;
+    }
+  });
+
   props.navigation.navigate(stack, {
     screen: name,
     params: params,
   });
 
-  props.navigation.dispatch(DrawerActions.closeDrawer());
+  if (!isCoreStacks) {
+    props.navigation.dispatch(DrawerActions.closeDrawer());
+  }
 };
 
 export const goBack = (props) => {

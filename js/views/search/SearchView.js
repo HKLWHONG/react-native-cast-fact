@@ -29,6 +29,7 @@ import {
   CollapsibleSection,
   GroupFrame,
   Tag,
+  RangeTag,
 } from '../../project-components';
 
 import i18n from '../../../i18n';
@@ -254,28 +255,27 @@ class SearchView extends BaseComponent {
             <CollapsibleSection
               style={{ marginTop: 16 }}
               text={'Height'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
+              <GroupFrame
+                style={{ borderColor: Theme.colors.general.transparent }}
+                rightAccessoryType="check">
                 <Tag
                   type="input"
-                  text={'170CM'}
+                  value={'170'}
+                  text={'CM'}
                 />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
+                <Tag
+                  text={'Deviation'}
+                  leftAccessoryType="check"
+                />
               </GroupFrame>
             </CollapsibleSection>
             <CollapsibleSection
               style={{ marginTop: 16 }}
               text={'Age'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
+              <GroupFrame
+                style={{ borderColor: Theme.colors.general.transparent }}
+                rightAccessoryType="check">
+                <RangeTag fromValue={'18'} toValue={'25'} />
               </GroupFrame>
             </CollapsibleSection>
           </Section>

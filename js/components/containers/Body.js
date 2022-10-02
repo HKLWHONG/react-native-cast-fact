@@ -10,6 +10,7 @@ import {
   ImageBackground,
   ScrollView,
   View,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
@@ -45,11 +46,12 @@ export default class Body extends Component {
               styles.contentContainerStyle,
               props.contentContainerStyle,
             ]}
-            bounces={props.bounces}
-            keyboardShouldPersistTaps="always">
-            <View style={[styles.scrollViewContentContainer, props.style]}>
-              {props.children}
-            </View>
+            bounces={props.bounces}>
+            <TouchableWithoutFeedback>
+              <View style={[styles.scrollViewContentContainer, props.style]}>
+                {props.children}
+              </View>
+            </TouchableWithoutFeedback>
           </ScrollView>
         </View>
       );
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollViewContentContainer: {
-    // backgroundColor: '#0FF',
+    // backgroundColor: '#0ff',
     flex: 1,
   },
 });

@@ -7,8 +7,8 @@ import { CommonActionType, LoginActionType } from '../types';
 
 const initialState = {
   credentials: {
-    loginId: undefined,
-    loginIdMessage: undefined,
+    email: undefined,
+    emailMessage: undefined,
     password: undefined,
     passwordMessage: undefined,
   },
@@ -19,21 +19,24 @@ export default function loginReducer(state = initialState, action) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
-    case LoginActionType.CREDENTIALS_ID:
+    case LoginActionType.RESET:
+      return initialState;
+
+    case LoginActionType.CREDENTIALS_EMAIL:
       return {
         ...state,
         credentials: {
           ...state.credentials,
-          loginId: action.loginId,
+          email: action.email,
         },
       };
 
-    case LoginActionType.CREDENTIALS_ID_MESSAGE:
+    case LoginActionType.CREDENTIALS_EMAIL_MESSAGE:
       return {
         ...state,
         credentials: {
           ...state.credentials,
-          loginIdMessage: action.loginIdMessage,
+          emailMessage: action.emailMessage,
         },
       };
 

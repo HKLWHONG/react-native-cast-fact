@@ -42,6 +42,24 @@ class Tag extends Component {
     );
   };
 
+  renderCheck = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.checkView}>
+            <Image
+              style={[styles.check, props.checkStyle]}
+              source={preview}
+              resizeMode="contain"
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
   renderLeftContainer = () => {
     const { props } = this;
 
@@ -49,12 +67,12 @@ class Tag extends Component {
       <View style={styles.emptyLeftAccessoryContainer} />
     );
 
-    if (
-      props.leftAccessoryType
-      &&
-      props.leftAccessoryType.toLowerCase() === 'dot'.toLowerCase()
-    ) {
-      children = this.renderDot();
+    if (props.leftAccessoryType) {
+      if (props.leftAccessoryType.toLowerCase() === 'dot'.toLowerCase()) {
+        children = this.renderDot();
+      } else if (props.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()) {
+        children = this.renderCheck();
+      }
     }
 
     return (
@@ -68,47 +86,41 @@ class Tag extends Component {
     );
   };
 
-  renderImageView = () => {
+  renderTextContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.leftContainer}>
-            {children}
+          <View style={styles.textContainer}>
+            <Text
+              style={styles.text}>
+              {props.text}
+            </Text>
           </View>
         )}
       </Translation>
     );
   };
 
-  renderTextView = () => {
-    const { props } = this;
-
-    return (
-      <Translation>
-        {(t) => (
-          <Text
-            style={styles.text}>
-            {props.text}
-          </Text>
-        )}
-      </Translation>
-    );
-  };
-
-  renderInputView = () => {
+  renderInputContainer = () => {
     const { props, state } = this;
 
     return (
       <Translation>
         {(t) => (
-          <TextInput
-            style={styles.input}
-            textInputStyle={styles.text}
-            value={props.text}
-            disableMessageView
-           />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              textInputStyle={styles.text}
+              value={props.value}
+              disableMessageView
+             />
+             <Text
+               style={styles.text}>
+               {props.text}
+             </Text>
+          </View>
         )}
       </Translation>
     );
@@ -117,14 +129,14 @@ class Tag extends Component {
   renderCenterContainer = () => {
     const { props } = this;
 
-    let children = this.renderTextView();
+    let children = this.renderTextContainer();
 
     if (
       props.type
       &&
       props.type.toLowerCase() === 'input'.toLowerCase()
     ) {
-      children = this.renderInputView();
+      children = this.renderInputContainer();
     }
 
     return (
@@ -257,12 +269,32 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
   },
   dot: {},
+  checkView: {
+    // backgroundColor: '#f0f',
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 6,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+  },
+  check: {
+    width: 11,
+    height: 11,
+  },
   centerContainer: {
     // backgroundColor: '#0f0',
     paddingVertical: 6,
   },
+  inputContainer: {
+    // backgroundColor: '#0ff',
+    flexDirection: 'row',
+  },
   input: {
     // backgroundColor: '#0f0',
+  },
+  textContainer: {
+    // backgroundColor: '#ff0',
   },
   text: {
     // backgroundColor: '#0f0',
@@ -308,6 +340,7 @@ Tag.propTypes = {
   dotStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   type: PropTypes.string,
+  value: PropTypes.string,
   text: PropTypes.string,
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
@@ -319,6 +352,7 @@ Tag.defaultProps = {
   dotStyle: undefined,
   hidden: false,
   type: undefined,
+  value: undefined,
   text: undefined,
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,

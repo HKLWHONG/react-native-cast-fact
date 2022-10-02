@@ -14,6 +14,9 @@ export default function drawerReducer(state = initialState, action) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
+    case DrawerActionType.RESET:
+      return initialState;
+
     case DrawerActionType.SELECTION:
       return { ...state, index: action.index };
 

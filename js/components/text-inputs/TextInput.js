@@ -20,6 +20,8 @@ export default class TextInput extends Component {
 
     this.state = {
       isFocused: false,
+      isFocusedLeft: false,
+      isFocusedRight: false,
     };
   }
 
@@ -32,6 +34,159 @@ export default class TextInput extends Component {
 
     return (
       <Text style={[styles.label, props.labelStyle]}>{props.label}</Text>
+    );
+  };
+
+  renderLeftTextInput = () => {
+    const { props } = this;
+
+    if (!props.enableLeftInput) {
+      return;
+    }
+
+    return (
+      <RNTextInput
+        style={[
+          styles.textInput,
+          styles.textInputLeft,
+          props.textInputStyle,
+          props.textInputLeftStyle
+        ]}
+        value={props.valueLeft}
+        placeholder={props.placeholderLeft}
+        placeholderTextColor={props.placeholderTextColorLeft}
+        secureTextEntry={props.secureTextEntryLeft}
+        multiline={props.multilineLeft}
+        numberOfLines={props.numberOfLinesLeft}
+        onChangeText={props.onChangeTextLeft}
+        onFocus={() => {
+          this.setState(
+            {
+              isFocusedLeft: true,
+            },
+            () => {
+              if (props.onFocusLeft) {
+                props.onFocusLeft();
+              }
+            },
+          );
+        }}
+        onBlur={() => {
+          this.setState(
+            {
+              isFocusedLeft: false,
+            },
+            () => {
+              if (props.onBlurLeft) {
+                props.onBlurLeft();
+              }
+            },
+          );
+        }}
+      />
+    );
+  };
+
+  renderCenterTextInput = () => {
+    const { props } = this;
+
+    return (
+      <RNTextInput {...props}
+        style={[styles.textInput, props.textInputStyle]}
+        value={props.value}
+        placeholder={props.placeholder}
+        placeholderTextColor={props.placeholderTextColor}
+        secureTextEntry={props.secureTextEntry}
+        multiline={props.multiline}
+        numberOfLines={props.numberOfLines}
+        onChangeText={props.onChangeText}
+        onFocus={() => {
+          this.setState(
+            {
+              isFocused: true,
+            },
+            () => {
+              if (props.onFocus) {
+                props.onFocus();
+              }
+            },
+          );
+        }}
+        onBlur={() => {
+          this.setState(
+            {
+              isFocused: false,
+            },
+            () => {
+              if (props.onBlur) {
+                props.onBlur();
+              }
+            },
+          );
+        }}
+      />
+    );
+  };
+
+  renderRightTextInput = () => {
+    const { props } = this;
+
+    if (!props.enableRightInput) {
+      return;
+    }
+
+    return (
+      <RNTextInput
+        style={[
+          styles.textInput,
+          styles.textInputRight,
+          props.textInputStyle,
+          props.textInputRightStyle,
+        ]}
+        value={props.valueRight}
+        placeholder={props.placeholderRight}
+        placeholderTextColor={props.placeholderTextColorRight}
+        secureTextEntry={props.secureTextEntrRight}
+        multiline={props.multilineRight}
+        numberOfLines={props.numberOfLinesRight}
+        onChangeText={props.onChangeTextRight}
+        onFocus={() => {
+          this.setState(
+            {
+              isFocusedRight: true,
+            },
+            () => {
+              if (props.onFocusRight) {
+                props.onFocusRight();
+              }
+            },
+          );
+        }}
+        onBlur={() => {
+          this.setState(
+            {
+              isFocusedRight: false,
+            },
+            () => {
+              if (props.onBlurRight) {
+                props.onBlurRight();
+              }
+            },
+          );
+        }}
+      />
+    );
+  };
+
+  renderTextInput = () => {
+    const { props } = this;
+
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        {this.renderLeftTextInput()}
+        {this.renderCenterTextInput()}
+        {this.renderRightTextInput()}
+      </View>
     );
   };
 
@@ -48,7 +203,15 @@ export default class TextInput extends Component {
         <View
           style={[
             styles.bottomLine,
-            state.isFocused ? styles.bottomLineDidFocus : undefined,
+            state.isFocused
+            ||
+            state.isFocusedLeft
+            ||
+            state.isFocusedRight
+            ?
+            styles.bottomLineDidFocus
+            :
+            undefined,
             props.bottomLineStyle,
           ]}
         />
@@ -81,40 +244,7 @@ export default class TextInput extends Component {
       <View onLayout={props.onLayout} style={[styles.container, props.style]}>
         <View style={[styles.textInputContainter, props.textInputContainterStyle]}>
           {this.renderLabelView()}
-          <RNTextInput
-            style={[styles.textInput, props.textInputStyle]}
-            value={props.value}
-            placeholder={props.placeholder}
-            placeholderTextColor={props.placeholderTextColor}
-            secureTextEntry={props.secureTextEntry}
-            multiline={props.multiline}
-            numberOfLines={props.numberOfLines}
-            onChangeText={props.onChangeText}
-            onFocus={() => {
-              this.setState(
-                {
-                  isFocused: true,
-                },
-                () => {
-                  if (props.onFocus) {
-                    props.onFocus();
-                  }
-                },
-              );
-            }}
-            onBlur={() => {
-              this.setState(
-                {
-                  isFocused: false,
-                },
-                () => {
-                  if (props.onBlur) {
-                    props.onBlur();
-                  }
-                },
-              );
-            }}
-          />
+          {this.renderTextInput()}
           {this.renderBottomLineIfNeeded()}
         </View>
         {this.renderMessageViewIfNeeded()}
@@ -134,7 +264,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   textInput: {
+    // backgroundColor: '#f00',
+    flex: 6,
     fontSize: 14,
+  },
+  textInputLeft: {
+    // backgroundColor: '#f0f',
+    flex: 1,
+    marginRight: 8,
+  },
+  textInputRight: {
+    backgroundColor: '#0ff',
+    flex: 1,
+    marginLeft: 8,
   },
   bottomLineContainer: {
     height: 2,
@@ -161,23 +303,45 @@ TextInput.propTypes = {
   style: ViewPropTypes.style,
   labelStyle: TextPropTypes.style,
   textInputStyle: TextPropTypes.style,
+  textInputLeftStyle: TextPropTypes.style,
+  textInputRightStyle: TextPropTypes.style,
   bottomLineContainerStyle: ViewPropTypes.style,
   bottomLineStyle: ViewPropTypes.style,
   messageStyle: TextPropTypes.style,
   placeholderTextColor: PropTypes.string,
+  placeholderTextColorLeft: PropTypes.string,
+  placeholderTextColorRight: PropTypes.string,
   hidden: PropTypes.bool,
   label: PropTypes.string,
   value: PropTypes.string,
+  valueLeft: PropTypes.string,
+  valueRight: PropTypes.string,
   placeholder: PropTypes.string,
+  placeholderLeft: PropTypes.string,
+  placeholderRight: PropTypes.string,
   message: PropTypes.string,
   secureTextEntry: PropTypes.bool,
+  secureTextEntryLeft: PropTypes.bool,
+  secureTextEntryRight: PropTypes.bool,
   disableBottomLine: PropTypes.bool,
   disableMessageView: PropTypes.bool,
+  enableLeftInput: PropTypes.bool,
+  enableRightInput: PropTypes.bool,
   multiline: PropTypes.bool,
+  multilineLeft: PropTypes.bool,
+  multilineRight: PropTypes.bool,
   numberOfLines: PropTypes.number,
+  numberOfLinesLeft: PropTypes.number,
+  numberOfLinesRight: PropTypes.number,
   onChangeText: PropTypes.func,
+  onChangeTextLeft: PropTypes.func,
+  onChangeTextRight: PropTypes.func,
   onFocus: PropTypes.func,
+  onFocusLeft: PropTypes.func,
+  onFocusRight: PropTypes.func,
   onBlur: PropTypes.func,
+  onBlurLeft: PropTypes.func,
+  onBlurRight: PropTypes.func,
 };
 
 TextInput.defaultProps = {
@@ -185,21 +349,43 @@ TextInput.defaultProps = {
   style: undefined,
   labelStyle: undefined,
   textInputStyle: undefined,
+  textInputLeftStyle: undefined,
+  textInputRightStyle: undefined,
   bottomLineContainerStyle: undefined,
   bottomLineStyle: undefined,
   messageStyle: undefined,
   placeholderTextColor: undefined,
+  placeholderTextColorLeft: undefined,
+  placeholderTextColorRight: undefined,
   hidden: false,
   label: undefined,
   value: undefined,
+  valueLeft: undefined,
+  valueRight: undefined,
   placeholder: undefined,
+  placeholderLeft: undefined,
+  placeholderRight: undefined,
   message: undefined,
   secureTextEntry: false,
+  secureTextEntryLeft: false,
+  secureTextEntryRight: false,
   disableBottomLine: true,
   disableMessageView: false,
+  enableLeftInput: false,
+  enableRightInput: false,
   multiline: false,
+  multilineLeft: false,
+  multilineRight: false,
   numberOfLines: 1,
+  numberOfLinesLeft: 1,
+  numberOfLinesRight: 1,
   onChangeText: undefined,
+  onChangeTextLeft: undefined,
+  onChangeTextRight: undefined,
   onFocus: undefined,
+  onFocusLeft: undefined,
+  onFocusRight: undefined,
   onBlur: undefined,
+  onBlurLeft: undefined,
+  onBlurRight: undefined,
 };

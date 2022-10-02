@@ -24,6 +24,9 @@ export default function appReducer(state = initialState, action) {
         activityIndicatorProps: state.activityIndicatorProps,
       };
 
+    case AppActionType.RESET:
+      return initialState;
+
     case AppActionType.ACTIVITY_INDICATOR:
       let hidden = state.activityIndicatorProps.message;
       let message = state.activityIndicatorProps.message;

@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 
 import { SingleTouch } from '../../components';
 
+import { Button } from '../../project-components';
+
 import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
@@ -45,6 +47,22 @@ class GroupFrame extends Component {
     );
   };
 
+  renderCheckButton = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={styles.checkAccessoryButton}
+            imageStyle={styles.rightAccessoryButtonImage}
+            type="small"
+            source={preview} />
+        )}
+      </Translation>
+    );
+  };
+
   renderRightContainer = () => {
     const { props } = this;
 
@@ -54,12 +72,12 @@ class GroupFrame extends Component {
       </View>
     );
 
-    if (
-      props.rightAccessoryType
-      &&
-      props.rightAccessoryType.toLowerCase() === 'delete'.toLowerCase()
-    ) {
-      children = this.renderDeleteButton();
+    if (props.rightAccessoryType) {
+      if (props.rightAccessoryType.toLowerCase() === 'delete'.toLowerCase()) {
+        children = this.renderDeleteButton();
+      } else if (props.rightAccessoryType.toLowerCase() === 'check'.toLowerCase()) {
+        children = this.renderCheckButton();
+      }
     }
 
     return (
@@ -117,6 +135,7 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     // backgroundColor: '#0ff',
+    justifyContent: 'center',
     borderTopRightRadius: 14,
     borderBottomRightRadius: 14,
   },
@@ -145,6 +164,10 @@ const styles = StyleSheet.create({
   rightAccessoryButtonImage: {
     width: 14,
     height: 13,
+  },
+  checkAccessoryButton: {
+    // backgroundColor: '#0f0',
+    aspectRatio: 1,
   },
 });
 

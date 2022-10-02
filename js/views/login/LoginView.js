@@ -67,29 +67,26 @@ class LoginView extends BaseComponent {
   clearData = () => {
     const { props } = this;
 
-    props.setLoginId(undefined);
-    props.setLoginIdMessage(undefined);
-    props.setPassword(undefined);
-    props.setPasswordMessage(undefined);
+    props.reset();
   };
 
-  validateLoginId = () => {
+  validateEmail = () => {
     const { props } = this;
 
     let isValid = false;
 
-    // if (
-    //   !props.credentials.loginId ||
-    //   !AppRegex.EMPTY_FIELD_REGEX.test(props.credentials.loginId)
-    // ) {
-    //   props.setLoginIdMessage('app.error.empty_field_message');
-    //
-    //   isValid = false;
-    // } else {
-      props.setLoginIdMessage(undefined);
+    if (
+      !props.credentials.email ||
+      !AppRegex.EMPTY_FIELD_REGEX.test(props.credentials.email)
+    ) {
+      props.setEmailMessage('app.error.empty_field_message');
+
+      isValid = false;
+    } else {
+      props.setEmailMessage(undefined);
 
       isValid = true;
-    // }
+    }
 
     return isValid;
   };
@@ -99,35 +96,35 @@ class LoginView extends BaseComponent {
 
     let isValid = false;
 
-    // if (
-    //   !props.credentials.password ||
-    //   !AppRegex.EMPTY_FIELD_REGEX.test(props.credentials.password)
-    // ) {
-    //   props.setPasswordMessage('app.error.empty_field_message');
-    //
-    //   isValid = false;
-    // } else if (
-    //   !AppRegex.CREDENTIALS_PASSWORD_VALIDATION_REGEX.test(
-    //     props.credentials.password,
-    //   )
-    // ) {
-    //   props.setPasswordMessage('app.error.password_validation_message');
-    //
-    //   isValid = false;
-    // } else {
+    if (
+      !props.credentials.password ||
+      !AppRegex.EMPTY_FIELD_REGEX.test(props.credentials.password)
+    ) {
+      props.setPasswordMessage('app.error.empty_field_message');
+
+      isValid = false;
+    } else if (
+      !AppRegex.CREDENTIALS_PASSWORD_VALIDATION_REGEX.test(
+        props.credentials.password,
+      )
+    ) {
+      props.setPasswordMessage('app.error.password_validation_message');
+
+      isValid = false;
+    } else {
       props.setPasswordMessage(undefined);
 
       isValid = true;
-    // }
+    }
 
     return isValid;
   };
 
   validateAll = () => {
-    const isValidLoginId = this.validateLoginId();
+    const isValidEmail = this.validateEmail();
     const isValidPassword = this.validatePassword();
 
-    return isValidLoginId && isValidPassword;
+    return isValidEmail && isValidPassword;
   };
 
   renderHeader = () => {
@@ -157,11 +154,12 @@ class LoginView extends BaseComponent {
           <View>
             <TextInput
               style={styles.textInput}
-              label={t('views.login.login_id_label')}
-              value={props.credentials.loginId}
-              message={t(props.credentials.loginIdMessage)}
+              label={t('views.login.email_label')}
+              value={props.credentials.email}
+              message={t(props.credentials.emailMessage)}
               onChangeText={(text) => {
-                props.setLoginId(text).then(this.validateLoginId);
+                props.setEmail(text);
+                props.setEmailMessage(undefined);
               }}
             />
             <TextInput
@@ -171,7 +169,8 @@ class LoginView extends BaseComponent {
               secureTextEntry={secureTextEntry}
               message={t(props.credentials.passwordMessage)}
               onChangeText={(text) => {
-                props.setPassword(text).then(this.validatePassword);
+                props.setPassword(text);
+                props.setPasswordMessage(undefined);
               }}
             />
           </View>
@@ -189,6 +188,12 @@ class LoginView extends BaseComponent {
           <Button
             text={t('app.login')}
             onPress={() => {
+              console.log('[credentials] ', props.credentials);
+
+              if (!this.validateAll()) {
+                return;
+              }
+
               // TestApi.request(
               //   props,
               //   {},
@@ -263,7 +268,9 @@ class LoginView extends BaseComponent {
             <SingleTouch
               style={styles.createAccountContainer}
               activeOpacity={0.7}
-              onPress={() => {}}>
+              onPress={() => {
+                Router.push(props, "SignUp");
+              }}>
               <View style={styles.createAccountSubContainer}>
                 <Text
                   style={styles.createAccountHint}>
@@ -291,7 +298,6 @@ class LoginView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
-            keyboardAvoiding
             keyboardDismissing>
             {this.renderHeader()}
             {this.renderBody()}
@@ -313,7 +319,7 @@ const styles = StyleSheet.create({
     // height: 200,
   },
   body: {
-    // backgroundColor: '#00FF00',
+    // backgroundColor: '#0f0',
     justifyContent: 'center',
     // alignItems: 'center',
     padding: 32,
@@ -372,12 +378,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setLoginId: (...args) => dispatch(LoginAction.setLoginId(...args)),
-    setLoginIdMessage: (...args) =>
-      dispatch(LoginAction.setLoginIdMessage(...args)),
+    reset: (...args) => dispatch(LoginAction.reset(...args)),
+    setEmail: (...args) => dispatch(LoginAction.setEmail(...args)),
+    setEmailMessage: (...args) => dispatch(LoginAction.setEmailMessage(...args)),
     setPassword: (...args) => dispatch(LoginAction.setPassword(...args)),
-    setPasswordMessage: (...args) =>
-      dispatch(LoginAction.setPasswordMessage(...args)),
+    setPasswordMessage: (...args) => dispatch(LoginAction.setPasswordMessage(...args)),
   };
 }
 

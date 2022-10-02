@@ -65,9 +65,10 @@ export default class Root extends Component {
       <ScrollView
         onLayout={props.onLayout}
         contentContainerStyle={styles.contentContainerStyle}
-        bounces={false}
-        keyboardShouldPersistTaps="always">
-        {children}
+        bounces={false}>
+        <TouchableWithoutFeedback>
+          {children}
+        </TouchableWithoutFeedback>
       </ScrollView>
     );
   };

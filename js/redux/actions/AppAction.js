@@ -5,6 +5,14 @@
 
 import { AppActionType } from '../types';
 
+export const reset = () => (dispatch) => {
+  dispatch({
+    type: AppActionType.RESET,
+  });
+
+  return Promise.resolve();
+};
+
 export const showActivityIndicator = (message, options) => (dispatch) => {
   dispatch({
     type: AppActionType.ACTIVITY_INDICATOR,

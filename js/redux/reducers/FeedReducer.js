@@ -12,6 +12,9 @@ export default function feedReducer(state = initialState, action) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
+    case FeedActionType.RESET:
+      return initialState;
+
     default:
       return state;
   }

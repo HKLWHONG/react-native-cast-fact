@@ -5,19 +5,27 @@
 
 import { LoginActionType } from '../types';
 
-export const setLoginId = (loginId) => (dispatch) => {
+export const reset = () => (dispatch) => {
   dispatch({
-    type: LoginActionType.CREDENTIALS_ID,
-    loginId: loginId,
+    type: LoginActionType.RESET,
   });
 
   return Promise.resolve();
 };
 
-export const setLoginIdMessage = (loginIdMessage) => (dispatch) => {
+export const setEmail = (email) => (dispatch) => {
   dispatch({
-    type: LoginActionType.CREDENTIALS_ID_MESSAGE,
-    loginIdMessage: loginIdMessage,
+    type: LoginActionType.CREDENTIALS_EMAIL,
+    email: email,
+  });
+
+  return Promise.resolve();
+};
+
+export const setEmailMessage = (emailMessage) => (dispatch) => {
+  dispatch({
+    type: LoginActionType.CREDENTIALS_EMAIL_MESSAGE,
+    emailMessage: emailMessage,
   });
 
   return Promise.resolve();

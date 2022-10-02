@@ -3,6 +3,7 @@
 const zhHK = {
   app: {
     login: '登入',
+    sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
     based_on_projects_format: 'Based On Project {0}',
@@ -19,10 +20,16 @@ const zhHK = {
   },
   views: {
     login: {
-      login_id_label: '登入名稱',
+      email_label: '電郵地址',
       password_label: '密碼',
       create_account_hint: 'New user?',
       create_account: 'Create Account',
+    },
+    sign_up: {
+      name_label: 'Name',
+      email_label: 'Email',
+      phone_label: 'Phone',
+      password_label: 'Password',
     },
     feed: {
       header: 'Cast Fact',
