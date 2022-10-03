@@ -6,5 +6,5 @@
 import * as RecentSearchesActionType from './RecentSearchesActionType';
 
 export {
-  RecentSearchesActionType
+  RecentSearchesActionType,
 };

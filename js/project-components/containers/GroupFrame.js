@@ -36,7 +36,14 @@ class GroupFrame extends Component {
       <Translation>
         {(t) => (
           <SingleTouch
-            style={styles.rightAccessoryButton}>
+            style={styles.rightAccessoryButton}
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory(props.info);
+            }}>
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -179,6 +186,7 @@ const styles = StyleSheet.create({
 });
 
 GroupFrame.propTypes = {
+  info: PropTypes.object,
   onLayout: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -187,14 +195,17 @@ GroupFrame.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   rightAccessoryType: PropTypes.string,
+  onPressRightAccessory: PropTypes.func,
 };
 
 GroupFrame.defaultProps = {
+  info: undefined,
   onLayout: undefined,
   children: undefined,
   style: undefined,
   hidden: false,
   rightAccessoryType: undefined,
+  onPressRightAccessory: undefined,
 };
 
 function mapStateToProps(state) {

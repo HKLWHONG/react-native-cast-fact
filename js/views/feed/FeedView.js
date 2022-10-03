@@ -9,6 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   FeedAction,
+  RecentSearchesAction,
 } from '../../redux';
 
 import {
@@ -46,9 +47,7 @@ class FeedView extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state={
-      data: [],
-    };
+    this.state={};
   }
 
   componentDidMount() {
@@ -68,14 +67,63 @@ class FeedView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    this.testAddFeedData(5);
+    props.setTags([
+      {
+        groupFrameId: '0',
+        data: [
+          {
+            tagId: '0',
+            text: 'Muscular',
+            dotColor: undefined,
+          },
+          {
+            tagId: '1',
+            text: 'Black Hair',
+            dotColor: Theme.colors.dot.black,
+          },
+        ]
+      },
+      {
+        groupFrameId: '1',
+        data: [
+          {
+            tagId: '0',
+            text: 'Female',
+            dotColor: undefined,
+          },
+          {
+            tagId: '1',
+            text: 'Red Eye',
+            dotColor: Theme.colors.dot.red,
+            isDeviation: false,
+          },
+          {
+            tagId: '2',
+            text: '~165CM',
+            dotColor: undefined,
+          },
+          {
+            tagId: '3',
+            text: 'Film',
+            dotColor: undefined,
+          },
+          {
+            tagId: '4',
+            text: 'Korean',
+            dotColor: undefined,
+          },
+        ],
+      },
+    ]);
+
+    props.setFeedList(this.testAddFeedData(props.feedList, 5));
   };
 
   clearData = () => {
     const { props } = this;
   };
 
-  testAddFeedData = (num) => {
+  testAddFeedData = (list, num) => {
     const { state } = this;
 
     let data = [];
@@ -83,16 +131,18 @@ class FeedView extends BaseComponent {
     for (let i = 0; i < num; i += 1) {
       data.push(
         {
+          feedId: i.toString(),
           uri: i % 2 == 0 ? 'https://kcplace.com/preview.png' : 'https://kcplace.com/preview2.png',
           name: 'Wong Siu Yu',
           title: 'Camera',
+          isFollowed: false,
+          isLiked: false,
+          isBookmarked: false,
         },
       );
     }
 
-    this.setState({
-      data: [...state.data, ...data],
-    });
+    return [...list, ...data];
   };
 
   renderHeader = () => {
@@ -133,34 +183,81 @@ class FeedView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    // console.log('[props.tags]', props.tags);
+
+    let children = (
+      Array(props.tags.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          let groupFrame = props.tags[i];
+
+          let style = {};
+
+          if (i > 0) {
+            style = {
+              ...style,
+              marginTop: 8,
+            };
+          }
+
+          let tags = (
+            Array(groupFrame.data.length)
+              .fill()
+              .map((_, t) => t)
+              .map((t) => {
+                let tag = groupFrame.data[t];
+
+                // console.log('[tag.tagId]', tag.tagId);
+
+                return (
+                  <Tag
+                    key={t.toString()}
+                    info={{
+                      groupFrameId: groupFrame.groupFrameId,
+                      tagId: tag.tagId,
+                    }}
+                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    text={tag.text}
+                    leftAccessoryType={tag.dotColor ? 'dot' : undefined}
+                    onPress={({ groupFrameId, tagId }) => {
+                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                    }}
+                  />
+                );
+              })
+          );
+
+          return (
+            <GroupFrame
+              key={i.toString()}
+              info={{
+                groupFrameId: groupFrame.groupFrameId,
+              }}
+              style={style}
+              rightAccessoryType="delete"
+              onPressRightAccessory={({ groupFrameId }) => {
+                console.log('[groupFrameId] ', groupFrameId);
+
+                props.deleteGroupFrame(groupFrameId);
+              }}>
+              {tags}
+            </GroupFrame>
+          );
+        })
+    );
+
     return (
       <Translation>
         {(t) => (
           <Section
             iconSource={ic_clock}
             label={section.title}
-            rightAccessoryType="delete">
-            <GroupFrame rightAccessoryType="delete">
-              <Tag text={'Muscular'} />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.black }}
-                text={'Black Hair'}
-                leftAccessoryType="dot"
-              />
-            </GroupFrame>
-            <GroupFrame
-              style={{ marginTop: 8 }}
-              rightAccessoryType="delete">
-              <Tag text={'Female'} />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.red }}
-                text={'Red Eye'}
-                leftAccessoryType="dot"
-              />
-              <Tag text={'~165CM'} />
-              <Tag text={'Film'} />
-              <Tag text={'Korean'} />
-            </GroupFrame>
+            rightAccessoryType="delete"
+            onPress={() => {
+              props.deleteTags();
+            }}>
+            {children}
           </Section>
         )}
       </Translation>
@@ -209,9 +306,11 @@ class FeedView extends BaseComponent {
   };
 
   onEndReached = () => {
+    const { props } = this;
+
     console.log('[onEndReached]');
 
-    this.testAddFeedData(5);
+    props.setFeedList(this.testAddFeedData(props.feedList, 5));
   };
 
   renderFeedSection = (params) => {
@@ -226,11 +325,24 @@ class FeedView extends BaseComponent {
             iconSource={ic_stack}
             label={section.title}>
             <FeedList
-              data={state.data}
-              onPressItem={({ item, index, separators }) => {
-                console.log('[item] ', item);
-                console.log('[index] ', index);
-                console.log('[separators] ', separators);
+              data={props.feedList}
+              onPressCalendar={({ item, index, separators }) => {
+                // TODO
+              }}
+              onPressFollow={({ item, index, separators }) => {
+                // console.log('[item.isFollowed] ', item.isFollowed);
+
+                props.setFeedListFollowed(item.feedId, !item.isFollowed);
+              }}
+              onPressLike={({ item, index, separators }) => {
+                // console.log('[item.isLiked] ', item.isLiked);
+
+                props.setFeedListLiked(item.feedId, !item.isLiked);
+              }}
+              onPressBookmark={({ item, index, separators }) => {
+                // console.log('[item.isBookmarked] ', item.isBookmarked);
+
+                props.setFeedListBookmarked(item.feedId, !item.isBookmarked);
               }}
               onEndReached={this.onEndReached}
             />
@@ -358,11 +470,23 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    tags: state.recentSearchesReducer.tags,
+    feedList: state.feedReducer.feedList,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    reset: (...args) => dispatch(FeedAction.reset(...args)),
+    setTags: (...args) => dispatch(RecentSearchesAction.setTags(...args)),
+    deleteGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
+    deleteTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
+    setFeedList: (...args) => dispatch(FeedAction.setFeedList(...args)),
+    setFeedListFollowed: (...args) => dispatch(FeedAction.setFeedListFollowed(...args)),
+    setFeedListLiked: (...args) => dispatch(FeedAction.setFeedListLiked(...args)),
+    setFeedListBookmarked: (...args) => dispatch(FeedAction.setFeedListBookmarked(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedView);

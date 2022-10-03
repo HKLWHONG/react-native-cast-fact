@@ -8,7 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
-  FeedAction,
+  RecentSearchesAction,
 } from '../../redux';
 
 import {
@@ -141,34 +141,81 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    console.log('[props.tags]', props.tags);
+
+    let children = (
+      Array(props.tags.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          let groupFrame = props.tags[i];
+
+          let style = {};
+
+          if (i > 0) {
+            style = {
+              ...style,
+              marginTop: 8,
+            };
+          }
+
+          let tags = (
+            Array(groupFrame.data.length)
+              .fill()
+              .map((_, t) => t)
+              .map((t) => {
+                let tag = groupFrame.data[t];
+
+                console.log('[tag.tagId]', tag.tagId);
+
+                return (
+                  <Tag
+                    key={t.toString()}
+                    info={{
+                      groupFrameId: groupFrame.groupFrameId,
+                      tagId: tag.tagId,
+                    }}
+                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    text={tag.text}
+                    leftAccessoryType={tag.dotColor ? 'dot' : undefined}
+                    onPress={({ groupFrameId, tagId }) => {
+                      console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                    }}
+                  />
+                );
+              })
+          );
+
+          return (
+            <GroupFrame
+              key={i.toString()}
+              info={{
+                groupFrameId: groupFrame.groupFrameId,
+              }}
+              style={style}
+              rightAccessoryType="delete"
+              onPressRightAccessory={({ groupFrameId }) => {
+                console.log('[groupFrameId] ', groupFrameId);
+
+                props.deleteGroupFrame(groupFrameId);
+              }}>
+              {tags}
+            </GroupFrame>
+          );
+        })
+    );
+
     return (
       <Translation>
         {(t) => (
           <Section
             iconSource={ic_clock}
             label={section.title}
-            rightAccessoryType="delete">
-            <GroupFrame rightAccessoryType="delete">
-              <Tag text={'Muscular'} />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.black }}
-                text={'Black Hair'}
-                leftAccessoryType="dot"
-              />
-            </GroupFrame>
-            <GroupFrame
-              style={{ marginTop: 8 }}
-              rightAccessoryType="delete">
-              <Tag text={'Female'} />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.red }}
-                text={'Red Eye'}
-                leftAccessoryType="dot"
-              />
-              <Tag text={'~165CM'} />
-              <Tag text={'Film'} />
-              <Tag text={'Korean'} />
-            </GroupFrame>
+            rightAccessoryType="delete"
+            onPress={() => {
+              props.deleteTags();
+            }}>
+            {children}
           </Section>
         )}
       </Translation>
@@ -398,11 +445,16 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    tags: state.recentSearchesReducer.tags,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    deleteGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
+    deleteTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchView);

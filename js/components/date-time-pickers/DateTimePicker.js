@@ -46,9 +46,11 @@ export default class DateTimePicker extends Component {
             <SingleTouch
               style={styles.button}
               onPress={() => {
-                if (props.onPress) {
-                  props.onPress(state.value);
+                if (!props.onPress) {
+                  return;
                 }
+
+                props.onPress(state.value);
               }}>
               <Text style={styles.buttonText}>{props.buttonText}</Text>
             </SingleTouch>
@@ -90,9 +92,11 @@ export default class DateTimePicker extends Component {
                 value: value,
               });
             } else {
-              if (props.onPress) {
-                props.onPress(value);
+              if (!props.onPress) {
+                return;
               }
+
+              props.onPress(value);
             }
           }}
         />

@@ -76,7 +76,8 @@ class Section extends Component {
       <Translation>
         {(t) => (
           <SingleTouch
-            style={styles.rightAccessoryButton}>
+            style={styles.rightAccessoryButton}
+            onPress={props.onPress}>
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -244,6 +245,7 @@ Section.propTypes = {
   ]),
   label: PropTypes.string,
   rightAccessoryType: PropTypes.string,
+  onPress: PropTypes.func,
 };
 
 Section.defaultProps = {
@@ -259,6 +261,7 @@ Section.defaultProps = {
   iconSource: undefined,
   label: undefined,
   rightAccessoryType: undefined,
+  onPress: undefined,
 };
 
 function mapStateToProps(state) {

@@ -9,6 +9,7 @@ const zhHK = {
     based_on_projects_format: 'Based On Project {0}',
     feed: 'Feed',
     follow: 'Follow',
+    followed: 'Followed',
     find_talent: 'Find Talent',
     error: {
       empty_field_message: '請輸入所需資料。',

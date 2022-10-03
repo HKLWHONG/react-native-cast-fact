@@ -67,12 +67,26 @@ class FeedList extends Component {
               type="small"
               source={ic_calendar_plus}
               resizeMode="center"
+              onPress={() => {
+                if (!props.onPressCalendar) {
+                  return;
+                }
+
+                props.onPressCalendar(params);
+              }}
             />
             <Button
               style={styles.followButtonContainer}
               textStyle={styles.followButton}
               type="small"
-              text={t('app.follow')}
+              text={item && item.isFollowed ? t('app.followed') : t('app.follow')}
+              onPress={() => {
+                if (!props.onPressFollow) {
+                  return;
+                }
+
+                props.onPressFollow(params);
+              }}
             />
           </View>
         )}
@@ -199,8 +213,15 @@ class FeedList extends Component {
                 style={styles.likeButton}
                 imageStyle={styles.likeButtonImage}
                 type="small"
-                source={index % 2 == 0 ? ic_heart : ic_heart_fill}
+                source={item && item.isLiked ? ic_heart_fill : ic_heart}
                 resizeMode="center"
+                onPress={() => {
+                  if (!props.onPressLike) {
+                    return;
+                  }
+
+                  props.onPressLike(params);
+                }}
               />
               <Text
                 style={styles.likeText}>
@@ -217,8 +238,15 @@ class FeedList extends Component {
                 style={styles.bookmarkButton}
                 imageStyle={styles.bookmarkButtonImage}
                 type="small"
-                source={index % 2 == 0? ic_star : ic_star_fill}
+                source={item && item.isBookmarked ? ic_star_fill : ic_star}
                 resizeMode="center"
+                onPress={() => {
+                  if (!props.onPressBookmark) {
+                    return;
+                  }
+
+                  props.onPressBookmark(params);
+                }}
               />
             </View>
             <View
@@ -509,7 +537,10 @@ FeedList.propTypes = {
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   type: PropTypes.string,
-  onPressItem: PropTypes.func,
+  onPressCalendar: PropTypes.func,
+  onPressFollow: PropTypes.func,
+  onPressLike: PropTypes.func,
+  onPressStar: PropTypes.func,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
 };
@@ -520,7 +551,10 @@ FeedList.defaultProps = {
   contentContainerStyle: undefined,
   hidden: false,
   type: undefined,
-  onPressItem: undefined,
+  onPressCalendar: undefined,
+  onPressFollow: undefined,
+  onPressLike: undefined,
+  onPressBookmark: undefined,
   onRefresh: undefined,
   refreshing: undefined,
 };

@@ -107,9 +107,11 @@ class SearchBar extends Component {
               type={'TouchableOpacity'}
               disabled={props.disabled}
               onPress={() => {
-                if (props.onPress) {
-                  props.onPress(state.text)
+                if (!props.onPress) {
+                  return;
                 }
+
+                props.onPress(state.text)
               }}>
               <Image
                 style={styles.rightAccessoryButtonImage}

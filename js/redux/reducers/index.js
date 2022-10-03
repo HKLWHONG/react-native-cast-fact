@@ -11,6 +11,11 @@ import {
 } from './app';
 
 import {
+  feedListReducer,
+  recentSearchesReducer,
+} from './components';
+
+import {
   drawerReducer,
   mainTabReducer,
 } from './navigators';
@@ -25,6 +30,8 @@ import {
 const reducers = combineReducers({
   appReducer,
   dataReducer,
+  feedListReducer,
+  recentSearchesReducer,
   drawerReducer,
   feedReducer,
   launchReducer,

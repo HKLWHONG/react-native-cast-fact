@@ -227,7 +227,14 @@ class Tag extends Component {
           <SingleTouch
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
-            disabled={disabled}>
+            disabled={disabled}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(props.info)
+            }}>
             {this.renderLeftContainer()}
             {this.renderCenterContainer()}
             {this.renderRightContainer()}
@@ -336,6 +343,7 @@ const styles = StyleSheet.create({
 });
 
 Tag.propTypes = {
+  info: PropTypes.object,
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   dotStyle: ViewPropTypes.style,
@@ -345,9 +353,11 @@ Tag.propTypes = {
   text: PropTypes.string,
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
+  onPress: PropTypes.func,
 };
 
 Tag.defaultProps = {
+  info: undefined,
   onLayout: undefined,
   style: undefined,
   dotStyle: undefined,
@@ -357,6 +367,7 @@ Tag.defaultProps = {
   text: undefined,
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,
+  onPress: undefined,
 };
 
 function mapStateToProps(state) {
