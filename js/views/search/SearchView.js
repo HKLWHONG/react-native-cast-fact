@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  CriteriaAction,
   RecentSearchesAction,
 } from '../../redux';
 
@@ -87,6 +88,58 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    // console.log('[props.criteriaTags]', props.criteriaTags);
+
+    let children = (
+      Array(props.criteriaTags.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          let groupFrame = props.criteriaTags[i];
+
+          let tags = (
+            Array(groupFrame.data.length)
+              .fill()
+              .map((_, t) => t)
+              .map((t) => {
+                let tag = groupFrame.data[t];
+
+                // console.log('[tag.tagId]', tag.tagId);
+
+                return (
+                  <Tag
+                    key={t.toString()}
+                    info={{
+                      groupFrameId: groupFrame.groupFrameId,
+                      tagId: tag.tagId,
+                    }}
+                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    text={tag.text}
+                    leftAccessoryType={tag.leftAccessoryType}
+                    rightAccessoryType={tag.rightAccessoryType}
+                    onPressRightAccessory={({ groupFrameId, tagId }) => {
+                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+
+                      props.deleteCriteriaTag(groupFrameId, tagId);
+                    }}
+                  />
+                );
+              })
+          );
+
+          return (
+            <GroupFrame
+              key={i.toString()}
+              info={{
+                groupFrameId: groupFrame.groupFrameId,
+              }}
+              style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
+              {tags}
+            </GroupFrame>
+          );
+        })
+    );
+
     return (
       <Translation>
         {(t) => (
@@ -100,19 +153,7 @@ class SearchView extends BaseComponent {
                 Router.push(props, "FeedStack", "SearchResult");
               }}
             />
-            <GroupFrame
-              style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
-              <Tag
-                text={'Male'}
-                rightAccessoryType="delete"
-              />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.blue }}
-                text={'Blue Eye'}
-                leftAccessoryType="dot"
-                rightAccessoryType="delete"
-              />
-            </GroupFrame>
+            {children}
             <View
               style={{
                 // backgroundColor: '#f00',
@@ -141,14 +182,14 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    console.log('[props.tags]', props.tags);
+    // console.log('[props.recentSearchesTags]', props.recentSearchesTags);
 
     let children = (
-      Array(props.tags.length)
+      Array(props.recentSearchesTags.length)
         .fill()
         .map((_, i) => i)
         .map((i) => {
-          let groupFrame = props.tags[i];
+          let groupFrame = props.recentSearchesTags[i];
 
           let style = {};
 
@@ -166,7 +207,7 @@ class SearchView extends BaseComponent {
               .map((t) => {
                 let tag = groupFrame.data[t];
 
-                console.log('[tag.tagId]', tag.tagId);
+                // console.log('[tag.tagId]', tag.tagId);
 
                 return (
                   <Tag
@@ -177,9 +218,12 @@ class SearchView extends BaseComponent {
                     }}
                     dotStyle={{ backgroundColor: tag.dotColor }}
                     text={tag.text}
-                    leftAccessoryType={tag.dotColor ? 'dot' : undefined}
+                    leftAccessoryType={tag.leftAccessoryType}
+                    rightAccessoryType={tag.rightAccessoryType}
                     onPress={({ groupFrameId, tagId }) => {
-                      console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+
+                      props.addCriteriaTag(tag);
                     }}
                   />
                 );
@@ -195,9 +239,9 @@ class SearchView extends BaseComponent {
               style={style}
               rightAccessoryType="delete"
               onPressRightAccessory={({ groupFrameId }) => {
-                console.log('[groupFrameId] ', groupFrameId);
+                // console.log('[groupFrameId] ', groupFrameId);
 
-                props.deleteGroupFrame(groupFrameId);
+                props.deleteRecentSearchesGroupFrame(groupFrameId);
               }}>
               {tags}
             </GroupFrame>
@@ -213,7 +257,7 @@ class SearchView extends BaseComponent {
             label={section.title}
             rightAccessoryType="delete"
             onPress={() => {
-              props.deleteTags();
+              props.deleteRecentSearchesTags();
             }}>
             {children}
           </Section>
@@ -446,14 +490,19 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    tags: state.recentSearchesReducer.tags,
+    text: state.criteriaReducer.text,
+    criteriaTags: state.criteriaReducer.tags,
+    recentSearchesTags: state.recentSearchesReducer.tags,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    deleteGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
-    deleteTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
+    // reset: (...args) => dispatch(FeedAction.reset(...args)),
+    addCriteriaTag: (...args) => dispatch(CriteriaAction.addTag(...args)),
+    deleteCriteriaTag: (...args) => dispatch(CriteriaAction.deleteTag(...args)),
+    deleteRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
+    deleteRecentSearchesTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
   };
 }
 

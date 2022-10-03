@@ -10,6 +10,9 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
+import {
+  CriteriaAction,
+} from '../../redux';
 
 import { SingleTouch, TextInput } from '../../components';
 
@@ -24,17 +27,11 @@ class SearchBar extends Component {
   constructor(props: any) {
     super(props);
 
-    this.state = {
-      text: props.text || '',
-    };
+    this.state = {};
   }
 
-  onChangeText = (text) => {
-    this.setState({text: text});
-  };
-
   renderLeftContainer = () => {
-    const { state } = this;
+    const { props, state } = this;
 
     let children = (
       <View style={styles.leftAccessoryButton}>
@@ -74,8 +71,8 @@ class SearchBar extends Component {
     let children = (
       <TextInput
         textInputStyle={styles.textInput}
-        value={state.text}
-        onChangeText={this.onChangeText}
+        value={props.text}
+        onChangeText={props.setText}
         disableMessageView
       />
     );
@@ -111,7 +108,7 @@ class SearchBar extends Component {
                   return;
                 }
 
-                props.onPress(state.text)
+                props.onPress(props.text)
               }}>
               <Image
                 style={styles.rightAccessoryButtonImage}
@@ -155,10 +152,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 42,
     borderRadius: 21,
-    alignItems: 'center',
   },
   leftContainer: {
     // backgroundColor: '#f00',
+    flexDirection: 'row',
     marginRight: 8,
   },
   leftAccessoryButton: {
@@ -175,6 +172,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#00f',
+    justifyContent: 'center',
     flex: 1,
   },
   textInput: {
@@ -220,11 +218,15 @@ SearchBar.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    text: state.criteriaReducer.text,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    setText: (...args) => dispatch(CriteriaAction.setText(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

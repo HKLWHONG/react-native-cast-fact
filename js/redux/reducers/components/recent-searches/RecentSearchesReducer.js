@@ -20,7 +20,7 @@ export default function recentSearchesReducer(state = initialState, action) {
     case RecentSearchesActionType.TAGS:
       return {
         ...state,
-        tags: action.tags,
+        tags: action.tags || [],
       };
 
     case RecentSearchesActionType.TAGS_DELETE_GROUP_FRAME:

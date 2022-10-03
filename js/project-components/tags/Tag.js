@@ -158,7 +158,14 @@ class Tag extends Component {
       <Translation>
         {(t) => (
           <SingleTouch
-            style={styles.rightAccessoryButton}>
+            style={styles.rightAccessoryButton}
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory(props.info);
+            }}>
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -354,6 +361,7 @@ Tag.propTypes = {
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
   onPress: PropTypes.func,
+  onPressRightAccessory: PropTypes.func,
 };
 
 Tag.defaultProps = {
@@ -368,6 +376,7 @@ Tag.defaultProps = {
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,
   onPress: undefined,
+  onPressRightAccessory: undefined,
 };
 
 function mapStateToProps(state) {

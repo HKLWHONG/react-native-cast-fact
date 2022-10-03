@@ -16,7 +16,7 @@ export const reset = () => (dispatch) => {
 export const setTags = (tags) => (dispatch) => {
   dispatch({
     type: RecentSearchesActionType.TAGS,
-    tags: tags || [],
+    tags: tags,
   });
 
   return Promise.resolve();

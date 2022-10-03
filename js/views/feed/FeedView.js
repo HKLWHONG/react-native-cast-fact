@@ -9,6 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   FeedAction,
+  CriteriaAction,
   RecentSearchesAction,
 } from '../../redux';
 
@@ -67,14 +68,33 @@ class FeedView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    props.setTags([
+    props.setCriteriaTags([
+      {
+        groupFrameId: '0',
+        data: [
+          {
+            tagId: '0',
+            text: 'Male',
+            rightAccessoryType: 'delete',
+          },
+          {
+            tagId: '1',
+            text: 'Blue Eye',
+            dotColor: Theme.colors.dot.blue,
+            leftAccessoryType: 'dot',
+            rightAccessoryType: 'delete',
+          },
+        ]
+      },
+    ]);
+
+    props.setRecentSearchesTags([
       {
         groupFrameId: '0',
         data: [
           {
             tagId: '0',
             text: 'Muscular',
-            dotColor: undefined,
           },
           {
             tagId: '1',
@@ -89,28 +109,24 @@ class FeedView extends BaseComponent {
           {
             tagId: '0',
             text: 'Female',
-            dotColor: undefined,
           },
           {
             tagId: '1',
             text: 'Red Eye',
             dotColor: Theme.colors.dot.red,
-            isDeviation: false,
+            leftAccessoryType: 'dot',
           },
           {
             tagId: '2',
             text: '~165CM',
-            dotColor: undefined,
           },
           {
             tagId: '3',
             text: 'Film',
-            dotColor: undefined,
           },
           {
             tagId: '4',
             text: 'Korean',
-            dotColor: undefined,
           },
         ],
       },
@@ -219,7 +235,8 @@ class FeedView extends BaseComponent {
                     }}
                     dotStyle={{ backgroundColor: tag.dotColor }}
                     text={tag.text}
-                    leftAccessoryType={tag.dotColor ? 'dot' : undefined}
+                    leftAccessoryType={tag.leftAccessoryType}
+                    rightAccessoryType={tag.rightAccessoryType}
                     onPress={({ groupFrameId, tagId }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
                     }}
@@ -239,7 +256,7 @@ class FeedView extends BaseComponent {
               onPressRightAccessory={({ groupFrameId }) => {
                 console.log('[groupFrameId] ', groupFrameId);
 
-                props.deleteGroupFrame(groupFrameId);
+                props.deleteRecentSearchesGroupFrame(groupFrameId);
               }}>
               {tags}
             </GroupFrame>
@@ -479,8 +496,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setTags: (...args) => dispatch(RecentSearchesAction.setTags(...args)),
-    deleteGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
+    setCriteriaTags: (...args) => dispatch(CriteriaAction.setTags(...args)),
+    setRecentSearchesTags: (...args) => dispatch(RecentSearchesAction.setTags(...args)),
+    deleteRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
     deleteTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
     setFeedList: (...args) => dispatch(FeedAction.setFeedList(...args)),
     setFeedListFollowed: (...args) => dispatch(FeedAction.setFeedListFollowed(...args)),

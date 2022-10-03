@@ -11,6 +11,7 @@ import {
 } from './app';
 
 import {
+  criteriaReducer,
   feedListReducer,
   recentSearchesReducer,
 } from './components';
@@ -30,6 +31,7 @@ import {
 const reducers = combineReducers({
   appReducer,
   dataReducer,
+  criteriaReducer,
   feedListReducer,
   recentSearchesReducer,
   drawerReducer,
