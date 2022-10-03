@@ -5,14 +5,22 @@
 
 import { combineReducers } from 'redux';
 
-import appReducer from './AppReducer';
-import dataReducer from './DataReducer';
-import drawerReducer from './DrawerReducer';
-import feedReducer from './FeedReducer';
-import launchReducer from './LaunchReducer';
-import loginReducer from './LoginReducer';
-import mainTabReducer from './MainTabReducer';
-import signUpReducer from './SignUpReducer';
+import {
+  appReducer,
+  dataReducer,
+} from './app';
+
+import {
+  drawerReducer,
+  mainTabReducer,
+} from './navigators';
+
+import {
+  feedReducer,
+  launchReducer,
+  loginReducer,
+  signUpReducer,
+} from './views';
 
 const reducers = combineReducers({
   appReducer,
