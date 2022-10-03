@@ -186,6 +186,7 @@ class LoginView extends BaseComponent {
       <Translation>
         {(t) => (
           <Button
+            style={styles.loginButton}
             text={t('app.login')}
             onPress={() => {
               console.log('[credentials] ', props.credentials);
@@ -322,13 +323,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
     padding: 32,
-    paddingTop: 200,
+    paddingTop:  Dimensions.get('window').height / 4,
   },
   textInput: {
-    marginBottom: 8,
+    marginBottom: 16,
   },
   separator: {
     marginVertical: 32,
+  },
+  loginButton: {
+    marginTop: 16,
   },
   otherLoginButtonContainer: {
     // backgroundColor: '#0f0',

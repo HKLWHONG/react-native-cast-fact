@@ -55,6 +55,7 @@ export default class TextInput extends Component {
         value={props.valueLeft}
         placeholder={props.placeholderLeft}
         placeholderTextColor={props.placeholderTextColorLeft}
+        keyboardType={props.keyboardTypeLeft}
         secureTextEntry={props.secureTextEntryLeft}
         multiline={props.multilineLeft}
         numberOfLines={props.numberOfLinesLeft}
@@ -105,6 +106,7 @@ export default class TextInput extends Component {
         value={props.value}
         placeholder={props.placeholder}
         placeholderTextColor={props.placeholderTextColor}
+        keyboardType={props.keyboardType}
         secureTextEntry={props.secureTextEntry}
         multiline={props.multiline}
         numberOfLines={props.numberOfLines}
@@ -155,6 +157,7 @@ export default class TextInput extends Component {
         value={props.valueRight}
         placeholder={props.placeholderRight}
         placeholderTextColor={props.placeholderTextColorRight}
+        keyboardType={props.keyboardTypeRight}
         secureTextEntry={props.secureTextEntrRight}
         multiline={props.multilineRight}
         numberOfLines={props.numberOfLinesRight}
@@ -239,6 +242,10 @@ export default class TextInput extends Component {
       return;
     }
 
+    if (!props.enableFixedMessageViewHeight && !props.message) {
+      return;
+    }
+
     return (
       <Text style={[styles.message, props.messageStyle]}>
         {props.message || ' '}
@@ -306,7 +313,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     color: '#FF0000',
     fontSize: 14,
-    paddingVertical: 8,
+    paddingTop: 8,
   },
 });
 
@@ -331,6 +338,9 @@ TextInput.propTypes = {
   placeholder: PropTypes.string,
   placeholderLeft: PropTypes.string,
   placeholderRight: PropTypes.string,
+  keyboardType: PropTypes.string,
+  keyboardTypeLeft: PropTypes.string,
+  keyboardTypeRight: PropTypes.string,
   message: PropTypes.string,
   secureTextEntry: PropTypes.bool,
   secureTextEntryLeft: PropTypes.bool,
@@ -339,6 +349,7 @@ TextInput.propTypes = {
   disableMessageView: PropTypes.bool,
   enableLeftInput: PropTypes.bool,
   enableRightInput: PropTypes.bool,
+  enableFixedMessageViewHeight: PropTypes.bool,
   multiline: PropTypes.bool,
   multilineLeft: PropTypes.bool,
   multilineRight: PropTypes.bool,
@@ -377,6 +388,9 @@ TextInput.defaultProps = {
   placeholder: undefined,
   placeholderLeft: undefined,
   placeholderRight: undefined,
+  keyboardType: undefined,
+  keyboardTypeLeft: undefined,
+  keyboardTypeRight: undefined,
   message: undefined,
   secureTextEntry: false,
   secureTextEntryLeft: false,
@@ -385,6 +399,7 @@ TextInput.defaultProps = {
   disableMessageView: false,
   enableLeftInput: false,
   enableRightInput: false,
+  enableFixedMessageViewHeight: false,
   multiline: false,
   multilineLeft: false,
   multilineRight: false,

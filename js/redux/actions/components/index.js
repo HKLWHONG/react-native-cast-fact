@@ -3,6 +3,4 @@
  * @flow strict-local
  */
 
-export {
-
-};
+export * from './recent-searches';

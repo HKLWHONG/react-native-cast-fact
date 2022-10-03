@@ -50,6 +50,12 @@ export const setEmailMessage = (emailMessage) => (dispatch) => {
 };
 
 export const setPhoneCode = (phoneCode) => (dispatch) => {
+  console.log('[phoneCode] ', phoneCode);
+
+  if (phoneCode && !phoneCode.startsWith('+')) {
+    phoneCode = '+' + phoneCode;
+  }
+
   dispatch({
     type: SignUpActionType.ACCOUNT_PHONE_CODE,
     phoneCode: phoneCode,

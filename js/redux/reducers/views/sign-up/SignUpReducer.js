@@ -10,7 +10,7 @@ const initialState = {
     info: {
       name: undefined,
       nameMessage: undefined,
-      phoneCode: undefined,
+      phoneCode: '+852',
       phoneNumber: undefined,
       phoneMessage: undefined,
     },

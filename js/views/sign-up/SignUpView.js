@@ -227,8 +227,10 @@ class SignUpView extends BaseComponent {
             <TextInput
               style={styles.textInput}
               label={t('views.sign_up.phone_label')}
-              valueLeft={'+'}
+              valueLeft={props.account.info.phoneCode}
               value={props.account.info.phone}
+              keyboardType="number-pad"
+              keyboardTypeLeft="number-pad"
               message={t(props.account.info.phoneMessage)}
               onChangeTextLeft={(text) => {
                 props.setPhoneCode(text);
@@ -264,6 +266,7 @@ class SignUpView extends BaseComponent {
       <Translation>
         {(t) => (
           <Button
+            style={styles.signUpButton}
             text={t('app.sign_up')}
             onPress={() => {
               console.log('[account] ', props.account);
@@ -393,10 +396,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
     padding: 32,
-    paddingTop: 200,
+    paddingTop: Dimensions.get('window').height / 4,
   },
   textInput: {
     marginBottom: 8,
+  },
+  signUpButton: {
+    marginTop: 64,
   },
   tncContainer: {
     // backgroundColor: '#f00',
