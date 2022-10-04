@@ -12,17 +12,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
-import { BaseComponent } from '../components';
+import { BaseComponent } from '../../components';
 
-import { Header } from '../project-components';
+import { Header } from '../../project-components';
 
-import { InboxView } from '../views';
+import { ProfileView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
-class InboxStackNavigator extends BaseComponent {
+class ProfileStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -58,10 +58,10 @@ class InboxStackNavigator extends BaseComponent {
               gestureEnabled: false,
             }}>
             <Stack.Screen
-              name="Inbox"
-              component={InboxView}
+              name="Profile"
+              component={ProfileView}
               options={{
-                title: t('views.inbox.header'),
+                title: t('views.profile.header'),
               }}
             />
           </Stack.Navigator>
@@ -81,4 +81,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InboxStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileStackNavigator);

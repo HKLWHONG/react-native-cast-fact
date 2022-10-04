@@ -12,17 +12,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
-import { BaseComponent } from '../components';
+import { BaseComponent } from '../../components';
 
-import { Header } from '../project-components';
+import { Header } from '../../project-components';
 
-import { ProfileView } from '../views';
+import { CalendarView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
-class ProfileStackNavigator extends BaseComponent {
+class CalendarStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -58,10 +58,10 @@ class ProfileStackNavigator extends BaseComponent {
               gestureEnabled: false,
             }}>
             <Stack.Screen
-              name="Profile"
-              component={ProfileView}
+              name="Calendar"
+              component={CalendarView}
               options={{
-                title: t('views.profile.header'),
+                title: t('views.calendar.header'),
               }}
             />
           </Stack.Navigator>
@@ -81,4 +81,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarStackNavigator);

@@ -412,8 +412,9 @@ const styles = StyleSheet.create({
   followButton: {
     // backgroundColor: '#f0f',
     color: Theme.colors.general.white,
-    fontSize: 13,
-    fontFamily: Theme.fonts.regular,
+    fontSize: 11,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   centerContainer: {

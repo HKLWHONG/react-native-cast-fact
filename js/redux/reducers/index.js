@@ -8,19 +8,17 @@ import { combineReducers } from 'redux';
 import {
   appReducer,
   dataReducer,
+  drawerReducer,
+  mainTabReducer,
 } from './app';
 
 import {
   feedListReducer,
   searchBarReducer,
   criteriaSectionReducer,
+  findTalentSectionReducer,
   recentSearchesSectionReducer,
 } from './components';
-
-import {
-  drawerReducer,
-  mainTabReducer,
-} from './navigators';
 
 import {
   feedReducer,
@@ -37,6 +35,7 @@ const reducers = combineReducers({
   feedListReducer,
   searchBarReducer,
   criteriaSectionReducer,
+  findTalentSectionReducer,
   recentSearchesSectionReducer,
   drawerReducer,
   feedReducer,

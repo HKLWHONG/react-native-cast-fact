@@ -11,13 +11,20 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 import {
-  CriteriaSectionAction,
   RecentSearchesSectionAction,
+  CriteriaSectionAction,
 } from '../../redux';
 
-import { SingleTouch, TextInput } from '../../components';
+import {
+  SingleTouch,
+  TextInput,
+} from '../../components';
 
-import { Section, GroupFrame, Tag } from '../../project-components';
+import {
+  Section,
+  GroupFrame,
+  Tag,
+} from '../../project-components';
 
 import { Theme } from '../../utils';
 
@@ -107,6 +114,12 @@ class RecentSearchesSection extends Component {
         })
     );
 
+    let rightAccessoryType = undefined;
+
+    if (props.tags.length > 0) {
+      rightAccessoryType = 'delete';
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -115,7 +128,7 @@ class RecentSearchesSection extends Component {
             style={[styles.container, props.style]}
             iconSource={ic_clock}
             label={props.label}
-            rightAccessoryType="delete"
+            rightAccessoryType={rightAccessoryType}
             onPress={() => {
               props.deleteTags();
             }}>
@@ -157,9 +170,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
+    reset: (...args) => dispatch(RecentSearchesSectionAction.reset(...args)),
     deleteGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.deleteGroupFrame(...args)),
     deleteTags: (...args) => dispatch(RecentSearchesSectionAction.deleteTags(...args)),
+    addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
   };
 }
 

@@ -12,17 +12,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
-import { BaseComponent } from '../components';
+import { BaseComponent } from '../../components';
 
-import { Header } from '../project-components';
+import { Header } from '../../project-components';
 
-import { CalendarView } from '../views';
+import { FeedView, SearchView, SearchResultView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
-class CalendarStackNavigator extends BaseComponent {
+class FeedStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -58,10 +58,24 @@ class CalendarStackNavigator extends BaseComponent {
               gestureEnabled: false,
             }}>
             <Stack.Screen
-              name="Calendar"
-              component={CalendarView}
+              name="Feed"
+              component={FeedView}
               options={{
-                title: t('views.calendar.header'),
+                title: t('views.feed.header'),
+              }}
+            />
+            <Stack.Screen
+              name="Search"
+              component={SearchView}
+              options={{
+                title: t('views.search.header'),
+              }}
+            />
+            <Stack.Screen
+              name="SearchResult"
+              component={SearchResultView}
+              options={{
+                title: t('views.search_result.header'),
               }}
             />
           </Stack.Navigator>
@@ -81,4 +95,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CalendarStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedStackNavigator);

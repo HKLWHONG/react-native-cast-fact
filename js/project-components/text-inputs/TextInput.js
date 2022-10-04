@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 
-import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
@@ -46,7 +46,7 @@ class TextInput extends Component {
                 ? styles.focusedColor
                 : undefined,
             ]}
-            textInputStyle={styles.textInput}
+            textInputStyle={[styles.textInput, props.textInputStyle]}
             bottomLineStyle={
               state.isFocused
                 ? styles.focusedBottomLine
@@ -57,7 +57,8 @@ class TextInput extends Component {
             value={props.value}
             message={props.message}
             secureTextEntry={props.secureTextEntry}
-            disableBottomLine={false}
+            keyboardAppearance="dark"
+            disableBottomLine={props.disableBottomLine}
             onChangeText={props.onChangeText}
             onFocus={() => {
               this.setState({
@@ -120,22 +121,26 @@ const styles = StyleSheet.create({
 TextInput.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
+  textInputStyle: TextPropTypes.style,
   hidden: PropTypes.bool,
   label: PropTypes.string,
   value: PropTypes.string,
   message: PropTypes.string,
   secureTextEntry: PropTypes.bool,
+  disableBottomLine: PropTypes.bool,
   onChangeText: PropTypes.func,
 };
 
 TextInput.defaultProps = {
   onLayout: undefined,
   style: undefined,
+  textInputStyle: undefined,
   hidden: false,
   label: undefined,
   value: undefined,
   message: undefined,
   secureTextEntry: false,
+  disableBottomLine: false,
   onChangeText: undefined,
 };
 

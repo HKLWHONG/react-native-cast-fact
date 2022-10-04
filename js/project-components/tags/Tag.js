@@ -11,7 +11,9 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SingleTouch, TextInput } from '../../components';
+import { SingleTouch } from '../../components';
+
+import { TextInput } from '../../project-components';
 
 import { Dot } from '../dots';
 
@@ -115,6 +117,7 @@ class Tag extends Component {
               style={styles.input}
               textInputStyle={styles.text}
               value={props.value}
+              disableBottomLine
               disableMessageView
              />
              <Text
@@ -321,7 +324,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1.7,
     textTransform: 'uppercase',
     padding: 0,
-    margin: 0,
+    marginHorizontal: 0,
+    marginVertical: 0,
   },
   rightContainer: {
     // backgroundColor: '#00f',

@@ -12,17 +12,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
-import { BaseComponent } from '../components';
+import { BaseComponent } from '../../components';
 
-import { Header } from '../project-components';
+import { Header } from '../../project-components';
 
-import { FeedView, SearchView, SearchResultView } from '../views';
+import { InboxView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
-class FeedStackNavigator extends BaseComponent {
+class InboxStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -58,24 +58,10 @@ class FeedStackNavigator extends BaseComponent {
               gestureEnabled: false,
             }}>
             <Stack.Screen
-              name="Feed"
-              component={FeedView}
+              name="Inbox"
+              component={InboxView}
               options={{
-                title: t('views.feed.header'),
-              }}
-            />
-            <Stack.Screen
-              name="Search"
-              component={SearchView}
-              options={{
-                title: t('views.search.header'),
-              }}
-            />
-            <Stack.Screen
-              name="SearchResult"
-              component={SearchResultView}
-              options={{
-                title: t('views.search_result.header'),
+                title: t('views.inbox.header'),
               }}
             />
           </Stack.Navigator>
@@ -95,4 +81,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(InboxStackNavigator);

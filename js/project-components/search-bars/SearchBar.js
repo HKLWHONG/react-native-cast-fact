@@ -14,7 +14,9 @@ import {
   SearchBarAction,
 } from '../../redux';
 
-import { SingleTouch, TextInput } from '../../components';
+import { SingleTouch } from '../../components';
+
+import { TextInput } from '../../project-components';
 
 import { Theme } from '../../utils';
 
@@ -73,6 +75,7 @@ class SearchBar extends Component {
         textInputStyle={styles.textInput}
         value={props.text}
         onChangeText={props.setText}
+        disableBottomLine
         disableMessageView
       />
     );
@@ -183,6 +186,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Theme.fonts.medium,
     letterSpacing: 1.7,
+    padding: 0,
+    marginHorizontal: 0,
+    marginVertical: 0,
   },
   rightContainer: {
     // backgroundColor: '#f00',

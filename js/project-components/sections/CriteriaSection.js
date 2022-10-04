@@ -205,6 +205,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     deleteTag: (...args) => dispatch(CriteriaSectionAction.deleteTag(...args)),
   };

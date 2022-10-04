@@ -26,8 +26,8 @@ import {
   Section,
   CriteriaSection,
   RecentSearchesSection,
+  FindTalentSection,
   FeedList,
-  CollapsibleSection,
   GroupFrame,
   Tag,
   RangeTag,
@@ -39,7 +39,6 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
-const ic_search_gray = require('../../../assets/images/ic_search_gray/ic_search_gray.png');
 
 class SearchView extends BaseComponent {
   constructor(props) {
@@ -123,106 +122,7 @@ class SearchView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Section
-            iconSource={ic_search_gray}
-            label={section.title}>
-            <CollapsibleSection text={'Gender'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Female'} />
-                <Tag text={'Gender-Noconforming'} />
-                <Tag text={'Non-Binary'} />
-                <Tag text={'Trans Female'} />
-                <Tag text={'Agender'} />
-                <Tag text={'Androgyne'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Ethnicities'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Body Type'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Eye Color'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.amber }}
-                  text={'Amber'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.brown }}
-                  text={'Brown'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.gray }}
-                  text={'Gray'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.green }}
-                  text={'Green'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.hazel }}
-                  text={'Hazel'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.red }}
-                  text={'Red'}
-                  leftAccessoryType="dot"
-                />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Height'}>
-              <GroupFrame
-                style={{ borderColor: Theme.colors.general.transparent }}
-                rightAccessoryType="check">
-                <Tag
-                  type="input"
-                  value={'170'}
-                  text={'CM'}
-                />
-                <Tag
-                  text={'Deviation'}
-                  leftAccessoryType="check"
-                />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Age'}>
-              <GroupFrame
-                style={{ borderColor: Theme.colors.general.transparent }}
-                rightAccessoryType="check">
-                <RangeTag fromValue={'18'} toValue={'25'} />
-              </GroupFrame>
-            </CollapsibleSection>
-          </Section>
+          <FindTalentSection label={section.title} />
         )}
       </Translation>
     );

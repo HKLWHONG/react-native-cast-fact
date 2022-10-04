@@ -7,21 +7,21 @@ import React from 'react';
 import { StyleSheet, Text, Image } from 'react-native';
 
 import { connect } from 'react-redux';
-import { DrawerAction, MainTabAction } from '../redux';
+import { DrawerAction, MainTabAction } from '../../redux';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { BaseComponent, Root, Header, Body, Footer } from '../components';
+import { BaseComponent, Root, Header, Body, Footer } from '../../components';
 
-import { DrawerItem } from '../project-components';
+import { DrawerItem } from '../../project-components';
 
 import MainTabNavigator from './MainTabNavigator';
 
-import i18n from '../../i18n';
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-import { Router } from '../utils';
+import { Router } from '../../utils';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
