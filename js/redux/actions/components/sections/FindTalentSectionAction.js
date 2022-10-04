@@ -12,3 +12,33 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve();
 };
+
+export const setTags = (tags) => (dispatch) => {
+  dispatch({
+    type: FindTalentSectionActionType.TAGS,
+    tags: tags,
+  });
+
+  return Promise.resolve();
+};
+
+export const updateGroupFrame = (groupFrameId, object) => (dispatch) => {
+  dispatch({
+    type: FindTalentSectionActionType.TAGS_UPDATE_GROUP_FRAME,
+    groupFrameId: groupFrameId,
+    object: object,
+  });
+
+  return Promise.resolve();
+};
+
+export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
+  dispatch({
+    type: FindTalentSectionActionType.TAGS_UPDATE_TAG,
+    groupFrameId: groupFrameId,
+    tagId: tagId,
+    object: object,
+  });
+
+  return Promise.resolve();
+};

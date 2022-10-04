@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  CriteriaSectionAction,
   SearchAction,
 } from '../../redux';
 
@@ -36,7 +37,11 @@ import {
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-import { Theme, Router } from '../../utils';
+import {
+  Theme,
+  Router,
+  StringProcessor,
+} from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
 
@@ -69,6 +74,59 @@ class SearchView extends BaseComponent {
     const { props } = this;
   };
 
+  addHeightTagIfNeeded = () => {
+    const { props } = this;
+    
+    let heightTags = props.findTalentTags.filter((groupFrame) => {
+      return (
+        groupFrame.label.toLowerCase() === 'height'.toLowerCase()
+        &&
+        StringProcessor.toBoolean(groupFrame.checked)
+      )
+    });
+
+    if (heightTags.length > 0 && heightTags[0].data.length > 1) {
+      let tag = heightTags[0].data[0];
+
+      if (tag && tag.value && tag.value.length > 0) {
+        let deviationTag = heightTags[0].data[1];
+
+        if (deviationTag && StringProcessor.toBoolean(deviationTag.checked)) {
+          props.addCriteriaTag({
+            ...tag,
+            text: '~' + tag.value + tag.text,
+          });
+        } else {
+          props.addCriteriaTag({
+            ...tag,
+            text: tag.value + tag.text,
+          });
+        }
+      }
+    }
+  };
+
+  addAgeTagIfNeeded = () => {
+    const { props } = this;
+
+    let ageTags = props.findTalentTags.filter((groupFrame) => {
+      return (
+        groupFrame.label.toLowerCase() === 'age'.toLowerCase()
+        &&
+        StringProcessor.toBoolean(groupFrame.checked)
+      )
+    });
+
+    if (ageTags.length > 0 && ageTags[0].data.length > 0) {
+      let tag = ageTags[0].data[0];
+
+      props.addCriteriaTag({
+        ...tag,
+        text: tag.fromValue + '-' + tag.toValue,
+      });
+    }
+  };
+
   renderHeader = () => {
     const { props } = this;
 
@@ -91,6 +149,9 @@ class SearchView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onPressSearchBar={() => {
+              this.addHeightTagIfNeeded();
+              this.addAgeTagIfNeeded();
+
               Router.push(props, "FeedStack", "SearchResult");
             }}
             enableSearchBar
@@ -235,13 +296,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-
+    findTalentTags: state.findTalentSectionReducer.tags,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
+    addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
   };
 }
 

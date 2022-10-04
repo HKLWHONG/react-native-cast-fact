@@ -40,15 +40,61 @@ class RangeTag extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}>
             <Tag
+              style={styles.tag}
               type="input"
               value={props.fromValue}
               text={props.fromText}
+              maxLength={props.maxLengthOfFromValue}
+              keyboardType="number-pad"
+              onChangeValue={(params) => {
+                if (!props.onChangeFromValue) {
+                  return;
+                }
+
+                const { value } = params;
+
+                if (
+                  value && value.length > 0
+                  &&
+                  props.regexOfFromValue && !new RegExp(props.regexOfFromValue).test(value)
+                ) {
+                  return;
+                }
+
+                props.onChangeFromValue({
+                  ...props.info,
+                  ...params,
+                });
+              }}
             />
             <Text style={styles.text}>{'-'}</Text>
             <Tag
+              style={styles.tag}
               type="input"
               value={props.toValue}
               text={props.toText}
+              maxLength={props.maxLengthOfToValue}
+              keyboardType="number-pad"
+              onChangeValue={(params) => {
+                if (!props.onChangeToValue) {
+                  return;
+                }
+
+                const { value } = params;
+
+                if (
+                  value && value.length > 0
+                  &&
+                  props.regexOfToValue && !new RegExp(props.regexOfToValue).test(value)
+                ) {
+                  return;
+                }
+
+                props.onChangeToValue({
+                  ...props.info,
+                  ...params,
+                });
+              }}
             />
           </View>
         )}
@@ -59,9 +105,13 @@ class RangeTag extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#0f0',
+    // backgroundColor: '#f00',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  tag: {
+    // backgroundColor: '#0ff',
+    paddingHorizontal: 8,
   },
   text: {
     // backgroundColor: '#0f0',
@@ -76,6 +126,7 @@ const styles = StyleSheet.create({
 });
 
 RangeTag.propTypes = {
+  info: PropTypes.object,
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
@@ -83,9 +134,16 @@ RangeTag.propTypes = {
   fromText: PropTypes.string,
   toValue: PropTypes.string,
   toText: PropTypes.string,
+  regexOfFromValue: PropTypes.string,
+  regexOfToValue: PropTypes.string,
+  maxLengthOfFromValue: PropTypes.number,
+  maxLengthOfToValue: PropTypes.number,
+  onChangeFromValue: PropTypes.func,
+  onChangeToValue: PropTypes.func,
 };
 
 RangeTag.defaultProps = {
+  info: undefined,
   onLayout: undefined,
   style: undefined,
   hidden: false,
@@ -93,6 +151,12 @@ RangeTag.defaultProps = {
   fromText: undefined,
   toValue: undefined,
   toText: undefined,
+  regexOfFromValue: undefined,
+  regexOfToValue: undefined,
+  maxLengthOfFromValue: undefined,
+  maxLengthOfToValue: undefined,
+  onChangeFromValue: undefined,
+  onChangeToValue: undefined,
 };
 
 function mapStateToProps(state) {

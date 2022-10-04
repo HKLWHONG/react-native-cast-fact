@@ -36,8 +36,8 @@ export default function criteriaSectionReducer(state = initialState, action) {
         return;
       }
 
-      let tags = state.tags.filter((item) => {
-        return item.groupFrameId === '0';
+      let tags = state.tags.filter((groupFrame) => {
+        return groupFrame.groupFrameId === '0';
       });
 
       if (tags.length == 0) {
@@ -54,8 +54,8 @@ export default function criteriaSectionReducer(state = initialState, action) {
       } else {
         let maxTagId = 0;
 
-        tags[0].data.forEach((item, i) => {
-          let tagId = parseInt(item.tagId);
+        tags[0].data.forEach((tag, i) => {
+          let tagId = parseInt(tag.tagId);
           if (tagId > maxTagId) {
             maxTagId = tagId;
           }
@@ -82,20 +82,20 @@ export default function criteriaSectionReducer(state = initialState, action) {
 
     case CriteriaSectionActionType.TAGS_DELETE_TAG:
     {
-      let tags = state.tags.map((item) => {
-        if (item.groupFrameId === action.groupFrameId) {
-          let data = item.data.filter((tag) => {
+      let tags = state.tags.map((groupFrame) => {
+        if (groupFrame.groupFrameId === action.groupFrameId) {
+          let data = groupFrame.data.filter((tag) => {
             return tag.tagId !== action.tagId;
           });
 
-          item.data = data;
+          groupFrame.data = data;
         }
 
-        return item;
+        return groupFrame;
       });
 
-      tags = tags.filter((item) => {
-        return item.data.length > 0;
+      tags = tags.filter((groupFrame) => {
+        return groupFrame.data.length > 0;
       });
 
       return {

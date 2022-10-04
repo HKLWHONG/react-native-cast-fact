@@ -9,8 +9,6 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   FeedAction,
-  CriteriaSectionAction,
-  RecentSearchesSectionAction,
 } from '../../redux';
 
 import {
@@ -67,70 +65,6 @@ class FeedView extends BaseComponent {
 
   initialize = async () => {
     const { props } = this;
-
-    props.setCriteriaTags([
-      {
-        groupFrameId: '0',
-        data: [
-          {
-            tagId: '0',
-            text: 'Male',
-            rightAccessoryType: 'delete',
-          },
-          {
-            tagId: '1',
-            text: 'Blue Eye',
-            dotColor: Theme.colors.dot.blue,
-            leftAccessoryType: 'dot',
-            rightAccessoryType: 'delete',
-          },
-        ]
-      },
-    ]);
-
-    props.setRecentSearchesTags([
-      {
-        groupFrameId: '0',
-        data: [
-          {
-            tagId: '0',
-            text: 'Muscular',
-          },
-          {
-            tagId: '1',
-            text: 'Black Hair',
-            dotColor: Theme.colors.dot.black,
-          },
-        ]
-      },
-      {
-        groupFrameId: '1',
-        data: [
-          {
-            tagId: '0',
-            text: 'Female',
-          },
-          {
-            tagId: '1',
-            text: 'Red Eye',
-            dotColor: Theme.colors.dot.red,
-            leftAccessoryType: 'dot',
-          },
-          {
-            tagId: '2',
-            text: '~165CM',
-          },
-          {
-            tagId: '3',
-            text: 'Film',
-          },
-          {
-            tagId: '4',
-            text: 'Korean',
-          },
-        ],
-      },
-    ]);
 
     props.setFeedList(this.testAddFeedData(props.feedList, 5));
   };
@@ -422,8 +356,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
-    setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
     setFeedList: (...args) => dispatch(FeedAction.setFeedList(...args)),
     setFeedListFollowed: (...args) => dispatch(FeedAction.setFeedListFollowed(...args)),
     setFeedListLiked: (...args) => dispatch(FeedAction.setFeedListLiked(...args)),

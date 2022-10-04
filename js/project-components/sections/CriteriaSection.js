@@ -101,8 +101,6 @@ class CriteriaSection extends Component {
       return null;
     }
 
-    // console.log('[props.tags]', props.tags);
-
     let children = (
       Array(props.tags.length)
         .fill()
@@ -116,8 +114,6 @@ class CriteriaSection extends Component {
               .map((_, t) => t)
               .map((t) => {
                 let tag = groupFrame.data[t];
-
-                // console.log('[tag.tagId]', tag.tagId);
 
                 return (
                   <Tag

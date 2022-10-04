@@ -117,6 +117,26 @@ class Tag extends Component {
               style={styles.input}
               textInputStyle={styles.text}
               value={props.value}
+              maxLength={props.maxLength}
+              keyboardType={props.keyboardType}
+              onChangeText={(text) => {
+                if (!props.onChangeValue) {
+                  return;
+                }
+
+                if (
+                  text && text.length > 0
+                  &&
+                  props.regex && !new RegExp(props.regex).test(text)
+                ) {
+                  return;
+                }
+
+                props.onChangeValue({
+                  ...props.info,
+                  value: text,
+                })
+              }}
               disableBottomLine
               disableMessageView
              />
@@ -213,6 +233,8 @@ class Tag extends Component {
       return null;
     }
 
+    let style = {};
+
     let disabled = false;
 
     if (
@@ -233,12 +255,27 @@ class Tag extends Component {
       disabled = true;
     }
 
+    if (
+      (props.type && props.type.toLowerCase() === 'input'.toLowerCase())
+      ||
+      (props.type && props.type.toLowerCase() === 'range'.toLowerCase())
+      ||
+      (props.leftAccessoryType && props.leftAccessoryType.toLowerCase() === 'check'.toLowerCase())
+    ) {
+      style = {
+        ...style,
+        backgroundColor: Theme.colors.general.transparent,
+        borderWidth: 1,
+        borderColor: Theme.colors.background.secondary,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
           <SingleTouch
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}
+            style={[styles.container, style, props.style]}
             disabled={disabled}
             onPress={() => {
               if (!props.onPress) {
@@ -365,10 +402,14 @@ Tag.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   text: PropTypes.string,
+  regex: PropTypes.string,
+  maxLength: PropTypes.number,
+  keyboardType: PropTypes.string,
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
   onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
+  onChangeText: PropTypes.func,
 };
 
 Tag.defaultProps = {
@@ -381,10 +422,14 @@ Tag.defaultProps = {
   type: undefined,
   value: undefined,
   text: undefined,
+  regex: undefined,
+  maxLength: undefined,
+  keyboardType: undefined,
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,
   onPress: undefined,
   onPressRightAccessory: undefined,
+  onChangeValue: undefined,
 };
 
 function mapStateToProps(state) {

@@ -24,8 +24,8 @@ export default function recentSearchesSectionReducer(state = initialState, actio
       };
 
     case RecentSearchesSectionActionType.TAGS_DELETE_GROUP_FRAME:
-      let tags = state.tags.filter((item) => {
-        return item.groupFrameId !== action.groupFrameId;
+      let tags = state.tags.filter((groupFrame) => {
+        return groupFrame.groupFrameId !== action.groupFrameId;
       });
 
       return {

@@ -17,8 +17,6 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
-
 class Button extends Component {
   constructor(props: any) {
     super(props);
@@ -47,10 +45,6 @@ class Button extends Component {
   renderImageIfNeeded = () => {
     const { props } = this;
 
-    if (!props.source) {
-      return;
-    }
-
     let style = {};
 
     if (
@@ -65,15 +59,30 @@ class Button extends Component {
       }
     }
 
+    let children = (
+      <Image
+        style={[styles.image, style, props.imageStyle]}
+        source={props.source}
+        resizeMode={props.resizeMode}
+      />
+    );
+
+    if (!props.source) {
+      if (!props.text) {
+        children = (
+          <View style={[styles.image, style, props.imageStyle]} />
+        );
+      } else {
+        return;
+      }
+    }
+
     return (
       <Translation>
         {(t) => (
-          <Image
-            style={[styles.image, style, props.imageStyle]}
-            defaultSource={preview}
-            source={props.source}
-            resizeMode={props.resizeMode}
-          />
+          <View style={styles.imageContainer}>
+            {children}
+          </View>
         )}
       </Translation>
     );
@@ -115,7 +124,7 @@ class Button extends Component {
             style={[styles.container, props.style]}
             disabled={props.disabled}
             onPress={props.onPress}>
-            <View style={[styles.button, style, disabledStyle]}>
+            <View style={[styles.button, style, disabledStyle, props.buttonStyle]}>
               {this.renderImageIfNeeded()}
               {this.renderTextIfNeeded()}
             </View>
@@ -147,6 +156,9 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     textTransform: 'uppercase',
   },
+  imageContainer: {
+    // backgroundColor: '#f00',
+  },
   image: {
     width: 44,
     height: 44,
@@ -156,6 +168,7 @@ const styles = StyleSheet.create({
 Button.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
+  buttonStyle: ViewPropTypes.style,
   textStyle: TextPropTypes.style,
   imageStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
@@ -174,6 +187,7 @@ Button.propTypes = {
 Button.defaultProps = {
   onLayout: undefined,
   style: undefined,
+  buttonStyle: undefined,
   textStyle: undefined,
   imageStyle: undefined,
   hidden: false,

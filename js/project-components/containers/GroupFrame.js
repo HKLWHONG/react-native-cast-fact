@@ -62,11 +62,18 @@ class GroupFrame extends Component {
       <Translation>
         {(t) => (
           <Button
-            style={styles.checkAccessoryButton}
+            buttonStyle={styles.checkAccessoryButton}
             imageStyle={styles.checkAccessoryButtonImage}
             type="small"
-            source={ic_checkmark}
+            source={props.checked ? ic_checkmark : undefined}
             resizeMode="center"
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory(props.info);
+            }}
           />
         )}
       </Translation>
@@ -177,7 +184,12 @@ const styles = StyleSheet.create({
   },
   checkAccessoryButton: {
     // backgroundColor: '#0f0',
+    height: 30,
     aspectRatio: 1,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    marginHorizontal: 0,
+    marginVertical: 0,
   },
   checkAccessoryButtonImage: {
     width: 21,
@@ -195,6 +207,7 @@ GroupFrame.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   rightAccessoryType: PropTypes.string,
+  checked: PropTypes.bool,
   onPressRightAccessory: PropTypes.func,
 };
 
@@ -205,6 +218,7 @@ GroupFrame.defaultProps = {
   style: undefined,
   hidden: false,
   rightAccessoryType: undefined,
+  checked: false,
   onPressRightAccessory: undefined,
 };
 

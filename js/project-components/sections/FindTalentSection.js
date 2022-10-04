@@ -12,6 +12,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import { connect } from 'react-redux';
 import {
   FindTalentSectionAction,
+  CriteriaSectionAction,
 } from '../../redux';
 
 import {
@@ -27,7 +28,7 @@ import {
   RangeTag,
 } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, StringProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -47,6 +48,130 @@ class FindTalentSection extends Component {
       return null;
     }
 
+    let children = (
+      Array(props.tags.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          let groupFrame = props.tags[i];
+
+          // console.log('[groupFrame] ', groupFrame);
+
+          let style = {};
+
+          if (i > 0) {
+            style = {
+              ...style,
+              marginTop: 16,
+            };
+          }
+
+          let tags = (
+            Array(groupFrame.data.length)
+              .fill()
+              .map((_, t) => t)
+              .map((t) => {
+                let tag = groupFrame.data[t];
+
+                // console.log('[tag.tagId]', tag.tagId);
+
+                if (tag.type && tag.type.toLowerCase() === 'range'.toLowerCase()) {
+                  return (
+                    <RangeTag
+                      key={t.toString()}
+                      info={{
+                        groupFrameId: groupFrame.groupFrameId,
+                        tagId: tag.tagId,
+                      }}
+                      fromValue={tag.fromValue}
+                      toValue={tag.toValue}
+                      regexOfFromValue={tag.regexOfFromValue}
+                      regexOfToValue={tag.regexOfToValue}
+                      maxLengthOfFromValue={parseInt(tag.maxLengthOfFromValue)}
+                      maxLengthOfToValue={parseInt(tag.maxLengthOfToValue)}
+                      onChangeFromValue={({ groupFrameId, tagId, value }) => {
+                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [value] ${value}`);
+
+                        props.updateTag(groupFrameId, tagId, { fromValue: value });
+                      }}
+                      onChangeToValue={({ groupFrameId, tagId, value }) => {
+                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [value] ${value}`);
+
+                        props.updateTag(groupFrameId, tagId, { toValue: value });
+                      }}
+                    />
+                  );
+                }
+
+                return (
+                  <Tag
+                    key={t.toString()}
+                    info={{
+                      groupFrameId: groupFrame.groupFrameId,
+                      tagId: tag.tagId,
+                    }}
+                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    type={tag.type}
+                    value={tag.value}
+                    text={tag.text}
+                    keyboardType={tag.keyboardType}
+                    regex={tag.regex}
+                    maxLength={parseInt(tag.maxLength)}
+                    leftAccessoryType={tag.leftAccessoryType}
+                    rightAccessoryType={tag.rightAccessoryType}
+                    checked={StringProcessor.toBoolean(tag.checked)}
+                    onPress={({ groupFrameId, tagId }) => {
+                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+
+                      if (
+                        tag.leftAccessoryType
+                        &&
+                        tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
+                      ) {
+                        let checked = StringProcessor.toBoolean(tag.checked);
+
+                        props.updateTag(groupFrameId, tagId, { checked: (!checked).toString() });
+                      } else {
+                        props.addCriteriaTag(tag);
+                      }
+                    }}
+                    onChangeValue={({ groupFrameId, tagId, value }) => {
+                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+
+                      props.updateTag(groupFrameId, tagId, { value: value });
+                    }}
+                  />
+                );
+              })
+          );
+
+          return (
+            <CollapsibleSection
+              key={i.toString()}
+              style={style}
+              text={groupFrame.label}>
+              <GroupFrame
+                info={{
+                  groupFrameId: groupFrame.groupFrameId,
+                }}
+                style={{ borderColor: Theme.colors.general.transparent }}
+                rightAccessoryType={groupFrame.rightAccessoryType}
+                checked={StringProcessor.toBoolean(groupFrame.checked)}
+                onPressRightAccessory={({ groupFrameId }) => {
+                  // console.log('[groupFrameId] ', groupFrameId);
+
+                  let checked = StringProcessor.toBoolean(groupFrame.checked);
+
+                  props.updateGroupFrame(groupFrameId, { checked: (!checked).toString() });
+                }}
+                >
+                {tags}
+              </GroupFrame>
+            </CollapsibleSection>
+          );
+        })
+    );
+
     return (
       <Translation>
         {(t) => (
@@ -55,102 +180,7 @@ class FindTalentSection extends Component {
             style={[styles.container, props.style]}
             iconSource={ic_search_gray}
             label={props.label}>
-            <CollapsibleSection text={'Gender'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Female'} />
-                <Tag text={'Gender-Noconforming'} />
-                <Tag text={'Non-Binary'} />
-                <Tag text={'Trans Female'} />
-                <Tag text={'Agender'} />
-                <Tag text={'Androgyne'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Ethnicities'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Body Type'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag text={'Option A'} />
-                <Tag text={'Option B'} />
-                <Tag text={'Option C'} />
-                <Tag text={'Option D'} />
-                <Tag text={'Option E'} />
-                <Tag text={'Option F'} />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Eye Color'}>
-              <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.amber }}
-                  text={'Amber'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.brown }}
-                  text={'Brown'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.gray }}
-                  text={'Gray'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.green }}
-                  text={'Green'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.hazel }}
-                  text={'Hazel'}
-                  leftAccessoryType="dot"
-                />
-                <Tag
-                  dotStyle={{ backgroundColor: Theme.colors.dot.red }}
-                  text={'Red'}
-                  leftAccessoryType="dot"
-                />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Height'}>
-              <GroupFrame
-                style={{ borderColor: Theme.colors.general.transparent }}
-                rightAccessoryType="check">
-                <Tag
-                  type="input"
-                  value={'170'}
-                  text={'CM'}
-                />
-                <Tag
-                  text={'Deviation'}
-                  leftAccessoryType="check"
-                />
-              </GroupFrame>
-            </CollapsibleSection>
-            <CollapsibleSection
-              style={{ marginTop: 16 }}
-              text={'Age'}>
-              <GroupFrame
-                style={{ borderColor: Theme.colors.general.transparent }}
-                rightAccessoryType="check">
-                <RangeTag fromValue={'18'} toValue={'25'} />
-              </GroupFrame>
-            </CollapsibleSection>
+            {children}
           </Section>
         )}
       </Translation>
@@ -180,13 +210,16 @@ FindTalentSection.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-
+    tags: state.findTalentSectionReducer.tags,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FindTalentSectionAction.reset(...args)),
+    updateGroupFrame: (...args) => dispatch(FindTalentSectionAction.updateGroupFrame(...args)),
+    updateTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
+    addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
   };
 }
 
