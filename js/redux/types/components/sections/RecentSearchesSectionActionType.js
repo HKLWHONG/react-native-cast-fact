@@ -1,0 +1,9 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+export const RESET = '@RECENT_SEARCHES_SECTION_RESET';
+
+export const TAGS = '@RRECENT_SEARCHES_SECTION_TAGS';
+export const TAGS_DELETE_GROUP_FRAME = '@RRECENT_SEARCHES_SECTION_TAGS_DELETE_GROUP_FRAME';

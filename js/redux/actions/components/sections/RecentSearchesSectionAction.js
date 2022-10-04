@@ -3,11 +3,11 @@
  * @flow strict-local
  */
 
-import { RecentSearchesActionType } from '../../../types';
+import { RecentSearchesSectionActionType } from '../../../types';
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: RecentSearchesActionType.RESET,
+    type: RecentSearchesSectionActionType.RESET,
   });
 
   return Promise.resolve();
@@ -15,7 +15,7 @@ export const reset = () => (dispatch) => {
 
 export const setTags = (tags) => (dispatch) => {
   dispatch({
-    type: RecentSearchesActionType.TAGS,
+    type: RecentSearchesSectionActionType.TAGS,
     tags: tags,
   });
 
@@ -24,7 +24,7 @@ export const setTags = (tags) => (dispatch) => {
 
 export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
   dispatch({
-    type: RecentSearchesActionType.TAGS_DELETE_GROUP_FRAME,
+    type: RecentSearchesSectionActionType.TAGS_DELETE_GROUP_FRAME,
     groupFrameId: groupFrameId,
   });
 
@@ -33,7 +33,7 @@ export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
 
 export const deleteTags = () => (dispatch) => {
   dispatch({
-    type: RecentSearchesActionType.TAGS,
+    type: RecentSearchesSectionActionType.TAGS,
     tags: [],
   });
 

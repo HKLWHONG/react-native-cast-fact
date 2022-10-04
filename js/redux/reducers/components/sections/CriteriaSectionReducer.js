@@ -3,35 +3,39 @@
  * @flow strict-local
  */
 
-import { CommonActionType, CriteriaActionType } from '../../../types';
+import { CommonActionType, CriteriaSectionActionType } from '../../../types';
 
 const initialState = {
   text: '',
   tags: [],
 };
 
-export default function criteriaReducer(state = initialState, action) {
+export default function criteriaSectionReducer(state = initialState, action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
       return initialState;
 
-    case CriteriaActionType.RESET:
+    case CriteriaSectionActionType.RESET:
       return initialState;
 
-    case CriteriaActionType.TEXT:
+    case CriteriaSectionActionType.TEXT:
       return {
         ...state,
         text: action.text || '',
       };
 
-    case CriteriaActionType.TAGS:
+    case CriteriaSectionActionType.TAGS:
       return {
         ...state,
         tags: action.tags || [],
       };
 
-    case CriteriaActionType.TAGS_ADD_TAG:
+    case CriteriaSectionActionType.TAGS_ADD_TAG:
     {
+      if (!action.tag) {
+        return;
+      }
+
       let tags = state.tags.filter((item) => {
         return item.groupFrameId === '0';
       });
@@ -57,11 +61,17 @@ export default function criteriaReducer(state = initialState, action) {
           }
         });
 
-        tags[0].data.push({
+        let tag = {
           ...action.tag,
           tagId: (maxTagId + 1).toString(),
           rightAccessoryType: 'delete',
-        })
+        };
+
+        if (action.tag.isManual) {
+          tags[0].data.splice(0, 0, tag);
+        } else {
+          tags[0].data.push(tag);
+        }
       }
 
       return {
@@ -70,7 +80,7 @@ export default function criteriaReducer(state = initialState, action) {
       };
     }
 
-    case CriteriaActionType.TAGS_DELETE_TAG:
+    case CriteriaSectionActionType.TAGS_DELETE_TAG:
     {
       let tags = state.tags.map((item) => {
         if (item.groupFrameId === action.groupFrameId) {

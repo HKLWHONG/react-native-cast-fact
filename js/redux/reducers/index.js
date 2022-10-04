@@ -11,9 +11,10 @@ import {
 } from './app';
 
 import {
-  criteriaReducer,
   feedListReducer,
-  recentSearchesReducer,
+  searchBarReducer,
+  criteriaSectionReducer,
+  recentSearchesSectionReducer,
 } from './components';
 
 import {
@@ -25,19 +26,24 @@ import {
   feedReducer,
   launchReducer,
   loginReducer,
+  searchReducer,
+  searchResultReducer,
   signUpReducer,
 } from './views';
 
 const reducers = combineReducers({
   appReducer,
   dataReducer,
-  criteriaReducer,
   feedListReducer,
-  recentSearchesReducer,
+  searchBarReducer,
+  criteriaSectionReducer,
+  recentSearchesSectionReducer,
   drawerReducer,
   feedReducer,
   launchReducer,
   loginReducer,
+  searchReducer,
+  searchResultReducer,
   mainTabReducer,
   signUpReducer,
 });

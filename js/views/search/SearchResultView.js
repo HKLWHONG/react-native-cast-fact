@@ -8,7 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
-  FeedAction,
+  SearchResultAction,
 } from '../../redux';
 
 import {
@@ -23,7 +23,7 @@ import {
 import {
   Separator,
   Section,
-  SearchBar,
+  CriteriaSection,
   ProfileList,
   FeedList,
   GroupFrame,
@@ -36,7 +36,6 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
-const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
 
 class SearchResultView extends BaseComponent {
   constructor(props) {
@@ -118,30 +117,62 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    // // console.log('[props.criteriaTags]', props.criteriaTags);
+    //
+    // let children = (
+    //   Array(props.criteriaTags.length)
+    //     .fill()
+    //     .map((_, i) => i)
+    //     .map((i) => {
+    //       let groupFrame = props.criteriaTags[i];
+    //
+    //       let tags = (
+    //         Array(groupFrame.data.length)
+    //           .fill()
+    //           .map((_, t) => t)
+    //           .map((t) => {
+    //             let tag = groupFrame.data[t];
+    //
+    //             // console.log('[tag.tagId]', tag.tagId);
+    //
+    //             return (
+    //               <Tag
+    //                 key={t.toString()}
+    //                 info={{
+    //                   groupFrameId: groupFrame.groupFrameId,
+    //                   tagId: tag.tagId,
+    //                 }}
+    //                 dotStyle={{ backgroundColor: tag.dotColor }}
+    //                 text={tag.text}
+    //                 leftAccessoryType={tag.leftAccessoryType}
+    //                 rightAccessoryType={tag.rightAccessoryType}
+    //                 onPressRightAccessory={({ groupFrameId, tagId }) => {
+    //                   // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+    //
+    //                   props.deleteCriteriaTag(groupFrameId, tagId);
+    //                 }}
+    //               />
+    //             );
+    //           })
+    //       );
+    //
+    //       return (
+    //         <GroupFrame
+    //           key={i.toString()}
+    //           info={{
+    //             groupFrameId: groupFrame.groupFrameId,
+    //           }}
+    //           style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
+    //           {tags}
+    //         </GroupFrame>
+    //       );
+    //     })
+    // );
+
     return (
       <Translation>
         {(t) => (
-          <Section
-            iconSource={ic_checklist}
-            label={section.title}
-            rightAccessoryType="delete">
-            <GroupFrame style={{ borderColor: Theme.colors.general.transparent }}>
-              <Tag
-                text={'Kc Lui'}
-                rightAccessoryType="delete"
-              />
-              <Tag
-                text={'Male'}
-                rightAccessoryType="delete"
-              />
-              <Tag
-                dotStyle={{ backgroundColor: Theme.colors.dot.blue }}
-                text={'Blue Eye'}
-                leftAccessoryType="dot"
-                rightAccessoryType="delete"
-              />
-            </GroupFrame>
-          </Section>
+          <CriteriaSection label={section.title} />
         )}
       </Translation>
     );
@@ -289,11 +320,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    reset: (...args) => dispatch(SearchResultAction.reset(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultView);

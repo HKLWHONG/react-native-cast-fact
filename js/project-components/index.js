@@ -9,6 +9,7 @@ export * from './dots';
 export * from './drawer-items';
 export * from './lists';
 export * from './search-bars'
+export * from './sections';
 export * from './separators';
 export * from './tags';
 export * from './text-inputs';

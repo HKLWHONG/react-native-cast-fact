@@ -9,8 +9,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   FeedAction,
-  CriteriaAction,
-  RecentSearchesAction,
+  CriteriaSectionAction,
+  RecentSearchesSectionAction,
 } from '../../redux';
 
 import {
@@ -27,6 +27,7 @@ import {
   Separator,
   Section,
   SearchBar,
+  RecentSearchesSection,
   ProfileList,
   FeedList,
   GroupFrame,
@@ -40,7 +41,6 @@ import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
 const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
-const ic_clock = require('../../../assets/images/ic_clock/ic_clock.png');
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
 
@@ -199,83 +199,10 @@ class FeedView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // console.log('[props.tags]', props.tags);
-
-    let children = (
-      Array(props.tags.length)
-        .fill()
-        .map((_, i) => i)
-        .map((i) => {
-          let groupFrame = props.tags[i];
-
-          let style = {};
-
-          if (i > 0) {
-            style = {
-              ...style,
-              marginTop: 8,
-            };
-          }
-
-          let tags = (
-            Array(groupFrame.data.length)
-              .fill()
-              .map((_, t) => t)
-              .map((t) => {
-                let tag = groupFrame.data[t];
-
-                // console.log('[tag.tagId]', tag.tagId);
-
-                return (
-                  <Tag
-                    key={t.toString()}
-                    info={{
-                      groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
-                    }}
-                    dotStyle={{ backgroundColor: tag.dotColor }}
-                    text={tag.text}
-                    leftAccessoryType={tag.leftAccessoryType}
-                    rightAccessoryType={tag.rightAccessoryType}
-                    onPress={({ groupFrameId, tagId }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
-                    }}
-                  />
-                );
-              })
-          );
-
-          return (
-            <GroupFrame
-              key={i.toString()}
-              info={{
-                groupFrameId: groupFrame.groupFrameId,
-              }}
-              style={style}
-              rightAccessoryType="delete"
-              onPressRightAccessory={({ groupFrameId }) => {
-                console.log('[groupFrameId] ', groupFrameId);
-
-                props.deleteRecentSearchesGroupFrame(groupFrameId);
-              }}>
-              {tags}
-            </GroupFrame>
-          );
-        })
-    );
-
     return (
       <Translation>
         {(t) => (
-          <Section
-            iconSource={ic_clock}
-            label={section.title}
-            rightAccessoryType="delete"
-            onPress={() => {
-              props.deleteTags();
-            }}>
-            {children}
-          </Section>
+          <RecentSearchesSection label={section.title} />
         )}
       </Translation>
     );
@@ -488,7 +415,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    tags: state.recentSearchesReducer.tags,
     feedList: state.feedReducer.feedList,
   };
 }
@@ -496,10 +422,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setCriteriaTags: (...args) => dispatch(CriteriaAction.setTags(...args)),
-    setRecentSearchesTags: (...args) => dispatch(RecentSearchesAction.setTags(...args)),
-    deleteRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
-    deleteTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
+    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
+    setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
     setFeedList: (...args) => dispatch(FeedAction.setFeedList(...args)),
     setFeedListFollowed: (...args) => dispatch(FeedAction.setFeedListFollowed(...args)),
     setFeedListLiked: (...args) => dispatch(FeedAction.setFeedListLiked(...args)),

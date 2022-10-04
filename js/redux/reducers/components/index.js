@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
-export * from './criteria';
-export * from './feed-list';
-export * from './recent-searches';
+export * from './lists';
+export * from './search-bars';
+export * from './sections';

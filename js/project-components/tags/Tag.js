@@ -213,6 +213,8 @@ class Tag extends Component {
     let disabled = false;
 
     if (
+      props.disabled
+      ||
       (
         props.type
         &&
@@ -355,6 +357,7 @@ Tag.propTypes = {
   style: ViewPropTypes.style,
   dotStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  disabled: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.string,
   text: PropTypes.string,
@@ -370,6 +373,7 @@ Tag.defaultProps = {
   style: undefined,
   dotStyle: undefined,
   hidden: false,
+  disabled: false,
   type: undefined,
   value: undefined,
   text: undefined,

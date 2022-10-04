@@ -11,7 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 import {
-  CriteriaAction,
+  SearchBarAction,
 } from '../../redux';
 
 import { SingleTouch, TextInput } from '../../components';
@@ -39,12 +39,12 @@ class SearchBar extends Component {
       </View>
     );
 
-    if (state.text && state.text.length) {
+    if (props.text && props.text.length) {
       children = (
         <SingleTouch
           style={styles.leftAccessoryButton}
           disabled={props.disabled}
-          onPress={() => this.onChangeText('')}>
+          onPress={() => props.setText(undefined)}>
           <Image
             style={styles.leftAccessoryButtonImage}
             source={ic_xmark}
@@ -109,6 +109,8 @@ class SearchBar extends Component {
                 }
 
                 props.onPress(props.text)
+
+                props.setText(undefined);
               }}>
               <Image
                 style={styles.rightAccessoryButtonImage}
@@ -219,13 +221,13 @@ SearchBar.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    text: state.criteriaReducer.text,
+    text: state.searchBarReducer.text,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setText: (...args) => dispatch(CriteriaAction.setText(...args)),
+    setText: (...args) => dispatch(SearchBarAction.setText(...args)),
   };
 }
 

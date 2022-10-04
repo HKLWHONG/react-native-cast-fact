@@ -8,8 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
-  CriteriaAction,
-  RecentSearchesAction,
+  SearchAction,
 } from '../../redux';
 
 import {
@@ -25,7 +24,8 @@ import {
   Button,
   Separator,
   Section,
-  SearchBar,
+  CriteriaSection,
+  RecentSearchesSection,
   FeedList,
   CollapsibleSection,
   GroupFrame,
@@ -39,8 +39,6 @@ import { Translation } from 'react-i18next';
 import { Theme, Router } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
-const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
-const ic_clock = require('../../../assets/images/ic_clock/ic_clock.png');
 const ic_search_gray = require('../../../assets/images/ic_search_gray/ic_search_gray.png');
 
 class SearchView extends BaseComponent {
@@ -88,91 +86,16 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // console.log('[props.criteriaTags]', props.criteriaTags);
-
-    let children = (
-      Array(props.criteriaTags.length)
-        .fill()
-        .map((_, i) => i)
-        .map((i) => {
-          let groupFrame = props.criteriaTags[i];
-
-          let tags = (
-            Array(groupFrame.data.length)
-              .fill()
-              .map((_, t) => t)
-              .map((t) => {
-                let tag = groupFrame.data[t];
-
-                // console.log('[tag.tagId]', tag.tagId);
-
-                return (
-                  <Tag
-                    key={t.toString()}
-                    info={{
-                      groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
-                    }}
-                    dotStyle={{ backgroundColor: tag.dotColor }}
-                    text={tag.text}
-                    leftAccessoryType={tag.leftAccessoryType}
-                    rightAccessoryType={tag.rightAccessoryType}
-                    onPressRightAccessory={({ groupFrameId, tagId }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
-
-                      props.deleteCriteriaTag(groupFrameId, tagId);
-                    }}
-                  />
-                );
-              })
-          );
-
-          return (
-            <GroupFrame
-              key={i.toString()}
-              info={{
-                groupFrameId: groupFrame.groupFrameId,
-              }}
-              style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
-              {tags}
-            </GroupFrame>
-          );
-        })
-    );
-
     return (
       <Translation>
         {(t) => (
-          <Section
-            iconSource={ic_checklist}
-            label={section.title}>
-            <SearchBar
-              onPress={(text) => {
-                console.log('[search-text] ', text)
-
-                Router.push(props, "FeedStack", "SearchResult");
-              }}
-            />
-            {children}
-            <View
-              style={{
-                // backgroundColor: '#f00',
-                alignItems: 'center',
-                marginVertical: 8,
-              }}>
-              <Text
-               style={{
-                 // backgroundColor: '#f00',
-                 color: Theme.colors.text.subtitle,
-                 fontSize: 13,
-                 fontFamily: Theme.fonts.light,
-                 letterSpacing: 1.7,
-                 textTransform: 'uppercase',
-               }}>
-               {'More than 100 results.'}
-             </Text>
-            </View>
-          </Section>
+          <CriteriaSection
+            label={section.title}
+            onPressSearchBar={() => {
+              Router.push(props, "FeedStack", "SearchResult");
+            }}
+            enableSearchBar
+            enableResultView />
         )}
       </Translation>
     );
@@ -182,85 +105,12 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // console.log('[props.recentSearchesTags]', props.recentSearchesTags);
-
-    let children = (
-      Array(props.recentSearchesTags.length)
-        .fill()
-        .map((_, i) => i)
-        .map((i) => {
-          let groupFrame = props.recentSearchesTags[i];
-
-          let style = {};
-
-          if (i > 0) {
-            style = {
-              ...style,
-              marginTop: 8,
-            };
-          }
-
-          let tags = (
-            Array(groupFrame.data.length)
-              .fill()
-              .map((_, t) => t)
-              .map((t) => {
-                let tag = groupFrame.data[t];
-
-                // console.log('[tag.tagId]', tag.tagId);
-
-                return (
-                  <Tag
-                    key={t.toString()}
-                    info={{
-                      groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
-                    }}
-                    dotStyle={{ backgroundColor: tag.dotColor }}
-                    text={tag.text}
-                    leftAccessoryType={tag.leftAccessoryType}
-                    rightAccessoryType={tag.rightAccessoryType}
-                    onPress={({ groupFrameId, tagId }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
-
-                      props.addCriteriaTag(tag);
-                    }}
-                  />
-                );
-              })
-          );
-
-          return (
-            <GroupFrame
-              key={i.toString()}
-              info={{
-                groupFrameId: groupFrame.groupFrameId,
-              }}
-              style={style}
-              rightAccessoryType="delete"
-              onPressRightAccessory={({ groupFrameId }) => {
-                // console.log('[groupFrameId] ', groupFrameId);
-
-                props.deleteRecentSearchesGroupFrame(groupFrameId);
-              }}>
-              {tags}
-            </GroupFrame>
-          );
-        })
-    );
-
     return (
       <Translation>
         {(t) => (
-          <Section
-            iconSource={ic_clock}
+          <RecentSearchesSection
             label={section.title}
-            rightAccessoryType="delete"
-            onPress={() => {
-              props.deleteRecentSearchesTags();
-            }}>
-            {children}
-          </Section>
+            enableAddCriteriaTag />
         )}
       </Translation>
     );
@@ -382,11 +232,6 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // console.log('[item]', item);
-    // console.log('[index]', index);
-    // console.log('[section]', section);
-    // console.log('[separators]', separators);
-
     switch (section.index) {
       case 0:
         return this.renderCriteriaSection(params);
@@ -490,19 +335,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    text: state.criteriaReducer.text,
-    criteriaTags: state.criteriaReducer.tags,
-    recentSearchesTags: state.recentSearchesReducer.tags,
+
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // reset: (...args) => dispatch(FeedAction.reset(...args)),
-    addCriteriaTag: (...args) => dispatch(CriteriaAction.addTag(...args)),
-    deleteCriteriaTag: (...args) => dispatch(CriteriaAction.deleteTag(...args)),
-    deleteRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesAction.deleteGroupFrame(...args)),
-    deleteRecentSearchesTags: (...args) => dispatch(RecentSearchesAction.deleteTags(...args)),
+    reset: (...args) => dispatch(SearchAction.reset(...args)),
   };
 }
 
