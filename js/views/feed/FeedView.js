@@ -66,23 +66,23 @@ class FeedView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    props.setFeedList(this.testAddFeedData(props.feedList, 5));
+    props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
   };
 
-  testAddFeedData = (list, num) => {
-    const { state } = this;
+  testAddFeedData = (data, num) => {
+    const { props } = this;
 
-    let data = [];
+    let newData = [];
 
     for (let i = 0; i < num; i += 1) {
-      data.push(
+      newData.push(
         {
           feedId: i.toString(),
-          uri: i % 2 == 0 ? 'https://kcplace.com/preview.png' : 'https://kcplace.com/preview2.png',
+          uri: i % 2 === 0 ? 'https://kcplace.com/preview.png' : 'https://kcplace.com/preview2.png',
           name: 'Wong Siu Yu',
           title: 'Camera',
           isFollowed: false,
@@ -92,7 +92,7 @@ class FeedView extends BaseComponent {
       );
     }
 
-    return [...list, ...data];
+    return [...data, ...newData];
   };
 
   renderHeader = () => {
@@ -188,7 +188,7 @@ class FeedView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    props.setFeedList(this.testAddFeedData(props.feedList, 5));
+    props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   renderFeedSection = (params) => {
@@ -203,24 +203,24 @@ class FeedView extends BaseComponent {
             iconSource={ic_stack}
             label={section.title}>
             <FeedList
-              data={props.feedList}
+              data={props.feeds}
               onPressCalendar={({ item, index, separators }) => {
                 // TODO
               }}
               onPressFollow={({ item, index, separators }) => {
                 // console.log('[item.isFollowed] ', item.isFollowed);
 
-                props.setFeedListFollowed(item.feedId, !item.isFollowed);
+                props.updateFeed(item.feedId, { isFollowed: !item.isFollowed });
               }}
               onPressLike={({ item, index, separators }) => {
                 // console.log('[item.isLiked] ', item.isLiked);
 
-                props.setFeedListLiked(item.feedId, !item.isLiked);
+                props.updateFeed(item.feedId, { isLiked: !item.isLiked });
               }}
               onPressBookmark={({ item, index, separators }) => {
                 // console.log('[item.isBookmarked] ', item.isBookmarked);
 
-                props.setFeedListBookmarked(item.feedId, !item.isBookmarked);
+                props.updateFeed(item.feedId, { isBookmarked: !item.isBookmarked });
               }}
               onEndReached={this.onEndReached}
             />
@@ -349,17 +349,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    feedList: state.feedReducer.feedList,
+    feeds: state.feedReducer.feeds,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setFeedList: (...args) => dispatch(FeedAction.setFeedList(...args)),
-    setFeedListFollowed: (...args) => dispatch(FeedAction.setFeedListFollowed(...args)),
-    setFeedListLiked: (...args) => dispatch(FeedAction.setFeedListLiked(...args)),
-    setFeedListBookmarked: (...args) => dispatch(FeedAction.setFeedListBookmarked(...args)),
+    setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
+    updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
   };
 }
 

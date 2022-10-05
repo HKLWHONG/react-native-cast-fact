@@ -13,40 +13,20 @@ export const reset = () => (dispatch) => {
   return Promise.resolve();
 };
 
-export const setFeedList = (feedList) => (dispatch) => {
+export const setFeeds = (feeds) => (dispatch) => {
   dispatch({
-    type: FeedActionType.FEED_LIST,
-    feedList: feedList || [],
+    type: FeedActionType.FEEDS,
+    feeds: feeds || [],
   });
 
   return Promise.resolve();
 };
 
-export const setFeedListFollowed = (feedId, isFollowed) => (dispatch) => {
+export const updateFeed = (feedId, object) => (dispatch) => {
   dispatch({
-    type: FeedActionType.FEED_LIST_SET_FOLLOWED,
+    type: FeedActionType.FEEDS_UPDATE_FEED,
     feedId: feedId,
-    isFollowed: isFollowed,
-  });
-
-  return Promise.resolve();
-};
-
-export const setFeedListLiked = (feedId, isLiked) => (dispatch) => {
-  dispatch({
-    type: FeedActionType.FEED_LIST_SET_LIKED,
-    feedId: feedId,
-    isLiked: isLiked,
-  });
-
-  return Promise.resolve();
-};
-
-export const setFeedListBookmarked = (feedId, isBookmarked) => (dispatch) => {
-  dispatch({
-    type: FeedActionType.FEED_LIST_SET_BOOKMARKED,
-    feedId: feedId,
-    isBookmarked: isBookmarked,
+    object: object,
   });
 
   return Promise.resolve();

@@ -46,11 +46,27 @@ export default function recentSearchesSectionReducer(state = initialState, actio
         rightAccessoryType: 'delete',
       };
 
-      tags.push({
+      /*
+       * sorting from new to old
+       */
+      tags.splice(0, 0, {
         ...action.groupFrame,
         groupFrameId: (maxGroupFrameId + 1).toString(),
         rightAccessoryType: 'delete',
       });
+
+      tags = tags.filter((groupFrame, index) => {
+        return index >= 0 && index < 2;
+      });
+
+      /*
+       * sorting from old to new
+       */
+      // tags.push({
+      //   ...action.groupFrame,
+      //   groupFrameId: (maxGroupFrameId + 1).toString(),
+      //   rightAccessoryType: 'delete',
+      // });
 
       return {
         ...state,

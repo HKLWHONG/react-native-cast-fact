@@ -28,7 +28,7 @@ import {
   RangeTag,
 } from '../../project-components';
 
-import { Theme, StringProcessor } from '../../utils';
+import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -119,7 +119,7 @@ class FindTalentSection extends Component {
                     maxLength={parseInt(tag.maxLength)}
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
-                    checked={StringProcessor.toBoolean(tag.checked)}
+                    checked={tag.checked}
                     onPress={({ groupFrameId, tagId }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
 
@@ -128,9 +128,7 @@ class FindTalentSection extends Component {
                         &&
                         tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
                       ) {
-                        let checked = StringProcessor.toBoolean(tag.checked);
-
-                        props.updateTag(groupFrameId, tagId, { checked: (!checked).toString() });
+                        props.updateTag(groupFrameId, tagId, { checked: !tag.checked });
                       } else {
                         if (
                           groupFrame.label
@@ -167,13 +165,11 @@ class FindTalentSection extends Component {
                 }}
                 style={{ borderColor: Theme.colors.general.transparent }}
                 rightAccessoryType={groupFrame.rightAccessoryType}
-                checked={StringProcessor.toBoolean(groupFrame.checked)}
+                checked={groupFrame.checked}
                 onPressRightAccessory={({ groupFrameId }) => {
                   // console.log('[groupFrameId] ', groupFrameId);
 
-                  let checked = StringProcessor.toBoolean(groupFrame.checked);
-
-                  props.updateGroupFrame(groupFrameId, { checked: (!checked).toString() });
+                  props.updateGroupFrame(groupFrameId, { checked: !groupFrame.checked });
                 }}
                 >
                 {tags}

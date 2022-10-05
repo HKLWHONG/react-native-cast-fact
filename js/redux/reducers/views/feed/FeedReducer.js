@@ -6,7 +6,7 @@
 import { CommonActionType, FeedActionType } from '../../../types';
 
 const initialState = {
-  feedList: [],
+  feeds: [],
 };
 
 export default function feedReducer(state = initialState, action) {
@@ -17,64 +17,31 @@ export default function feedReducer(state = initialState, action) {
     case FeedActionType.RESET:
       return initialState;
 
-    case FeedActionType.FEED_LIST:
+    case FeedActionType.FEEDS:
       return {
         ...state,
-        feedList: action.feedList,
+        feeds: action.feeds,
       };
 
-    case FeedActionType.FEED_LIST_SET_FOLLOWED:
-      // console.log('[action.feedId]', action.feedId);
-      // console.log('[action.isFollowed]', action.isFollowed);
-
-      let feedList = state.feedList.map((item) => {
-        if (item.feedId === action.feedId) {
-          item.isFollowed = action.isFollowed;
-        }
-
-        return item;
-      });
-
-      return {
-        ...state,
-        feedList: feedList,
-      };
-
-    case FeedActionType.FEED_LIST_SET_LIKED:
+    case FeedActionType.FEEDS_UPDATE_FEED:
     {
       // console.log('[action.feedId]', action.feedId);
-      // console.log('[action.isLiked]', action.isLiked);
+      // console.log('[action.object]', action.object);
 
-      let feedList = state.feedList.map((item) => {
-        if (item.feedId === action.feedId) {
-          item.isLiked = action.isLiked;
+      let feeds = state.feeds.map((feed) => {
+        if (feed.feedId === action.feedId) {
+          feed = {
+            ...feed,
+            ...action.object,
+          };
         }
 
-        return item;
+        return feed;
       });
 
       return {
         ...state,
-        feedList: feedList,
-      };
-    }
-
-    case FeedActionType.FEED_LIST_SET_BOOKMARKED:
-    {
-      // console.log('[action.feedId]', action.feedId);
-      // console.log('[action.isBookmarked]', action.isBookmarked);
-
-      let feedList = state.feedList.map((item) => {
-        if (item.feedId === action.feedId) {
-          item.isBookmarked = action.isBookmarked;
-        }
-
-        return item;
-      });
-
-      return {
-        ...state,
-        feedList: feedList,
+        feeds: feeds,
       };
     }
 

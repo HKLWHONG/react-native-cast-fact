@@ -41,9 +41,7 @@ class SearchResultView extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state={
-      data: [],
-    };
+    this.state={};
   }
 
   componentDidMount() {
@@ -63,42 +61,42 @@ class SearchResultView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    this.testAddResultData(10);
+    props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
   };
 
-  testAddResultData = (num) => {
-    const { state } = this;
+  testAddFeedData = (data, num) => {
+    const { props } = this;
 
-    let data = [];
+    let newData = [];
 
     for (let i = 0; i < num; i += 1) {
       let uri1 = 'https://kcplace.com/preview.png';
       let uri2 = 'https://kcplace.com/preview2.png';
 
-      data.push(
+      newData.push(
         {
+          feedId: i.toString(),
           uri: uri1,
           uris: [
             { uri: uri1 },
             { uri: uri2 },
             { uri: uri1 },
-            { uri: uri1 },
             { uri: uri2 },
             { uri: uri1 },
+            { uri: uri2 },
           ],
           name: 'Cath Wong 黃妍',
           title: 'Photographer',
+          isFollowed: false,
         },
       );
     }
 
-    this.setState({
-      data: [...state.data, ...data],
-    });
+    return [...data, ...newData];
   };
 
   renderHeader = () => {
@@ -117,58 +115,6 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // // console.log('[props.criteriaTags]', props.criteriaTags);
-    //
-    // let children = (
-    //   Array(props.criteriaTags.length)
-    //     .fill()
-    //     .map((_, i) => i)
-    //     .map((i) => {
-    //       let groupFrame = props.criteriaTags[i];
-    //
-    //       let tags = (
-    //         Array(groupFrame.data.length)
-    //           .fill()
-    //           .map((_, t) => t)
-    //           .map((t) => {
-    //             let tag = groupFrame.data[t];
-    //
-    //             // console.log('[tag.tagId]', tag.tagId);
-    //
-    //             return (
-    //               <Tag
-    //                 key={t.toString()}
-    //                 info={{
-    //                   groupFrameId: groupFrame.groupFrameId,
-    //                   tagId: tag.tagId,
-    //                 }}
-    //                 dotStyle={{ backgroundColor: tag.dotColor }}
-    //                 text={tag.text}
-    //                 leftAccessoryType={tag.leftAccessoryType}
-    //                 rightAccessoryType={tag.rightAccessoryType}
-    //                 onPressRightAccessory={({ groupFrameId, tagId }) => {
-    //                   // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
-    //
-    //                   props.deleteCriteriaTag(groupFrameId, tagId);
-    //                 }}
-    //               />
-    //             );
-    //           })
-    //       );
-    //
-    //       return (
-    //         <GroupFrame
-    //           key={i.toString()}
-    //           info={{
-    //             groupFrameId: groupFrame.groupFrameId,
-    //           }}
-    //           style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
-    //           {tags}
-    //         </GroupFrame>
-    //       );
-    //     })
-    // );
-
     return (
       <Translation>
         {(t) => (
@@ -179,12 +125,14 @@ class SearchResultView extends BaseComponent {
   };
 
   onEndReached = () => {
+    const { props } = this;
+
     console.log('[onEndReached]');
 
-    this.testAddResultData(5);
+    props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
-  renderResultSection = (params) => {
+  renderFeedSection = (params) => {
     const { props, state } = this;
     const { item, index, section, separators } = params;
 
@@ -197,11 +145,14 @@ class SearchResultView extends BaseComponent {
             label={section.title}>
             <FeedList
               type="simple"
-              data={state.data}
-              onPressItem={({ item, index, separators }) => {
-                console.log('[item] ', item);
-                console.log('[index] ', index);
-                console.log('[separators] ', separators);
+              data={props.feeds}
+              onPressCalendar={({ item, index, separators }) => {
+                // TODO
+              }}
+              onPressFollow={({ item, index, separators }) => {
+                // console.log('[item.isFollowed] ', item.isFollowed);
+
+                props.updateFeed(item.feedId, { isFollowed: !item.isFollowed });
               }}
               onEndReached={this.onEndReached}
             />
@@ -215,17 +166,12 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    // console.log('[item]', item);
-    // console.log('[index]', index);
-    // console.log('[section]', section);
-    // console.log('[separators]', separators);
-
     switch (section.index) {
       case 0:
         return this.renderCriteriaSection(params);
 
       case 1:
-        return this.renderResultSection(params);
+        return this.renderFeedSection(params);
 
       default:
         break;
@@ -321,13 +267,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-
+    feeds: state.searchResultReducer.feeds,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultAction.reset(...args)),
+    setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
+    updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
   };
 }
 

@@ -12,3 +12,22 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve();
 };
+
+export const setFeeds = (feeds) => (dispatch) => {
+  dispatch({
+    type: SearchResultActionType.FEEDS,
+    feeds: feeds || [],
+  });
+
+  return Promise.resolve();
+};
+
+export const updateFeed = (feedId, object) => (dispatch) => {
+  dispatch({
+    type: SearchResultActionType.FEEDS_UPDATE_FEED,
+    feedId: feedId,
+    object: object,
+  });
+
+  return Promise.resolve();
+};

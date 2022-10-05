@@ -41,7 +41,6 @@ import { Translation } from 'react-i18next';
 import {
   Theme,
   Router,
-  StringProcessor,
 } from '../../utils';
 
 const preview = require('../../../assets/images/preview/preview.png');
@@ -82,7 +81,7 @@ class SearchView extends BaseComponent {
       return (
         groupFrame.label.toLowerCase() === 'height'.toLowerCase()
         &&
-        StringProcessor.toBoolean(groupFrame.checked)
+        groupFrame.checked
       )
     });
 
@@ -92,7 +91,7 @@ class SearchView extends BaseComponent {
       if (tag && tag.value && tag.value.length > 0) {
         let deviationTag = heightTags[0].data[1];
 
-        if (deviationTag && StringProcessor.toBoolean(deviationTag.checked)) {
+        if (deviationTag && deviationTag.checked) {
           props.addCriteriaTag({
             ...tag,
             text: '~' + tag.value + tag.text,
@@ -114,7 +113,7 @@ class SearchView extends BaseComponent {
       return (
         groupFrame.label.toLowerCase() === 'age'.toLowerCase()
         &&
-        StringProcessor.toBoolean(groupFrame.checked)
+        groupFrame.checked
       )
     });
 

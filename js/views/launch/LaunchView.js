@@ -267,7 +267,7 @@ class LaunchView extends BaseComponent {
         groupFrameId: '4',
         label: 'Height',
         rightAccessoryType: 'check',
-        checked: 'false',
+        checked: false,
         data: [
           {
             tagId: '0',
@@ -282,7 +282,7 @@ class LaunchView extends BaseComponent {
             tagId: '1',
             text: 'Deviation',
             leftAccessoryType: 'check',
-            checked: 'false',
+            checked: false,
           },
         ],
       },
@@ -290,7 +290,7 @@ class LaunchView extends BaseComponent {
         groupFrameId: '5',
         label: 'Age',
         rightAccessoryType: 'check',
-        checked: 'false',
+        checked: false,
         data: [
           {
             tagId: '0',

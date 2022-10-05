@@ -117,7 +117,7 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    console.log('[item]', item);
+    // console.log('[item]', item);
 
     return (
       <Translation>
@@ -150,7 +150,7 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    console.log('[item.uris]', item.uris);
+    // console.log('[item.uris]', item.uris);
 
     return (
       <Translation>
