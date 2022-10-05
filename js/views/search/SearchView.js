@@ -9,6 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   CriteriaSectionAction,
+  RecentSearchesSectionAction,
   SearchAction,
 } from '../../redux';
 
@@ -76,7 +77,7 @@ class SearchView extends BaseComponent {
 
   addHeightTagIfNeeded = () => {
     const { props } = this;
-    
+
     let heightTags = props.findTalentTags.filter((groupFrame) => {
       return (
         groupFrame.label.toLowerCase() === 'height'.toLowerCase()
@@ -127,6 +128,25 @@ class SearchView extends BaseComponent {
     }
   };
 
+  addRecentSearchesGroupFrame = () => {
+    const { props } = this;
+
+    if (props.criteriaTags.length === 0) {
+      return;
+    }
+
+    let data = props.criteriaTags[0].data.map((tag) => {
+      return {
+        ...tag,
+        rightAccessoryType: undefined,
+      };
+    });
+
+    props.addRecentSearchesGroupFrame({
+      data: data,
+    });
+  };
+
   renderHeader = () => {
     const { props } = this;
 
@@ -151,6 +171,7 @@ class SearchView extends BaseComponent {
             onPressSearchBar={() => {
               this.addHeightTagIfNeeded();
               this.addAgeTagIfNeeded();
+              this.addRecentSearchesGroupFrame();
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -296,6 +317,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    criteriaTags: state.criteriaSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
   };
 }
@@ -304,6 +326,7 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
+    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
   };
 }
 

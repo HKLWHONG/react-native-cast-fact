@@ -40,7 +40,7 @@ export default function criteriaSectionReducer(state = initialState, action) {
         return groupFrame.groupFrameId === '0';
       });
 
-      if (tags.length == 0) {
+      if (tags.length === 0) {
         tags.push({
           groupFrameId: '0',
           data: [
@@ -52,25 +52,35 @@ export default function criteriaSectionReducer(state = initialState, action) {
           ],
         });
       } else {
-        let maxTagId = 0;
-
-        tags[0].data.forEach((tag, i) => {
-          let tagId = parseInt(tag.tagId);
-          if (tagId > maxTagId) {
-            maxTagId = tagId;
-          }
+        let existingTags = tags[0].data.filter((tag) => {
+          return (
+            tag.text && action.tag.text
+            &&
+            tag.text.toLowerCase() === action.tag.text.toLowerCase()
+          );
         });
 
-        let tag = {
-          ...action.tag,
-          tagId: (maxTagId + 1).toString(),
-          rightAccessoryType: 'delete',
-        };
+        if (existingTags.length === 0) {
+          let maxTagId = 0;
 
-        if (action.tag.isManual) {
-          tags[0].data.splice(0, 0, tag);
-        } else {
-          tags[0].data.push(tag);
+          tags[0].data.forEach((tag, i) => {
+            let tagId = parseInt(tag.tagId);
+            if (tagId > maxTagId) {
+              maxTagId = tagId;
+            }
+          });
+
+          let tag = {
+            ...action.tag,
+            tagId: (maxTagId + 1).toString(),
+            rightAccessoryType: 'delete',
+          };
+
+          if (action.tag.isManual) {
+            tags[0].data.splice(0, 0, tag);
+          } else {
+            tags[0].data.push(tag);
+          }
         }
       }
 

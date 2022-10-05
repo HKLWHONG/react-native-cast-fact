@@ -132,7 +132,18 @@ class FindTalentSection extends Component {
 
                         props.updateTag(groupFrameId, tagId, { checked: (!checked).toString() });
                       } else {
-                        props.addCriteriaTag(tag);
+                        if (
+                          groupFrame.label
+                          &&
+                          groupFrame.label.toLowerCase() === 'Eye Color'.toLowerCase()
+                        ) {
+                          props.addCriteriaTag({
+                            ...tag,
+                            text: tag.text + ' Eye',
+                          });
+                        } else {
+                          props.addCriteriaTag(tag);
+                        }
                       }
                     }}
                     onChangeValue={({ groupFrameId, tagId, value }) => {

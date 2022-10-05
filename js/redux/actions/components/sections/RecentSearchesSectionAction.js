@@ -22,6 +22,15 @@ export const setTags = (tags) => (dispatch) => {
   return Promise.resolve();
 };
 
+export const addGroupFrame = (groupFrame) => (dispatch) => {
+  dispatch({
+    type: RecentSearchesSectionActionType.TAGS_ADD_GROUP_FRAME,
+    groupFrame: groupFrame,
+  });
+
+  return Promise.resolve();
+};
+
 export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
   dispatch({
     type: RecentSearchesSectionActionType.TAGS_DELETE_GROUP_FRAME,
