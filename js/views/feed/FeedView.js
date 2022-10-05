@@ -85,9 +85,9 @@ class FeedView extends BaseComponent {
           uri: i % 2 === 0 ? 'https://kcplace.com/preview.png' : 'https://kcplace.com/preview2.png',
           name: 'Wong Siu Yu',
           title: 'Camera',
-          isFollowed: false,
-          isLiked: false,
-          isBookmarked: false,
+          followed: false,
+          liked: false,
+          bookmarked: false,
         },
       );
     }
@@ -208,19 +208,19 @@ class FeedView extends BaseComponent {
                 // TODO
               }}
               onPressFollow={({ item, index, separators }) => {
-                // console.log('[item.isFollowed] ', item.isFollowed);
+                // console.log('[item.followed] ', item.followed);
 
-                props.updateFeed(item.feedId, { isFollowed: !item.isFollowed });
+                props.updateFeed(item.feedId, { followed: !item.followed });
               }}
               onPressLike={({ item, index, separators }) => {
-                // console.log('[item.isLiked] ', item.isLiked);
+                // console.log('[item.liked] ', item.liked);
 
-                props.updateFeed(item.feedId, { isLiked: !item.isLiked });
+                props.updateFeed(item.feedId, { liked: !item.liked });
               }}
               onPressBookmark={({ item, index, separators }) => {
-                // console.log('[item.isBookmarked] ', item.isBookmarked);
+                // console.log('[item.bookmarked] ', item.bookmarked);
 
-                props.updateFeed(item.feedId, { isBookmarked: !item.isBookmarked });
+                props.updateFeed(item.feedId, { bookmarked: !item.bookmarked });
               }}
               onEndReached={this.onEndReached}
             />
@@ -296,6 +296,16 @@ class FeedView extends BaseComponent {
               ]}
               renderItem={this.renderItem}
               SectionSeparatorComponent={this.renderSectionSeparatorComponent}
+              androidRefreshControlColor={Theme.colors.general.black}
+              iosRefreshControlColor={Theme.colors.general.white}
+              refreshing={props.refreshing}
+              onRefresh={(refreshing) => {
+                props.setRefreshing(true);
+
+                setTimeout(() => {
+                  props.setRefreshing(false);
+                }, 500);
+              }}
             />
           </Body>
         )}
@@ -349,6 +359,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    refreshing: state.feedReducer.refreshing,
     feeds: state.feedReducer.feeds,
   };
 }
@@ -356,6 +367,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
     setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
   };

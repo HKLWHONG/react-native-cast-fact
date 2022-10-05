@@ -79,7 +79,7 @@ class FeedList extends Component {
               style={styles.followButtonContainer}
               textStyle={styles.followButton}
               type="small"
-              text={item && item.isFollowed ? t('app.followed') : t('app.follow')}
+              text={item && item.followed ? t('app.followed') : t('app.follow')}
               onPress={() => {
                 if (!props.onPressFollow) {
                   return;
@@ -213,7 +213,7 @@ class FeedList extends Component {
                 style={styles.likeButton}
                 imageStyle={styles.likeButtonImage}
                 type="small"
-                source={item && item.isLiked ? ic_heart_fill : ic_heart}
+                source={item && item.liked ? ic_heart_fill : ic_heart}
                 resizeMode="center"
                 onPress={() => {
                   if (!props.onPressLike) {
@@ -238,7 +238,7 @@ class FeedList extends Component {
                 style={styles.bookmarkButton}
                 imageStyle={styles.bookmarkButtonImage}
                 type="small"
-                source={item && item.isBookmarked ? ic_star_fill : ic_star}
+                source={item && item.bookmarked ? ic_star_fill : ic_star}
                 resizeMode="center"
                 onPress={() => {
                   if (!props.onPressBookmark) {

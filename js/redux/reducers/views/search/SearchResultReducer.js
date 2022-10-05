@@ -6,6 +6,7 @@
 import { CommonActionType, SearchResultActionType } from '../../../types';
 
 const initialState = {
+  refreshing: false,
   feeds: [],
 };
 
@@ -16,6 +17,12 @@ export default function searchResultReducer(state = initialState, action) {
 
     case SearchResultActionType.RESET:
       return initialState;
+
+    case SearchResultActionType.REFRESHING:
+      return {
+        ...state,
+        refreshing: action.refreshing,
+      };
 
     case SearchResultActionType.FEEDS:
       return {

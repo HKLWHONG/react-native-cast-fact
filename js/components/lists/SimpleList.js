@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, RefreshControl } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -47,6 +47,24 @@ export default class SimpleList extends Component {
         }}
         onEndReachedThreshold={0.5}
         onEndReached={props.onEndReached}
+        refreshControl={(() => {
+            if (props.refreshControl) {
+              return props.refreshControl;
+            }
+
+            if (!props.refreshControlColor) {
+              return;
+            }
+
+            return (
+              <RefreshControl
+                colors={[props.androidRefreshControlColor]}
+                tintColor={props.iosRefreshControlColor}
+                refreshing={props.refreshing}
+                onRefresh={props.onRefresh}
+              />
+            );
+        })()}
         onRefresh={props.onRefresh}
         refreshing={props.refreshing}
         bounces={props.bounces}
@@ -73,6 +91,8 @@ SimpleList.propTypes = {
   hidden: PropTypes.bool,
   renderItem: PropTypes.func,
   onEndReached: PropTypes.func,
+  androidRefreshControlColor: PropTypes.string,
+  iosRefreshControlColor: PropTypes.string,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
   bounces: PropTypes.bool,
@@ -86,6 +106,8 @@ SimpleList.defaultProps = {
   hidden: false,
   renderItem: undefined,
   onEndReached: undefined,
+  androidRefreshControlColor: undefined,
+  iosRefreshControlColor: undefined,
   onRefresh: undefined,
   refreshing: false,
   bounces: true,

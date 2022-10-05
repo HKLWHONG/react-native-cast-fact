@@ -13,6 +13,15 @@ export const reset = () => (dispatch) => {
   return Promise.resolve();
 };
 
+export const setRefreshing = (refreshing) => (dispatch) => {
+  dispatch({
+    type: FeedActionType.REFRESHING,
+    refreshing: refreshing,
+  });
+
+  return Promise.resolve();
+};
+
 export const setFeeds = (feeds) => (dispatch) => {
   dispatch({
     type: FeedActionType.FEEDS,

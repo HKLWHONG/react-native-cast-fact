@@ -91,7 +91,7 @@ class SearchResultView extends BaseComponent {
           ],
           name: 'Cath Wong 黃妍',
           title: 'Photographer',
-          isFollowed: false,
+          followed: false,
         },
       );
     }
@@ -150,9 +150,9 @@ class SearchResultView extends BaseComponent {
                 // TODO
               }}
               onPressFollow={({ item, index, separators }) => {
-                // console.log('[item.isFollowed] ', item.isFollowed);
+                // console.log('[item.followed] ', item.followed);
 
-                props.updateFeed(item.feedId, { isFollowed: !item.isFollowed });
+                props.updateFeed(item.feedId, { followed: !item.followed });
               }}
               onEndReached={this.onEndReached}
             />
@@ -209,6 +209,16 @@ class SearchResultView extends BaseComponent {
               ]}
               renderItem={this.renderItem}
               SectionSeparatorComponent={this.renderSectionSeparatorComponent}
+              androidRefreshControlColor={Theme.colors.general.black}
+              iosRefreshControlColor={Theme.colors.general.white}
+              refreshing={props.refreshing}
+              onRefresh={(refreshing) => {
+                props.setRefreshing(true);
+
+                setTimeout(() => {
+                  props.setRefreshing(false);
+                }, 500);
+              }}
             />
           </Body>
         )}
@@ -267,6 +277,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    refreshing: state.searchResultReducer.refreshing,
     feeds: state.searchResultReducer.feeds,
   };
 }
@@ -274,6 +285,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(SearchResultAction.setRefreshing(...args)),
     setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
   };

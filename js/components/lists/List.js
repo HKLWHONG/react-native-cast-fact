@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, SectionList } from 'react-native';
+import { StyleSheet, RefreshControl } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -68,6 +68,28 @@ export default class List extends Component {
         }}
         onEndReachedThreshold={0.5}
         onEndReached={props.onEndReached}
+        refreshControl={(() => {
+            if (props.refreshControl) {
+              return props.refreshControl;
+            }
+
+            if (
+              !props.androidRefreshControlColor
+              ||
+              !props.iosRefreshControlColor
+            ) {
+              return;
+            }
+
+            return (
+              <RefreshControl
+                colors={[props.androidRefreshControlColor]}
+                tintColor={props.iosRefreshControlColor}
+                refreshing={props.refreshing}
+                onRefresh={props.onRefresh}
+              />
+            );
+        })()}
         onRefresh={props.onRefresh}
         refreshing={props.refreshing}
         bounces={props.bounces}
@@ -97,6 +119,8 @@ List.propTypes = {
   renderSectionHeader: PropTypes.func,
   renderItem: PropTypes.func,
   onEndReached: PropTypes.func,
+  androidRefreshControlColor: PropTypes.string,
+  iosRefreshControlColor: PropTypes.string,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
   bounces: PropTypes.bool,
@@ -113,6 +137,8 @@ List.defaultProps = {
   renderSectionHeader: undefined,
   renderItem: undefined,
   onEndReached: undefined,
+  androidRefreshControlColor: undefined,
+  iosRefreshControlColor: undefined,
   onRefresh: undefined,
   refreshing: false,
   bounces: true,

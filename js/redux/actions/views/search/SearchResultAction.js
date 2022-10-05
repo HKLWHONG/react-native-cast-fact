@@ -13,6 +13,15 @@ export const reset = () => (dispatch) => {
   return Promise.resolve();
 };
 
+export const setRefreshing = (refreshing) => (dispatch) => {
+  dispatch({
+    type: SearchResultActionType.REFRESHING,
+    refreshing: refreshing,
+  });
+
+  return Promise.resolve();
+};
+
 export const setFeeds = (feeds) => (dispatch) => {
   dispatch({
     type: SearchResultActionType.FEEDS,

@@ -6,6 +6,7 @@
 import { CommonActionType, FeedActionType } from '../../../types';
 
 const initialState = {
+  refreshing: false,
   feeds: [],
 };
 
@@ -16,6 +17,12 @@ export default function feedReducer(state = initialState, action) {
 
     case FeedActionType.RESET:
       return initialState;
+
+    case FeedActionType.REFRESHING:
+      return {
+        ...state,
+        refreshing: action.refreshing,
+      };
 
     case FeedActionType.FEEDS:
       return {
