@@ -76,9 +76,13 @@ class FeedView extends BaseComponent {
   testAddFeedData = (data, num) => {
     const { props } = this;
 
+    if (!data) {
+      return;
+    }
+
     let newData = [];
 
-    for (let i = 0; i < num; i += 1) {
+    for (let i = data.length; i < data.length + num; i += 1) {
       newData.push(
         {
           feedId: i.toString(),

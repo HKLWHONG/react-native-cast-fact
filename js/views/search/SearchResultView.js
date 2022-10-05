@@ -71,9 +71,13 @@ class SearchResultView extends BaseComponent {
   testAddFeedData = (data, num) => {
     const { props } = this;
 
+    if (!data) {
+      return;
+    }
+
     let newData = [];
 
-    for (let i = 0; i < num; i += 1) {
+    for (let i = data.length; i < data.length + num; i += 1) {
       let uri1 = 'https://kcplace.com/preview.png';
       let uri2 = 'https://kcplace.com/preview2.png';
 
