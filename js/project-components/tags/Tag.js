@@ -21,7 +21,7 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_checkmark_gray = require('../../../assets/images/ic_checkmark_gray/ic_checkmark_gray.png');
 const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 
 class Tag extends Component {
@@ -30,6 +30,24 @@ class Tag extends Component {
 
     this.state = {};
   }
+
+  renderImage = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.imageView}>
+            <Image
+              style={[styles.image, props.imageStyle]}
+              source={props.source}
+              resizeMode={props.resizeMode}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
 
   renderDot = () => {
     const { props } = this;
@@ -48,15 +66,27 @@ class Tag extends Component {
   renderCheck = () => {
     const { props } = this;
 
+    let children = (
+      <Image
+        style={[styles.check, props.checkStyle]}
+        source={ic_checkmark_gray}
+        resizeMode="center"
+      />
+    );
+
+    if (!props.checked) {
+      children = (
+        <View style={[styles.check, props.checkStyle]} />
+      );
+    }
+
     return (
       <Translation>
         {(t) => (
           <View style={styles.checkView}>
-            <Image
-              style={[styles.check, props.checkStyle]}
-              source={preview}
-              resizeMode="contain"
-            />
+            <View style={styles.checkBackgroundView}>
+              {children}
+            </View>
           </View>
         )}
       </Translation>
@@ -71,7 +101,9 @@ class Tag extends Component {
     );
 
     if (props.leftAccessoryType) {
-      if (props.leftAccessoryType.toLowerCase() === 'dot'.toLowerCase()) {
+      if (props.leftAccessoryType.toLowerCase() === 'image'.toLowerCase()) {
+        children = this.renderImage();
+      } else if (props.leftAccessoryType.toLowerCase() === 'dot'.toLowerCase()) {
         children = this.renderDot();
       } else if (props.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()) {
         children = this.renderCheck();
@@ -315,6 +347,20 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
   },
+  imageView: {
+    // backgroundColor: '#f0f',
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 6,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+  },
+  image: {
+    // backgroundColor: '#f00',
+    width: 11,
+    height: 11,
+  },
   dotView: {
     // backgroundColor: '#f0f',
     flex: 1,
@@ -324,7 +370,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
   },
-  dot: {},
+  dot: {
+    // backgroundColor: '#f00',
+  },
   checkView: {
     // backgroundColor: '#f0f',
     flex: 1,
@@ -333,6 +381,11 @@ const styles = StyleSheet.create({
     paddingRight: 6,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
+  },
+  checkBackgroundView: {
+    // backgroundColor: '#0ff',
+    backgroundColor: Theme.colors.background.secondary,
+    borderRadius: 5.5,
   },
   check: {
     width: 11,
@@ -407,6 +460,13 @@ Tag.propTypes = {
   keyboardType: PropTypes.string,
   leftAccessoryType: PropTypes.string,
   rightAccessoryType: PropTypes.string,
+  source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
+  resizeMode: PropTypes.string,
+  checked: PropTypes.bool,
   onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
   onChangeText: PropTypes.func,
@@ -427,6 +487,9 @@ Tag.defaultProps = {
   keyboardType: undefined,
   leftAccessoryType: undefined,
   rightAccessoryType: undefined,
+  source: undefined,
+  resizeMode: 'contain',
+  checked: false,
   onPress: undefined,
   onPressRightAccessory: undefined,
   onChangeValue: undefined,

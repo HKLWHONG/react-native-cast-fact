@@ -119,6 +119,18 @@ class FindTalentSection extends Component {
                     maxLength={parseInt(tag.maxLength)}
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
+                    source={(() => {
+                      if (!tag.source) {
+                        return;
+                      }
+
+                      if ((typeof tag.source).toLowerCase() === 'string'.toLowerCase()) {
+                        return { uri: tag.source };
+                      } else if ((typeof tag.source).toLowerCase() === 'number'.toLowerCase()) {
+                        return tag.source;
+                      }
+                    })()}
+                    resizeMode={tag.resizeMode}
                     checked={tag.checked}
                     onPress={({ groupFrameId, tagId }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);

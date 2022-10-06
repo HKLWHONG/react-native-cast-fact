@@ -19,7 +19,8 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_expand = require('../../../assets/images/ic_expand/ic_expand.png');
+const ic_expanded = require('../../../assets/images/ic_expanded/ic_expanded.png');
 
 class CollapsibleSection extends Component {
   constructor(props: any) {
@@ -49,7 +50,7 @@ class CollapsibleSection extends Component {
                 </Text>
                 <Image
                   style={styles.image}
-                  source={preview}
+                  source={state.collapsed ? ic_expanded : ic_expand}
                   resizeMode="contain"
                 />
               </View>
