@@ -91,17 +91,42 @@ class RecentSearchesSection extends Component {
                         props.onPressTag(info);
                       }
 
+                      let recentSearchesInfos = [];
+
+                      props.tags.forEach((groupFrame) => {
+                        let data = groupFrame.data.filter((tag) => {
+                          return (
+                            tag.findTalentInfo
+                            &&
+                            tag.findTalentInfo.groupFrameId === info.findTalentInfo.groupFrameId
+                            &&
+                            tag.findTalentInfo.tagId === info.findTalentInfo.tagId
+                          );
+                        });
+
+                        data.forEach((tag) => {
+                          recentSearchesInfos.push(
+                            {
+                              ...tag,
+                              groupFrameId: groupFrame.groupFrameId,
+                            }
+                          );
+
+                          props.updateTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
+                        });
+                      });
+
                       if (info.findTalentInfo) {
                         props.updateFindTalentTag(info.findTalentInfo.groupFrameId, info.findTalentInfo.tagId, { disabled: true });
                       }
 
                       props.addCriteriaTag({
                         ...tag,
-                        recentSearchesInfo: info,
+                        recentSearchesInfos: recentSearchesInfos,
                         findTalentInfo: info.findTalentInfo,
                       });
 
-                      props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
+                      // props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
                     }}
                   />
                 );

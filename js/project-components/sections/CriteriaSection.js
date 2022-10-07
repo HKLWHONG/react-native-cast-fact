@@ -140,15 +140,18 @@ class CriteriaSection extends Component {
                       }
                     })()}
                     resizeMode={tag.resizeMode}
-                    onPressRightAccessory={({ groupFrameId, tagId, recentSearchesInfo, findTalentInfo }) => {
+                    onPressRightAccessory={({ groupFrameId, tagId, recentSearchesInfos, findTalentInfo }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
 
-                      console.log('[recentSearchesInfo]', recentSearchesInfo);
-                      console.log('[findTalentInfo]', findTalentInfo);
+                      if (recentSearchesInfos) {
+                        recentSearchesInfos.forEach((recentSearchesInfo) => {
+                          // console.log('[recentSearchesInfo]', recentSearchesInfo);
 
-                      if (recentSearchesInfo) {
-                        props.updateRecentSearchesTag(recentSearchesInfo.groupFrameId, recentSearchesInfo.tagId, { disabled: false });
+                          props.updateRecentSearchesTag(recentSearchesInfo.groupFrameId, recentSearchesInfo.tagId, { disabled: false });
+                        });
                       }
+
+                      // console.log('[findTalentInfo]', findTalentInfo);
 
                       if (findTalentInfo) {
                         props.updateFindTalentTag(findTalentInfo.groupFrameId, findTalentInfo.tagId, { disabled: false });

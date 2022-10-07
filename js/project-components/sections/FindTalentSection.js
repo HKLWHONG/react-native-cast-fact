@@ -147,7 +147,7 @@ class FindTalentSection extends Component {
                         let prefix = tag.prefix ? tag.prefix + ' ' : '';
                         let suffix = tag.suffix ? ' ' + tag.suffix : '';
 
-                        let recentSearchesInfo = undefined;
+                        let recentSearchesInfos = [];
 
                         props.recentSearchesTags.forEach((groupFrame) => {
                           let data = groupFrame.data.filter((tag) => {
@@ -161,23 +161,25 @@ class FindTalentSection extends Component {
                           });
 
                           data.forEach((tag) => {
-                            recentSearchesInfo = {
-                              ...tag,
-                              groupFrameId: groupFrame.groupFrameId,
-                            };
+                            recentSearchesInfos.push(
+                              {
+                                ...tag,
+                                groupFrameId: groupFrame.groupFrameId,
+                              }
+                            );
 
                             props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
                           });
                         });
 
+                        props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
+
                         props.addCriteriaTag({
                           ...tag,
                           text: prefix + tag.text + suffix,
-                          recentSearchesInfo: recentSearchesInfo,
+                          recentSearchesInfos: recentSearchesInfos,
                           findTalentInfo: info,
                         });
-
-                        props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
                       }
                     }}
                     onChangeValue={({ groupFrameId, tagId, value }) => {
