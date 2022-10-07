@@ -7,6 +7,11 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { connect } from 'react-redux';
+import {
+  CriteriaSectionAction,
+  RecentSearchesSectionAction,
+  FindTalentSectionAction,
+} from '../../redux';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -35,6 +40,24 @@ class FeedStackNavigator extends BaseComponent {
     super.componentWillUnmount();
   }
 
+  loadTagsFromDummyData = () => {
+    const { props } = this;
+
+    let tags = props.dummyData.filter((data) => {
+      // console.log('[data]', data);
+
+      return data.label === 'tags';
+    });
+
+    if (tags.length === 0) {
+      return;
+    }
+
+    props.setFindTalentTags(tags[0].data.map((tag) => {
+      return {...tag};
+    }));
+  };
+
   render() {
     const { props } = this;
 
@@ -52,9 +75,25 @@ class FeedStackNavigator extends BaseComponent {
                     hiddenLeft={!back}
                     navigation={navigation}
                     title={title}
+                    onPressLeft={(navigation) => {
+                      if (
+                        route.name !== 'Feed'
+                      ) {
+                        props.resetCriteria();
+
+                        props.resetRecentSearchesTags();
+
+                        this.loadTagsFromDummyData();
+
+                        navigation.popToTop();
+                      } else {
+                        navigation.goBack();
+                      }
+                    }}
                   />
                 );
               },
+              animationEnabled: false,
               gestureEnabled: false,
             }}>
             <Stack.Screen
@@ -88,11 +127,18 @@ class FeedStackNavigator extends BaseComponent {
 const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    dummyData: state.dataReducer.dummyData,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
+    resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
+    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedStackNavigator);

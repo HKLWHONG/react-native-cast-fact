@@ -66,65 +66,12 @@ class SearchView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = async () => {
+  initialize = () => {
     const { props } = this;
   };
 
   clearData = () => {
     const { props } = this;
-  };
-
-  addHeightTagIfNeeded = () => {
-    const { props } = this;
-
-    let heightTags = props.findTalentTags.filter((groupFrame) => {
-      return (
-        groupFrame.label.toLowerCase() === 'height'.toLowerCase()
-        &&
-        groupFrame.checked
-      )
-    });
-
-    if (heightTags.length > 0 && heightTags[0].data.length > 1) {
-      let tag = heightTags[0].data[0];
-
-      if (tag && tag.value && tag.value.length > 0) {
-        let deviationTag = heightTags[0].data[1];
-
-        if (deviationTag && deviationTag.checked) {
-          props.addCriteriaTag({
-            ...tag,
-            text: '~' + tag.value + tag.text,
-          });
-        } else {
-          props.addCriteriaTag({
-            ...tag,
-            text: tag.value + tag.text,
-          });
-        }
-      }
-    }
-  };
-
-  addAgeTagIfNeeded = () => {
-    const { props } = this;
-
-    let ageTags = props.findTalentTags.filter((groupFrame) => {
-      return (
-        groupFrame.label.toLowerCase() === 'age'.toLowerCase()
-        &&
-        groupFrame.checked
-      )
-    });
-
-    if (ageTags.length > 0 && ageTags[0].data.length > 0) {
-      let tag = ageTags[0].data[0];
-
-      props.addCriteriaTag({
-        ...tag,
-        text: tag.fromValue + '-' + tag.toValue,
-      });
-    }
   };
 
   addRecentSearchesGroupFrame = () => {
@@ -168,14 +115,13 @@ class SearchView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onPressSearchBar={() => {
-              this.addHeightTagIfNeeded();
-              this.addAgeTagIfNeeded();
               this.addRecentSearchesGroupFrame();
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
             enableSearchBar
-            enableResultView />
+            enableResultView
+          />
         )}
       </Translation>
     );
@@ -190,7 +136,20 @@ class SearchView extends BaseComponent {
         {(t) => (
           <RecentSearchesSection
             label={section.title}
-            enableAddCriteriaTag />
+            onPressGroupFrame={(groupFrame) => {
+              props.setCriteriaTags([{
+                ...groupFrame,
+                data: groupFrame.data.map((tag) => {
+                  return {
+                    ...tag,
+                    rightAccessoryType: 'delete',
+                  };
+                }),
+              }]);
+
+              Router.push(props, "FeedStack", "SearchResult");
+            }}
+          />
         )}
       </Translation>
     );
@@ -324,7 +283,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
-    addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
+    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
   };
 }

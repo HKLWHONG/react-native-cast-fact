@@ -61,7 +61,7 @@ export default function criteriaSectionReducer(state = initialState, action) {
         });
 
         if (existingTags.length === 0) {
-          let maxTagId = 0;
+          let maxTagId = -1;
 
           tags[0].data.forEach((tag, i) => {
             let tagId = parseInt(tag.tagId);

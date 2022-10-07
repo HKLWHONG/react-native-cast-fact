@@ -58,7 +58,7 @@ class SearchResultView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = async () => {
+  initialize = () => {
     const { props } = this;
 
     props.setFeeds(this.testAddFeedData(props.feeds, 5));

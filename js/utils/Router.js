@@ -128,6 +128,14 @@ export const push = (props, stack, name, params) => {
   }
 };
 
+export const popToTop = (props) => {
+  if (!props || !props.navigation) {
+    return;
+  }
+
+  props.navigation.popToTop();
+}
+
 export const goBack = (props) => {
   if (!props || !props.navigation) {
     return;

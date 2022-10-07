@@ -31,6 +31,68 @@ class CollapsibleSection extends Component {
     };
   }
 
+  renderLeftHeaderContainerIfNeeded = () => {
+    const { props, state } = this;
+
+    let children = (
+      <View style={styles.image} />
+    );
+
+    if (props.source) {
+      children = (
+        <Image
+          style={styles.image}
+          source={props.source}
+          resizeMode="contain"
+        />
+      );
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.leftHeaderContainer}>
+            {children}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCenterHeaderContainer = () => {
+    const { props, state } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.centerHeaderContainer}>
+            <Text style={styles.text}>
+              {props.text}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderRightHeaderContainer = () => {
+    const { props, state } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.rightHeaderContainer}>
+            <Image
+              style={styles.image}
+              source={state.collapsed ? ic_expand : ic_expanded}
+              resizeMode="contain"
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
   renderHeaderContainer = () => {
     const { props, state } = this;
 
@@ -45,14 +107,9 @@ class CollapsibleSection extends Component {
                 })
               }}>
               <View style={styles.button}>
-                <Text style={styles.text}>
-                  {props.text}
-                </Text>
-                <Image
-                  style={styles.image}
-                  source={state.collapsed ? ic_expanded : ic_expand}
-                  resizeMode="contain"
-                />
+                {this.renderLeftHeaderContainerIfNeeded()}
+                {this.renderCenterHeaderContainer()}
+                {this.renderRightHeaderContainer()}
               </View>
             </SingleTouch>
           </View>
@@ -114,6 +171,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     padding: 8,
   },
+  leftHeaderContainer: {
+    // backgroundColor: '#f00',
+  },
+  centerHeaderContainer: {
+    // backgroundColor: '#0f0',
+  },
+  rightHeaderContainer: {
+    // backgroundColor: '#00f',
+  },
   text: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
@@ -126,7 +192,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ff0',
     width: 14,
     height: 13,
-    marginLeft: 4,
+    marginHorizontal: 4,
   },
   contentContainer: {
     // backgroundColor: '#00f',
@@ -143,6 +209,11 @@ CollapsibleSection.propTypes = {
   headerContainerStyle: ViewPropTypes.style,
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
 };
 
 CollapsibleSection.defaultProps = {
@@ -152,6 +223,7 @@ CollapsibleSection.defaultProps = {
   headerContainerStyle: undefined,
   contentContainerStyle: undefined,
   hidden: false,
+  source: undefined,
 };
 
 function mapStateToProps(state) {

@@ -30,7 +30,7 @@ class Section extends Component {
   renderLeftContainer = () => {
     const { props } = this;
 
-    if (!props.iconSource) {
+    if (!props.source) {
       return;
     }
 
@@ -40,7 +40,7 @@ class Section extends Component {
           <View style={styles.leftContainer}>
             <Image
               style={[styles.icon, props.iconStyle]}
-              source={props.iconSource}
+              source={props.source}
               resizeMode="center"
             />
           </View>
@@ -238,7 +238,7 @@ Section.propTypes = {
   labelStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   hiddenHeader: PropTypes.bool,
-  iconSource: PropTypes.oneOfType([
+  source: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
     PropTypes.number,
@@ -258,7 +258,7 @@ Section.defaultProps = {
   labelStyle: undefined,
   hidden: false,
   hiddenHeader: false,
-  iconSource: undefined,
+  source: undefined,
   label: undefined,
   rightAccessoryType: undefined,
   onPress: undefined,

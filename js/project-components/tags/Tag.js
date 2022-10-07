@@ -302,6 +302,13 @@ class Tag extends Component {
       };
     }
 
+    if (disabled && !props.disabledWithoutFeedback) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -452,6 +459,7 @@ Tag.propTypes = {
   dotStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
+  disabledWithoutFeedback: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.string,
   text: PropTypes.string,
@@ -479,6 +487,7 @@ Tag.defaultProps = {
   dotStyle: undefined,
   hidden: false,
   disabled: false,
+  disabledWithoutFeedback: false,
   type: undefined,
   value: undefined,
   text: undefined,

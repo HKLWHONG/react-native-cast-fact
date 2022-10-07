@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import {
   RecentSearchesSectionAction,
   CriteriaSectionAction,
+  FindTalentSectionAction,
 } from '../../redux';
 
 import {
@@ -71,24 +72,36 @@ class RecentSearchesSection extends Component {
               .map((t) => {
                 let tag = groupFrame.data[t];
 
-                // console.log('[tag.tagId]', tag.tagId);
-
                 return (
                   <Tag
                     key={t.toString()}
                     info={{
+                      ...tag,
                       groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
                     }}
                     dotStyle={{ backgroundColor: tag.dotColor }}
-                    disabled={!props.enableAddCriteriaTag}
+                    disabled={tag.disabled}
                     text={tag.text}
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
-                    onPress={({ groupFrameId, tagId }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                    onPress={(info) => {
+                      // console.log(`[groupFrameId] ${info.groupFrameId}, [tagId] ${info.tagId}`);
 
-                      props.addCriteriaTag(tag);
+                      if (props.onPressTag) {
+                        props.onPressTag(info);
+                      }
+
+                      if (info.findTalentInfo) {
+                        props.updateFindTalentTag(info.findTalentInfo.groupFrameId, info.findTalentInfo.tagId, { disabled: true });
+                      }
+
+                      props.addCriteriaTag({
+                        ...tag,
+                        recentSearchesInfo: info,
+                        findTalentInfo: info.findTalentInfo,
+                      });
+
+                      props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
                     }}
                   />
                 );
@@ -98,11 +111,10 @@ class RecentSearchesSection extends Component {
           return (
             <GroupFrame
               key={i.toString()}
-              info={{
-                groupFrameId: groupFrame.groupFrameId,
-              }}
+              info={groupFrame}
               style={style}
               rightAccessoryType="delete"
+              onPress={props.onPressGroupFrame}
               onPressRightAccessory={({ groupFrameId }) => {
                 // console.log('[groupFrameId] ', groupFrameId);
 
@@ -126,7 +138,7 @@ class RecentSearchesSection extends Component {
           <Section
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
-            iconSource={ic_clock}
+            source={ic_clock}
             label={props.label}
             rightAccessoryType={rightAccessoryType}
             onPress={() => {
@@ -151,7 +163,8 @@ RecentSearchesSection.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   label: PropTypes.string,
-  enableAddCriteriaTag: PropTypes.bool,
+  onPressGroupFrame: PropTypes.func,
+  onPressTag: PropTypes.func,
 };
 
 RecentSearchesSection.defaultProps = {
@@ -159,21 +172,25 @@ RecentSearchesSection.defaultProps = {
   style: undefined,
   hidden: false,
   label: undefined,
-  enableAddCriteriaTag: false,
+  onPressGroupFrame: undefined,
+  onPressTag: undefined,
 };
 
 function mapStateToProps(state) {
   return {
     tags: state.recentSearchesSectionReducer.tags,
+    findTalentTags: state.findTalentSectionReducer.tags,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(RecentSearchesSectionAction.reset(...args)),
+    updateTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
     deleteGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.deleteGroupFrame(...args)),
     deleteTags: (...args) => dispatch(RecentSearchesSectionAction.deleteTags(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
+    updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };
 }
 

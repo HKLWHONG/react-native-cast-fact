@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import {
   FindTalentSectionAction,
   CriteriaSectionAction,
+  RecentSearchesSectionAction,
 } from '../../redux';
 
 import {
@@ -80,8 +81,8 @@ class FindTalentSection extends Component {
                     <RangeTag
                       key={t.toString()}
                       info={{
+                        ...tag,
                         groupFrameId: groupFrame.groupFrameId,
-                        tagId: tag.tagId,
                       }}
                       fromValue={tag.fromValue}
                       toValue={tag.toValue}
@@ -107,10 +108,11 @@ class FindTalentSection extends Component {
                   <Tag
                     key={t.toString()}
                     info={{
+                      ...tag,
                       groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
                     }}
                     dotStyle={{ backgroundColor: tag.dotColor }}
+                    disabled={tag.disabled}
                     type={tag.type}
                     value={tag.value}
                     text={tag.text}
@@ -132,28 +134,50 @@ class FindTalentSection extends Component {
                     })()}
                     resizeMode={tag.resizeMode}
                     checked={tag.checked}
-                    onPress={({ groupFrameId, tagId }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                    onPress={(info) => {
+                      // console.log(`[groupFrameId] ${info.groupFrameId}, [tagId] ${info.tagId}`);
 
                       if (
                         tag.leftAccessoryType
                         &&
                         tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
                       ) {
-                        props.updateTag(groupFrameId, tagId, { checked: !tag.checked });
+                        props.updateTag(info.groupFrameId, info.tagId, { checked: !tag.checked });
                       } else {
-                        if (
-                          groupFrame.label
-                          &&
-                          groupFrame.label.toLowerCase() === 'Eye Color'.toLowerCase()
-                        ) {
-                          props.addCriteriaTag({
-                            ...tag,
-                            text: tag.text + ' Eye',
+                        let prefix = tag.prefix ? tag.prefix + ' ' : '';
+                        let suffix = tag.suffix ? ' ' + tag.suffix : '';
+
+                        let recentSearchesInfo = undefined;
+
+                        props.recentSearchesTags.forEach((groupFrame) => {
+                          let data = groupFrame.data.filter((tag) => {
+                            return (
+                              tag.findTalentInfo
+                              &&
+                              tag.findTalentInfo.groupFrameId === info.groupFrameId
+                              &&
+                              tag.findTalentInfo.tagId === info.tagId
+                            );
                           });
-                        } else {
-                          props.addCriteriaTag(tag);
-                        }
+
+                          data.forEach((tag) => {
+                            recentSearchesInfo = {
+                              ...tag,
+                              groupFrameId: groupFrame.groupFrameId,
+                            };
+
+                            props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
+                          });
+                        });
+
+                        props.addCriteriaTag({
+                          ...tag,
+                          text: prefix + tag.text + suffix,
+                          recentSearchesInfo: recentSearchesInfo,
+                          findTalentInfo: info,
+                        });
+
+                        props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
                       }
                     }}
                     onChangeValue={({ groupFrameId, tagId, value }) => {
@@ -172,9 +196,7 @@ class FindTalentSection extends Component {
               style={style}
               text={groupFrame.label}>
               <GroupFrame
-                info={{
-                  groupFrameId: groupFrame.groupFrameId,
-                }}
+                info={groupFrame}
                 style={{ borderColor: Theme.colors.general.transparent }}
                 rightAccessoryType={groupFrame.rightAccessoryType}
                 checked={groupFrame.checked}
@@ -197,7 +219,7 @@ class FindTalentSection extends Component {
           <Section
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
-            iconSource={ic_search_gray}
+            source={ic_search_gray}
             label={props.label}>
             {children}
           </Section>
@@ -230,6 +252,7 @@ FindTalentSection.defaultProps = {
 function mapStateToProps(state) {
   return {
     tags: state.findTalentSectionReducer.tags,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
   };
 }
 
@@ -239,6 +262,7 @@ function mapDispatchToProps(dispatch) {
     updateGroupFrame: (...args) => dispatch(FindTalentSectionAction.updateGroupFrame(...args)),
     updateTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
+    updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
   };
 }
 

@@ -115,18 +115,32 @@ class GroupFrame extends Component {
       return null;
     }
 
+    let disabled = props.disabled;
+
+    if (disabled === undefined) {
+      disabled = !props.onPress;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <View
+          <SingleTouch
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+            disabled={disabled}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(props.info);
+            }}>
             <View
               style={styles.contentContainer}>
               {props.children}
             </View>
             {this.renderRightContainer()}
-          </View>
+          </SingleTouch>
         )}
       </Translation>
     );
@@ -206,8 +220,10 @@ GroupFrame.propTypes = {
   ]),
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  disabled: PropTypes.bool,
   rightAccessoryType: PropTypes.string,
   checked: PropTypes.bool,
+  onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
 };
 
@@ -217,8 +233,10 @@ GroupFrame.defaultProps = {
   children: undefined,
   style: undefined,
   hidden: false,
+  disabled: undefined,
   rightAccessoryType: undefined,
   checked: false,
+  onPress: undefined,
   onPressRightAccessory: undefined,
 };
 

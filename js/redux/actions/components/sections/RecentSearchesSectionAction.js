@@ -13,6 +13,14 @@ export const reset = () => (dispatch) => {
   return Promise.resolve();
 };
 
+export const resetTags = () => (dispatch) => {
+  dispatch({
+    type: RecentSearchesSectionActionType.TAGS_RESET,
+  });
+
+  return Promise.resolve();
+};
+
 export const setTags = (tags) => (dispatch) => {
   dispatch({
     type: RecentSearchesSectionActionType.TAGS,
@@ -35,6 +43,17 @@ export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
   dispatch({
     type: RecentSearchesSectionActionType.TAGS_DELETE_GROUP_FRAME,
     groupFrameId: groupFrameId,
+  });
+
+  return Promise.resolve();
+};
+
+export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
+  dispatch({
+    type: RecentSearchesSectionActionType.TAGS_UPDATE_TAG,
+    groupFrameId: groupFrameId,
+    tagId: tagId,
+    object: object,
   });
 
   return Promise.resolve();

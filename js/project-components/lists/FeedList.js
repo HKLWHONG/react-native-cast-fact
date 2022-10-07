@@ -160,6 +160,7 @@ class FeedList extends Component {
             renderItem={this.renderItemForImages}
             ItemSeparatorComponent={this.renderItemSeparatorComponentForImages}
             horizontal
+            showsHorizontalScrollIndicator={false}
           />
         )}
       </Translation>

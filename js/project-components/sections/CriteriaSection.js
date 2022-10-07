@@ -12,6 +12,8 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import { connect } from 'react-redux';
 import {
   CriteriaSectionAction,
+  RecentSearchesSectionAction,
+  FindTalentSectionAction,
 } from '../../redux';
 
 import { SingleTouch, TextInput } from '../../components';
@@ -119,8 +121,8 @@ class CriteriaSection extends Component {
                   <Tag
                     key={t.toString()}
                     info={{
+                      ...tag,
                       groupFrameId: groupFrame.groupFrameId,
-                      tagId: tag.tagId,
                     }}
                     dotStyle={{ backgroundColor: tag.dotColor }}
                     text={tag.text}
@@ -138,11 +140,23 @@ class CriteriaSection extends Component {
                       }
                     })()}
                     resizeMode={tag.resizeMode}
-                    onPressRightAccessory={({ groupFrameId, tagId }) => {
+                    onPressRightAccessory={({ groupFrameId, tagId, recentSearchesInfo, findTalentInfo }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+
+                      console.log('[recentSearchesInfo]', recentSearchesInfo);
+                      console.log('[findTalentInfo]', findTalentInfo);
+
+                      if (recentSearchesInfo) {
+                        props.updateRecentSearchesTag(recentSearchesInfo.groupFrameId, recentSearchesInfo.tagId, { disabled: false });
+                      }
+
+                      if (findTalentInfo) {
+                        props.updateFindTalentTag(findTalentInfo.groupFrameId, findTalentInfo.tagId, { disabled: false });
+                      }
 
                       props.deleteTag(groupFrameId, tagId);
                     }}
+                    disabledWithoutFeedback
                   />
                 );
               })
@@ -151,9 +165,7 @@ class CriteriaSection extends Component {
           return (
             <GroupFrame
               key={i.toString()}
-              info={{
-                groupFrameId: groupFrame.groupFrameId,
-              }}
+              info={groupFrame}
               style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
               {tags}
             </GroupFrame>
@@ -167,7 +179,7 @@ class CriteriaSection extends Component {
           <Section
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
-            iconSource={ic_checklist}
+            source={ic_checklist}
             label={props.label}>
             {this.renderSearchBarIfNeeded()}
             {children}
@@ -216,6 +228,8 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     deleteTag: (...args) => dispatch(CriteriaSectionAction.deleteTag(...args)),
+    updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
+    updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };
 }
 

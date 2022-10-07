@@ -6,7 +6,7 @@
 import { CommonActionType, DataActionType } from '../../types';
 
 const initialState = {
-
+  dummyData: [],
 };
 
 export default function dataReducer(state = initialState, action) {
@@ -16,6 +16,12 @@ export default function dataReducer(state = initialState, action) {
 
     case DataActionType.RESET:
       return initialState;
+
+    case DataActionType.DUMMY_DATA:
+      return {
+        ...state,
+        dummyData: action.dummyData || [],
+      };
 
     default:
       return state;

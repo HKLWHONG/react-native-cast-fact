@@ -8,6 +8,8 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  FindTalentSectionAction,
+  CriteriaSectionAction,
   FeedAction,
 } from '../../redux';
 
@@ -63,14 +65,34 @@ class FeedView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = async () => {
+  initialize = () => {
     const { props } = this;
+
+    this.loadTagsFromDummyData();
 
     props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
+  };
+
+  loadTagsFromDummyData = () => {
+    const { props } = this;
+
+    let tags = props.dummyData.filter((data) => {
+      // console.log('[data]', data);
+
+      return data.label === 'tags';
+    });
+
+    if (tags.length === 0) {
+      return;
+    }
+
+    props.setFindTalentTags(tags[0].data.map((tag) => {
+      return {...tag};
+    }));
   };
 
   testAddFeedData = (data, num) => {
@@ -119,7 +141,7 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={ic_checklist}
+            source={ic_checklist}
             label={section.title}>
             <SingleTouch
               onPress={() => {
@@ -140,7 +162,25 @@ class FeedView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <RecentSearchesSection label={section.title} />
+          <RecentSearchesSection
+            label={section.title}
+            onPressGroupFrame={(groupFrame) => {
+              props.setCriteriaTags([{
+                ...groupFrame,
+                data: groupFrame.data.map((tag) => {
+                  return {
+                    ...tag,
+                    rightAccessoryType: 'delete',
+                  };
+                }),
+              }]);
+
+              Router.push(props, "FeedStack", "SearchResult");
+            }}
+            onPressTag={(tag) => {
+              Router.push(props, "FeedStack", "Search");
+            }}
+          />
         )}
       </Translation>
     );
@@ -154,7 +194,8 @@ class FeedView extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
-            iconSource={ic_calendar}
+            contentContainerStyle={styles.baseOnProjectsSectionContentContainer}
+            source={ic_calendar}
             label={section.title}>
             <ProfileList
               // style={{backgroundColor: 'cyan'}}
@@ -204,7 +245,7 @@ class FeedView extends BaseComponent {
         {(t) => (
           <Section
             contentContainerStyle={styles.feedSectionContentContainer}
-            iconSource={ic_stack}
+            source={ic_stack}
             label={section.title}>
             <FeedList
               data={props.feeds}
@@ -355,6 +396,9 @@ const styles = StyleSheet.create({
   listContentContainer: {
     paddingHorizontal: 0,
   },
+  baseOnProjectsSectionContentContainer: {
+    paddingHorizontal: 0,
+  },
   feedSectionContentContainer: {
     paddingHorizontal: 0,
   },
@@ -363,6 +407,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    dummyData: state.dataReducer.dummyData,
     refreshing: state.feedReducer.refreshing,
     feeds: state.feedReducer.feeds,
   };
@@ -372,6 +417,8 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
     setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
+    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
+    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
   };

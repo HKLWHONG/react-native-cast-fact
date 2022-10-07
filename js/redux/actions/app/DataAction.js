@@ -12,3 +12,12 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve();
 };
+
+export const setDummyData = (dummyData) => (dispatch) => {
+  dispatch({
+    type: DataActionType.DUMMY_DATA,
+    dummyData: dummyData,
+  });
+
+  return Promise.resolve();
+};
