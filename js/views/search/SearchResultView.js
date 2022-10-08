@@ -141,7 +141,7 @@ class SearchResultView extends BaseComponent {
         }
 
         let matchedCriteriaTags = criteriaTags[0].data.filter((criteriaTag) => {
-          return tag.text && criteriaTag.text && tag.text.toLowerCase().includes(criteriaTag.text.toLowerCase());
+          return tag.text && criteriaTag.text && tag.text.toLowerCase() === criteriaTag.text.toLowerCase();
         });
 
         if (matchedCriteriaTags.length === 0) {
