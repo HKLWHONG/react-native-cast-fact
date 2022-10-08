@@ -36,6 +36,10 @@ export default function criteriaSectionReducer(state = initialState, action) {
         return;
       }
 
+      if (action.tag.text) {
+        action.tag.text = action.tag.text.trim();
+      }
+
       let tags = state.tags.filter((groupFrame) => {
         return groupFrame.groupFrameId === '0';
       });

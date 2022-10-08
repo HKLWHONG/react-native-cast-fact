@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     // backgroundColor: '#ff0',
-    paddingHorizontal: 32,
   },
   itemContainer: {
     // backgroundColor: '#ff0',

@@ -68,13 +68,53 @@ class FeedView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
+    this.loadFeedsFromDummyData();
+
     this.loadTagsFromDummyData();
 
-    props.setFeeds(this.testAddFeedData(props.feeds, 5));
+    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
+  };
+
+  loadFeedsFromDummyData = () => {
+    const { props } = this;
+
+    let profiles = props.dummyData.filter((data) => {
+      // console.log('[data]', data);
+
+      return data.label === 'profiles';
+    });
+
+    if (profiles.length === 0) {
+      return;
+    }
+
+    let feeds = [];
+
+    profiles[0].data.forEach((profile) => {
+      profile.posts.forEach((post) => {
+        profile = { ...profile };
+
+        delete profile.posts;
+
+        feeds.push({
+          ...post,
+          profile: profile,
+        });
+      });
+    });
+
+    feeds = feeds.map((feed, index) => {
+      return {
+        ...feed,
+        feedId: (props.feeds.length + index).toString(),
+      }
+    })
+
+    props.setFeeds([...props.feeds, ...feeds]);
   };
 
   loadTagsFromDummyData = () => {
@@ -190,6 +230,20 @@ class FeedView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    let data = [];
+
+    let profiles = props.dummyData.filter((data) => {
+      // console.log('[data]', data);
+
+      return data.label === 'profiles';
+    });
+
+    if (profiles.length > 0) {
+      data = profiles[0].data.filter((profile) => {
+        return profile.posts.length > 0;
+      });
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -199,23 +253,7 @@ class FeedView extends BaseComponent {
             label={section.title}>
             <ProfileList
               // style={{backgroundColor: 'cyan'}}
-              data={[
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Tsz',
-                  title: 'Photographer',
-                },
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Kelvin Chuk',
-                  title: 'Writer',
-                },
-                {
-                  uri: 'https://kcplace.com/preview.png',
-                  name: 'Wong Siu Yu',
-                  title: 'Camera',
-                },
-              ]}
+              data={data}
               onPressItem={({ item, index, separators }) => {
                 console.log('[item] ', item);
                 console.log('[index] ', index);
@@ -233,7 +271,9 @@ class FeedView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    props.setFeeds(this.testAddFeedData(props.feeds, 5));
+    // this.loadFeedsFromDummyData();
+
+    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   renderFeedSection = (params) => {

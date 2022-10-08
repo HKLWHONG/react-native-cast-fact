@@ -11,6 +11,8 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
+import AutoHeightImage from 'react-native-auto-height-image';
+
 import { SimpleList, SingleTouch, FastImage } from '../../components';
 
 import { Button, Separator } from '../../project-components';
@@ -19,7 +21,6 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
 const ic_grid = require('../../../assets/images/ic_grid/ic_grid.png');
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
@@ -47,18 +48,17 @@ class FeedList extends Component {
             style={styles.topContainer}>
             <FastImage
               style={styles.avatarImage}
-              defaultSource={preview}
-              source={{ uri: item && item.uri }}
+              source={{ uri: item && item.profile && item.profile.uri }}
               resizeMode={"contain"}
             />
             <View style={styles.profileInfoContainer}>
               <Text
                 style={styles.nameLabel}>
-                {item && item.name}
+                {item && item.profile && item.profile.name}
               </Text>
               <Text
                 style={styles.titleLabel}>
-                {item && item.title}
+                {item && item.profile && item.profile.title}
               </Text>
             </View>
             <Button
@@ -103,10 +103,9 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <FastImage
+          <AutoHeightImage
             style={styles.image}
-            preSize={{ width: Dimensions.get('window').width }}
-            defaultSource={preview}
+            width={Dimensions.get('window').width}
             source={{ uri: item && item.uri }}
             resizeMode={"contain"}
           />
@@ -126,8 +125,7 @@ class FeedList extends Component {
         {(t) => (
           <FastImage
             style={styles.image}
-            preSize={{ height: 80 }}
-            defaultSource={preview}
+            preSize={styles.imagePreSize}
             source={{ uri: item && item.uri }}
             resizeMode={"contain"}
           />
@@ -152,13 +150,11 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    // console.log('[item.uris]', item.uris);
-
     return (
       <Translation>
         {(t) => (
           <SimpleList
-            data={item.uris}
+            data={item && item.profile && item.profile.posts}
             renderItem={this.renderItemForImages}
             ItemSeparatorComponent={this.renderItemSeparatorComponentForImages}
             horizontal
@@ -256,7 +252,7 @@ class FeedList extends Component {
               style={styles.centerBottomContainer}>
               <Text
                 style={styles.text}>
-                {'其實男女都應該在愛情上得到相等的愛。'}
+                {item && item.description}
               </Text>
             </View>
             <View style={styles.bottomBottomContainer}>
@@ -267,7 +263,7 @@ class FeedList extends Component {
                   resizeMode="center"
                 />
                 <Text style={styles.categoryText}>
-                  {'MV'}
+                  {item && item.eventType}
                 </Text>
               </View>
               <View style={styles.scheduleContainer}>
@@ -408,7 +404,8 @@ const styles = StyleSheet.create({
   },
   calendarButton: {
     // backgroundColor: '#00f',
-    paddingHorizontal: 6,
+    paddingLeft: 6,
+    paddingRight: 4,
     paddingVertical: 5,
   },
   calendarImage: {
@@ -438,6 +435,9 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#0f0',
+  },
+  imagePreSize: {
+    height: 80,
   },
   image: {
     // backgroundColor: '#0f0',

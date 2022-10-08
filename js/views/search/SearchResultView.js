@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   SearchResultAction,
 } from '../../redux';
 
@@ -61,11 +62,15 @@ class SearchResultView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.setFeeds(this.testAddFeedData(props.feeds, 5));
+    this.search();
+
+    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
+
+    props.reset();
   };
 
   testAddFeedData = (data, num) => {
@@ -103,6 +108,68 @@ class SearchResultView extends BaseComponent {
     return [...data, ...newData];
   };
 
+  search = () => {
+    const { props } = this;
+
+    let criteriaTags = store.getState().criteriaSectionReducer.tags;
+
+    let profiles = props.dummyData.filter((data) => {
+      // console.log('[data]', data);
+
+      return data.label === 'profiles';
+    });
+
+    // console.log('[criteriaTags', criteriaTags);
+
+    if (profiles.length === 0) {
+      return;
+    }
+
+    let feeds = [];
+
+    profiles[0].data.forEach((profile) => {
+      let matched = false;
+
+      // console.log('[profile.tags]', profile.tags);
+      if (criteriaTags.length === 0) {
+        matched = true;
+      }
+
+      profile.tags.forEach((tag) => {
+        if (matched) {
+          return;
+        }
+
+        let matchedCriteriaTags = criteriaTags[0].data.filter((criteriaTag) => {
+          return tag.text && criteriaTag.text && tag.text.toLowerCase().includes(criteriaTag.text.toLowerCase());
+        });
+
+        if (matchedCriteriaTags.length === 0) {
+          return;
+        }
+
+        matched = true;
+      });
+
+      if (!matched) {
+        return;
+      }
+
+      feeds.push({ profile: profile });
+    });
+
+    feeds = feeds.map((feed, index) => {
+      return {
+        ...feed,
+        feedId: (props.feeds.length + index).toString(),
+      }
+    })
+
+    console.log('[result.found]', feeds.length);
+
+    props.setFeeds(feeds);
+  };
+
   renderHeader = () => {
     const { props } = this;
 
@@ -122,7 +189,13 @@ class SearchResultView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <CriteriaSection label={section.title} />
+          <CriteriaSection
+            label={section.title}
+            onChangeTags={() => {
+              console.log('[onChangeTags]');
+
+              this.search();
+          }} />
         )}
       </Translation>
     );
@@ -133,7 +206,7 @@ class SearchResultView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    props.setFeeds(this.testAddFeedData(props.feeds, 5));
+    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   renderFeedSection = (params) => {
@@ -281,6 +354,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    dummyData: state.dataReducer.dummyData,
     refreshing: state.searchResultReducer.refreshing,
     feeds: state.searchResultReducer.feeds,
   };

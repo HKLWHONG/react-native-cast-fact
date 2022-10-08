@@ -41,10 +41,11 @@ class CriteriaSection extends Component {
     }
 
     let data = tags[0].data.map((tag) => {
-      return {
-        ...tag,
-        rightAccessoryType: undefined,
-      };
+      tag = { ...tag };
+
+      delete tag.rightAccessoryType;
+
+      return tag;
     });
 
     props.addRecentSearchesGroupFrame({
@@ -181,6 +182,10 @@ class CriteriaSection extends Component {
                       }
 
                       props.deleteTag(groupFrameId, tagId);
+
+                      if (props.onChangeTags) {
+                        props.onChangeTags();
+                      }
                     }}
                     disabledWithoutFeedback
                   />
@@ -231,6 +236,7 @@ CriteriaSection.propTypes = {
   enableSearchBar: PropTypes.bool,
   enableResultView: PropTypes.bool,
   onPressSearchBar: PropTypes.func,
+  onChangeTags: PropTypes.func,
 };
 
 CriteriaSection.defaultProps = {
@@ -241,6 +247,7 @@ CriteriaSection.defaultProps = {
   enableSearchBar: false,
   enableResultView: false,
   onPressSearchBar: undefined,
+  onChangeTags: undefined,
 };
 
 function mapStateToProps(state) {
