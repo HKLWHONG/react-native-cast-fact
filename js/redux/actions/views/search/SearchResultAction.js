@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { SearchResultActionType } from '../../../types';
+import { store, SearchResultActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: SearchResultActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setRefreshing = (refreshing) => (dispatch) => {
@@ -19,7 +19,7 @@ export const setRefreshing = (refreshing) => (dispatch) => {
     refreshing: refreshing,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setFeeds = (feeds) => (dispatch) => {
@@ -28,7 +28,7 @@ export const setFeeds = (feeds) => (dispatch) => {
     feeds: feeds || [],
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const updateFeed = (feedId, object) => (dispatch) => {
@@ -38,5 +38,5 @@ export const updateFeed = (feedId, object) => (dispatch) => {
     object: object,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

@@ -33,6 +33,25 @@ class CriteriaSection extends Component {
     this.state = {};
   }
 
+  addRecentSearchesGroupFrame = (tags) => {
+    const { props } = this;
+
+    if (tags.length === 0) {
+      return;
+    }
+
+    let data = tags[0].data.map((tag) => {
+      return {
+        ...tag,
+        rightAccessoryType: undefined,
+      };
+    });
+
+    props.addRecentSearchesGroupFrame({
+      data: data,
+    });
+  };
+
   renderSearchBarIfNeeded = () => {
     const { props } = this;
 
@@ -48,7 +67,11 @@ class CriteriaSection extends Component {
               console.log('[search-text] ', text)
 
               if (text && text.length > 0) {
-                props.addTag({ text: text, isManual: true });
+                props.addTag({ text: text, isManual: true }).then((state) => {
+                  this.addRecentSearchesGroupFrame(state.criteriaSectionReducer.tags);
+                });
+              } else {
+                this.addRecentSearchesGroupFrame(props.tags);
               }
 
               if (!props.onPressSearchBar) {
@@ -231,6 +254,7 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     deleteTag: (...args) => dispatch(CriteriaSectionAction.deleteTag(...args)),
+    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
     updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
     updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };

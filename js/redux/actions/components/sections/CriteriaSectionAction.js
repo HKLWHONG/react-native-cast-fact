@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { CriteriaSectionActionType } from '../../../types';
+import { store, CriteriaSectionActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: CriteriaSectionActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setTags = (tags) => (dispatch) => {
@@ -19,7 +19,7 @@ export const setTags = (tags) => (dispatch) => {
     tags: tags,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const addTag = (tag) => (dispatch) => {
@@ -28,7 +28,7 @@ export const addTag = (tag) => (dispatch) => {
     tag: tag,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const deleteTag = (groupFrameId, tagId) => (dispatch) => {
@@ -38,5 +38,5 @@ export const deleteTag = (groupFrameId, tagId) => (dispatch) => {
     tagId: tagId,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

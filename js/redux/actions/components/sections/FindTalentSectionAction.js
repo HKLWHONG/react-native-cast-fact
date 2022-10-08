@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { FindTalentSectionActionType } from '../../../types';
+import { store, FindTalentSectionActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: FindTalentSectionActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setTags = (tags) => (dispatch) => {
@@ -19,7 +19,7 @@ export const setTags = (tags) => (dispatch) => {
     tags: tags,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const updateGroupFrame = (groupFrameId, object) => (dispatch) => {
@@ -29,7 +29,7 @@ export const updateGroupFrame = (groupFrameId, object) => (dispatch) => {
     object: object,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
@@ -40,5 +40,5 @@ export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
     object: object,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

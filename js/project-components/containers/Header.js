@@ -96,7 +96,8 @@ class Header extends Component {
               style={[
                 styles.headerContainer,
                 props.headerStyle,
-              ]}>
+              ]}
+              source={props.source}>
               {this.renderLeftContainerIfNeeded()}
               {this.renderCenterContainer()}
               {this.renderRightContainerIfNeeded()}
@@ -162,6 +163,11 @@ Header.propTypes = {
   hiddenLeft: PropTypes.bool,
   hiddenRight: PropTypes.bool,
   navigation: PropTypes.object,
+  source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
   title: PropTypes.string,
   onPressLeft: PropTypes.func,
   onPressRight: PropTypes.func,
@@ -176,6 +182,7 @@ Header.defaultProps = {
   hiddenLeft: true,
   hiddenRight: true,
   navigation: undefined,
+  source: undefined,
   title: undefined,
   onPressLeft: (navigation) => navigation.goBack(),
   onPressRight: undefined,

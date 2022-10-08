@@ -22,6 +22,8 @@ import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
+const ic_header_2 = require('../../../assets/images/ic_header_2/ic_header_2.png');
+
 class InboxStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
@@ -51,6 +53,7 @@ class InboxStackNavigator extends BaseComponent {
                   <Header
                     hiddenLeft={!back}
                     navigation={navigation}
+                    source={ic_header_2}
                     title={title}
                   />
                 );

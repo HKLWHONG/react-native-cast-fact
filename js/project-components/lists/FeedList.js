@@ -63,7 +63,8 @@ class FeedList extends Component {
             </View>
             <Button
               style={styles.calendarButtonContainer}
-              imageStyle={styles.calendarButton}
+              buttonStyle={styles.calendarButton}
+              imageStyle={styles.calendarImage}
               type="small"
               source={ic_calendar_plus}
               resizeMode="center"
@@ -77,7 +78,8 @@ class FeedList extends Component {
             />
             <Button
               style={styles.followButtonContainer}
-              textStyle={styles.followButton}
+              buttonStyle={styles.followButton}
+              textStyle={styles.followText}
               type="small"
               text={item && item.followed ? t('app.followed') : t('app.follow')}
               onPress={() => {
@@ -370,6 +372,7 @@ const styles = StyleSheet.create({
   topContainer: {
     // backgroundColor: '#f00',
     flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
@@ -400,17 +403,32 @@ const styles = StyleSheet.create({
     // backgroundColor: '#00f',
     flexDirection: 'row',
     marginRight: 10,
+    marginTop: 1,
+    marginBottom: 4,
   },
   calendarButton: {
+    // backgroundColor: '#00f',
+    paddingHorizontal: 6,
+    paddingVertical: 5,
+  },
+  calendarImage: {
     // backgroundColor: '#ff0',
     width: 21,
     height: 21,
   },
   followButtonContainer: {
-    // backgroundColor: '#ff0',
+    // backgroundColor: '#00f',
     flexDirection: 'row',
+    marginTop: 1,
+    marginBottom: 4,
   },
   followButton: {
+    // backgroundColor: '#00f',
+    paddingLeft: 9.5,
+    paddingRight: 8.5,
+    paddingVertical: 5,
+  },
+  followText: {
     // backgroundColor: '#f0f',
     color: Theme.colors.general.white,
     fontSize: 11,

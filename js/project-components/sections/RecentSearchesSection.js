@@ -85,7 +85,7 @@ class RecentSearchesSection extends Component {
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
                     onPress={(info) => {
-                      // console.log(`[groupFrameId] ${info.groupFrameId}, [tagId] ${info.tagId}`);
+                      // console.log('[info]', info);
 
                       if (props.onPressTag) {
                         props.onPressTag(info);
@@ -97,6 +97,8 @@ class RecentSearchesSection extends Component {
                         let data = groupFrame.data.filter((tag) => {
                           return (
                             tag.findTalentInfo
+                            &&
+                            info.findTalentInfo
                             &&
                             tag.findTalentInfo.groupFrameId === info.findTalentInfo.groupFrameId
                             &&

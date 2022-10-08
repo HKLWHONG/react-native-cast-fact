@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { SearchBarActionType } from '../../../types';
+import { store, SearchBarActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: SearchBarActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setText = (text) => (dispatch) => {
@@ -19,5 +19,5 @@ export const setText = (text) => (dispatch) => {
     text: text,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

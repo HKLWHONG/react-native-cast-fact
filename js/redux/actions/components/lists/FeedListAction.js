@@ -3,12 +3,12 @@
  * @flow strict-local
  */
 
-import { FeedListActionType } from '../../../types';
+import { store, FeedListActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: FeedListActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { LoginActionType } from '../../../types';
+import { store, LoginActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: LoginActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setEmail = (email) => (dispatch) => {
@@ -19,7 +19,7 @@ export const setEmail = (email) => (dispatch) => {
     email: email,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setEmailMessage = (emailMessage) => (dispatch) => {
@@ -28,7 +28,7 @@ export const setEmailMessage = (emailMessage) => (dispatch) => {
     emailMessage: emailMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPassword = (password) => (dispatch) => {
@@ -37,7 +37,7 @@ export const setPassword = (password) => (dispatch) => {
     password: password,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPasswordMessage = (passwordMessage) => (dispatch) => {
@@ -46,5 +46,5 @@ export const setPasswordMessage = (passwordMessage) => (dispatch) => {
     passwordMessage: passwordMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

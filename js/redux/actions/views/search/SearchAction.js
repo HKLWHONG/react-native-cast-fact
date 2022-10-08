@@ -3,12 +3,12 @@
  * @flow strict-local
  */
 
-import { SearchActionType } from '../../../types';
+import { store, SearchActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: SearchActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

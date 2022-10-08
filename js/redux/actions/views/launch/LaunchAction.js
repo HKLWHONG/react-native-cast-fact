@@ -3,12 +3,12 @@
  * @flow strict-local
  */
 
-import { LaunchActionType } from '../../../types';
+import { store, LaunchActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: LaunchActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

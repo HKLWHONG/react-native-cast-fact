@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { SignUpActionType } from '../../../types';
+import { store, SignUpActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: SignUpActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setName = (name) => (dispatch) => {
@@ -19,7 +19,7 @@ export const setName = (name) => (dispatch) => {
     name: name,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setNameMessage = (nameMessage) => (dispatch) => {
@@ -28,7 +28,7 @@ export const setNameMessage = (nameMessage) => (dispatch) => {
     nameMessage: nameMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setEmail = (email) => (dispatch) => {
@@ -37,7 +37,7 @@ export const setEmail = (email) => (dispatch) => {
     email: email,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setEmailMessage = (emailMessage) => (dispatch) => {
@@ -46,7 +46,7 @@ export const setEmailMessage = (emailMessage) => (dispatch) => {
     emailMessage: emailMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPhoneCode = (phoneCode) => (dispatch) => {
@@ -61,7 +61,7 @@ export const setPhoneCode = (phoneCode) => (dispatch) => {
     phoneCode: phoneCode,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPhoneNumber = (phoneNumber) => (dispatch) => {
@@ -70,7 +70,7 @@ export const setPhoneNumber = (phoneNumber) => (dispatch) => {
     phoneNumber: phoneNumber,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPhoneMessage = (phoneMessage) => (dispatch) => {
@@ -79,7 +79,7 @@ export const setPhoneMessage = (phoneMessage) => (dispatch) => {
     phoneMessage: phoneMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPassword = (password) => (dispatch) => {
@@ -88,7 +88,7 @@ export const setPassword = (password) => (dispatch) => {
     password: password,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setPasswordMessage = (passwordMessage) => (dispatch) => {
@@ -97,5 +97,5 @@ export const setPasswordMessage = (passwordMessage) => (dispatch) => {
     passwordMessage: passwordMessage,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

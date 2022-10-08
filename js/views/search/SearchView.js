@@ -74,25 +74,6 @@ class SearchView extends BaseComponent {
     const { props } = this;
   };
 
-  addRecentSearchesGroupFrame = () => {
-    const { props } = this;
-
-    if (props.criteriaTags.length === 0) {
-      return;
-    }
-
-    let data = props.criteriaTags[0].data.map((tag) => {
-      return {
-        ...tag,
-        rightAccessoryType: undefined,
-      };
-    });
-
-    props.addRecentSearchesGroupFrame({
-      data: data,
-    });
-  };
-
   renderHeader = () => {
     const { props } = this;
 
@@ -115,8 +96,6 @@ class SearchView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onPressSearchBar={() => {
-              this.addRecentSearchesGroupFrame();
-
               Router.push(props, "FeedStack", "SearchResult");
             }}
             enableSearchBar
@@ -284,7 +263,6 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
-    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
   };
 }
 

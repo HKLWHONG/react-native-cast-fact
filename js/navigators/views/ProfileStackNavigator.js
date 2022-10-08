@@ -20,6 +20,8 @@ import { ProfileView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
+const ic_header_4 = require('../../../assets/images/ic_header_4/ic_header_4.png');
+
 const Stack = createStackNavigator();
 
 class ProfileStackNavigator extends BaseComponent {
@@ -51,6 +53,7 @@ class ProfileStackNavigator extends BaseComponent {
                   <Header
                     hiddenLeft={!back}
                     navigation={navigation}
+                    source={ic_header_4}
                     title={title}
                   />
                 );

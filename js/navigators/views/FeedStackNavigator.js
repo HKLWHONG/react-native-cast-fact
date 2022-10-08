@@ -27,6 +27,8 @@ import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
+const ic_header_1 = require('../../../assets/images/ic_header_1/ic_header_1.png');
+
 class FeedStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
@@ -74,6 +76,7 @@ class FeedStackNavigator extends BaseComponent {
                   <Header
                     hiddenLeft={!back}
                     navigation={navigation}
+                    source={ic_header_1}
                     title={title}
                     onPressLeft={(navigation) => {
                       if (

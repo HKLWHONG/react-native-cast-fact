@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { RecentSearchesSectionActionType } from '../../../types';
+import { store, RecentSearchesSectionActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: RecentSearchesSectionActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const resetTags = () => (dispatch) => {
@@ -18,7 +18,7 @@ export const resetTags = () => (dispatch) => {
     type: RecentSearchesSectionActionType.TAGS_RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setTags = (tags) => (dispatch) => {
@@ -27,7 +27,7 @@ export const setTags = (tags) => (dispatch) => {
     tags: tags,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const addGroupFrame = (groupFrame) => (dispatch) => {
@@ -36,7 +36,7 @@ export const addGroupFrame = (groupFrame) => (dispatch) => {
     groupFrame: groupFrame,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
@@ -45,7 +45,7 @@ export const deleteGroupFrame = (groupFrameId) => (dispatch) => {
     groupFrameId: groupFrameId,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
@@ -56,7 +56,7 @@ export const updateTag = (groupFrameId, tagId, object) => (dispatch) => {
     object: object,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const deleteTags = () => (dispatch) => {
@@ -65,5 +65,5 @@ export const deleteTags = () => (dispatch) => {
     tags: [],
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
