@@ -189,7 +189,7 @@ class SignUpView extends BaseComponent {
             style={styles.header}
             backgroundContainerStyle={styles.headerBackground}
             source={ic_header_bg}
-            resizeMode="center"
+            resizeMode="contain"
           >
             <Text
               style={styles.headerText}>
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.light,
     letterSpacing: 2.27,
     textTransform: 'uppercase',
-    marginLeft: 16,
+    marginLeft: 14,
     marginTop: 80,
   },
   body: {

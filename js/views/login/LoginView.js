@@ -140,7 +140,7 @@ class LoginView extends BaseComponent {
             style={styles.header}
             backgroundContainerStyle={styles.headerBackground}
             source={ic_header_bg}
-            resizeMode="center"
+            resizeMode="contain"
           >
             <Text
               style={styles.headerText}>
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.light,
     letterSpacing: 2.27,
     textTransform: 'uppercase',
-    marginLeft: 26,
+    marginLeft: 24,
     marginTop: 80,
   },
   body: {
