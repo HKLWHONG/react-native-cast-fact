@@ -4,10 +4,14 @@
  */
 
 import React from 'react';
-import { StyleSheet, Dimensions, View, Image } from 'react-native';
+import { StyleSheet, Dimensions, ImageBackground, View, Image } from 'react-native';
 
 import { connect } from 'react-redux';
-import { DrawerAction, MainTabAction } from '../../redux';
+import {
+  store,
+  DrawerAction,
+  MainTabAction,
+} from '../../redux';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
@@ -26,6 +30,7 @@ import { Translation } from 'react-i18next';
 
 import { Router } from '../../utils';
 
+const ic_tab_bar_light = require('../../../assets/images/ic_tab_bar_light/ic_tab_bar_light.png');
 const ic_tab_bar_search = require('../../../assets/images/ic_tab_bar_search/ic_tab_bar_search.png');
 const ic_tab_bar_search_focused = require('../../../assets/images/ic_tab_bar_search_focused/ic_tab_bar_search_focused.png');
 const ic_tab_bar_inbox = require('../../../assets/images/ic_tab_bar_inbox/ic_tab_bar_inbox.png');
@@ -74,17 +79,17 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      }}>
+                    <ImageBackground style={styles.background}
+                      imageStyle={styles.iconContainer}
+                      source={focused ? ic_tab_bar_light: undefined}
+                    >
                       <Image
                         style={styles.icon}
                         source={focused ? ic_tab_bar_search_focused : ic_tab_bar_search}
                         resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
-                    </View>
+                    </ImageBackground>
                   );
                 },
                 tabBarLabel: t(''),
@@ -93,10 +98,16 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: (e) => {
                   e.preventDefault();
 
-                  props.selectDrawer(0);
-                  props.selectTab(0);
+                  if (navigation.isFocused()) {
+                    if (store.getState().feedReducer.ref) {
+                      store.getState().feedReducer.ref.props.scrollToPosition(0, 0);
+                    }
+                  } else {
+                    props.selectDrawer(0);
+                    props.selectTab(0);
 
-                  Router.jumpTo(props, 'FeedStack');
+                    Router.jumpTo(props, 'FeedStack');
+                  }
                 },
               })}
             />
@@ -115,17 +126,17 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      }}>
+                    <ImageBackground style={styles.background}
+                      imageStyle={styles.iconContainer}
+                      source={focused ? ic_tab_bar_light: undefined}
+                    >
                       <Image
                         style={styles.icon}
                         source={focused ? ic_tab_bar_inbox_focused : ic_tab_bar_inbox}
                         resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
-                    </View>
+                    </ImageBackground>
                   );
                 },
                 tabBarLabel: t(''),
@@ -156,17 +167,17 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      }}>
+                    <ImageBackground style={styles.background}
+                      imageStyle={styles.iconContainer}
+                      source={focused ? ic_tab_bar_light: undefined}
+                    >
                       <Image
                         style={styles.icon}
                         source={focused ? ic_tab_bar_calendar_focused : ic_tab_bar_calendar}
                         resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
-                    </View>
+                    </ImageBackground>
                   );
                 },
                 tabBarLabel: t(''),
@@ -197,17 +208,17 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <View style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      }}>
+                    <ImageBackground style={styles.background}
+                      imageStyle={styles.iconContainer}
+                      source={focused ? ic_tab_bar_light: undefined}
+                    >
                       <Image
                         style={styles.icon}
                         source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
                         resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
-                    </View>
+                    </ImageBackground>
                   );
                 },
                 tabBarLabel: t(''),
@@ -234,13 +245,16 @@ const styles = StyleSheet.create({
   bar: {
     backgroundColor: Theme.colors.background.secondary,
   },
+  background: {
+    // backgroundColor: '#00f',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   iconContainer: {
-    // width: Dimensions.get('window').width / 4,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // padding: 16,
-    // paddingBottom: 24,
-    // top: -8,
+    // backgroundColor: '#00f',
+    width: 35,
+    height: 11,
+    marginTop: 32,
   },
   activeBackgroundColor: {
     // backgroundColor: '#404040',

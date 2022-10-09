@@ -39,7 +39,10 @@ import { Theme, Router } from '../../utils';
 
 import { TestApi } from '../../apis';
 
-// const background = require('../../../assets/images/project_background.png');
+const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
+const ic_apple= require('../../../assets/images/ic_apple/ic_apple.png');
+const ic_facebook= require('../../../assets/images/ic_facebook/ic_facebook.png');
+const ic_google= require('../../../assets/images/ic_google/ic_google.png');
 
 class LoginView extends BaseComponent {
   constructor(props) {
@@ -133,7 +136,17 @@ class LoginView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Header style={styles.header} />
+          <Header
+            style={styles.header}
+            backgroundContainerStyle={styles.headerBackground}
+            source={ic_header_bg}
+            resizeMode="center"
+          >
+            <Text
+              style={styles.headerText}>
+              {t('app.login')}
+            </Text>
+          </Header>
         )}
       </Translation>
     );
@@ -232,9 +245,24 @@ class LoginView extends BaseComponent {
       <Translation>
         {(t) => (
           <View style={styles.otherLoginButtonContainer}>
-            <Button style={styles.otherLoginButton} />
-            <Button style={styles.otherLoginButton} />
-            <Button style={styles.otherLoginButton} />
+            <Button
+              style={styles.otherLoginButton}
+              imageStyle={styles.otherLoginImage}
+              source={ic_apple}
+              resizeMode="center"
+            />
+            <Button
+              style={styles.otherLoginButton}
+              imageStyle={styles.otherLoginImage}
+              source={ic_facebook}
+              resizeMode="center"
+            />
+            <Button
+              style={styles.otherLoginButton}
+              imageStyle={styles.otherLoginImage}
+              source={ic_google}
+              resizeMode="center"
+            />
           </View>
         )}
       </Translation>
@@ -314,16 +342,27 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.background.primary,
   },
   header: {
-    // backgroundColor: "#f00",
-    alignItems: 'center',
-    // height: 200,
+    // backgroundColor: "rgba(255, 0, 0, 0.1)",
+    height: Dimensions.get('window').height / 5,
+  },
+  headerBackground: {
+    // backgroundColor: '#00f',
+    marginTop: 87,
+  },
+  headerText: {
+    color: Theme.colors.general.white,
+    fontSize: 20,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 2.27,
+    textTransform: 'uppercase',
+    marginLeft: 26,
+    marginTop: 80,
   },
   body: {
     // backgroundColor: '#0f0',
     justifyContent: 'center',
-    // alignItems: 'center',
-    padding: 32,
-    paddingTop:  Dimensions.get('window').height / 4,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
   },
   textInput: {
     marginBottom: 16,
@@ -342,6 +381,10 @@ const styles = StyleSheet.create({
   otherLoginButton: {
     width: 60,
     height: 60,
+  },
+  otherLoginImage: {
+    width: 24,
+    height: 30,
   },
   footer: {
     // backgroundColor: '#f00',

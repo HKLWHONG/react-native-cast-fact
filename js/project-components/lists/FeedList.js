@@ -21,6 +21,7 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
+const ic_placeholder = require('../../../assets/images/ic_placeholder/ic_placeholder.png');
 const ic_grid = require('../../../assets/images/ic_grid/ic_grid.png');
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
@@ -146,15 +147,45 @@ class FeedList extends Component {
     );
   };
 
-  renderImages = (params) => {
+  renderNoPosts = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
 
     return (
       <Translation>
         {(t) => (
+          <View style={styles.noPostsContainer}>
+            <Image
+              style={styles.noPostsImage}
+              source={ic_placeholder}
+              resizeMode="center"
+            />
+            <Text
+              style={styles.noPostsText}
+            >
+              {t('app.no_post_yet')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
+  renderImages = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    let data = item && item.profile && item.profile.posts;
+
+    if (!data || data.length === 0) {
+      return this.renderNoPosts(params);
+    }
+
+    return (
+      <Translation>
+        {(t) => (
           <SimpleList
-            data={item && item.profile && item.profile.posts}
+            data={data}
             renderItem={this.renderItemForImages}
             ItemSeparatorComponent={this.renderItemSeparatorComponentForImages}
             horizontal
@@ -382,12 +413,16 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     alignSelf: 'center',
+    borderRadius: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.borders.gray,
   },
   nameLabel: {
     // backgroundColor: '#0f0',
     color: Theme.colors.general.white,
     fontSize: 15,
     fontFamily: Theme.fonts.medium,
+    marginBottom: -5,
   },
   titleLabel: {
     // backgroundColor: '#00f',
@@ -435,6 +470,31 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#0f0',
+  },
+  noPostsContainer: {
+    // backgroundColor: '#f00',
+    height: 80,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: Theme.colors.background.secondary,
+    marginHorizontal: 16,
+  },
+  noPostsImage: {
+    // backgroundColor: '#0f0',
+    width: 15,
+    height: 12,
+  },
+  noPostsText: {
+    // backgroundColor: '#0ff',
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.medium,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
+    marginLeft: 8,
   },
   imagePreSize: {
     height: 80,

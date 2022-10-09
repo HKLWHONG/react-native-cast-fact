@@ -346,7 +346,11 @@ class FeedView extends BaseComponent {
     const { props } = this;
 
     return (
-      <Separator />
+      <Translation>
+        {(t) => (
+          <Separator />
+        )}
+      </Translation>
     );
   };
 
@@ -360,6 +364,7 @@ class FeedView extends BaseComponent {
             style={styles.body}
             scrollable={false}>
             <List
+              innerRef={props.setRef}
               contentContainerStyle={styles.listContentContainer}
               sections={[
                 {
@@ -448,6 +453,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     dummyData: state.dataReducer.dummyData,
+    ref: state.feedReducer.ref,
     refreshing: state.feedReducer.refreshing,
     feeds: state.feedReducer.feeds,
   };
@@ -456,6 +462,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
+    setRef: (...args) => dispatch(FeedAction.setRef(...args)),
     setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),

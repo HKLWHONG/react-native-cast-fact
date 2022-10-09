@@ -170,7 +170,11 @@ class SearchView extends BaseComponent {
     const { props } = this;
 
     return (
-      <Separator />
+      <Translation>
+        {(t) => (
+          <Separator />
+        )}
+      </Translation>
     );
   };
 

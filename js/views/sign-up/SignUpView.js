@@ -39,7 +39,7 @@ import { Theme, Router } from '../../utils';
 
 import { TestApi } from '../../apis';
 
-// const background = require('../../../assets/images/project_background.png');
+const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
 
 class SignUpView extends BaseComponent {
   constructor(props) {
@@ -185,7 +185,17 @@ class SignUpView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Header style={styles.header} />
+          <Header
+            style={styles.header}
+            backgroundContainerStyle={styles.headerBackground}
+            source={ic_header_bg}
+            resizeMode="center"
+          >
+            <Text
+              style={styles.headerText}>
+              {t('app.sign_up')}
+            </Text>
+          </Header>
         )}
       </Translation>
     );
@@ -388,15 +398,27 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.background.primary,
   },
   header: {
-    backgroundColor: "#f00",
-    alignItems: 'center',
+    // backgroundColor: "rgba(255, 0, 0, 0.1)",
+    height: Dimensions.get('window').height / 5,
+  },
+  headerBackground: {
+    // backgroundColor: '#00f',
+    marginTop: 27,
+  },
+  headerText: {
+    color: Theme.colors.general.white,
+    fontSize: 20,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 2.27,
+    textTransform: 'uppercase',
+    marginLeft: 16,
+    marginTop: 80,
   },
   body: {
     // backgroundColor: '#0f0',
     justifyContent: 'center',
-    // alignItems: 'center',
-    padding: 32,
-    paddingTop: Dimensions.get('window').height / 4,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
   },
   textInput: {
     marginBottom: 8,

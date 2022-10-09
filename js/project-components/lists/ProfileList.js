@@ -113,6 +113,8 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.borders.gray,
     marginHorizontal: 8,
     marginVertical: 10,
   },

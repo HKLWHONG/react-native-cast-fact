@@ -43,7 +43,7 @@ class RecentSearchesSection extends Component {
   render() {
     const { props } = this;
 
-    if (props.hidden) {
+    if (props.hidden || props.tags.length === 0) {
       return null;
     }
 

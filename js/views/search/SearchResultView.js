@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -36,7 +36,7 @@ import { Translation } from 'react-i18next';
 
 import { Theme, Router } from '../../utils';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_no_result = require('../../../assets/images/ic_no_result/ic_no_result.png');
 
 class SearchResultView extends BaseComponent {
   constructor(props) {
@@ -259,44 +259,103 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
 
     return (
-      <Separator />
+      <Translation>
+        {(t) => (
+          <Separator />
+        )}
+      </Translation>
+    );
+  };
+
+  renderListView = (sections) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <List
+            contentContainerStyle={styles.listContentContainer}
+            sections={sections}
+            renderItem={this.renderItem}
+            SectionSeparatorComponent={this.renderSectionSeparatorComponent}
+            androidRefreshControlColor={Theme.colors.general.black}
+            iosRefreshControlColor={Theme.colors.general.white}
+            refreshing={props.refreshing}
+            onRefresh={(refreshing) => {
+              props.setRefreshing(true);
+
+              setTimeout(() => {
+                props.setRefreshing(false);
+              }, 500);
+            }}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderNoReultView = (sections) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.noReultContainer}>
+            {this.renderCriteriaSection(sections)}
+            <Separator />
+            <View style={styles.noReultSubContainer}>
+              <Image
+                style={styles.noResultImage}
+                source={ic_no_result}
+                resizeMode="center"
+              />
+              <Text
+                style={styles.noResultText}
+              >
+                {t('app.no_result')}
+              </Text>
+              <Text
+                style={styles.noResultDescriptionText}
+              >
+                {t('app.no_result_description')}
+              </Text>
+            </View>
+          </View>
+        )}
+      </Translation>
     );
   };
 
   renderBody = () => {
     const { props } = this;
 
+    let sections = [
+      {
+        title: i18n.t('app.criteria'),
+        data: [''],
+      },
+      {
+        title: i18n.t(''),
+        data: [''],
+      },
+    ];
+
+    let children = this.renderListView(sections);
+
+    if (props.feeds && props.feeds.length === 0) {
+      children = this.renderNoReultView({
+        section: sections[0],
+      });
+    }
+
     return (
       <Translation>
         {(t) => (
           <Body
             style={styles.body}
-            scrollable={false}>
-            <List
-              contentContainerStyle={styles.listContentContainer}
-              sections={[
-                {
-                  title: t('app.criteria'),
-                  data: [''],
-                },
-                {
-                  title: t(''),
-                  data: [''],
-                },
-              ]}
-              renderItem={this.renderItem}
-              SectionSeparatorComponent={this.renderSectionSeparatorComponent}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={(refreshing) => {
-                props.setRefreshing(true);
-
-                setTimeout(() => {
-                  props.setRefreshing(false);
-                }, 500);
-              }}
-            />
+            scrollable={false}
+          >
+            {children}
           </Body>
         )}
       </Translation>
@@ -348,6 +407,37 @@ const styles = StyleSheet.create({
   resultSectionContentContainer: {
     // backgroundColor: '#ff0',
     paddingHorizontal: 0,
+  },
+  noReultContainer: {
+    // backgroundColor: '#f00',
+    flex: 1,
+    paddingBottom: 64,
+  },
+  noReultSubContainer: {
+    // backgroundColor: '#00f',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 96,
+    height: 96,
+  },
+  noResultText: {
+    // backgroundColor: '#f00',
+    color: Theme.colors.text.subtitle,
+    fontSize: 17,
+    fontFamily: Theme.fonts.medium,
+    letterSpacing: 2.22,
+    textTransform: 'uppercase',
+  },
+  noResultDescriptionText: {
+    // backgroundColor: '#f00',
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 0,
+    textTransform: 'uppercase',
   },
   footer: {},
 });

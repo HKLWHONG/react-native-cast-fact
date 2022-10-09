@@ -11,6 +11,9 @@ const zhHK = {
     follow: 'Follow',
     followed: 'Followed',
     find_talent: 'Find Talent',
+    no_post_yet: 'No Post Yet',
+    no_result: 'No Result',
+    no_result_description: 'Try to  refine the search criteria.',
     error: {
       empty_field_message: '請輸入所需資料。',
       password_validation_message: '密碼必須是由8-14個字的字母及數字所組成。',

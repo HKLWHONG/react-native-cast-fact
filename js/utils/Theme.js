@@ -20,6 +20,9 @@ export const colors = {
     primary: '#131313',
     secondary: '#1C1C1C',
   },
+  borders: {
+    gray: 'rgba(114, 114, 114, 0.5)',
+  },
   decorations: {
     splitline: '#2F2F2F',
   },
