@@ -437,7 +437,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: Theme.fonts.light,
     letterSpacing: 0,
-    textTransform: 'uppercase',
   },
   footer: {},
 });
