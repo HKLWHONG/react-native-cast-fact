@@ -15,13 +15,41 @@ export default class FastImage extends Component {
   constructor(props: any) {
     super(props);
 
-    let preSize = props.preSize && (props.preSize.width || props.preSize.height);
-
     this.state = {
-      fetched: false,
-      width: preSize,
-      height: preSize,
+      width: undefined,
+      height: undefined,
     };
+  }
+
+  componentDidMount() {
+    const { props, state } = this;
+
+    if (
+      props.refSize && (props.refSize.width || props.refSize.height)
+      &&
+      props.source && props.source.uri && props.source.uri.length
+    ) {
+      Image.getSize(props.source.uri, (width, height) => {
+        if (!width || !height) {
+          return;
+        }
+
+        let refSize = props.refSize && (props.refSize.width || props.refSize.height);
+
+        let imageWidth = refSize;
+        let imageHeight = refSize * height / width;
+
+        if (props.refSize && props.refSize.height) {
+          imageWidth = refSize * width / height;
+          imageHeight = refSize;
+        }
+
+        this.setState({
+          width: imageWidth,
+          height: imageHeight,
+        });
+      });
+    }
   }
 
   render() {
@@ -31,36 +59,6 @@ export default class FastImage extends Component {
       width: state.width,
       height: state.height,
     };
-
-    if (
-      props.preSize && (props.preSize.width || props.preSize.height)
-      &&
-      props.source && props.source.uri && props.source.uri.length
-      &&
-      !state.fetched
-    ) {
-      Image.getSize(props.source.uri, (width, height) => {
-        if (!width || !height) {
-          return;
-        }
-
-        let preSize = props.preSize && (props.preSize.width || props.preSize.height);
-
-        let imageWidth = preSize;
-        let imageHeight = preSize * height / width;
-
-        if (props.preSize && props.preSize.height) {
-          imageWidth = preSize * width / height;
-          imageHeight = preSize;
-        }
-
-        this.setState({
-          fetched: true,
-          width: imageWidth,
-          height: imageHeight,
-        });
-      });
-    }
 
     return (
       <RNFastImage {...props} style={[style, props.style]} />
@@ -75,9 +73,9 @@ const styles = StyleSheet.create({
 });
 
 FastImage.propTypes = {
-  preSize: PropTypes.object,
+  refSize: PropTypes.object,
 };
 
 FastImage.defaultProps = {
-  preSize: undefined,
+  refSize: undefined,
 };

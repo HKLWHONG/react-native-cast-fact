@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, View, Text, Image } from 'react-native';
+import { Platform, StyleSheet, Dimensions, View, Text, Image } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -126,7 +126,7 @@ class FeedList extends Component {
         {(t) => (
           <FastImage
             style={styles.image}
-            preSize={styles.imagePreSize}
+            refSize={styles.imageRefSize}
             source={{ uri: item && item.uri }}
             resizeMode={"contain"}
           />
@@ -356,6 +356,15 @@ class FeedList extends Component {
       return null;
     }
 
+    let initialNumToRender = Platform.OS === 'android' ? 5 : undefined;
+    let maxToRenderPerBatch = Platform.OS === 'android' ? 10 : undefined;
+    let windowSize = Platform.OS === 'android' ? 10 : undefined;
+
+    console.log('[Platform.OS] ', Platform.OS);
+    console.log('[initialNumToRender] ', initialNumToRender);
+    console.log('[maxToRenderPerBatch] ', maxToRenderPerBatch);
+    console.log('[windowSize] ', windowSize);
+
     return (
       <Translation>
         {(t) => (
@@ -371,6 +380,9 @@ class FeedList extends Component {
             ItemSeparatorComponent={this.renderItemSeparatorComponent}
             refreshing={props.refreshing}
             onRefresh={props.onRefresh}
+            initialNumToRender={initialNumToRender}
+            maxToRenderPerBatch={maxToRenderPerBatch}
+            windowSize={windowSize}
           />
         )}
       </Translation>
@@ -496,7 +508,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     marginLeft: 8,
   },
-  imagePreSize: {
+  imageRefSize: {
     height: 80,
   },
   image: {
