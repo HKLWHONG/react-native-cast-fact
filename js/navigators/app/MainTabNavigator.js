@@ -79,9 +79,11 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <ImageBackground style={styles.background}
+                    <ImageBackground
+                      style={styles.background}
                       imageStyle={styles.iconContainer}
                       source={focused ? ic_tab_bar_light: undefined}
+                      resizeMode="center"
                     >
                       <Image
                         style={styles.icon}
@@ -126,9 +128,11 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <ImageBackground style={styles.background}
+                    <ImageBackground
+                      style={styles.background}
                       imageStyle={styles.iconContainer}
                       source={focused ? ic_tab_bar_light: undefined}
+                      resizeMode="center"
                     >
                       <Image
                         style={styles.icon}
@@ -167,9 +171,11 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <ImageBackground style={styles.background}
+                    <ImageBackground
+                      style={styles.background}
                       imageStyle={styles.iconContainer}
                       source={focused ? ic_tab_bar_light: undefined}
+                      resizeMode="center"
                     >
                       <Image
                         style={styles.icon}
@@ -208,9 +214,11 @@ class MainTabNavigator extends BaseComponent {
                   // }
 
                   return (
-                    <ImageBackground style={styles.background}
+                    <ImageBackground
+                      style={styles.background}
                       imageStyle={styles.iconContainer}
                       source={focused ? ic_tab_bar_light: undefined}
+                      resizeMode="center"
                     >
                       <Image
                         style={styles.icon}
@@ -247,14 +255,15 @@ const styles = StyleSheet.create({
   },
   background: {
     // backgroundColor: '#00f',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   iconContainer: {
-    // backgroundColor: '#00f',
-    width: 35,
-    height: 11,
-    marginTop: 32,
+    // backgroundColor: '#0f0',
+    width: 57,
+    height: 37,
+    marginTop: 26,
+    marginLeft: -12,
   },
   activeBackgroundColor: {
     // backgroundColor: '#404040',

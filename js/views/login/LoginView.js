@@ -348,6 +348,7 @@ const styles = StyleSheet.create({
   headerBackground: {
     // backgroundColor: '#00f',
     marginTop: 87,
+    marginLeft: 16,
   },
   headerText: {
     color: Theme.colors.general.white,
@@ -383,8 +384,8 @@ const styles = StyleSheet.create({
     height: 60,
   },
   otherLoginImage: {
-    width: 24,
-    height: 30,
+    width: 42,
+    height: 42,
   },
   footer: {
     // backgroundColor: '#f00',

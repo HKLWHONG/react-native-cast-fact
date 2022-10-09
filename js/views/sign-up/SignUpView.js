@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
   headerBackground: {
     // backgroundColor: '#00f',
     marginTop: 27,
+    marginLeft: 16,
   },
   headerText: {
     color: Theme.colors.general.white,
