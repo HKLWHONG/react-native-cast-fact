@@ -172,7 +172,7 @@ class CriteriaSection extends Component {
 
                       props.recentSearchesTags.forEach((groupFrame) => {
                         let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
+                          let text = TagProcessor.toText(tag);
 
                           return infoText.toLowerCase() === text.toLowerCase();
                         });

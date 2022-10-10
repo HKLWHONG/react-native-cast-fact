@@ -91,11 +91,11 @@ class RecentSearchesSection extends Component {
                         props.onPressTag(info);
                       }
 
-                      let infoText = TagProcessor.toString(info);
+                      let infoText = TagProcessor.toText(info);
 
                       props.tags.forEach((groupFrame) => {
                         let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
+                          let text = TagProcessor.toText(tag);
 
                           return infoText.toLowerCase() === text.toLowerCase();
                         });
@@ -119,7 +119,7 @@ class RecentSearchesSection extends Component {
 
                       props.addCriteriaTag({
                         ...tag,
-                        text: TagProcessor.toString(tag),
+                        text: TagProcessor.toText(tag),
                       });
                     }}
                   />
