@@ -16,8 +16,8 @@ export default class FastImage extends Component {
     super(props);
 
     this.state = {
-      width: undefined,
-      height: undefined,
+      width: 0,
+      height: 0,
     };
   }
 
