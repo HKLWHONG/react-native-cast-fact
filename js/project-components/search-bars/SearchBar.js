@@ -14,6 +14,8 @@ import {
   SearchBarAction,
 } from '../../redux';
 
+import LinearGradient from 'react-native-linear-gradient';
+
 import { SingleTouch } from '../../components';
 
 import { TextInput } from '../../project-components';
@@ -134,16 +136,35 @@ class SearchBar extends Component {
       return null;
     }
 
+    let style = {};
+
+    if (props.enableLinearGradientBorder) {
+      style = {
+        ...style,
+        padding: 1,
+      }
+    }
+
     return (
       <Translation>
         {(t) => (
           <View
             onLayout={props.onLayout}
             style={[styles.container, props.style]}>
-            {this.renderLeftContainer()}
-            {this.renderCenterContainer()}
-            {this.renderRightContainer()}
+            <LinearGradient
+              start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
+              locations={[0,0.31,0.69,1.0]}
+              colors={['#4F2F1A', '#3D290B', '#0E363B', '#024E58']}
+              style={[styles.linearGradient, style]}>
+              <View style={styles.contentContainer}>
+                {this.renderLeftContainer()}
+                {this.renderCenterContainer()}
+                {this.renderRightContainer()}
+              </View>
+            </LinearGradient>
           </View>
+
+
         )}
       </Translation>
     );
@@ -153,9 +174,20 @@ class SearchBar extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#f00',
-    backgroundColor: Theme.colors.general.black,
-    flexDirection: 'row',
     height: 42,
+    borderRadius: 21,
+  },
+  linearGradient: {
+    // backgroundColor: '#00f',
+    flexDirection: 'row',
+    borderRadius: 21,
+    padding: 0,
+  },
+  contentContainer: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.general.black,
+    flex: 1,
+    flexDirection: 'row',
     borderRadius: 21,
   },
   leftContainer: {
@@ -215,6 +247,7 @@ SearchBar.propTypes = {
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
+  enableLinearGradientBorder: PropTypes.bool,
 };
 
 SearchBar.defaultProps = {
@@ -223,6 +256,7 @@ SearchBar.defaultProps = {
   hidden: false,
   disabled: false,
   onPress: undefined,
+  enableLinearGradientBorder: false,
 };
 
 function mapStateToProps(state) {

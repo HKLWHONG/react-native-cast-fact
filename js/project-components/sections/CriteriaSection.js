@@ -81,6 +81,7 @@ class CriteriaSection extends Component {
 
               props.onPressSearchBar(text);
             }}
+            enableLinearGradientBorder={props.enableSearchBarLinearGradientBorder}
           />
         )}
       </Translation>
@@ -246,6 +247,7 @@ CriteriaSection.propTypes = {
   hidden: PropTypes.bool,
   label: PropTypes.string,
   enableSearchBar: PropTypes.bool,
+  enableSearchBarLinearGradientBorder: PropTypes.bool,
   enableResultView: PropTypes.bool,
   onPressSearchBar: PropTypes.func,
   onChangeTags: PropTypes.func,
@@ -257,6 +259,7 @@ CriteriaSection.defaultProps = {
   hidden: false,
   label: undefined,
   enableSearchBar: false,
+  enableSearchBarLinearGradientBorder: false,
   enableResultView: false,
   onPressSearchBar: undefined,
   onChangeTags: undefined,

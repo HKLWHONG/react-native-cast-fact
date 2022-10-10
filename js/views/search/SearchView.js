@@ -100,6 +100,7 @@ class SearchView extends BaseComponent {
             }}
             enableSearchBar
             enableResultView
+            enableSearchBarLinearGradientBorder
           />
         )}
       </Translation>
