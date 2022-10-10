@@ -129,6 +129,39 @@ class SearchBar extends Component {
     );
   };
 
+  renderLinearGradientContainer = (children) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <LinearGradient
+            start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
+            locations={[0,0.31,0.69,1.0]}
+            colors={['#4F2F1A', '#3D290B', '#0E363B', '#024E58']}
+            style={[styles.subContainer, styles.linearGradient]}>
+            {children}
+          </LinearGradient>
+        )}
+      </Translation>
+    );
+  };
+
+  renderWithoutLinearGradientContainer = (children) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View
+            style={styles.subContainer}>
+            {children}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
   render() {
     const { props } = this;
 
@@ -136,13 +169,18 @@ class SearchBar extends Component {
       return null;
     }
 
-    let style = {};
+    let children = (
+      <View style={styles.contentContainer}>
+        {this.renderLeftContainer()}
+        {this.renderCenterContainer()}
+        {this.renderRightContainer()}
+      </View>
+    );
 
     if (props.enableLinearGradientBorder) {
-      style = {
-        ...style,
-        padding: 1,
-      }
+      children = this.renderLinearGradientContainer(children);
+    } else {
+      children = this.renderWithoutLinearGradientContainer(children);
     }
 
     return (
@@ -151,20 +189,8 @@ class SearchBar extends Component {
           <View
             onLayout={props.onLayout}
             style={[styles.container, props.style]}>
-            <LinearGradient
-              start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-              locations={[0,0.31,0.69,1.0]}
-              colors={['#4F2F1A', '#3D290B', '#0E363B', '#024E58']}
-              style={[styles.linearGradient, style]}>
-              <View style={styles.contentContainer}>
-                {this.renderLeftContainer()}
-                {this.renderCenterContainer()}
-                {this.renderRightContainer()}
-              </View>
-            </LinearGradient>
+            {children}
           </View>
-
-
         )}
       </Translation>
     );
@@ -177,11 +203,13 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 21,
   },
-  linearGradient: {
+  subContainer: {
     // backgroundColor: '#00f',
     flexDirection: 'row',
     borderRadius: 21,
-    padding: 0,
+  },
+  linearGradient: {
+    padding: 1,
   },
   contentContainer: {
     // backgroundColor: '#f00',
