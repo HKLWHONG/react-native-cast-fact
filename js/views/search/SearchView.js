@@ -152,18 +152,31 @@ class SearchView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    switch (section.index) {
-      case 0:
-        return this.renderCriteriaSection(params);
+    if (props.recentSearchesTags.length > 0) {
+      switch (section.index) {
+        case 0:
+          return this.renderCriteriaSection(params);
 
-      case 1:
-        return this.renderRecentSearchesSection(params);
+        case 1:
+          return this.renderRecentSearchesSection(params);
 
-      case 2:
-        return this.renderFindTalentSection(params);
+        case 2:
+          return this.renderFindTalentSection(params);
 
-      default:
-        break;
+        default:
+          break;
+      }
+    } else {
+      switch (section.index) {
+        case 0:
+          return this.renderCriteriaSection(params);
+
+        case 1:
+          return this.renderFindTalentSection(params);
+
+        default:
+          break;
+      }
     }
   };
 
@@ -182,6 +195,29 @@ class SearchView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
+    let sections = [
+      {
+        title: i18n.t('app.criteria'),
+        data: [''],
+      },
+    ];
+
+    if (props.recentSearchesTags.length > 0) {
+      sections.push(
+        {
+          title: i18n.t('app.recent_searches'),
+          data: [''],
+        },
+      );
+    }
+
+    sections.push(
+      {
+        title: i18n.t('app.find_talent'),
+        data: [''],
+      },
+    );
+
     return (
       <Translation>
         {(t) => (
@@ -190,20 +226,7 @@ class SearchView extends BaseComponent {
             scrollable={false}>
             <List
               contentContainerStyle={styles.listContentContainer}
-              sections={[
-                {
-                  title: t('app.criteria'),
-                  data: [''],
-                },
-                {
-                  title: t('app.recent_searches'),
-                  data: [''],
-                },
-                {
-                  title: t('app.find_talent'),
-                  data: [''],
-                },
-              ]}
+              sections={sections}
               renderItem={this.renderItem}
               SectionSeparatorComponent={this.renderSectionSeparatorComponent}
             />
@@ -260,6 +283,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     criteriaTags: state.criteriaSectionReducer.tags,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
   };
 }

@@ -324,21 +324,37 @@ class FeedView extends BaseComponent {
     // console.log('[section]', section);
     // console.log('[separators]', separators);
 
-    switch (section.index) {
-      case 0:
-        return this.renderCriteriaSection(params);
+    if (props.recentSearchesTags.length > 0) {
+      switch (section.index) {
+        case 0:
+          return this.renderCriteriaSection(params);
 
-      case 1:
-        return this.renderRecentSearchesSection(params);
+        case 1:
+          return this.renderRecentSearchesSection(params);
 
-      case 2:
-        return this.renderBaseOnProjectsSection(params);
+        case 2:
+          return this.renderBaseOnProjectsSection(params);
 
-      case 3:
-        return this.renderFeedSection(params);
+        case 3:
+          return this.renderFeedSection(params);
 
-      default:
-        break;
+        default:
+          break;
+      }
+    } else {
+      switch (section.index) {
+        case 0:
+          return this.renderCriteriaSection(params);
+
+        case 1:
+          return this.renderBaseOnProjectsSection(params);
+
+        case 2:
+          return this.renderFeedSection(params);
+
+        default:
+          break;
+      }
     }
   };
 
@@ -357,6 +373,33 @@ class FeedView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
+    let sections = [
+      {
+        title: i18n.t('app.criteria'),
+        data: [''],
+      },
+    ];
+
+    if (props.recentSearchesTags.length > 0) {
+      sections.push(
+        {
+          title: i18n.t('app.recent_searches'),
+          data: [''],
+        },
+      );
+    }
+
+    sections.push(
+      {
+        title: i18n.t('app.based_on_projects_format').replace('{0}', '1'),
+        data: [''],
+      },
+      {
+        title: i18n.t('app.feed'),
+        data: [''],
+      },
+    );
+
     return (
       <Translation>
         {(t) => (
@@ -366,24 +409,7 @@ class FeedView extends BaseComponent {
             <List
               innerRef={props.setRef}
               contentContainerStyle={styles.listContentContainer}
-              sections={[
-                {
-                  title: t('app.criteria'),
-                  data: [''],
-                },
-                {
-                  title: t('app.recent_searches'),
-                  data: [''],
-                },
-                {
-                  title: t('app.based_on_projects_format').replace('{0}', '1'),
-                  data: [''],
-                },
-                {
-                  title: t('app.feed'),
-                  data: [''],
-                },
-              ]}
+              sections={sections}
               renderItem={this.renderItem}
               SectionSeparatorComponent={this.renderSectionSeparatorComponent}
               androidRefreshControlColor={Theme.colors.general.black}
@@ -455,6 +481,7 @@ function mapStateToProps(state) {
     dummyData: state.dataReducer.dummyData,
     ref: state.feedReducer.ref,
     refreshing: state.feedReducer.refreshing,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
     feeds: state.feedReducer.feeds,
   };
 }
