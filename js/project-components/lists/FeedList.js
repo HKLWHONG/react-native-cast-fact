@@ -240,7 +240,8 @@ class FeedList extends Component {
             <View
               style={styles.topBottomContainer}>
               <Button
-                style={styles.likeButton}
+                style={styles.likeButtonContainer}
+                buttonStyle={styles.likeButton}
                 imageStyle={styles.likeButtonImage}
                 type="small"
                 source={item && item.liked ? ic_heart_fill : ic_heart}
@@ -258,14 +259,16 @@ class FeedList extends Component {
                 {'279 LIKES'}
               </Text>
               <Button
-                style={styles.messageButton}
+                style={styles.messageButtonContainer}
+                buttonStyle={styles.messageButton}
                 imageStyle={styles.messageButtonImage}
                 type="small"
                 source={ic_bubble}
                 resizeMode="center"
               />
               <Button
-                style={styles.bookmarkButton}
+                style={styles.bookmarkButtonContainer}
+                buttonStyle={styles.bookmarkButton}
                 imageStyle={styles.bookmarkButtonImage}
                 type="small"
                 source={item && item.bookmarked ? ic_star_fill : ic_star}
@@ -521,34 +524,51 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ff0',
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 16,
+  },
+  likeButtonContainer: {
+    // backgroundColor: '#00f',
+    backgroundColor: Theme.colors.general.transparent,
   },
   likeButton: {
-    backgroundColor: Theme.colors.general.transparent,
+    paddingRight: 8,
+    paddingVertical: 0,
   },
   likeButtonImage: {
     width: 24,
     height: 24,
   },
   likeText: {
-    // backgroundColor: '#ff0',
+    // backgroundColor: '#0ff',
     flex: 1,
     color: Theme.colors.text.subtitle,
     fontSize: 13,
     fontFamily: Theme.fonts.medium,
     letterSpacing: 1.7,
     textTransform: 'uppercase',
-    marginHorizontal: 8,
+    // marginTop: 4,
+    // marginBottom: 1,
+  },
+  messageButtonContainer: {
+    // backgroundColor: '#00f',
+    backgroundColor: Theme.colors.general.transparent,
   },
   messageButton: {
-    backgroundColor: Theme.colors.general.transparent,
-    marginRight: 4,
+    paddingLeft: 8,
+    paddingRight: 0,
+    paddingVertical: 0,
   },
   messageButtonImage: {
     width: 24,
     height: 24,
   },
-  bookmarkButton: {
+  bookmarkButtonContainer: {
     backgroundColor: Theme.colors.general.transparent,
+    marginLeft: 8,
+  },
+  bookmarkButton: {
+    paddingLeft: 0,
+    paddingVertical: 0,
   },
   bookmarkButtonImage: {
     width: 24,

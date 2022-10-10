@@ -27,7 +27,7 @@ import {
   Tag,
 } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, TagProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -85,50 +85,42 @@ class RecentSearchesSection extends Component {
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
                     onPress={(info) => {
-                      // console.log('[info]', info);
+                      // console.log('[info] ', info);
 
                       if (props.onPressTag) {
                         props.onPressTag(info);
                       }
 
-                      let recentSearchesInfos = [];
+                      let infoText = TagProcessor.toString(info);
 
                       props.tags.forEach((groupFrame) => {
-                        let data = groupFrame.data.filter((tag) => {
-                          return (
-                            tag.findTalentInfo
-                            &&
-                            info.findTalentInfo
-                            &&
-                            tag.findTalentInfo.groupFrameId === info.findTalentInfo.groupFrameId
-                            &&
-                            tag.findTalentInfo.tagId === info.findTalentInfo.tagId
-                          );
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
+
+                          return infoText.toLowerCase() === text.toLowerCase();
                         });
 
-                        data.forEach((tag) => {
-                          recentSearchesInfos.push(
-                            {
-                              ...tag,
-                              groupFrameId: groupFrame.groupFrameId,
-                            }
-                          );
-
+                        tags.forEach((tag) => {
                           props.updateTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
                         });
                       });
 
-                      if (info.findTalentInfo) {
-                        props.updateFindTalentTag(info.findTalentInfo.groupFrameId, info.findTalentInfo.tagId, { disabled: true });
-                      }
+                      props.findTalentTags.forEach((groupFrame) => {
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
+
+                          return infoText.toLowerCase() === text.toLowerCase();
+                        });
+
+                        tags.forEach((tag) => {
+                          props.updateFindTalentTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
+                        });
+                      });
 
                       props.addCriteriaTag({
                         ...tag,
-                        recentSearchesInfos: recentSearchesInfos,
-                        findTalentInfo: info.findTalentInfo,
+                        text: TagProcessor.toString(tag),
                       });
-
-                      // props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
                     }}
                   />
                 );

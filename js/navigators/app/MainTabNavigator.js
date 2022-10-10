@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     width: 57,
     height: 37,
-    marginTop: 26,
+    marginTop: 14,
     marginLeft: -12,
   },
   activeBackgroundColor: {
@@ -272,8 +272,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f00',
     width: 32,
     height: 32,
-    marginVertical: 12,
-    marginBottom: 4
   },
   dot: {
     // backgroundColor: '#f00',

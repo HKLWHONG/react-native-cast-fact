@@ -29,7 +29,7 @@ import {
   RangeTag,
 } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, TagProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -135,52 +135,38 @@ class FindTalentSection extends Component {
                     resizeMode={tag.resizeMode}
                     checked={tag.checked}
                     onPress={(info) => {
-                      // console.log(`[groupFrameId] ${info.groupFrameId}, [tagId] ${info.tagId}`);
+                      // console.log('[info] ', info);
 
-                      if (
-                        tag.leftAccessoryType
-                        &&
-                        tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
-                      ) {
-                        props.updateTag(info.groupFrameId, info.tagId, { checked: !tag.checked });
-                      } else {
-                        let prefix = tag.prefix ? tag.prefix + ' ' : '';
-                        let suffix = tag.suffix ? ' ' + tag.suffix : '';
+                      let infoText = TagProcessor.toString(info);
 
-                        let recentSearchesInfos = [];
+                      props.recentSearchesTags.forEach((groupFrame) => {
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
 
-                        props.recentSearchesTags.forEach((groupFrame) => {
-                          let data = groupFrame.data.filter((tag) => {
-                            return (
-                              tag.findTalentInfo
-                              &&
-                              tag.findTalentInfo.groupFrameId === info.groupFrameId
-                              &&
-                              tag.findTalentInfo.tagId === info.tagId
-                            );
-                          });
-
-                          data.forEach((tag) => {
-                            recentSearchesInfos.push(
-                              {
-                                ...tag,
-                                groupFrameId: groupFrame.groupFrameId,
-                              }
-                            );
-
-                            props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
-                          });
+                          return infoText.toLowerCase() === text.toLowerCase();
                         });
 
-                        props.updateTag(info.groupFrameId, info.tagId, { disabled: true });
-
-                        props.addCriteriaTag({
-                          ...tag,
-                          text: prefix + tag.text + suffix,
-                          recentSearchesInfos: recentSearchesInfos,
-                          findTalentInfo: info,
+                        tags.forEach((tag) => {
+                          props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
                         });
-                      }
+                      });
+
+                      props.tags.forEach((groupFrame) => {
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
+
+                          return infoText.toLowerCase() === text.toLowerCase();
+                        });
+
+                        tags.forEach((tag) => {
+                          props.updateTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
+                        });
+                      });
+
+                      props.addCriteriaTag({
+                        ...tag,
+                        text: TagProcessor.toString(tag),
+                      });
                     }}
                     onChangeValue={({ groupFrameId, tagId, value }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);

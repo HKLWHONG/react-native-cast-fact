@@ -20,7 +20,7 @@ import { SingleTouch, TextInput } from '../../components';
 
 import { Section, SearchBar, GroupFrame, Tag } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, TagProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -164,24 +164,36 @@ class CriteriaSection extends Component {
                       }
                     })()}
                     resizeMode={tag.resizeMode}
-                    onPressRightAccessory={({ groupFrameId, tagId, recentSearchesInfos, findTalentInfo }) => {
-                      // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
+                    onPressRightAccessory={(info) => {
+                      // console.log('[info] ', info);
 
-                      if (recentSearchesInfos) {
-                        recentSearchesInfos.forEach((recentSearchesInfo) => {
-                          // console.log('[recentSearchesInfo]', recentSearchesInfo);
+                      let infoText = TagProcessor.toText(info);
 
-                          props.updateRecentSearchesTag(recentSearchesInfo.groupFrameId, recentSearchesInfo.tagId, { disabled: false });
+                      props.recentSearchesTags.forEach((groupFrame) => {
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
+
+                          return infoText.toLowerCase() === text.toLowerCase();
                         });
-                      }
 
-                      // console.log('[findTalentInfo]', findTalentInfo);
+                        tags.forEach((tag) => {
+                          props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: false });
+                        });
+                      });
 
-                      if (findTalentInfo) {
-                        props.updateFindTalentTag(findTalentInfo.groupFrameId, findTalentInfo.tagId, { disabled: false });
-                      }
+                      props.findTalentTags.forEach((groupFrame) => {
+                        let tags = groupFrame.data.filter((tag) => {
+                          let text = TagProcessor.toString(tag);
 
-                      props.deleteTag(groupFrameId, tagId);
+                          return infoText.toLowerCase() === text.toLowerCase();
+                        });
+
+                        tags.forEach((tag) => {
+                          props.updateFindTalentTag(groupFrame.groupFrameId, tag.tagId, { disabled: false });
+                        });
+                      });
+
+                      props.deleteTag(info.groupFrameId, info.tagId);
 
                       if (props.onChangeTags) {
                         props.onChangeTags();
@@ -253,6 +265,8 @@ CriteriaSection.defaultProps = {
 function mapStateToProps(state) {
   return {
     tags: state.criteriaSectionReducer.tags,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
+    findTalentTags: state.findTalentSectionReducer.tags,
   };
 }
 
