@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { DrawerActionType } from '../../types';
+import { store, DrawerActionType } from '../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: DrawerActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const select = (index) => (dispatch) => {
@@ -19,5 +19,5 @@ export const select = (index) => (dispatch) => {
     index: index,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

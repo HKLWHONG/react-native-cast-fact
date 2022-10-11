@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { AppActionType } from '../../types';
+import { store, AppActionType } from '../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: AppActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const showActivityIndicator = (message, options) => (dispatch) => {
@@ -21,7 +21,7 @@ export const showActivityIndicator = (message, options) => (dispatch) => {
     options: options,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const hideActivityIndicator = (options) => (dispatch) => {
@@ -31,5 +31,5 @@ export const hideActivityIndicator = (options) => (dispatch) => {
     options: options,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import { DataActionType } from '../../types';
+import { store, DataActionType } from '../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
     type: DataActionType.RESET,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };
 
 export const setDummyData = (dummyData) => (dispatch) => {
@@ -19,5 +19,5 @@ export const setDummyData = (dummyData) => (dispatch) => {
     dummyData: dummyData,
   });
 
-  return Promise.resolve();
+  return Promise.resolve(store.getState());
 };

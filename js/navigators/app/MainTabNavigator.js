@@ -98,11 +98,20 @@ class MainTabNavigator extends BaseComponent {
               }}
               listeners={({ navigation, route }) => ({
                 tabPress: (e) => {
+                  // console.log('[navigation] ', navigation);
+                  // console.log('[route.state] ', route.state);
+
+                  let index = (route.state && route.state.index) || 0;
+
                   e.preventDefault();
 
                   if (navigation.isFocused()) {
-                    if (store.getState().feedReducer.ref) {
-                      store.getState().feedReducer.ref.props.scrollToPosition(0, 0);
+                    if (
+                      store.getState().mainTabReducer.listRefs.length > 0
+                      &&
+                      store.getState().mainTabReducer.listRefs[0].length > index
+                    ) {
+                      store.getState().mainTabReducer.listRefs[0][index].props.scrollToPosition(0, 0);
                     }
                   } else {
                     props.selectDrawer(0);

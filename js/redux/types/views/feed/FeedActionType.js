@@ -5,7 +5,6 @@
 
 export const RESET = '@FEED_RESET';
 
-export const REF = '@FEED_REF';
 export const REFRESHING = '@FEED_REFRESHING';
 
 export const FEEDS = '@FEED_FEEDS';

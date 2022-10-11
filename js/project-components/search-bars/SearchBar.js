@@ -139,7 +139,7 @@ class SearchBar extends Component {
             start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
             locations={[0,0.31,0.69,1.0]}
             colors={['#4F2F1A', '#3D290B', '#0E363B', '#024E58']}
-            style={[styles.subContainer, styles.linearGradient]}>
+            style={styles.subContainer}>
             {children}
           </LinearGradient>
         )}
@@ -207,8 +207,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '#00f',
     flexDirection: 'row',
     borderRadius: 21,
-  },
-  linearGradient: {
     padding: 1,
   },
   contentContainer: {

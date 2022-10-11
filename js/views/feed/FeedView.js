@@ -8,9 +8,10 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
-  FindTalentSectionAction,
-  CriteriaSectionAction,
   FeedAction,
+  MainTabAction,
+  CriteriaSectionAction,
+  FindTalentSectionAction,
 } from '../../redux';
 
 import {
@@ -407,7 +408,9 @@ class FeedView extends BaseComponent {
             style={styles.body}
             scrollable={false}>
             <List
-              innerRef={props.setRef}
+              innerRef={(ref) => {
+                props.setListRef(0, 0, ref);
+              }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
               renderItem={this.renderItem}
@@ -479,22 +482,21 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     dummyData: state.dataReducer.dummyData,
-    ref: state.feedReducer.ref,
     refreshing: state.feedReducer.refreshing,
-    recentSearchesTags: state.recentSearchesSectionReducer.tags,
     feeds: state.feedReducer.feeds,
+    recentSearchesTags: state.recentSearchesSectionReducer.tags,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setRef: (...args) => dispatch(FeedAction.setRef(...args)),
     setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
-    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
-    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
+    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
+    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
   };
 }
 

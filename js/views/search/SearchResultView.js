@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import {
   store,
   SearchResultAction,
+  MainTabAction,
 } from '../../redux';
 
 import {
@@ -274,6 +275,9 @@ class SearchResultView extends BaseComponent {
       <Translation>
         {(t) => (
           <List
+            innerRef={(ref) => {
+              props.setListRef(0, 2, ref);
+            }}
             contentContainerStyle={styles.listContentContainer}
             sections={sections}
             renderItem={this.renderItem}
@@ -455,6 +459,7 @@ function mapDispatchToProps(dispatch) {
     setRefreshing: (...args) => dispatch(SearchResultAction.setRefreshing(...args)),
     setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
+    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
   };
 }
 

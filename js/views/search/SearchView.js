@@ -9,6 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   CriteriaSectionAction,
+  MainTabAction,
   RecentSearchesSectionAction,
   SearchAction,
 } from '../../redux';
@@ -225,6 +226,9 @@ class SearchView extends BaseComponent {
             style={styles.body}
             scrollable={false}>
             <List
+              innerRef={(ref) => {
+                props.setListRef(0, 1, ref);
+              }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
               renderItem={this.renderItem}
@@ -291,6 +295,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
+    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
   };
 }
