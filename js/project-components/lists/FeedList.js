@@ -125,7 +125,7 @@ class FeedList extends Component {
       <Translation>
         {(t) => (
           <FastImage
-            style={styles.image}
+            style={[styles.image, styles.images]}
             refSize={styles.imageRefSize}
             source={{ uri: item && item.uri }}
             resizeMode={"contain"}
@@ -516,6 +516,9 @@ const styles = StyleSheet.create({
   },
   image: {
     // backgroundColor: '#0f0',
+  },
+  images: {
+    borderRadius: 3,
   },
   bottomContainer: {
     // backgroundColor: '#00f',

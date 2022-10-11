@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.light,
     letterSpacing: 2.27,
     textTransform: 'uppercase',
-    marginLeft: 14,
+    marginLeft: Platform.OS === 'ios' ? 14 : 10,
     marginTop: 80,
   },
   body: {
