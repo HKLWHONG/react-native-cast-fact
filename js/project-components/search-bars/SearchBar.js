@@ -48,7 +48,13 @@ class SearchBar extends Component {
         <SingleTouch
           style={styles.leftAccessoryButton}
           disabled={props.disabled}
-          onPress={() => props.setText(undefined)}>
+          onPress={() => {
+            props.setText(undefined);
+
+            if (props.onClear) {
+              props.onClear();
+            }
+          }}>
           <Image
             style={styles.leftAccessoryButtonImage}
             source={ic_xmark}
@@ -280,6 +286,7 @@ SearchBar.propTypes = {
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
   onChangeText: PropTypes.func,
+  onClear: PropTypes.func,
   enableLinearGradientBorder: PropTypes.bool,
 };
 
@@ -290,6 +297,7 @@ SearchBar.defaultProps = {
   disabled: false,
   onPress: undefined,
   onChangeText: undefined,
+  onClear: undefined,
   enableLinearGradientBorder: false,
 };
 

@@ -113,6 +113,12 @@ class CriteriaSection extends Component {
                   });
               }
             }}
+            onClear={() => {
+              SearchProvider.search(props, { prefetch: true }, {})
+                .catch((error) => {
+                  console.error(error);
+                });
+            }}
             enableLinearGradientBorder={props.enableSearchBarLinearGradientBorder}
           />
         )}
