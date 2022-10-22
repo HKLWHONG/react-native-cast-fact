@@ -8,6 +8,7 @@ import { CommonActionType, CriteriaSectionActionType } from '../../../types';
 const initialState = {
   text: '',
   tags: [],
+  lengthOfResults: 0,
 };
 
 export default function criteriaSectionReducer(state = initialState, action) {
@@ -117,6 +118,12 @@ export default function criteriaSectionReducer(state = initialState, action) {
         tags: tags,
       };
     }
+
+    case CriteriaSectionActionType.LENGTH_OF_RESULTS:
+      return {
+        ...state,
+        lengthOfResults: action.lengthOfResults || [],
+      };
 
     default:
       return state;

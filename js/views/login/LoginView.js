@@ -30,14 +30,14 @@ import {
   TextInput,
 } from '../../project-components';
 
-import i18n from '../../../i18n';
-import { Translation } from 'react-i18next';
-
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import { TestApi } from '../../apis';
+import { AuthProvider } from '../../providers';
+
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
 const ic_apple= require('../../../assets/images/ic_apple/ic_apple.png');
@@ -65,6 +65,9 @@ class LoginView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    // props.setEmail('user001@gmail.com');
+    // props.setPassword('password');
   };
 
   clearData = () => {
@@ -208,17 +211,35 @@ class LoginView extends BaseComponent {
               //   return;
               // }
 
-              // TestApi.request(
-              //   props,
-              //   {},
-              //   {},
-              // )
-              //   .then((json) => {
+              AuthProvider.login(props, {
+                email: 'user001@gmail.com', //props.credentials.loginID,
+                password: 'password', //props.credentials.password,
+              })
+                .then(() => {
+                  // if (
+                  //   props.pushNoticationProps.token &&
+                  //   props.pushNoticationProps.token.length
+                  // ) {
+                  //   await UserProvider.updateToken(props, {
+                  //     deviceToken: props.pushNoticationProps.token,
+                  //   }).catch((error) => {
+                  //     console.error(error);
+                  //   });
+                  // } else {
+                  //   console.log(
+                  //     '[login-view-update-token-bypassed] Token not found.',
+                  //   );
+                  // }
+                  //
                   Router.route(props, 'Main');
-              //   })
-              //   .catch((error) => {
-              //     reject(error);
-              //   });
+                })
+                .catch((error) => {
+                  console.error(error);
+
+                  // props.hideActivityIndicator({
+                  //   holder: ActivityIndicatorHolders.LOGIN,
+                  // });
+                });
             }}
           />
         )}
@@ -279,8 +300,8 @@ class LoginView extends BaseComponent {
             style={styles.body}>
             {this.renderTextInputs()}
             {this.renderLoginButton()}
-            {this.renderSeparator()}
-            {this.renderOtherLoginButtons()}
+            {/* this.renderSeparator() */}
+            {/* this.renderOtherLoginButtons() */}
           </Body>
         )}
       </Translation>
@@ -361,9 +382,10 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
+    marginTop: 32,
   },
   textInput: {
     marginBottom: 16,

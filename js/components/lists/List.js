@@ -20,6 +20,55 @@ export default class List extends Component {
 
   componentDidMount() {}
 
+  keyExtractor = (item, index) => {
+    return index.toString();
+  };
+
+  renderSectionHeader = ({ section }) => {
+    const { props } = this;
+    
+    if (!props.renderSectionHeader) {
+      return;
+    }
+
+    return props.renderSectionHeader(section);
+  };
+
+  renderItem = (params) => {
+    const { props } = this;
+
+    if (!props.renderItem) {
+      return;
+    }
+
+    return props.renderItem(params);
+  };
+
+  refreshControl = () => {
+    const { props } = this;
+
+    if (props.refreshControl) {
+      return props.refreshControl;
+    }
+
+    if (
+      !props.androidRefreshControlColor
+      ||
+      !props.iosRefreshControlColor
+    ) {
+      return;
+    }
+
+    return (
+      <RefreshControl
+        colors={[props.androidRefreshControlColor]}
+        tintColor={props.iosRefreshControlColor}
+        refreshing={props.refreshing}
+        onRefresh={props.onRefresh}
+      />
+    );
+  };
+
   render() {
     const { props } = this;
 
@@ -48,48 +97,13 @@ export default class List extends Component {
           styles.contentContainer,
           props.contentContainerStyle,
         ]}
-        keyExtractor={(item, index) => {
-          return index.toString();
-        }}
+        keyExtractor={this.keyExtractor}
         sections={sections}
-        renderSectionHeader={({ section }) => {
-          if (!props.renderSectionHeader) {
-            return;
-          }
-
-          return props.renderSectionHeader(section);
-        }}
-        renderItem={(params) => {
-          if (!props.renderItem) {
-            return;
-          }
-
-          return props.renderItem(params);
-        }}
+        renderSectionHeader={this.renderSectionHeader}
+        renderItem={this.renderItem}
         onEndReachedThreshold={0.5}
         onEndReached={props.onEndReached}
-        refreshControl={(() => {
-            if (props.refreshControl) {
-              return props.refreshControl;
-            }
-
-            if (
-              !props.androidRefreshControlColor
-              ||
-              !props.iosRefreshControlColor
-            ) {
-              return;
-            }
-
-            return (
-              <RefreshControl
-                colors={[props.androidRefreshControlColor]}
-                tintColor={props.iosRefreshControlColor}
-                refreshing={props.refreshing}
-                onRefresh={props.onRefresh}
-              />
-            );
-        })()}
+        refreshControl={this.refreshControl()}
         onRefresh={props.onRefresh}
         refreshing={props.refreshing}
         bounces={props.bounces}

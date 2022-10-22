@@ -132,10 +132,7 @@ export const GET = (
 
     if (API_LOGGING) {
       console.log(
-        '[' +
-          identifier +
-          '] ==================== GET REQUEST ====================\n[URL] ' +
-          url,
+        '[' + identifier + '] ==================== GET REQUEST ====================\n[URL] ' + url,
       );
 
       console.log('[Header] ', header);
@@ -165,10 +162,11 @@ export const GET = (
             .then((json) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== GET RESPONSE ====================\n',
-                  json,
+                  '[' + identifier + '] ==================== GET RESPONSE ====================\n',
+                  {
+                    status: response.status,
+                    body: json,
+                  },
                 );
               }
 
@@ -180,9 +178,7 @@ export const GET = (
             .catch((error) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== GET RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== GET RESPONSE ====================\n',
                   error,
                 );
               }
@@ -195,9 +191,7 @@ export const GET = (
             .then((blob) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== GET RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== GET RESPONSE ====================\n',
                   blob,
                 );
               }
@@ -210,9 +204,7 @@ export const GET = (
             .catch((error) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== GET RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== GET RESPONSE ====================\n',
                   error,
                 );
               }
@@ -224,9 +216,7 @@ export const GET = (
       .catch((error) => {
         if (API_LOGGING) {
           console.log(
-            '[' +
-              identifier +
-              '] ==================== GET RESPONSE ====================\n',
+            '[' + identifier + '] ==================== GET RESPONSE ====================\n',
             error,
           );
         }
@@ -270,10 +260,7 @@ export const POST = (
 
     if (API_LOGGING) {
       console.log(
-        '[' +
-          identifier +
-          '] ==================== POST REQUEST ====================\n[URL] ' +
-          url,
+        '[' + identifier + '] ==================== POST REQUEST ====================\n[URL] ' + url,
       );
 
       console.log('[Header]', header);
@@ -305,10 +292,11 @@ export const POST = (
             .then((json) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== POST RESPONSE ====================\n',
-                  json,
+                  '[' + identifier + '] ==================== POST RESPONSE ====================\n',
+                  {
+                    status: response.status,
+                    body: json,
+                  },
                 );
               }
 
@@ -320,9 +308,7 @@ export const POST = (
             .catch((error) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== POST RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== POST RESPONSE ====================\n',
                   error,
                 );
               }
@@ -335,9 +321,7 @@ export const POST = (
             .then((blob) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== POST RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== POST RESPONSE ====================\n',
                   blob,
                 );
               }
@@ -350,9 +334,7 @@ export const POST = (
             .catch((error) => {
               if (API_LOGGING) {
                 console.log(
-                  '[' +
-                    identifier +
-                    '] ==================== POST RESPONSE ====================\n',
+                  '[' + identifier + '] ==================== POST RESPONSE ====================\n',
                   error,
                 );
               }
@@ -364,9 +346,7 @@ export const POST = (
       .catch((error) => {
         if (API_LOGGING) {
           console.log(
-            '[' +
-              identifier +
-              '] ==================== POST RESPONSE ====================\n',
+            '[' + identifier + '] ==================== POST RESPONSE ====================\n',
             error,
           );
         }

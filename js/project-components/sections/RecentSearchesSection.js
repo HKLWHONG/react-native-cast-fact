@@ -29,6 +29,8 @@ import {
 
 import { Theme, TagProcessor } from '../../utils';
 
+import { SearchProvider } from '../../providers';
+
 import { Translation } from 'react-i18next';
 
 const ic_clock = require('../../../assets/images/ic_clock/ic_clock.png');
@@ -79,7 +81,7 @@ class RecentSearchesSection extends Component {
                       ...tag,
                       groupFrameId: groupFrame.groupFrameId,
                     }}
-                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    dotStyle={{ backgroundColor: tag.color }}
                     disabled={tag.disabled}
                     text={tag.text}
                     leftAccessoryType={tag.leftAccessoryType}
@@ -121,6 +123,11 @@ class RecentSearchesSection extends Component {
                         ...tag,
                         text: TagProcessor.toText(tag),
                       });
+
+                      SearchProvider.search(props, { prefetch: true }, {})
+                        .catch((error) => {
+                          console.error(error);
+                        });
                     }}
                   />
                 );

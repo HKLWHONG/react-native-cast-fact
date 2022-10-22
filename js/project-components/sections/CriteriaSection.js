@@ -11,6 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 import {
+  store,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
@@ -21,6 +22,8 @@ import { SingleTouch, TextInput } from '../../components';
 import { Section, SearchBar, GroupFrame, Tag } from '../../project-components';
 
 import { Theme, TagProcessor } from '../../utils';
+
+import { SearchProvider } from '../../providers';
 
 import { Translation } from 'react-i18next';
 
@@ -68,9 +71,10 @@ class CriteriaSection extends Component {
               console.log('[search-text] ', text)
 
               if (text && text.length > 0) {
-                props.addTag({ text: text, isManual: true }).then((state) => {
-                  this.addRecentSearchesGroupFrame(state.criteriaSectionReducer.tags);
-                });
+                props.addTag({ text: text, isManual: true })
+                  .then((state) => {
+                    this.addRecentSearchesGroupFrame(state.criteriaSectionReducer.tags);
+                  });
               } else {
                 this.addRecentSearchesGroupFrame(props.tags);
               }
@@ -80,6 +84,34 @@ class CriteriaSection extends Component {
               }
 
               props.onPressSearchBar(text);
+            }}
+            onChangeText={(text) => {
+              if (text && text.length > 0) {
+                let tags = [{ text: text, isManual: true }];
+
+                store.getState().criteriaSectionReducer.tags.forEach((groupFrame) => {
+                  let data = groupFrame.data || [];
+
+                  tags = [...tags, ...data];
+                });
+
+                SearchProvider.search(
+                  props,
+                  {
+                    tags: JSON.stringify(tags),
+                    prefetch: true,
+                  },
+                  {},
+                )
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              } else {
+                SearchProvider.search(props, { prefetch: true }, {})
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
             }}
             enableLinearGradientBorder={props.enableSearchBarLinearGradientBorder}
           />
@@ -113,7 +145,7 @@ class CriteriaSection extends Component {
                 letterSpacing: 1.7,
                 textTransform: 'uppercase',
               }}>
-              {'More than 100 results.'}
+              {t('views.search.result_format').replace('{0}', props.lengthOfResults)}
             </Text>
           </View>
         )}
@@ -149,7 +181,7 @@ class CriteriaSection extends Component {
                       ...tag,
                       groupFrameId: groupFrame.groupFrameId,
                     }}
-                    dotStyle={{ backgroundColor: tag.dotColor }}
+                    dotStyle={{ backgroundColor: tag.color }}
                     text={tag.text}
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
@@ -195,6 +227,13 @@ class CriteriaSection extends Component {
                       });
 
                       props.deleteTag(info.groupFrameId, info.tagId);
+
+                      if (props.enableResultView) {
+                        SearchProvider.search(props, { prefetch: true }, {})
+                          .catch((error) => {
+                            console.error(error);
+                          });
+                      }
 
                       if (props.onChangeTags) {
                         props.onChangeTags();
@@ -268,6 +307,7 @@ CriteriaSection.defaultProps = {
 function mapStateToProps(state) {
   return {
     tags: state.criteriaSectionReducer.tags,
+    lengthOfResults: state.criteriaSectionReducer.lengthOfResults,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
   };

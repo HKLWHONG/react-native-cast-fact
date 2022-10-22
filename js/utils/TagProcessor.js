@@ -34,3 +34,22 @@ export const toString = (tag) => {
 
   return (toPrefix(tag) + ' ' + toText(tag) + ' ' + toSuffix(tag)).trim();
 }
+
+export const format = (data) => {
+  let tags = [
+    ...data,
+  ].map((groupFrame, groupFrameId) => {
+    return {
+      groupFrameId: groupFrameId.toString(),
+      label: groupFrame.label,
+      data: groupFrame.data.map((tag, tagId) => {
+        return {
+          ...tag,
+          tagId: tagId.toString(),
+        };
+      }),
+    };
+  });
+
+  return tags;
+}

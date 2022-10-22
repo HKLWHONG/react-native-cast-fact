@@ -23,6 +23,8 @@ import { Header } from '../../project-components';
 
 import { FeedView, SearchView, SearchResultView } from '../../views';
 
+import { TagProcessor } from '../../utils';
+
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
@@ -41,24 +43,6 @@ class FeedStackNavigator extends BaseComponent {
   componentWillUnmount() {
     super.componentWillUnmount();
   }
-
-  loadTagsFromDummyData = () => {
-    const { props } = this;
-
-    let tags = props.dummyData.filter((data) => {
-      // console.log('[data]', data);
-
-      return data.label === 'tags';
-    });
-
-    if (tags.length === 0) {
-      return;
-    }
-
-    props.setFindTalentTags(tags[0].data.map((tag) => {
-      return {...tag};
-    }));
-  };
 
   render() {
     const { props } = this;
@@ -86,7 +70,7 @@ class FeedStackNavigator extends BaseComponent {
 
                         props.resetRecentSearchesTags();
 
-                        this.loadTagsFromDummyData();
+                        props.setFindTalentTags(TagProcessor.format(props.tagData));
 
                         navigation.popToTop();
                       } else {
@@ -131,8 +115,7 @@ const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
   return {
-    dummyData: state.dataReducer.dummyData,
-    recentSearchesTags: state.recentSearchesSectionReducer.tags,
+    tagData: state.dataReducer.tagData,
   };
 }
 

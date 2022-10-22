@@ -7,6 +7,12 @@ import { CommonActionType, SearchResultActionType } from '../../../types';
 
 const initialState = {
   refreshing: false,
+  results: [],
+  feedsPaging: {
+    loading: false,
+    page: 1,
+    length: 10,
+  },
   feeds: [],
 };
 
@@ -24,10 +30,43 @@ export default function searchResultReducer(state = initialState, action) {
         refreshing: action.refreshing,
       };
 
+    case SearchResultActionType.RESULTS:
+      return {
+        ...state,
+        results: action.results || [],
+      };
+
+    case SearchResultActionType.FEEDS_PAGING_LOADING:
+      return {
+        ...state,
+        feedsPaging: {
+          ...state.feedsPaging,
+          loading: action.loading,
+        },
+      };
+
+    case SearchResultActionType.FEEDS_PAGING_PAGE:
+      return {
+        ...state,
+        feedsPaging: {
+          ...state.feedsPaging,
+          page: action.page,
+        },
+      };
+
+    case SearchResultActionType.FEEDS_PAGING_LENGTH:
+      return {
+        ...state,
+        feedsPaging: {
+          ...state.feedsPaging,
+          length: action.length,
+        },
+      };
+
     case SearchResultActionType.FEEDS:
       return {
         ...state,
-        feeds: action.feeds,
+        feeds: action.feeds || [],
       };
 
     case SearchResultActionType.FEEDS_UPDATE_FEED:

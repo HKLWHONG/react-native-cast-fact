@@ -26,6 +26,30 @@ class ProfileList extends Component {
     this.state = {};
   }
 
+  renderProfileImageIfNeeded = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    let uri = item && item.profile && item.profile.imageUri;
+
+    if (!uri) {
+      return;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <FastImage
+            style={styles.image}
+            defaultSource={preview}
+            source={ { uri: uri }}
+            resizeMode="contain"
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderItem = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
@@ -42,19 +66,14 @@ class ProfileList extends Component {
               }
             }}>
             <View style={styles.itemSubContainer}>
-              <FastImage
-                style={styles.image}
-                defaultSource={preview}
-                source={{ uri: item && item.uri }}
-                resizeMode="contain"
-              />
+              {this.renderProfileImageIfNeeded(params)}
               <Text
                 style={styles.nameLabel}>
-                {item && item.name}
+                {item && item.profile && item.profile.nickname}
                 </Text>
               <Text
                 style={styles.titleLabel}>
-                {item && item.title}
+                {item && item.profile && item.profile.title}
               </Text>
             </View>
           </SingleTouch>

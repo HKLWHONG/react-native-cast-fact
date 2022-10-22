@@ -9,7 +9,9 @@
 }
 
 const Environment = {
-  API_URL: 'https://www.kcplace.com/minomeHOME/public/api',
+  API_URL: 'https://www.kcplace.com/castfact/public/api/fn',
+
+  USE_DUMMY_DATA: false,
 
   CERTS: [],
 };

@@ -76,7 +76,13 @@ class SearchBar extends Component {
       <TextInput
         textInputStyle={styles.textInput}
         value={props.text}
-        onChangeText={props.setText}
+        onChangeText={(text) => {
+          props.setText(text);
+
+          if (props.onChangeText) {
+            props.onChangeText(text);
+          }
+        }}
         disableBottomLine
         disableMessageView
       />
@@ -273,6 +279,7 @@ SearchBar.propTypes = {
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
+  onChangeText: PropTypes.func,
   enableLinearGradientBorder: PropTypes.bool,
 };
 
@@ -282,6 +289,7 @@ SearchBar.defaultProps = {
   hidden: false,
   disabled: false,
   onPress: undefined,
+  onChangeText: undefined,
   enableLinearGradientBorder: false,
 };
 

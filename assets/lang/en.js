@@ -16,7 +16,7 @@ const en = {
     no_result_description: 'Try to refine the search criteria.',
     error: {
       empty_field_message: 'Please complete all requuired fields.',
-      password_validation_message: 'A password must be 8-14 alphanumeric characters.',
+      password_validation_message: 'A password must be 8 or above alphanumeric characters.',
     },
   },
   components: {
@@ -40,6 +40,7 @@ const en = {
     },
     search: {
       header: 'Search',
+      result_format: 'More than {0} results.',
     },
     search_result: {
       header: 'Results',

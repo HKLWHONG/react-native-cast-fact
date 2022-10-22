@@ -21,7 +21,6 @@ export default function recentSearchesSectionReducer(state = initialState, actio
     {
       let tags = state.tags.map((groupFrame) => {
         let data = groupFrame.data.map((tag) => {
-          console.log('[tag]', tag);
           return {
             ...tag,
             disabled: false,

@@ -40,3 +40,12 @@ export const deleteTag = (groupFrameId, tagId) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setLengthOfResults = (lengthOfResults) => (dispatch) => {
+  dispatch({
+    type: CriteriaSectionActionType.LENGTH_OF_RESULTS,
+    lengthOfResults: lengthOfResults,
+  });
+
+  return Promise.resolve(store.getState());
+};

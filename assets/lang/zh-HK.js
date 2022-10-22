@@ -16,7 +16,7 @@ const zhHK = {
     no_result_description: 'Try to refine the search criteria.',
     error: {
       empty_field_message: '請輸入所需資料。',
-      password_validation_message: '密碼必須是由8-14個字的字母及數字所組成。',
+      password_validation_message: '密碼必須是由8或以上的字母及數字所組成。',
     },
   },
   components: {
@@ -40,6 +40,7 @@ const zhHK = {
     },
     search: {
       header: 'Search',
+      result_format: 'More than {0} results.',
     },
     search_result: {
       header: 'Results',

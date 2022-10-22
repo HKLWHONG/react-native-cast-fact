@@ -5,7 +5,7 @@
 
 import { PropTypes } from 'react';
 
-import Environment from '../config/Environment';
+import { Environment } from '../config';
 
 import * as Api from '../utils/Api';
 

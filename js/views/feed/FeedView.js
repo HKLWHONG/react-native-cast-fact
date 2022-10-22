@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   FeedAction,
   MainTabAction,
   CriteriaSectionAction,
@@ -38,7 +39,9 @@ import {
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-import { Theme, Router } from '../../utils';
+import { Theme, Router, FeedProcessor } from '../../utils';
+
+import { FeedProvider } from '../../providers';
 
 const preview = require('../../../assets/images/preview/preview.png');
 const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
@@ -69,15 +72,48 @@ class FeedView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    this.loadFeedsFromDummyData();
+    this.loadFeeds();
 
-    this.loadTagsFromDummyData();
+    // this.loadFeedsFromDummyData();
+
+    // this.loadTagsFromDummyData();
 
     // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
 
   clearData = () => {
     const { props } = this;
+  };
+
+  loadFeeds = (feeds) => {
+    const { props } = this;
+
+    if (store.getState().feedReducer.feedsPaging.loading) {
+      return;
+    }
+
+    props.setFeedsPagingLoading(true);
+
+    FeedProvider.getFeeds(props, {
+      page: store.getState().feedReducer.feedsPaging.page,
+      length: store.getState().feedReducer.feedsPaging.length,
+    })
+      .then((json) => {
+        props.setFeedsPagingLoading(false);
+        props.setRefreshing(false);
+
+        if (json.payload.length > 0) {
+          props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
+        } else {
+          props.setFeedsPagingPage(store.getState().feedReducer.feedsPaging.page - 1);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        props.setFeedsPagingLoading(false);
+        props.setRefreshing(false);
+      });
   };
 
   loadFeedsFromDummyData = () => {
@@ -102,8 +138,8 @@ class FeedView extends BaseComponent {
         delete profile.posts;
 
         feeds.push({
-          ...post,
-          profile: profile,
+          post: post,
+          ...profile,
         });
       });
     });
@@ -272,6 +308,14 @@ class FeedView extends BaseComponent {
 
     console.log('[onEndReached]');
 
+    if (store.getState().feedReducer.feedsPaging.loading) {
+      return;
+    }
+
+    props.setFeedsPagingPage(store.getState().feedReducer.feedsPaging.page + 1);
+
+    this.loadFeeds();
+
     // this.loadFeedsFromDummyData();
 
     // props.setFeeds(this.testAddFeedData(props.feeds, 5));
@@ -294,19 +338,34 @@ class FeedView extends BaseComponent {
                 // TODO
               }}
               onPressFollow={({ item, index, separators }) => {
-                // console.log('[item.followed] ', item.followed);
+                // console.log('[followed] ', item && item.profile && item.profile.followed);
 
-                props.updateFeed(item.feedId, { followed: !item.followed });
+                props.updateFeed(item.feedId, {
+                  profile: {
+                    ...item.profile,
+                    followed: !(item && item.profile && item.profile.followed),
+                  },
+                });
               }}
               onPressLike={({ item, index, separators }) => {
-                // console.log('[item.liked] ', item.liked);
+                // console.log('[liked] ', item && item.post && item.post.liked);
 
-                props.updateFeed(item.feedId, { liked: !item.liked });
+                props.updateFeed(item.feedId, {
+                  post: {
+                    ...item.post,
+                    liked: !(item && item.post && item.post.liked),
+                  },
+                });
               }}
               onPressBookmark={({ item, index, separators }) => {
-                // console.log('[item.bookmarked] ', item.bookmarked);
+                // console.log('[bookmarked] ', item && item.post && item.post.bookmarked);
 
-                props.updateFeed(item.feedId, { bookmarked: !item.bookmarked });
+                props.updateFeed(item.feedId, {
+                  post: {
+                    ...item.post,
+                    bookmarked: !(item && item.post && item.post.bookmarked),
+                  },
+                });
               }}
               onEndReached={this.onEndReached}
             />
@@ -421,9 +480,9 @@ class FeedView extends BaseComponent {
               onRefresh={(refreshing) => {
                 props.setRefreshing(true);
 
-                setTimeout(() => {
-                  props.setRefreshing(false);
-                }, 500);
+                props.setFeedsPagingPage(1);
+
+                this.loadFeeds([]);
               }}
             />
           </Body>
@@ -481,9 +540,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    dummyData: state.dataReducer.dummyData,
     refreshing: state.feedReducer.refreshing,
     feeds: state.feedReducer.feeds,
+    dummyData: state.dataReducer.dummyData,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
   };
 }
@@ -492,6 +551,8 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(FeedAction.reset(...args)),
     setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
+    setFeedsPagingLoading: (...args) => dispatch(FeedAction.setFeedsPagingLoading(...args)),
+    setFeedsPagingPage: (...args) => dispatch(FeedAction.setFeedsPagingPage(...args)),
     setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
     setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),

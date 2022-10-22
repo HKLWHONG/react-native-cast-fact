@@ -20,6 +20,41 @@ export default class SimpleList extends Component {
 
   componentDidMount() {}
 
+  keyExtractor = (item, index) => {
+    return index.toString();
+  };
+
+  renderItem = (params) => {
+    const { props } = this;
+
+    if (!props.renderItem) {
+      return;
+    }
+
+    return props.renderItem(params);
+  };
+
+  refreshControl = () => {
+      const { props } = this;
+
+      if (props.refreshControl) {
+        return props.refreshControl;
+      }
+
+      if (!props.refreshControlColor) {
+        return;
+      }
+
+      return (
+        <RefreshControl
+          colors={[props.androidRefreshControlColor]}
+          tintColor={props.iosRefreshControlColor}
+          refreshing={props.refreshing}
+          onRefresh={props.onRefresh}
+        />
+      );
+  };
+
   render() {
     const { props } = this;
 
@@ -35,36 +70,11 @@ export default class SimpleList extends Component {
           styles.contentContainer,
           props.contentContainerStyle,
         ]}
-        keyExtractor={(item, index) => {
-          return index.toString();
-        }}
-        renderItem={(params) => {
-          if (!props.renderItem) {
-            return;
-          }
-
-          return props.renderItem(params);
-        }}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderItem}
         onEndReachedThreshold={0.5}
         onEndReached={props.onEndReached}
-        refreshControl={(() => {
-            if (props.refreshControl) {
-              return props.refreshControl;
-            }
-
-            if (!props.refreshControlColor) {
-              return;
-            }
-
-            return (
-              <RefreshControl
-                colors={[props.androidRefreshControlColor]}
-                tintColor={props.iosRefreshControlColor}
-                refreshing={props.refreshing}
-                onRefresh={props.onRefresh}
-              />
-            );
-        })()}
+        refreshControl={this.refreshControl()}
         onRefresh={props.onRefresh}
         refreshing={props.refreshing}
         bounces={props.bounces}

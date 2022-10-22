@@ -1,0 +1,83 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const IDENTIFIER = '@${identifier}';
+
+export const identifiers = {
+  key: `${IDENTIFIER}_key`,
+};
+
+export const setObject = (value) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (value === undefined || value === null) {
+        AsyncStorage.removeItem(identifiers.key, (error) => {
+          if (!error) {
+            resolve();
+          } else {
+            reject(error);
+          }
+        });
+      } else if (typeof value === 'object') {
+        AsyncStorage.setItem(
+          identifiers.key,
+          JSON.stringify(value),
+          (error) => {
+            if (!error) {
+              resolve();
+            } else {
+              reject(error);
+            }
+          },
+        );
+      } else {
+        reject(`Unexpected data type. (typeof ${typeof value})`);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getObject = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      AsyncStorage.getItem(identifiers.key, (error, result) => {
+        if (result) {
+          resolve(JSON.parse(result));
+        } else {
+          reject(`Key '${identifiers.key} not found. (error: ${error})'`);
+        }
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const removeAll = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getAllKeys()
+      .then((keys) => {
+        const filteredKeys = keys.filter((key) => {
+          return key.startsWith(IDENTIFIER);
+        });
+
+        AsyncStorage.multiRemove(filteredKeys, (error) => {
+          if (!error) {
+            resolve();
+          } else {
+            reject(error);
+          }
+        });
+      })
+      .catch((error) => {
+        reject(error);
+      })
+      .done();
+  });
+};

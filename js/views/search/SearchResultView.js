@@ -32,10 +32,12 @@ import {
   Tag,
 } from '../../project-components';
 
+import { Theme, Router, FeedProcessor } from '../../utils';
+
+import { SearchProvider } from '../../providers';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
-
-import { Theme, Router } from '../../utils';
 
 const ic_no_result = require('../../../assets/images/ic_no_result/ic_no_result.png');
 
@@ -63,15 +65,50 @@ class SearchResultView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    this.search();
+    this.loadFeeds();
+
+    // this.search();
 
     // props.setFeeds(this.testAddFeedData(props.feeds, 5));
+
+    // props.setFeeds(FeedProcessor.format(props.feeds, props.results));
   };
 
   clearData = () => {
     const { props } = this;
 
     props.reset();
+  };
+
+  loadFeeds = (feeds) => {
+    const { props } = this;
+
+    if (store.getState().searchResultReducer.feedsPaging.loading) {
+      return;
+    }
+
+    props.setFeedsPagingLoading(true);
+    props.setRefreshing(false);
+
+    SearchProvider.search(props, {
+      page: store.getState().searchResultReducer.feedsPaging.page,
+      length: store.getState().searchResultReducer.feedsPaging.length,
+    })
+      .then((json) => {
+        props.setFeedsPagingLoading(false);
+
+        if (json.payload.length > 0) {
+          props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
+        } else {
+          props.setFeedsPagingPage(store.getState().searchResultReducer.feedsPaging.page - 1);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        props.setFeedsPagingLoading(false);
+        props.setRefreshing(false);
+      });
   };
 
   testAddFeedData = (data, num) => {
@@ -193,10 +230,10 @@ class SearchResultView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onChangeTags={() => {
-              console.log('[onChangeTags]');
+              props.setFeedsPagingPage(1);
 
-              this.search();
-          }} />
+              this.loadFeeds([]);
+            }} />
         )}
       </Translation>
     );
@@ -206,6 +243,14 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
 
     console.log('[onEndReached]');
+
+    if (store.getState().searchResultReducer.feedsPaging.loading) {
+      return;
+    }
+
+    props.setFeedsPagingPage(store.getState().searchResultReducer.feedsPaging.page + 1);
+
+    this.loadFeeds();
 
     // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
@@ -288,9 +333,9 @@ class SearchResultView extends BaseComponent {
             onRefresh={(refreshing) => {
               props.setRefreshing(true);
 
-              setTimeout(() => {
-                props.setRefreshing(false);
-              }, 500);
+              props.setFeedsPagingPage(1);
+
+              this.loadFeeds([]);
             }}
           />
         )}
@@ -447,9 +492,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    dummyData: state.dataReducer.dummyData,
     refreshing: state.searchResultReducer.refreshing,
+    results: state.searchResultReducer.results,
     feeds: state.searchResultReducer.feeds,
+    dummyData: state.dataReducer.dummyData,
   };
 }
 
@@ -457,6 +503,8 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultAction.reset(...args)),
     setRefreshing: (...args) => dispatch(SearchResultAction.setRefreshing(...args)),
+    setFeedsPagingLoading: (...args) => dispatch(SearchResultAction.setFeedsPagingLoading(...args)),
+    setFeedsPagingPage: (...args) => dispatch(SearchResultAction.setFeedsPagingPage(...args)),
     setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
     setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),

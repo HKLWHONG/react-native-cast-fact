@@ -38,6 +38,29 @@ class FeedList extends Component {
     this.state = {};
   }
 
+  renderProfileImageIfNeeded = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    let uri = item && item.profile && item.profile.imageUri;
+
+    if (!uri) {
+      return;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <FastImage
+            style={styles.avatarImage}
+            source={{ uri: uri }}
+            resizeMode={"contain"}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderTopContainer = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
@@ -47,11 +70,7 @@ class FeedList extends Component {
         {(t) => (
           <View
             style={styles.topContainer}>
-            <FastImage
-              style={styles.avatarImage}
-              source={{ uri: item && item.profile && item.profile.uri }}
-              resizeMode={"contain"}
-            />
+            {this.renderProfileImageIfNeeded(params)}
             <View style={styles.profileInfoContainer}>
               <Text
                 style={styles.nameLabel}>
@@ -82,7 +101,7 @@ class FeedList extends Component {
               buttonStyle={styles.followButton}
               textStyle={styles.followText}
               type="small"
-              text={item && item.followed ? t('app.followed') : t('app.follow')}
+              text={item && item.profile && item.profile.followed ? t('app.followed') : t('app.follow')}
               onPress={() => {
                 if (!props.onPressFollow) {
                   return;
@@ -101,13 +120,19 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
+    let uri = item && item.post && item.post.imageUri;
+
+    if (!uri) {
+      return;
+    }
+
     return (
       <Translation>
         {(t) => (
           <AutoHeightImage
             style={styles.image}
             width={Dimensions.get('window').width}
-            source={{ uri: item && item.uri }}
+            source={{ uri: uri }}
             resizeMode={"contain"}
           />
         )}
@@ -119,7 +144,11 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    // console.log('[item]', item);
+    let uri = item && item.imageUri;
+
+    if (!uri) {
+      return;
+    }
 
     return (
       <Translation>
@@ -127,7 +156,7 @@ class FeedList extends Component {
           <FastImage
             style={[styles.image, styles.images]}
             refSize={styles.imageRefSize}
-            source={{ uri: item && item.uri }}
+            source={{ uri: uri }}
             resizeMode={"contain"}
           />
         )}
@@ -175,7 +204,7 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let data = item && item.profile && item.profile.posts;
+    let data = item && item.posts;
 
     if (!data || data.length === 0) {
       return this.renderNoPosts(params);
@@ -244,7 +273,7 @@ class FeedList extends Component {
                 buttonStyle={styles.likeButton}
                 imageStyle={styles.likeButtonImage}
                 type="small"
-                source={item && item.liked ? ic_heart_fill : ic_heart}
+                source={item && item.post && item.post.liked ? ic_heart_fill : ic_heart}
                 resizeMode="center"
                 onPress={() => {
                   if (!props.onPressLike) {
@@ -271,7 +300,7 @@ class FeedList extends Component {
                 buttonStyle={styles.bookmarkButton}
                 imageStyle={styles.bookmarkButtonImage}
                 type="small"
-                source={item && item.bookmarked ? ic_star_fill : ic_star}
+                source={item && item.post && item.post.bookmarked ? ic_star_fill : ic_star}
                 resizeMode="center"
                 onPress={() => {
                   if (!props.onPressBookmark) {
@@ -286,7 +315,7 @@ class FeedList extends Component {
               style={styles.centerBottomContainer}>
               <Text
                 style={styles.text}>
-                {item && item.description}
+                {item && item.post && item.post.description}
               </Text>
             </View>
             <View style={styles.bottomBottomContainer}>
@@ -297,7 +326,7 @@ class FeedList extends Component {
                   resizeMode="center"
                 />
                 <Text style={styles.categoryText}>
-                  {item && item.eventType}
+                  {item && item.post && item.post.eventType}
                 </Text>
               </View>
               <View style={styles.scheduleContainer}>

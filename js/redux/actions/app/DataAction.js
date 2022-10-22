@@ -21,3 +21,12 @@ export const setDummyData = (dummyData) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setTagData = (tagData) => (dispatch) => {
+  dispatch({
+    type: DataActionType.TAG_DATA,
+    tagData: tagData,
+  });
+
+  return Promise.resolve(store.getState());
+};

@@ -36,13 +36,15 @@ import {
   RangeTag,
 } from '../../project-components';
 
-import i18n from '../../../i18n';
-import { Translation } from 'react-i18next';
-
 import {
   Theme,
   Router,
 } from '../../utils';
+
+import { SearchProvider } from '../../providers';
+
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
 
@@ -69,6 +71,11 @@ class SearchView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    SearchProvider.search(props, { prefetch: true }, {})
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   clearData = () => {

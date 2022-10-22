@@ -3,8 +3,14 @@
  * @flow strict-local
  */
 
-import * as TestApi from './TestApi';
+import * as GetFeedApi from './GetFeedApi';
+import * as GetTagApi from './GetTagApi';
+import * as LoginApi from './LoginApi';
+import * as SearchApi from './SearchApi';
 
 export {
-  TestApi,
+  GetFeedApi,
+  GetTagApi,
+  LoginApi,
+  SearchApi,
 };
