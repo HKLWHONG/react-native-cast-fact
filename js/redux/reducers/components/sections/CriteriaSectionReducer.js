@@ -122,7 +122,7 @@ export default function criteriaSectionReducer(state = initialState, action) {
     case CriteriaSectionActionType.LENGTH_OF_RESULTS:
       return {
         ...state,
-        lengthOfResults: action.lengthOfResults || [],
+        lengthOfResults: action.lengthOfResults || 0,
       };
 
     default:
