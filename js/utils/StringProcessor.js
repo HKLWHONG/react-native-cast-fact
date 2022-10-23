@@ -13,7 +13,7 @@ export const toBoolean = (string) => {
     ||
     string.toLowerCase() === '1'.toLowerCase()
   );
-}
+};
 
 export const trim = (string, character) => {
   character = character.replace('\\', '\\\\]');

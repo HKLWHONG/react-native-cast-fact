@@ -7,10 +7,11 @@ import { CommonActionType, SearchResultActionType } from '../../../types';
 
 const initialState = {
   refreshing: false,
+  searched: false,
   results: [],
   feedsPaging: {
     loading: false,
-    page: 1,
+    page: 0,
     length: 10,
   },
   feeds: [],
@@ -23,6 +24,12 @@ export default function searchResultReducer(state = initialState, action) {
 
     case SearchResultActionType.RESET:
       return initialState;
+
+    case SearchResultActionType.SEARCHED:
+      return {
+        ...state,
+        searched: action.searched,
+      };
 
     case SearchResultActionType.REFRESHING:
       return {

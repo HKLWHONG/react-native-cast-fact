@@ -9,7 +9,7 @@ const initialState = {
   refreshing: false,
   feedsPaging: {
     loading: false,
-    page: 1,
+    page: 0,
     length: 10,
   },
   feeds: [],

@@ -72,7 +72,7 @@ class SearchView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    SearchProvider.search(props, { prefetch: true }, {})
+    SearchProvider.search(props, {}, {})
       .catch((error) => {
         console.error(error);
       });

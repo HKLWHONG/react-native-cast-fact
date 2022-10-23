@@ -16,4 +16,4 @@ export const format = (list, data) => {
   })
 
   return [...list, ...feeds];
-}
+};

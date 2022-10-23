@@ -72,7 +72,7 @@ class FeedView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    this.loadFeeds();
+    // this.loadFeeds();
 
     // this.loadFeedsFromDummyData();
 
@@ -94,8 +94,10 @@ class FeedView extends BaseComponent {
 
     props.setFeedsPagingLoading(true);
 
+    let page = store.getState().feedReducer.feedsPaging.page + 1;
+
     FeedProvider.getFeeds(props, {
-      page: store.getState().feedReducer.feedsPaging.page,
+      page: page,
       length: store.getState().feedReducer.feedsPaging.length,
     })
       .then((json) => {
@@ -103,9 +105,9 @@ class FeedView extends BaseComponent {
         props.setRefreshing(false);
 
         if (json.payload.length > 0) {
+          props.setFeedsPagingPage(page);
+
           props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
-        } else {
-          props.setFeedsPagingPage(store.getState().feedReducer.feedsPaging.page - 1);
         }
       })
       .catch((error) => {

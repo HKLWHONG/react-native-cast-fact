@@ -8,6 +8,7 @@ import { StyleSheet, Platform, Image } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   AppAction,
   DataAction,
   DrawerAction,
@@ -16,6 +17,7 @@ import {
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
+  FeedAction,
 } from '../../redux';
 
 import { Environment } from '../../config';
@@ -24,11 +26,24 @@ import { StackActions } from '@react-navigation/native';
 
 import { BaseComponent, Root, Header, Body, Footer } from '../../components';
 
-import { Theme, Router, TagProcessor, DummyData } from '../../utils';
+import {
+  Theme,
+  Router,
+  TagProcessor,
+  FeedProcessor,
+  DummyData,
+} from '../../utils';
 
-import { AuthStorage } from '../../storages';
+import {
+  AuthStorage,
+  TagStorage,
+  FeedStorage,
+} from '../../storages';
 
-import { TagProvider } from '../../providers';
+import {
+  TagProvider,
+  FeedProvider,
+} from '../../providers';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -54,7 +69,7 @@ class LaunchView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = () => {
+  initialize = async () => {
     const { props } = this;
 
     props.selectDrawer(0);
@@ -65,16 +80,66 @@ class LaunchView extends BaseComponent {
 
       Router.route(props, 'Login');
     } else {
+      let tags = await TagStorage.getTags()
+        .catch((error) => {
+          console.error(error);
+        });
+
+      if (tags) {
+        props.setFindTalentTags(tags);
+      }
+
       TagProvider.getTags(props, {})
         .then((json) => {
-          props.setFindTalentTags(TagProcessor.format(json.payload));
+          let tags = TagProcessor.format(json.payload);
+
+          TagStorage.setTags(tags)
+            .catch((error) => {
+              console.error(error);
+            });
+
+          props.setFindTalentTags(tags);
         })
         .catch((error) => {
           console.error(error);
         });
 
         AuthStorage.getToken()
-          .then(() => {
+          .then(async () => {
+            let feeds = await FeedStorage.getFeeds()
+              .catch((error) => {
+                console.error(error);
+              });
+
+            if (feeds) {
+              props.setFeedsPagingPage(1);
+
+              props.setFeeds(feeds);
+            } else {
+              let page = 1;
+
+              let json = await FeedProvider.getFeeds(props, {
+                page: page,
+                length: store.getState().feedReducer.feedsPaging.length,
+              })
+                .catch((error) => {
+                  console.error(error);
+                });
+
+              if (json && json.payload && json.payload.length > 0) {
+                props.setFeedsPagingPage(page);
+
+                let feeds = FeedProcessor.format([], json.payload);
+
+                FeedStorage.setFeeds(feeds)
+                  .catch((error) => {
+                    console.error(error);
+                  });
+
+                props.setFeeds(feeds);
+              }
+            }
+
             Router.route(props, 'Main');
           })
           .catch((error) => {
@@ -171,6 +236,8 @@ function mapDispatchToProps(dispatch) {
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
+    setFeedsPagingPage: (...args) => dispatch(FeedAction.setFeedsPagingPage(...args)),
+    setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
   };
 }
 

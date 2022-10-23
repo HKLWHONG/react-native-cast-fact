@@ -134,7 +134,7 @@ export const popToTop = (props) => {
   }
 
   props.navigation.popToTop();
-}
+};
 
 export const goBack = (props) => {
   if (!props || !props.navigation) {

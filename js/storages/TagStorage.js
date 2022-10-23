@@ -5,16 +5,16 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const IDENTIFIER = '@auth';
+const IDENTIFIER = '@tag';
 
 export const identifiers = {
-  token: `${IDENTIFIER}_token`,
+  tags: `${IDENTIFIER}_tags`,
 };
 
-export const setToken = (value) => {
+export const setTags = (value) => {
   return new Promise((resolve, reject) => {
-    let identifier = identifiers.token;
-    let expectedDataType = 'string';
+    let identifier = identifiers.tags;
+    let expectedDataType = 'object';
 
     try {
       if (value === undefined || value === null) {
@@ -28,7 +28,7 @@ export const setToken = (value) => {
       } else if (typeof value === expectedDataType) {
         AsyncStorage.setItem(
           identifier,
-          value,
+          JSON.stringify(value),
           (error) => {
             if (!error) {
               console.log(`[${identifier}] <${value}> saved.`);
@@ -48,16 +48,16 @@ export const setToken = (value) => {
   });
 };
 
-export const getToken = () => {
+export const getTags = () => {
   return new Promise((resolve, reject) => {
-    let identifier = identifiers.token;
+    let identifier = identifiers.tags;
 
     try {
       AsyncStorage.getItem(identifier, (error, value) => {
         if (value) {
           console.log(`[${identifier}] <${value}> read.`);
 
-          resolve(value);
+          resolve(JSON.parse(value));
         } else {
           reject(
             `Key '<${identifier}> not found. (error: ${error})'`,

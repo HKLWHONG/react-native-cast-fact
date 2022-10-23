@@ -13,7 +13,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { LoginAction } from '../../redux';
+import {
+  store,
+  LoginAction,
+  FeedAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -32,9 +36,20 @@ import {
 
 import { AppRegex } from '../../regex';
 
-import { Theme, Router } from '../../utils';
+import {
+  Theme,
+  Router,
+  FeedProcessor,
+} from '../../utils';
 
-import { AuthProvider } from '../../providers';
+import {
+  AuthProvider,
+  FeedProvider,
+} from '../../providers';
+
+import {
+  FeedStorage,
+} from '../../storages';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -215,7 +230,7 @@ class LoginView extends BaseComponent {
                 email: 'user001@gmail.com', //props.credentials.loginID,
                 password: 'password', //props.credentials.password,
               })
-                .then(() => {
+                .then(async () => {
                   // if (
                   //   props.pushNoticationProps.token &&
                   //   props.pushNoticationProps.token.length
@@ -231,6 +246,30 @@ class LoginView extends BaseComponent {
                   //   );
                   // }
                   //
+
+                  let page = 1;
+
+                  let json = await FeedProvider.getFeeds(props, {
+                    page: page,
+                    length: store.getState().feedReducer.feedsPaging.length,
+                  })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+
+                  if (json && json.payload && json.payload.length > 0) {
+                    props.setFeedsPagingPage(page);
+
+                    let feeds = FeedProcessor.format([], json.payload);
+
+                    FeedStorage.setFeeds(feeds)
+                      .catch((error) => {
+                        console.error(error);
+                      });
+
+                    props.setFeeds(feeds);
+                  }
+
                   Router.route(props, 'Main');
                 })
                 .catch((error) => {
@@ -452,6 +491,8 @@ function mapDispatchToProps(dispatch) {
     setEmailMessage: (...args) => dispatch(LoginAction.setEmailMessage(...args)),
     setPassword: (...args) => dispatch(LoginAction.setPassword(...args)),
     setPasswordMessage: (...args) => dispatch(LoginAction.setPasswordMessage(...args)),
+    setFeedsPagingPage: (...args) => dispatch(FeedAction.setFeedsPagingPage(...args)),
+    setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
   };
 }
 

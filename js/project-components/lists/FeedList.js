@@ -11,8 +11,6 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import AutoHeightImage from 'react-native-auto-height-image';
-
 import { SimpleList, SingleTouch, FastImage } from '../../components';
 
 import { Button, Separator } from '../../project-components';
@@ -42,7 +40,15 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let uri = item && item.profile && item.profile.imageUri;
+    // console.log('[item]', item);
+
+    let image = item && item.profile && item.profile.image;
+
+    if (!image) {
+      return;
+    }
+
+    const { uri} = image;
 
     if (!uri) {
       return;
@@ -120,18 +126,30 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let uri = item && item.post && item.post.imageUri;
+    // console.log('[item]', item);
 
-    if (!uri) {
+    let image = item && item.post && item.post.image;
+
+    if (!image) {
       return;
     }
+
+    const { uri, width, height } = image;
+
+    if (!uri || !width || !height) {
+      return;
+    }
+
+    let style = {
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').width * height / width,
+    };
 
     return (
       <Translation>
         {(t) => (
-          <AutoHeightImage
-            style={styles.image}
-            width={Dimensions.get('window').width}
+          <FastImage
+            style={[styles.image, style]}
             source={{ uri: uri }}
             resizeMode={"contain"}
           />
@@ -144,18 +162,30 @@ class FeedList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let uri = item && item.imageUri;
+    // console.log('[item]', item);
 
-    if (!uri) {
+    let image = item && item.image;
+
+    if (!image) {
       return;
     }
+
+    const { uri, width, height} = image;
+
+    if (!uri || !width || !height) {
+      return;
+    }
+
+    let style = {
+      width: 80 * width / height,
+      height: 80,
+    };
 
     return (
       <Translation>
         {(t) => (
           <FastImage
-            style={[styles.image, styles.images]}
-            refSize={styles.imageRefSize}
+            style={[styles.image, styles.images, style]}
             source={{ uri: uri }}
             resizeMode={"contain"}
           />
@@ -539,9 +569,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1.7,
     textTransform: 'uppercase',
     marginLeft: 8,
-  },
-  imageRefSize: {
-    height: 80,
   },
   image: {
     // backgroundColor: '#0f0',

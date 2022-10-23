@@ -65,7 +65,13 @@ class SearchResultView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    this.loadFeeds();
+    console.log('[results]', props.results);
+
+    if (props.results.length > 0) {
+      props.setFeeds(FeedProcessor.format(props.feeds, props.results));
+    }
+
+    // this.loadFeeds();
 
     // this.search();
 
@@ -80,36 +86,40 @@ class SearchResultView extends BaseComponent {
     props.reset();
   };
 
-  loadFeeds = (feeds) => {
-    const { props } = this;
-
-    if (store.getState().searchResultReducer.feedsPaging.loading) {
-      return;
-    }
-
-    props.setFeedsPagingLoading(true);
-    props.setRefreshing(false);
-
-    SearchProvider.search(props, {
-      page: store.getState().searchResultReducer.feedsPaging.page,
-      length: store.getState().searchResultReducer.feedsPaging.length,
-    })
-      .then((json) => {
-        props.setFeedsPagingLoading(false);
-
-        if (json.payload.length > 0) {
-          props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
-        } else {
-          props.setFeedsPagingPage(store.getState().searchResultReducer.feedsPaging.page - 1);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-
-        props.setFeedsPagingLoading(false);
-        props.setRefreshing(false);
-      });
-  };
+  // loadFeeds = (feeds) => {
+  //   const { props } = this;
+  //
+  //   if (store.getState().searchResultReducer.feedsPaging.loading) {
+  //     return;
+  //   }
+  //
+  //   props.setFeedsPagingLoading(true);
+  //   // props.setSearched(false);
+  //
+  //   let page = store.getState().searchResultReducer.feedsPaging.page + 1;
+  //
+  //   SearchProvider.search(props, {
+  //     page: page,
+  //     length: store.getState().searchResultReducer.feedsPaging.length,
+  //   })
+  //     .then((json) => {
+  //       // props.setSearched(true);
+  //       props.setFeedsPagingLoading(false);
+  //
+  //       if (json.payload.length > 0) {
+  //         props.setFeedsPagingPage(page);
+  //
+  //         props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //
+  //       // props.setSearched(true);
+  //       props.setFeedsPagingLoading(false);
+  //       props.setRefreshing(false);
+  //     });
+  // };
 
   testAddFeedData = (data, num) => {
     const { props } = this;
@@ -230,9 +240,9 @@ class SearchResultView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onChangeTags={() => {
-              props.setFeedsPagingPage(1);
-
-              this.loadFeeds([]);
+              // props.setFeedsPagingPage(0);
+              //
+              // this.loadFeeds([]);
             }} />
         )}
       </Translation>
@@ -248,9 +258,7 @@ class SearchResultView extends BaseComponent {
       return;
     }
 
-    props.setFeedsPagingPage(store.getState().searchResultReducer.feedsPaging.page + 1);
-
-    this.loadFeeds();
+    // this.loadFeeds();
 
     // props.setFeeds(this.testAddFeedData(props.feeds, 5));
   };
@@ -331,11 +339,11 @@ class SearchResultView extends BaseComponent {
             iosRefreshControlColor={Theme.colors.general.white}
             refreshing={props.refreshing}
             onRefresh={(refreshing) => {
-              props.setRefreshing(true);
-
-              props.setFeedsPagingPage(1);
-
-              this.loadFeeds([]);
+              // props.setRefreshing(true);
+              //
+              // props.setFeedsPagingPage(0);
+              //
+              // this.loadFeeds([]);
             }}
           />
         )}
@@ -391,7 +399,7 @@ class SearchResultView extends BaseComponent {
 
     let children = this.renderListView(sections);
 
-    if (props.feeds && props.feeds.length === 0) {
+    if (props.searched && props.feeds && props.feeds.length === 0) {
       children = this.renderNoReultView({
         section: sections[0],
       });
@@ -493,6 +501,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     refreshing: state.searchResultReducer.refreshing,
+    searched: state.searchResultReducer.searched,
     results: state.searchResultReducer.results,
     feeds: state.searchResultReducer.feeds,
     dummyData: state.dataReducer.dummyData,
@@ -503,6 +512,7 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultAction.reset(...args)),
     setRefreshing: (...args) => dispatch(SearchResultAction.setRefreshing(...args)),
+    // setSearched: (...args) => dispatch(SearchResultAction.setSearched(...args)),
     setFeedsPagingLoading: (...args) => dispatch(SearchResultAction.setFeedsPagingLoading(...args)),
     setFeedsPagingPage: (...args) => dispatch(SearchResultAction.setFeedsPagingPage(...args)),
     setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),

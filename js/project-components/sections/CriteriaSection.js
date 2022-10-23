@@ -99,7 +99,6 @@ class CriteriaSection extends Component {
                   props,
                   {
                     tags: JSON.stringify(tags),
-                    prefetch: true,
                   },
                   {},
                 )
@@ -107,14 +106,14 @@ class CriteriaSection extends Component {
                     console.error(error);
                   });
               } else {
-                SearchProvider.search(props, { prefetch: true }, {})
+                SearchProvider.search(props, {}, {})
                   .catch((error) => {
                     console.error(error);
                   });
               }
             }}
             onClear={() => {
-              SearchProvider.search(props, { prefetch: true }, {})
+              SearchProvider.search(props, {}, {})
                 .catch((error) => {
                   console.error(error);
                 });
@@ -151,7 +150,7 @@ class CriteriaSection extends Component {
                 letterSpacing: 1.7,
                 textTransform: 'uppercase',
               }}>
-              {t('views.search.result_format').replace('{0}', props.lengthOfResults)}
+              {t('views.search.result_format').replace('{0}', props.searchResultResults.length)}
             </Text>
           </View>
         )}
@@ -235,7 +234,7 @@ class CriteriaSection extends Component {
                       props.deleteTag(info.groupFrameId, info.tagId);
 
                       if (props.enableResultView) {
-                        SearchProvider.search(props, { prefetch: true }, {})
+                        SearchProvider.search(props, {}, {})
                           .catch((error) => {
                             console.error(error);
                           });
@@ -313,9 +312,9 @@ CriteriaSection.defaultProps = {
 function mapStateToProps(state) {
   return {
     tags: state.criteriaSectionReducer.tags,
-    lengthOfResults: state.criteriaSectionReducer.lengthOfResults,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
+    searchResultResults: state.searchResultReducer.results,
   };
 }
 

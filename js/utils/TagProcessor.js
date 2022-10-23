@@ -9,7 +9,7 @@ export const toPrefix = (tag) => {
  }
 
  return tag.prefix || '';
-}
+};
 
 export const toText = (tag) => {
   if (!tag) {
@@ -17,7 +17,7 @@ export const toText = (tag) => {
   }
 
   return tag.text || '';
-}
+};
 
 export const toSuffix = (tag) => {
   if (!tag) {
@@ -25,7 +25,7 @@ export const toSuffix = (tag) => {
   }
 
   return tag.suffix || '';
-}
+};
 
 export const toString = (tag) => {
   if (!tag) {
@@ -33,7 +33,7 @@ export const toString = (tag) => {
   }
 
   return (toPrefix(tag) + ' ' + toText(tag) + ' ' + toSuffix(tag)).trim();
-}
+};
 
 export const format = (data) => {
   let tags = [
@@ -52,4 +52,4 @@ export const format = (data) => {
   });
 
   return tags;
-}
+};

@@ -124,7 +124,7 @@ class RecentSearchesSection extends Component {
                         text: TagProcessor.toText(tag),
                       });
 
-                      SearchProvider.search(props, { prefetch: true }, {})
+                      SearchProvider.search(props, {}, {})
                         .catch((error) => {
                           console.error(error);
                         });

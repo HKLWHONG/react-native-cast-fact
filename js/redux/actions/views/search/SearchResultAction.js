@@ -22,6 +22,15 @@ export const setRefreshing = (refreshing) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setSearched = (searched) => (dispatch) => {
+  dispatch({
+    type: SearchResultActionType.SEARCHED,
+    searched: searched,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setResults = (results) => (dispatch) => {
   dispatch({
     type: SearchResultActionType.RESULTS,
