@@ -41,7 +41,7 @@ import { Translation } from 'react-i18next';
 
 import { Theme, Router, FeedProcessor } from '../../utils';
 
-import { FeedProvider } from '../../providers';
+import { FeedProvider, SearchProvider } from '../../providers';
 
 const preview = require('../../../assets/images/preview/preview.png');
 const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
@@ -74,6 +74,8 @@ class FeedView extends BaseComponent {
 
     // this.loadFeeds();
 
+    console.log('[feed-page]', store.getState().feedReducer.feedsPaging.page);
+
     // this.loadFeedsFromDummyData();
 
     // this.loadTagsFromDummyData();
@@ -85,7 +87,7 @@ class FeedView extends BaseComponent {
     const { props } = this;
   };
 
-  loadFeeds = (feeds) => {
+  loadMoreFeeds = (feeds) => {
     const { props } = this;
 
     if (store.getState().feedReducer.feedsPaging.loading) {
@@ -102,7 +104,7 @@ class FeedView extends BaseComponent {
     })
       .then((json) => {
         props.setFeedsPagingLoading(false);
-        props.setRefreshing(false);
+        // props.setRefreshing(false);
 
         if (json.payload.length > 0) {
           props.setFeedsPagingPage(page);
@@ -114,7 +116,7 @@ class FeedView extends BaseComponent {
         console.error(error);
 
         props.setFeedsPagingLoading(false);
-        props.setRefreshing(false);
+        // props.setRefreshing(false);
       });
   };
 
@@ -243,7 +245,7 @@ class FeedView extends BaseComponent {
         {(t) => (
           <RecentSearchesSection
             label={section.title}
-            onPressGroupFrame={(groupFrame) => {
+            onPressGroupFrame={async (groupFrame) => {
               props.setCriteriaTags([{
                 ...groupFrame,
                 data: groupFrame.data.map((tag) => {
@@ -253,6 +255,8 @@ class FeedView extends BaseComponent {
                   };
                 }),
               }]);
+
+              await SearchProvider.presearch(props);
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -310,13 +314,7 @@ class FeedView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    if (store.getState().feedReducer.feedsPaging.loading) {
-      return;
-    }
-
-    props.setFeedsPagingPage(store.getState().feedReducer.feedsPaging.page + 1);
-
-    this.loadFeeds();
+    this.loadMoreFeeds();
 
     // this.loadFeedsFromDummyData();
 
@@ -479,12 +477,16 @@ class FeedView extends BaseComponent {
               androidRefreshControlColor={Theme.colors.general.black}
               iosRefreshControlColor={Theme.colors.general.white}
               refreshing={props.refreshing}
-              onRefresh={(refreshing) => {
+              onRefresh={async (refreshing) => {
                 props.setRefreshing(true);
 
-                props.setFeedsPagingPage(1);
+                // props.setFeedsPagingPage(0);
+                //
+                // this.loadFeeds([]);
 
-                this.loadFeeds([]);
+                await FeedProvider.prefetchFeeds(props);
+
+                props.setRefreshing(false);
               }}
             />
           </Body>

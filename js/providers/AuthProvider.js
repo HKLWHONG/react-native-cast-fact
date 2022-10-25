@@ -15,6 +15,8 @@ import {
   LoginApi,
 } from '../apis';
 
+const IDENTIFIER = 'AuthProvider';
+
 export const login = (props, params, options) => {
   return new Promise((resolve, reject) => {
     LoginApi.request(

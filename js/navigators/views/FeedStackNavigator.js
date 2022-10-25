@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -80,8 +80,7 @@ class FeedStackNavigator extends BaseComponent {
                   />
                 );
               },
-              animationEnabled: false,
-              gestureEnabled: false,
+              animationEnabled: Platform.OS === 'ios',
             }}>
             <Stack.Screen
               name="Feed"

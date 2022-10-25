@@ -17,7 +17,6 @@ import {
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
-  FeedAction,
 } from '../../redux';
 
 import { Environment } from '../../config';
@@ -30,7 +29,6 @@ import {
   Theme,
   Router,
   TagProcessor,
-  FeedProcessor,
   DummyData,
 } from '../../utils';
 
@@ -106,39 +104,7 @@ class LaunchView extends BaseComponent {
 
         AuthStorage.getToken()
           .then(async () => {
-            let feeds = await FeedStorage.getFeeds()
-              .catch((error) => {
-                console.error(error);
-              });
-
-            if (feeds) {
-              props.setFeedsPagingPage(1);
-
-              props.setFeeds(feeds);
-            } else {
-              let page = 1;
-
-              let json = await FeedProvider.getFeeds(props, {
-                page: page,
-                length: store.getState().feedReducer.feedsPaging.length,
-              })
-                .catch((error) => {
-                  console.error(error);
-                });
-
-              if (json && json.payload && json.payload.length > 0) {
-                props.setFeedsPagingPage(page);
-
-                let feeds = FeedProcessor.format([], json.payload);
-
-                FeedStorage.setFeeds(feeds)
-                  .catch((error) => {
-                    console.error(error);
-                  });
-
-                props.setFeeds(feeds);
-              }
-            }
+            await FeedProvider.prefetchFeeds(props);
 
             Router.route(props, 'Main');
           })
@@ -236,8 +202,6 @@ function mapDispatchToProps(dispatch) {
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
-    setFeedsPagingPage: (...args) => dispatch(FeedAction.setFeedsPagingPage(...args)),
-    setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
   };
 }
 

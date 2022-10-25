@@ -10,7 +10,7 @@ const initialState = {
   feedsPaging: {
     loading: false,
     page: 0,
-    length: 10,
+    length: 30,
   },
   feeds: [],
 };

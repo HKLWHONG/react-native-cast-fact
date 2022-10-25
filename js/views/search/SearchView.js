@@ -72,7 +72,7 @@ class SearchView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    SearchProvider.search(props, {}, {})
+    SearchProvider.search(props, { prefetch: true }, {})
       .catch((error) => {
         console.error(error);
       });
@@ -103,7 +103,9 @@ class SearchView extends BaseComponent {
         {(t) => (
           <CriteriaSection
             label={section.title}
-            onPressSearchBar={() => {
+            onPressSearchBar={async () => {
+              await SearchProvider.presearch(props);
+
               Router.push(props, "FeedStack", "SearchResult");
             }}
             enableSearchBar
@@ -124,7 +126,7 @@ class SearchView extends BaseComponent {
         {(t) => (
           <RecentSearchesSection
             label={section.title}
-            onPressGroupFrame={(groupFrame) => {
+            onPressGroupFrame={async (groupFrame) => {
               props.setCriteriaTags([{
                 ...groupFrame,
                 data: groupFrame.data.map((tag) => {
@@ -134,6 +136,8 @@ class SearchView extends BaseComponent {
                   };
                 }),
               }]);
+
+              await SearchProvider.presearch(props);
 
               Router.push(props, "FeedStack", "SearchResult");
             }}

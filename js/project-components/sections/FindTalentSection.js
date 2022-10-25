@@ -170,7 +170,7 @@ class FindTalentSection extends Component {
                         text: TagProcessor.toString(tag),
                       });
 
-                      SearchProvider.search(props, {}, {})
+                      SearchProvider.search(props, { prefetch: true }, {})
                         .catch((error) => {
                           console.error(error);
                         });

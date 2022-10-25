@@ -13,6 +13,8 @@ import {
   GetTagApi,
 } from '../apis';
 
+const IDENTIFIER = 'TagProvider';
+
 export const getTags = (props, params, options) => {
   return new Promise((resolve, reject) => {
     GetTagApi.request(

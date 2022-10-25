@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -58,7 +58,7 @@ class ProfileStackNavigator extends BaseComponent {
                   />
                 );
               },
-              gestureEnabled: false,
+              animationEnabled: Platform.OS === 'ios',
             }}>
             <Stack.Screen
               name="Profile"

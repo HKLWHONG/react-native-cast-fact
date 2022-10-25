@@ -10,11 +10,42 @@ import {
 } from '../redux';
 
 import {
+  Common,
+  FeedProcessor,
+} from '../utils';
+
+import {
   SearchApi,
 } from '../apis';
 
+const IDENTIFIER = 'SearchProvider';
+
+export const presearch = async (props) => {
+  let page = 1;
+
+  let json = await search(props, {
+    page: page,
+    length: store.getState().searchResultReducer.feedsPaging.length,
+  })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  if (json && json.payload && json.payload.length > 0) {
+    store.dispatch(SearchResultAction.setFeedsPagingPage(page));
+
+    let feeds = FeedProcessor.format([], json.payload);
+
+    store.dispatch(SearchResultAction.setFeeds(feeds));
+  }
+};
+
 export const search = (props, params, options) => {
   return new Promise((resolve, reject) => {
+    if (!params || !params.prefetch) {
+      store.dispatch(SearchResultAction.setSearched(false));
+    }
+
     let tags = [];
 
     store.getState().criteriaSectionReducer.tags.forEach((groupFrame) => {
@@ -39,6 +70,8 @@ export const search = (props, params, options) => {
           store.dispatch(CriteriaSectionAction.setLengthOfResults(json.payload.length));
         } else {
           store.dispatch(SearchResultAction.setResults(json.payload));
+
+          store.dispatch(SearchResultAction.setSearched(true));
         }
 
         resolve(json);
