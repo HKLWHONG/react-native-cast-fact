@@ -8,6 +8,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
@@ -70,7 +71,7 @@ class FeedStackNavigator extends BaseComponent {
 
                         props.resetRecentSearchesTags();
 
-                        props.setFindTalentTags(TagProcessor.format(props.tagData));
+                        props.setFindTalentTags(store.getState().dataReducer.tags);
 
                         navigation.popToTop();
                       } else {
@@ -113,9 +114,7 @@ class FeedStackNavigator extends BaseComponent {
 const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
-  return {
-    tagData: state.dataReducer.tagData,
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {

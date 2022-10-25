@@ -7,7 +7,7 @@ import { CommonActionType, DataActionType } from '../../types';
 
 const initialState = {
   dummyData: [],
-  tagData: [],
+  tags: [],
 };
 
 export default function dataReducer(state = initialState, action) {
@@ -24,10 +24,10 @@ export default function dataReducer(state = initialState, action) {
         dummyData: action.dummyData || [],
       };
 
-    case DataActionType.TAG_DATA:
+    case DataActionType.TAGS:
       return {
         ...state,
-        tagData: action.tagData || [],
+        tags: action.tags || [],
       };
 
     default:

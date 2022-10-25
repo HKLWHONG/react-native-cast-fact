@@ -16,7 +16,6 @@ import {
   MainTabAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
-  FindTalentSectionAction,
 } from '../../redux';
 
 import { Environment } from '../../config';
@@ -28,14 +27,10 @@ import { BaseComponent, Root, Header, Body, Footer } from '../../components';
 import {
   Theme,
   Router,
-  TagProcessor,
-  DummyData,
 } from '../../utils';
 
 import {
   AuthStorage,
-  TagStorage,
-  FeedStorage,
 } from '../../storages';
 
 import {
@@ -73,47 +68,19 @@ class LaunchView extends BaseComponent {
     props.selectDrawer(0);
     props.selectTab(0);
 
-    if (Environment.USE_DUMMY_DATA) {
-      props.setDummyData(DummyData.tags);
+    TagProvider.fetchTags(props);
 
-      Router.route(props, 'Login');
-    } else {
-      let tags = await TagStorage.getTags()
-        .catch((error) => {
-          console.error(error);
-        });
+    AuthStorage.getToken()
+      .then(async () => {
+        await FeedProvider.prefetchFeeds(props);
 
-      if (tags) {
-        props.setFindTalentTags(tags);
-      }
+        Router.route(props, 'Main');
+      })
+      .catch((error) => {
+        console.error(error);
 
-      TagProvider.getTags(props, {})
-        .then((json) => {
-          let tags = TagProcessor.format(json.payload);
-
-          TagStorage.setTags(tags)
-            .catch((error) => {
-              console.error(error);
-            });
-
-          props.setFindTalentTags(tags);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-        AuthStorage.getToken()
-          .then(async () => {
-            await FeedProvider.prefetchFeeds(props);
-
-            Router.route(props, 'Main');
-          })
-          .catch((error) => {
-            console.error(error);
-
-            Router.route(props, 'Login');
-          });
-    }
+        Router.route(props, 'Login');
+      });
   };
 
   clearData = () => {
@@ -196,12 +163,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setDummyData: (...args) => dispatch(DataAction.setDummyData(...args)),
     selectDrawer: (...args) => dispatch(DrawerAction.select(...args)),
     selectTab: (...args) => dispatch(MainTabAction.select(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
-    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
   };
 }
 

@@ -53,3 +53,9 @@ export const format = (data) => {
 
   return tags;
 };
+
+export const cloneTags = (tags) => {
+  return tags.map((tag) => {
+    return { ...tag };
+  });
+};

@@ -22,10 +22,10 @@ export const setDummyData = (dummyData) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setTagData = (tagData) => (dispatch) => {
+export const setTags = (tags) => (dispatch) => {
   dispatch({
-    type: DataActionType.TAG_DATA,
-    tagData: tagData,
+    type: DataActionType.TAGS,
+    tags: tags,
   });
 
   return Promise.resolve(store.getState());

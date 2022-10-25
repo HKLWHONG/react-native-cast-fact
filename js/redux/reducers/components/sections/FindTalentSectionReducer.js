@@ -5,6 +5,8 @@
 
 import { CommonActionType, FindTalentSectionActionType } from '../../../types';
 
+import { TagProcessor } from '../../../../utils';
+
 const initialState = {
   tags: [],
 };
@@ -20,7 +22,7 @@ export default function findTalentSectionReducer(state = initialState, action) {
     case FindTalentSectionActionType.TAGS:
       return {
         ...state,
-        tags: action.tags || [],
+        tags: TagProcessor.cloneTags(action.tags || []),
       };
 
     case FindTalentSectionActionType.TAGS_UPDATE_GROUP_FRAME:

@@ -31,7 +31,7 @@ export const presearch = async (props) => {
       console.error(error);
     });
 
-  if (json && json.payload && json.payload.length > 0) {
+  if (json && json.payload) {
     store.dispatch(SearchResultAction.setFeedsPagingPage(page));
 
     let feeds = FeedProcessor.format([], json.payload);

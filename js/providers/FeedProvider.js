@@ -35,6 +35,8 @@ export const prefetchFeeds = async (props) => {
     });
 
   if (cachedFeeds) {
+    console.log(`[${IDENTIFIER}] cached-feeds-found.`);
+
     store.dispatch(FeedAction.setFeedsPagingPage(page));
 
     store.dispatch(FeedAction.setFeeds(cachedFeeds));
@@ -44,22 +46,20 @@ export const prefetchFeeds = async (props) => {
       length: store.getState().feedReducer.feedsPaging.length,
     })
       .then((json) => {
-        if (json.payload && json.payload.length > 0) {
-          let feeds = FeedProcessor.format([], json.payload);
+        let feeds = FeedProcessor.format([], json.payload);
 
-          FeedStorage.setFeeds(feeds)
-            .catch((error) => {
-              console.error(error);
-            });
+        FeedStorage.setFeeds(feeds)
+          .catch((error) => {
+            console.error(error);
+          });
 
-          if (JSON.stringify(cachedFeeds) !== JSON.stringify(feeds)) {
-            console.log(`[${IDENTIFIER}] need-to-reload-feeds.`);
+        if (JSON.stringify(cachedFeeds) !== JSON.stringify(feeds)) {
+          console.log(`[${IDENTIFIER}] need-to-reload-feeds.`);
 
-            store.dispatch(FeedAction.setFeedsPagingPage(page));
-            store.dispatch(FeedAction.setFeeds(feeds));
-          } else {
-            console.log(`[${IDENTIFIER}] no-need-to-reload-feeds.`);
-          }
+          store.dispatch(FeedAction.setFeedsPagingPage(page));
+          store.dispatch(FeedAction.setFeeds(feeds));
+        } else {
+          console.log(`[${IDENTIFIER}] no-need-to-reload-feeds.`);
         }
       })
       .catch((error) => {
@@ -76,7 +76,7 @@ export const prefetchFeeds = async (props) => {
         console.error(error);
       });
 
-    if (json && json.payload && json.payload.length > 0) {
+    if (json && json.payload) {
       let feeds = FeedProcessor.format([], json.payload);
 
       FeedStorage.setFeeds(feeds)
