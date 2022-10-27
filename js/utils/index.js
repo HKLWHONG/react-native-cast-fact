@@ -12,6 +12,7 @@ import * as Router from './Router';
 import * as StringProcessor from './StringProcessor';
 import * as TagProcessor from './TagProcessor';
 import * as Theme from './Theme';
+import * as UserProcessor from './UserProcessor';
 
 export {
   Api,
@@ -23,4 +24,5 @@ export {
   StringProcessor,
   TagProcessor,
   Theme,
+  UserProcessor,
 };

@@ -5,13 +5,13 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image as RNImage } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
-import RNFastImage from 'react-native-fast-image'
+import FastImage from 'react-native-fast-image';
 
-export default class FastImage extends Component {
+export default class Image extends Component {
   constructor(props: any) {
     super(props);
 
@@ -29,7 +29,7 @@ export default class FastImage extends Component {
       &&
       props.source && props.source.uri && props.source.uri.length
     ) {
-      Image.getSize(props.source.uri, (width, height) => {
+      RNImage.getSize(props.source.uri, (width, height) => {
         if (!width || !height) {
           return;
         }
@@ -61,7 +61,7 @@ export default class FastImage extends Component {
     };
 
     return (
-      <RNFastImage {...props} style={[style, props.style]} />
+      <FastImage {...props} style={[style, props.style]} />
     );
   }
 }
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
   },
 });
 
-FastImage.propTypes = {
+Image.propTypes = {
   refSize: PropTypes.object,
 };
 
-FastImage.defaultProps = {
+Image.defaultProps = {
   refSize: undefined,
 };

@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   CriteriaSectionAction,
   MainTabAction,
   RecentSearchesSectionAction,
@@ -46,8 +47,6 @@ import { SearchProvider } from '../../providers';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
-
 class SearchView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -82,6 +81,26 @@ class SearchView extends BaseComponent {
     const { props } = this;
   };
 
+  addRecentSearchesGroupFrame = (tags) => {
+    const { props } = this;
+
+    if (tags.length === 0) {
+      return;
+    }
+
+    let data = tags[0].data.map((tag) => {
+      tag = { ...tag };
+
+      delete tag.rightAccessoryType;
+
+      return tag;
+    });
+
+    props.addRecentSearchesGroupFrame({
+      data: data,
+    });
+  };
+
   renderHeader = () => {
     const { props } = this;
 
@@ -105,6 +124,8 @@ class SearchView extends BaseComponent {
             label={section.title}
             onPressSearchBar={async () => {
               await SearchProvider.presearch(props);
+
+              this.addRecentSearchesGroupFrame(store.getState().criteriaSectionReducer.tags);
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -308,6 +329,7 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
     setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
+    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
   };
 }
 

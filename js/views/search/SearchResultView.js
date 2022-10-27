@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -20,6 +20,7 @@ import {
   Body,
   Footer,
   List,
+  Image,
 } from '../../components';
 
 import {
@@ -65,13 +66,15 @@ class SearchResultView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    console.log('[results]', props.results);
+    // console.log('[searched]', props.searched);
+    // console.log('[results]', props.results);
+    // console.log('[feeds]', props.feeds);
 
     // if (props.results.length > 0) {
     //   props.setFeeds(FeedProcessor.format(props.feeds, props.results));
     // }
 
-    // this.loadFeeds();
+    // props.setFeeds(props.feeds);
 
     console.log('[search-result-page]', store.getState().searchResultReducer.feedsPaging.page);
 
@@ -282,9 +285,14 @@ class SearchResultView extends BaseComponent {
                 // TODO
               }}
               onPressFollow={({ item, index, separators }) => {
-                // console.log('[item.followed] ', item.followed);
+                // console.log('[followed] ', item && item.profile && item.profile.followed);
 
-                props.updateFeed(item.feedId, { followed: !item.followed });
+                props.updateFeed(item.feedId, {
+                  profile: {
+                    ...item.profile,
+                    followed: !(item && item.profile && item.profile.followed),
+                  },
+                });
               }}
               onEndReached={this.onEndReached}
             />

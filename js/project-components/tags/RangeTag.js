@@ -17,8 +17,6 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
-
 class RangeTag extends Component {
   constructor(props: any) {
     super(props);

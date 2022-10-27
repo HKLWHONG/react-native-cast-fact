@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 import Collapsible from 'react-native-collapsible';
 
-import { SingleTouch } from '../../components';
+import { Image, SingleTouch } from '../../components';
 
 import { Theme } from '../../utils';
 

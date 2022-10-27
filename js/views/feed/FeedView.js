@@ -43,7 +43,6 @@ import { Theme, Router, FeedProcessor } from '../../utils';
 
 import { FeedProvider, SearchProvider } from '../../providers';
 
-const preview = require('../../../assets/images/preview/preview.png');
 const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.png');
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
@@ -275,17 +274,27 @@ class FeedView extends BaseComponent {
 
     let data = [];
 
-    let profiles = props.dummyData.filter((data) => {
-      // console.log('[data]', data);
+    props.feeds.forEach((feed) => {
+      if (!feed.profile || !feed.post) {
+        return;
+      }
 
-      return data.label === 'profiles';
-    });
+      let found = false;
 
-    if (profiles.length > 0) {
-      data = profiles[0].data.filter((profile) => {
-        return profile.posts.length > 0;
+      data.forEach((item) => {
+        if (!item.profile || !item.post) {
+          return;
+        }
+
+        if (feed.profile.id === item.profile.id) {
+          found = true;
+        }
       });
-    }
+
+      if (!found) {
+        data.push(feed);
+      }
+    });
 
     return (
       <Translation>

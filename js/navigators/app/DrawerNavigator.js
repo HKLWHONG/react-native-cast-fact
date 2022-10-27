@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, Text, Image } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import { DrawerAction, MainTabAction } from '../../redux';
@@ -12,7 +12,7 @@ import { DrawerAction, MainTabAction } from '../../redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { BaseComponent, Root, Header, Body, Footer } from '../../components';
+import { BaseComponent, Root, Header, Body, Footer, Image } from '../../components';
 
 import { DrawerItem } from '../../project-components';
 

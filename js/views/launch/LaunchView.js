@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, Platform, Image } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -22,7 +22,7 @@ import { Environment } from '../../config';
 
 import { StackActions } from '@react-navigation/native';
 
-import { BaseComponent, Root, Header, Body, Footer } from '../../components';
+import { BaseComponent, Root, Header, Body, Footer, Image } from '../../components';
 
 import {
   Theme,

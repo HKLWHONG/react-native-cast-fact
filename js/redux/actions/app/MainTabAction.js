@@ -13,6 +13,24 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setTapCount = (tapCount) => (dispatch) => {
+  dispatch({
+    type: MainTabActionType.TAP_COUNT,
+    tapCount: tapCount,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setTapTimer = (tapTimer) => (dispatch) => {
+  dispatch({
+    type: MainTabActionType.TAP_TIMER,
+    tapTimer: tapTimer,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const select = (index) => (dispatch) => {
   dispatch({
     type: MainTabActionType.SELECTION,

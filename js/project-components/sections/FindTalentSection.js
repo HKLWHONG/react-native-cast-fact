@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -17,6 +17,7 @@ import {
 } from '../../redux';
 
 import {
+  Image,
   SingleTouch,
   TextInput,
 } from '../../components';

@@ -5,17 +5,17 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, Dimensions, View, Text, Image } from 'react-native';
+import { StyleSheet, Platform, Dimensions, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SimpleList, SingleTouch, FastImage } from '../../components';
+import { Image, SimpleList, SingleTouch } from '../../components';
 
 import { Button, Separator } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, UserProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
@@ -57,7 +57,7 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <FastImage
+          <Image
             style={styles.avatarImage}
             source={{ uri: uri }}
             resizeMode={"contain"}
@@ -80,7 +80,7 @@ class FeedList extends Component {
             <View style={styles.profileInfoContainer}>
               <Text
                 style={styles.nameLabel}>
-                {item && item.profile && item.profile.name}
+                {UserProcessor.toName(item && item.profile)}
               </Text>
               <Text
                 style={styles.titleLabel}>
@@ -148,7 +148,7 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <FastImage
+          <Image
             style={[styles.image, style]}
             source={{ uri: uri }}
             resizeMode={"contain"}
@@ -184,7 +184,7 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <FastImage
+          <Image
             style={[styles.image, styles.images, style]}
             source={{ uri: uri }}
             resizeMode={"contain"}
@@ -239,6 +239,22 @@ class FeedList extends Component {
     if (!data || data.length === 0) {
       return this.renderNoPosts(params);
     }
+
+    data = data.filter((item, index) => {
+      let image = item && item.image;
+
+      if (!image) {
+        return false;
+      }
+
+      const { uri, width, height} = image;
+
+      if (!uri || !width || !height) {
+        return false;
+      }
+
+      return true;
+    });
 
     return (
       <Translation>
@@ -418,14 +434,14 @@ class FeedList extends Component {
       return null;
     }
 
-    let initialNumToRender = Platform.OS === 'android' ? 5 : undefined;
-    let maxToRenderPerBatch = Platform.OS === 'android' ? 10 : undefined;
-    let windowSize = Platform.OS === 'android' ? 10 : undefined;
+    // let initialNumToRender = Platform.OS === 'android' ? 5 : undefined;
+    // let maxToRenderPerBatch = Platform.OS === 'android' ? 10 : undefined;
+    // let windowSize = Platform.OS === 'android' ? 10 : undefined;
 
-    console.log('[Platform.OS] ', Platform.OS);
-    console.log('[initialNumToRender] ', initialNumToRender);
-    console.log('[maxToRenderPerBatch] ', maxToRenderPerBatch);
-    console.log('[windowSize] ', windowSize);
+    // console.log('[Platform.OS] ', Platform.OS);
+    // console.log('[initialNumToRender] ', initialNumToRender);
+    // console.log('[maxToRenderPerBatch] ', maxToRenderPerBatch);
+    // console.log('[windowSize] ', windowSize);
 
     return (
       <Translation>
@@ -442,9 +458,6 @@ class FeedList extends Component {
             ItemSeparatorComponent={this.renderItemSeparatorComponent}
             refreshing={props.refreshing}
             onRefresh={props.onRefresh}
-            initialNumToRender={initialNumToRender}
-            maxToRenderPerBatch={maxToRenderPerBatch}
-            windowSize={windowSize}
           />
         )}
       </Translation>

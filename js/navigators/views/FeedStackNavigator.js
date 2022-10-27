@@ -26,6 +26,8 @@ import { FeedView, SearchView, SearchResultView } from '../../views';
 
 import { TagProcessor } from '../../utils';
 
+import { SearchProvider } from '../../providers';
+
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
@@ -64,19 +66,22 @@ class FeedStackNavigator extends BaseComponent {
                     source={ic_header_1}
                     title={title}
                     onPressLeft={(navigation) => {
-                      if (
-                        route.name !== 'Feed'
-                      ) {
-                        props.resetCriteria();
+                      // console.log('[route.name]', route.name);
 
-                        props.resetRecentSearchesTags();
+                      props.resetCriteria();
 
-                        props.setFindTalentTags(store.getState().dataReducer.tags);
+                      props.resetRecentSearchesTags();
 
-                        navigation.popToTop();
-                      } else {
-                        navigation.goBack();
+                      props.setFindTalentTags(store.getState().dataReducer.tags);
+
+                      if (route.name === 'SearchResult') {
+                        SearchProvider.search(props, { prefetch: true }, {})
+                          .catch((error) => {
+                            console.error(error);
+                          });
                       }
+
+                      navigation.goBack();
                     }}
                   />
                 );

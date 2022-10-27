@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
-import FastImage from './FastImage';
+import Image from './Image';
 
-export { FastImage };
+export { Image };

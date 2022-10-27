@@ -6,7 +6,9 @@
 import { CommonActionType, MainTabActionType } from '../../types';
 
 const initialState = {
-  index: 1,
+  index: 0,
+  tapCount: 0,
+  tapTimer: undefined,
   listRefs: [],
 };
 
@@ -17,6 +19,12 @@ export default function mainTabReducer(state = initialState, action) {
 
     case MainTabActionType.RESET:
       return initialState;
+
+    case MainTabActionType.TAP_COUNT:
+      return {...state, tapCount: action.tapCount};
+
+    case MainTabActionType.TAP_TIMER:
+      return {...state, tapTimer: action.tapTimer};
 
     case MainTabActionType.SELECTION:
       return {...state, index: action.index};

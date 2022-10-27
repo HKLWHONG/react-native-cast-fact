@@ -5,19 +5,17 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SimpleList, SingleTouch, FastImage } from '../../components';
+import { Image, SimpleList, SingleTouch } from '../../components';
 
-import { Theme } from '../../utils';
+import { Theme, UserProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
-
-const preview = require('../../../assets/images/preview/preview.png');
 
 class ProfileList extends Component {
   constructor(props: any) {
@@ -30,7 +28,15 @@ class ProfileList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let uri = item && item.profile && item.profile.imageUri;
+    // console.log('[item]', item);
+
+    let image = item && item.profile && item.profile.image;
+
+    if (!image) {
+      return;
+    }
+
+    const { uri} = image;
 
     if (!uri) {
       return;
@@ -39,9 +45,8 @@ class ProfileList extends Component {
     return (
       <Translation>
         {(t) => (
-          <FastImage
+          <Image
             style={styles.image}
-            defaultSource={preview}
             source={ { uri: uri }}
             resizeMode="contain"
           />
@@ -69,7 +74,7 @@ class ProfileList extends Component {
               {this.renderProfileImageIfNeeded(params)}
               <Text
                 style={styles.nameLabel}>
-                {item && item.profile && item.profile.nickname}
+                {UserProcessor.toName(item && item.profile)}
                 </Text>
               <Text
                 style={styles.titleLabel}>

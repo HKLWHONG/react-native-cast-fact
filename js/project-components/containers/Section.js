@@ -5,19 +5,18 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SingleTouch } from '../../components';
+import { Image, SingleTouch } from '../../components';
 
 import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
 const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 
 class Section extends Component {

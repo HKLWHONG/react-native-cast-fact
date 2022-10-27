@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -17,7 +17,7 @@ import {
   FindTalentSectionAction,
 } from '../../redux';
 
-import { SingleTouch, TextInput } from '../../components';
+import { Image, SingleTouch, TextInput } from '../../components';
 
 import { Section, SearchBar, GroupFrame, Tag } from '../../project-components';
 
@@ -36,26 +36,6 @@ class CriteriaSection extends Component {
     this.state = {};
   }
 
-  addRecentSearchesGroupFrame = (tags) => {
-    const { props } = this;
-
-    if (tags.length === 0) {
-      return;
-    }
-
-    let data = tags[0].data.map((tag) => {
-      tag = { ...tag };
-
-      delete tag.rightAccessoryType;
-
-      return tag;
-    });
-
-    props.addRecentSearchesGroupFrame({
-      data: data,
-    });
-  };
-
   renderSearchBarIfNeeded = () => {
     const { props } = this;
 
@@ -68,15 +48,10 @@ class CriteriaSection extends Component {
         {(t) => (
           <SearchBar
             onPress={(text) => {
-              console.log('[search-text] ', text)
+              console.log('[search-text] ', text);
 
               if (text && text.length > 0) {
-                props.addTag({ text: text, isManual: true })
-                  .then((state) => {
-                    this.addRecentSearchesGroupFrame(state.criteriaSectionReducer.tags);
-                  });
-              } else {
-                this.addRecentSearchesGroupFrame(props.tags);
+                props.addTag({ text: text, isManual: true });
               }
 
               if (!props.onPressSearchBar) {
@@ -324,7 +299,6 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     deleteTag: (...args) => dispatch(CriteriaSectionAction.deleteTag(...args)),
-    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
     updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
     updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };
