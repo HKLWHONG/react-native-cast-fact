@@ -76,7 +76,10 @@ export default class PagingView extends Component {
     }
 
     return (
-      <View onLayout={props.onLayout} style={[styles.container, props.style]}>
+      <View
+        onLayout={props.onLayout}
+        style={[styles.container, props.style]}
+      >
         <ScrollView
           ref={(element) => {
             this.scrollView = element;
@@ -227,12 +230,15 @@ export default class PagingView extends Component {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          horizontal>
+          horizontal
+        >
           {props.children}
         </ScrollView>
-        {props.children
-          ? this.renderIndicatorView(props.children.length)
-          : undefined}
+        {
+          props.children
+            ? this.renderIndicatorView(props.children.length)
+            : undefined
+        }
       </View>
     );
   }

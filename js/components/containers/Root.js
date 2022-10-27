@@ -65,7 +65,8 @@ export default class Root extends Component {
       <ScrollView
         onLayout={props.onLayout}
         contentContainerStyle={styles.contentContainerStyle}
-        bounces={false}>
+        bounces={false}
+      >
         <TouchableWithoutFeedback>
           {children}
         </TouchableWithoutFeedback>
@@ -112,7 +113,8 @@ export default class Root extends Component {
       <ImageBackground
         style={[styles.background, props.backgroundContainerStyle]}
         source={props.source}
-        resizeMode={props.resizeMode}>
+        resizeMode={props.resizeMode}
+      >
         <StatusBar barStyle="light-content" />
         {this.renderViewWithKeyboardDismissingIfNeeded(props.children)}
       </ImageBackground>

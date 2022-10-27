@@ -141,7 +141,8 @@ export default class PullDownMessageBox extends Component {
       <Body
         style={styles.body}
         backgroundContainerStyle={styles.bodyBackgroundContainerStyle}
-        scrollable={false}>
+        scrollable={false}
+      >
         <Text style={styles.content} numberOfLines={0}>
           {props.content}
         </Text>
@@ -178,13 +179,15 @@ export default class PullDownMessageBox extends Component {
 
     return (
       <SafeAreaProvider
-        style={[styles.safeAreaProvider, safeAreaProviderStyle]}>
+        style={[styles.safeAreaProvider, safeAreaProviderStyle]}
+      >
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
             <Root
               onLayout={props.onLayout}
               style={[styles.container, props.style]}
-              backgroundContainerStyle={styles.rootBackgroundContainerStyle}>
+              backgroundContainerStyle={styles.rootBackgroundContainerStyle}
+            >
               <Animated.View
                 onLayout={(e) => {
                   const height = e.nativeEvent.layout.height;
@@ -229,7 +232,8 @@ export default class PullDownMessageBox extends Component {
                   styles.box,
                   boxStyle,
                   { marginTop: state.animatedTop },
-                ]}>
+                ]}
+              >
                 {props.title ? this.renderHeader() : undefined}
                 {this.renderBody()}
                 {props.children ? this.renderFooter() : undefined}

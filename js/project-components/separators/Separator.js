@@ -39,7 +39,8 @@ class Separator extends Component {
             style={[styles.container, props.style]}
             lineStyle={[styles.line, props.lineStyle]}
             textStyle={[styles.text, props.textStyle]}
-            text={props.text} />
+            text={props.text}
+          />
         )}
       </Translation>
     );

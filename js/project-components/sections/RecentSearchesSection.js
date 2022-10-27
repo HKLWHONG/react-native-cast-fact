@@ -146,7 +146,8 @@ class RecentSearchesSection extends Component {
                 // console.log('[groupFrameId] ', groupFrameId);
 
                 props.deleteGroupFrame(groupFrameId);
-              }}>
+              }}
+            >
               {tags}
             </GroupFrame>
           );
@@ -170,7 +171,8 @@ class RecentSearchesSection extends Component {
             rightAccessoryType={rightAccessoryType}
             onPress={() => {
               props.deleteTags();
-            }}>
+            }}
+          >
             {children}
           </Section>
         )}

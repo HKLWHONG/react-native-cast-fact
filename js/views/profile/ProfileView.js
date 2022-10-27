@@ -83,8 +83,7 @@ class ProfileView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}>
+          <Body style={styles.body}>
             <View />
           </Body>
         )}
@@ -114,7 +113,8 @@ class ProfileView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
-            keyboardDismissing>
+            keyboardDismissing
+          >
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}

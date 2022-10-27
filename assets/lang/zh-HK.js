@@ -20,7 +20,9 @@ const zhHK = {
     },
   },
   components: {
-
+    feed_list: {
+      view_more: '查看更多',
+    }
   },
   views: {
     login: {

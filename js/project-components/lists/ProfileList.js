@@ -69,15 +69,14 @@ class ProfileList extends Component {
               if (props.onPressItem) {
                 props.onPressItem(params);
               }
-            }}>
+            }}
+          >
             <View style={styles.itemSubContainer}>
               {this.renderProfileImageIfNeeded(params)}
-              <Text
-                style={styles.nameLabel}>
+              <Text style={styles.nameLabel}>
                 {UserProcessor.toName(item && item.profile)}
-                </Text>
-              <Text
-                style={styles.titleLabel}>
+              </Text>
+              <Text style={styles.titleLabel}>
                 {item && item.profile && item.profile.title}
               </Text>
             </View>

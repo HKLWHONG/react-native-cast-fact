@@ -52,9 +52,14 @@ export default class TitleContentPair extends Component {
     }
 
     return (
-      <View onLayout={props.onLayout} style={[styles.container, props.style]}>
+      <View
+        onLayout={props.onLayout}
+        style={[styles.container, props.style]}
+      >
         <View style={[styles.titleContainer, props.titleContainerStyle]}>
-          <Text style={[styles.title, props.titleStyle]}>{props.title}</Text>
+          <Text style={[styles.title, props.titleStyle]}>
+            {props.title}
+          </Text>
         </View>
         {this.renderContentContainer()}
         {this.renderChildrenContainer()}

@@ -20,7 +20,9 @@ const en = {
     },
   },
   components: {
-
+    feed_list: {
+      view_more: 'View More',
+    }
   },
   views: {
     login: {

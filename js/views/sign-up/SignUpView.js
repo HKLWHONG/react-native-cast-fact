@@ -191,8 +191,7 @@ class SignUpView extends BaseComponent {
             source={ic_header_bg}
             resizeMode="contain"
           >
-            <Text
-              style={styles.headerText}>
+            <Text style={styles.headerText}>
               {t('app.sign_up')}
             </Text>
           </Header>
@@ -331,7 +330,8 @@ class SignUpView extends BaseComponent {
                 style={styles.loginButton}
                 onPress={() => {
                   Router.goBack(props);
-                }}>
+                }}
+              >
                 <Text style={styles.loginButtonText}>
                   {'Login'}
                 </Text>
@@ -349,8 +349,7 @@ class SignUpView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}>
+          <Body style={styles.body}>
             {this.renderTextInputs()}
             {this.renderSignUpButton()}
             {this.renderTncText()}
@@ -382,7 +381,8 @@ class SignUpView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
-            keyboardDismissing>
+            keyboardDismissing
+          >
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}

@@ -112,7 +112,8 @@ export default class MessageBox extends Component {
         }}
         style={[styles.body, bodyStyle]}
         backgroundContainerStyle={backgroundContainerStyle}
-        scrollable={state.scrollable}>
+        scrollable={state.scrollable}
+      >
         <Text style={[styles.content, contentStyle, props.contentStyle]}>
           {props.content}
         </Text>
@@ -146,7 +147,8 @@ export default class MessageBox extends Component {
         <Root
           onLayout={props.onLayout}
           style={[styles.container, props.style]}
-          backgroundContainerStyle={styles.backgroundContainerStyle}>
+          backgroundContainerStyle={styles.backgroundContainerStyle}
+        >
           <View style={[styles.box, boxStyle]}>
             {props.title ? this.renderHeader() : undefined}
             {this.renderBody()}

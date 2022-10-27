@@ -61,7 +61,10 @@ export default class Image extends Component {
     };
 
     return (
-      <FastImage {...props} style={[style, props.style]} />
+      <FastImage
+        {...props}
+        style={[style, props.style]}
+      />
     );
   }
 }

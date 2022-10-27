@@ -76,7 +76,8 @@ class Section extends Component {
         {(t) => (
           <SingleTouch
             style={styles.rightAccessoryButton}
-            onPress={props.onPress}>
+            onPress={props.onPress}
+          >
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -156,7 +157,8 @@ class Section extends Component {
         {(t) => (
           <View
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+          >
             {this.renderHeaderContainer()}
             {this.renderContentContainer()}
           </View>

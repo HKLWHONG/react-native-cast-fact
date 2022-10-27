@@ -9,7 +9,7 @@ import { StyleSheet, RefreshControl } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
-import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 
 export default class SimpleList extends Component {
   constructor(props: any) {
@@ -63,7 +63,8 @@ export default class SimpleList extends Component {
     }
 
     return (
-      <KeyboardAwareFlatList {...props}
+      <KeyboardAwareFlatList
+        {...props}
         onLayout={props.onLayout}
         style={[styles.container, props.style]}
         contentContainerStyle={[

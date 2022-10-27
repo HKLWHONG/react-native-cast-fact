@@ -158,8 +158,7 @@ class LoginView extends BaseComponent {
             source={ic_header_bg}
             resizeMode="contain"
           >
-            <Text
-              style={styles.headerText}>
+            <Text style={styles.headerText}>
               {t('app.login')}
             </Text>
           </Header>
@@ -269,7 +268,10 @@ class LoginView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Separator style={styles.separator} text={t('OR')} />
+          <Separator
+            style={styles.separator}
+            text={t('OR')}
+          />
         )}
       </Translation>
     );
@@ -312,8 +314,7 @@ class LoginView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}>
+          <Body style={styles.body}>
             {this.renderTextInputs()}
             {this.renderLoginButton()}
             {/* this.renderSeparator() */}
@@ -335,14 +336,13 @@ class LoginView extends BaseComponent {
               style={styles.createAccountContainer}
               onPress={() => {
                 Router.push(props, "SignUp");
-              }}>
+              }}
+            >
               <View style={styles.createAccountSubContainer}>
-                <Text
-                  style={styles.createAccountHint}>
+                <Text style={styles.createAccountHint}>
                   {t('views.login.create_account_hint')}
                 </Text>
-                <Text
-                  style={styles.createAccount}>
+                <Text style={styles.createAccount}>
                   {t('views.login.create_account')}
                 </Text>
               </View>
@@ -363,7 +363,8 @@ class LoginView extends BaseComponent {
             style={styles.root}
             safeArea={false}
             resizeMode="stretch"
-            keyboardDismissing>
+            keyboardDismissing
+          >
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}

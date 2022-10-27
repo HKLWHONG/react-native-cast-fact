@@ -36,7 +36,8 @@ class TextInput extends Component {
     return (
       <Translation>
         {(t) => (
-          <CommonTextInput {...props}
+          <CommonTextInput
+            {...props}
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             textInputContainterStyle={styles.textInputContainter}

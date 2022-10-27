@@ -116,7 +116,8 @@ class CriteriaSection extends Component {
               // backgroundColor: '#f00',
               alignItems: 'center',
               marginVertical: 8,
-            }}>
+            }}
+          >
             <Text
               style={{
                 // backgroundColor: '#f00',
@@ -125,7 +126,8 @@ class CriteriaSection extends Component {
                 fontFamily: Theme.fonts.light,
                 letterSpacing: 1.7,
                 textTransform: 'uppercase',
-              }}>
+              }}
+            >
               {t('views.search.result_format').replace('{0}', props.lengthOfResults)}
             </Text>
           </View>
@@ -230,7 +232,8 @@ class CriteriaSection extends Component {
             <GroupFrame
               key={i.toString()}
               info={groupFrame}
-              style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}>
+              style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}
+            >
               {tags}
             </GroupFrame>
           );
@@ -244,7 +247,8 @@ class CriteriaSection extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             source={ic_checklist}
-            label={props.label}>
+            label={props.label}
+          >
             {this.renderSearchBarIfNeeded()}
             {children}
             {this.renderResultViewIfNeeded()}

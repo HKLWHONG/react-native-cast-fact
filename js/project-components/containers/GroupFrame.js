@@ -43,7 +43,8 @@ class GroupFrame extends Component {
               }
 
               props.onPressRightAccessory(props.info);
-            }}>
+            }}
+          >
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -134,9 +135,9 @@ class GroupFrame extends Component {
               }
 
               props.onPress(props.info);
-            }}>
-            <View
-              style={styles.contentContainer}>
+            }}
+          >
+            <View style={styles.contentContainer}>
               {props.children}
             </View>
             {this.renderRightContainer()}

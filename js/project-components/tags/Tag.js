@@ -128,8 +128,7 @@ class Tag extends Component {
       <Translation>
         {(t) => (
           <View style={styles.textContainer}>
-            <Text
-              style={styles.text}>
+            <Text style={styles.text}>
               {props.text}
             </Text>
           </View>
@@ -171,11 +170,10 @@ class Tag extends Component {
               }}
               disableBottomLine
               disableMessageView
-             />
-             <Text
-               style={styles.text}>
-               {props.text}
-             </Text>
+            />
+           <Text style={styles.text}>
+             {props.text}
+           </Text>
           </View>
         )}
       </Translation>
@@ -220,7 +218,8 @@ class Tag extends Component {
               }
 
               props.onPressRightAccessory(props.info);
-            }}>
+            }}
+          >
             <Image
               style={styles.rightAccessoryButtonImage}
               source={ic_xmark}
@@ -322,7 +321,8 @@ class Tag extends Component {
               }
 
               props.onPress(props.info)
-            }}>
+            }}
+          >
             {this.renderLeftContainer()}
             {this.renderCenterContainer()}
             {this.renderRightContainer()}

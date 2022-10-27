@@ -251,7 +251,8 @@ class SearchResultView extends BaseComponent {
               // this.loadFeeds([]);
 
               await SearchProvider.presearch(props);
-            }} />
+            }}
+          />
         )}
       </Translation>
     );
@@ -277,7 +278,8 @@ class SearchResultView extends BaseComponent {
           <Section
             headerContainerStyle={styles.resultSectionHeaderContainer}
             contentContainerStyle={styles.resultSectionContentContainer}
-            label={section.title}>
+            label={section.title}
+          >
             <FeedList
               type="simple"
               data={props.feeds}
@@ -379,14 +381,10 @@ class SearchResultView extends BaseComponent {
                 source={ic_no_result}
                 resizeMode="center"
               />
-              <Text
-                style={styles.noResultText}
-              >
+              <Text style={styles.noResultText}>
                 {t('app.no_result')}
               </Text>
-              <Text
-                style={styles.noResultDescriptionText}
-              >
+              <Text style={styles.noResultDescriptionText}>
                 {t('app.no_result_description')}
               </Text>
             </View>

@@ -61,13 +61,15 @@ export default class YesNoMessageBox extends Component {
               }
 
               props.onPressYes();
-            }}>
+            }}
+          >
             <Text
               style={[
                 styles.buttonText,
                 props.buttonTextStyle,
                 props.yesButtonTextStyle,
-              ]}>
+              ]}
+            >
               {props.yesText}
             </Text>
           </SingleTouch>
@@ -85,13 +87,15 @@ export default class YesNoMessageBox extends Component {
               }
 
               props.onPressNo();
-            }}>
+            }}
+          >
             <Text
               style={[
                 styles.buttonText,
                 props.buttonTextStyle,
                 props.noButtonTextStyle,
-              ]}>
+              ]}
+            >
               {props.noText}
             </Text>
           </SingleTouch>

@@ -131,7 +131,8 @@ class LaunchView extends BaseComponent {
         {(t) => (
           <Root
             style={styles.root}
-            source={ic_splash_screen_bg}>
+            source={ic_splash_screen_bg}
+          >
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}

@@ -123,7 +123,8 @@ class Button extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             disabled={props.disabled}
-            onPress={props.onPress}>
+            onPress={props.onPress}
+          >
             <View style={[styles.button, style, disabledStyle, props.buttonStyle]}>
               {this.renderImageIfNeeded()}
               {this.renderTextIfNeeded()}

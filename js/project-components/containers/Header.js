@@ -34,11 +34,11 @@ class Header extends Component {
     }
 
     return (
-      <View
-        style={styles.leftContainer}>
+      <View style={styles.leftContainer}>
         <SingleTouch
           style={styles.left}
-          onPress={() => props.onPressLeft(props.navigation)}>
+          onPress={() => props.onPressLeft(props.navigation)}
+        >
           <Image
             style={styles.leftImage}
             source={ic_back}
@@ -91,13 +91,15 @@ class Header extends Component {
         {(t) => (
           <View
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+          >
             <CommonHeader
               style={[
                 styles.headerContainer,
                 props.headerStyle,
               ]}
-              source={props.source}>
+              source={props.source}
+            >
               {this.renderLeftContainerIfNeeded()}
               {this.renderCenterContainer()}
               {this.renderRightContainerIfNeeded()}

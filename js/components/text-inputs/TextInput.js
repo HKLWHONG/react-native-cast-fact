@@ -101,7 +101,8 @@ export default class TextInput extends Component {
     }
 
     return (
-      <RNTextInput {...props}
+      <RNTextInput
+        {...props}
         style={[styles.textInput, style, props.textInputStyle]}
         value={props.value}
         placeholder={props.placeholder}
@@ -215,7 +216,8 @@ export default class TextInput extends Component {
 
     return (
       <View
-        style={[styles.bottomLineContainer, props.bottomLineContainerStyle]}>
+        style={[styles.bottomLineContainer, props.bottomLineContainerStyle]}
+      >
         <View
           style={[
             styles.bottomLine,
@@ -261,7 +263,10 @@ export default class TextInput extends Component {
     }
 
     return (
-      <View onLayout={props.onLayout} style={[styles.container, props.style]}>
+      <View
+        onLayout={props.onLayout}
+        style={[styles.container, props.style]}
+      >
         <View style={[styles.textInputContainter, props.textInputContainterStyle]}>
           {this.renderLabelView()}
           {this.renderTextInput()}

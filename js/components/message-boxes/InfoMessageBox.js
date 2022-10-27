@@ -63,7 +63,8 @@ export default class InfoMessageBox extends Component {
             }
 
             props.onPress();
-          }}>
+          }}
+        >
           <Text style={[styles.buttonText, props.buttonTextStyle]}>
             {props.buttonText}
           </Text>

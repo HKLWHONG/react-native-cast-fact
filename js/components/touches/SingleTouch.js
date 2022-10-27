@@ -15,23 +15,22 @@ import {
 import { ViewPropTypes, ColorPropType } from 'deprecated-react-native-prop-types';
 
 export default class SingleTouch extends Component {
-  isComponentDidMount = false;
-
   constructor(props: any) {
     super(props);
 
     this.state = {
+      isComponentDidMount: false,
       disabled: false,
       timeout: undefined,
     };
   }
 
   componentDidMount() {
-    this.isComponentDidMount = true;
+    this.state.isComponentDidMount = true;
   }
 
   componentWillUnmount() {
-    this.isComponentDidMount = false;
+    this.state.isComponentDidMount = false;
 
     const { state } = this;
 
@@ -68,7 +67,7 @@ export default class SingleTouch extends Component {
         clearTimeout(state.timeout);
 
         state.timeout = setTimeout(() => {
-          if (!this.isComponentDidMount) {
+          if (!this.state.isComponentDidMount) {
             return;
           }
 
@@ -142,7 +141,8 @@ export default class SingleTouch extends Component {
           activeOpacity={props.activeOpacity}
           underlayColor={props.underlayColor}
           hasTVPreferredFocus={props.hasTVPreferredFocus}
-          tvParallaxProperties={props.tvParallaxProperties}>
+          tvParallaxProperties={props.tvParallaxProperties}
+        >
           {props.children}
         </TouchableHighlight>
       );
@@ -160,7 +160,8 @@ export default class SingleTouch extends Component {
           disabled={props.disabled || state.disabled}
           onPress={this.onPressCallBack}
           onPressIn={this.onPressInCallBack}
-          onPressOut={this.onPressOutCallBack}>
+          onPressOut={this.onPressOutCallBack}
+        >
           {props.children}
         </TouchableWithoutFeedback>
       );
@@ -174,7 +175,8 @@ export default class SingleTouch extends Component {
         onPress={this.onPressCallBack}
         onPressIn={this.onPressInCallBack}
         onPressOut={this.onPressOutCallBack}
-        activeOpacity={props.activeOpacity}>
+        activeOpacity={props.activeOpacity}
+      >
         {props.children}
       </TouchableOpacity>
     );

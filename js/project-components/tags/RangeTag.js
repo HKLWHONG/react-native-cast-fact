@@ -36,7 +36,8 @@ class RangeTag extends Component {
         {(t) => (
           <View
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+          >
             <Tag
               style={styles.tag}
               type="input"
@@ -65,7 +66,9 @@ class RangeTag extends Component {
                 });
               }}
             />
-            <Text style={styles.text}>{'-'}</Text>
+            <Text style={styles.text}>
+              {'-'}
+            </Text>
             <Tag
               style={styles.tag}
               type="input"

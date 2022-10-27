@@ -38,7 +38,8 @@ export default class Separator extends Component {
     return (
       <View
         onLayout={props.onLayout}
-        style={[styles.container, props.style]}>
+        style={[styles.container, props.style]}
+      >
         <View style={[styles.line, props.lineStyle]} />
         {this.renderTextIfNeeded()}
         <View style={[styles.line, props.lineStyle]} />

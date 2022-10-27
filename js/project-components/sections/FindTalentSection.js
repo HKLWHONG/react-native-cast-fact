@@ -190,7 +190,8 @@ class FindTalentSection extends Component {
             <CollapsibleSection
               key={i.toString()}
               style={style}
-              text={groupFrame.label}>
+              text={groupFrame.label}
+            >
               <GroupFrame
                 info={groupFrame}
                 style={{ borderColor: Theme.colors.general.transparent }}
@@ -201,7 +202,7 @@ class FindTalentSection extends Component {
 
                   props.updateGroupFrame(groupFrameId, { checked: !groupFrame.checked });
                 }}
-                >
+              >
                 {tags}
               </GroupFrame>
             </CollapsibleSection>
@@ -216,7 +217,8 @@ class FindTalentSection extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             source={ic_search_gray}
-            label={props.label}>
+            label={props.label}
+          >
             {children}
           </Section>
         )}

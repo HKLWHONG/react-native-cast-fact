@@ -39,6 +39,7 @@
     "react-native-screens": "^3.17.0",
     "react-native-ssl-pinning": "^1.5.7",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-view-more-text": "^2.1.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1"

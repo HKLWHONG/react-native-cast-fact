@@ -28,7 +28,8 @@ export default class Header extends Component {
         onLayout={props.onLayout}
         style={[styles.background, props.backgroundContainerStyle]}
         source={props.source}
-        resizeMode={props.resizeMode}>
+        resizeMode={props.resizeMode}
+      >
         <View style={[styles.container, props.style]}>{props.children}</View>
       </ImageBackground>
     );

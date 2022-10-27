@@ -222,11 +222,13 @@ class FeedView extends BaseComponent {
         {(t) => (
           <Section
             source={ic_checklist}
-            label={section.title}>
+            label={section.title}
+          >
             <SingleTouch
               onPress={() => {
                 Router.push(props, "FeedStack", "Search");
-              }}>
+              }}
+            >
               <SearchBar disabled />
             </SingleTouch>
           </Section>
@@ -302,7 +304,8 @@ class FeedView extends BaseComponent {
           <Section
             contentContainerStyle={styles.baseOnProjectsSectionContentContainer}
             source={ic_calendar}
-            label={section.title}>
+            label={section.title}
+          >
             <ProfileList
               // style={{backgroundColor: 'cyan'}}
               data={data}
@@ -340,7 +343,8 @@ class FeedView extends BaseComponent {
           <Section
             contentContainerStyle={styles.feedSectionContentContainer}
             source={ic_stack}
-            label={section.title}>
+            label={section.title}
+          >
             <FeedList
               data={props.feeds}
               onPressCalendar={({ item, index, separators }) => {
@@ -474,7 +478,8 @@ class FeedView extends BaseComponent {
         {(t) => (
           <Body
             style={styles.body}
-            scrollable={false}>
+            scrollable={false}
+          >
             <List
               innerRef={(ref) => {
                 props.setListRef(0, 0, ref);

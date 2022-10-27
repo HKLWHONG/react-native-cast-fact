@@ -54,7 +54,8 @@ class SearchBar extends Component {
             if (props.onClear) {
               props.onClear();
             }
-          }}>
+          }}
+        >
           <Image
             style={styles.leftAccessoryButtonImage}
             source={ic_xmark}
@@ -128,7 +129,8 @@ class SearchBar extends Component {
                 props.onPress(props.text)
 
                 props.setText(undefined);
-              }}>
+              }}
+            >
               <Image
                 style={styles.rightAccessoryButtonImage}
                 source={ic_search}
@@ -151,7 +153,8 @@ class SearchBar extends Component {
             start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
             locations={[0,0.31,0.69,1.0]}
             colors={['#4F2F1A', '#3D290B', '#0E363B', '#024E58']}
-            style={styles.subContainer}>
+            style={styles.subContainer}
+          >
             {children}
           </LinearGradient>
         )}
@@ -165,8 +168,7 @@ class SearchBar extends Component {
     return (
       <Translation>
         {(t) => (
-          <View
-            style={styles.subContainer}>
+          <View style={styles.subContainer}>
             {children}
           </View>
         )}
@@ -200,7 +202,8 @@ class SearchBar extends Component {
         {(t) => (
           <View
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+          >
             {children}
           </View>
         )}

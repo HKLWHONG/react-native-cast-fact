@@ -105,7 +105,8 @@ class CollapsibleSection extends Component {
                 this.setState({
                   collapsed: !state.collapsed,
                 })
-              }}>
+              }}
+            >
               <View style={styles.button}>
                 {this.renderLeftHeaderContainerIfNeeded()}
                 {this.renderCenterHeaderContainer()}
@@ -126,7 +127,8 @@ class CollapsibleSection extends Component {
         {(t) => (
           <Collapsible
             style={[styles.contentContainer, props.contentContainerStyle]}
-            collapsed={state.collapsed}>
+            collapsed={state.collapsed}
+          >
             {props.children}
           </Collapsible>
         )}
@@ -146,7 +148,8 @@ class CollapsibleSection extends Component {
         {(t) => (
           <View
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}>
+            style={[styles.container, props.style]}
+          >
             {this.renderHeaderContainer()}
             {this.renderContentContainer()}
           </View>

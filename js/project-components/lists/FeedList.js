@@ -15,6 +15,8 @@ import { Image, SimpleList, SingleTouch } from '../../components';
 
 import { Button, Separator } from '../../project-components';
 
+import ViewMoreText from 'react-native-view-more-text';
+
 import { Theme, UserProcessor } from '../../utils';
 
 import { Translation } from 'react-i18next';
@@ -74,16 +76,13 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <View
-            style={styles.topContainer}>
+          <View style={styles.topContainer}>
             {this.renderProfileImageIfNeeded(params)}
             <View style={styles.profileInfoContainer}>
-              <Text
-                style={styles.nameLabel}>
+              <Text style={styles.nameLabel}>
                 {UserProcessor.toName(item && item.profile)}
               </Text>
-              <Text
-                style={styles.titleLabel}>
+              <Text style={styles.titleLabel}>
                 {item && item.profile && item.profile.title}
               </Text>
             </View>
@@ -219,9 +218,7 @@ class FeedList extends Component {
               source={ic_placeholder}
               resizeMode="center"
             />
-            <Text
-              style={styles.noPostsText}
-            >
+            <Text style={styles.noPostsText}>
               {t('app.no_post_yet')}
             </Text>
           </View>
@@ -287,10 +284,38 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <View
-            style={styles.centerContainer}>
+          <View style={styles.centerContainer}>
             {children}
           </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderViewMore = (onPress) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Text
+            style={styles.viewMoreText}
+            onPress={onPress}
+          >
+            {t('components.feed_list.view_more')}
+          </Text>
+        )}
+      </Translation>
+    );
+  };
+
+  renderViewLess = (onPress) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View />
         )}
       </Translation>
     );
@@ -312,8 +337,7 @@ class FeedList extends Component {
       <Translation>
         {(t) => (
           <View style={styles.bottomContainer}>
-            <View
-              style={styles.topBottomContainer}>
+            <View style={styles.topBottomContainer}>
               <Button
                 style={styles.likeButtonContainer}
                 buttonStyle={styles.likeButton}
@@ -329,8 +353,7 @@ class FeedList extends Component {
                   props.onPressLike(params);
                 }}
               />
-              <Text
-                style={styles.likeText}>
+              <Text style={styles.likeText}>
                 {'279 LIKES'}
               </Text>
               <Button
@@ -357,12 +380,16 @@ class FeedList extends Component {
                 }}
               />
             </View>
-            <View
-              style={styles.centerBottomContainer}>
-              <Text
-                style={styles.text}>
-                {item && item.post && item.post.description}
-              </Text>
+            <View style={styles.centerBottomContainer}>
+              <ViewMoreText
+                numberOfLines={3}
+                renderViewMore={this.renderViewMore}
+                renderViewLess={this.renderViewLess}
+              >
+                <Text style={styles.text}>
+                  {item && item.post && item.post.description}
+                </Text>
+              </ViewMoreText>
             </View>
             <View style={styles.bottomBottomContainer}>
               <View style={styles.infoContainer}>
@@ -404,8 +431,7 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <View
-            style={styles.itemContainer}>
+          <View style={styles.itemContainer}>
             {this.renderTopContainer(params)}
             {this.renderCenterContainer(params)}
             {this.renderBottomContainer(params)}
@@ -654,11 +680,20 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   text: {
-    flex: 1,
+    // backgroundColor: '#ff0',
     color: Theme.colors.general.white,
     fontSize: 13,
     fontFamily: Theme.fonts.medium,
     letterSpacing: 1.7,
+  },
+  viewMoreText: {
+    // backgroundColor: '#f00',
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.medium,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
+    alignSelf: 'flex-start',
   },
   bottomBottomContainer: {
     // backgroundColor: '#f00',

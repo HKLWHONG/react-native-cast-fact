@@ -28,7 +28,8 @@ export default class Body extends Component {
         onLayout={props.onLayout}
         style={[styles.background, props.backgroundContainerStyle]}
         source={props.source}
-        resizeMode={props.resizeMode}>
+        resizeMode={props.resizeMode}
+      >
         {this.renderScrollViewIfNeededForContainer(children, style)}
       </ImageBackground>
     );
@@ -46,7 +47,8 @@ export default class Body extends Component {
               styles.contentContainerStyle,
               props.contentContainerStyle,
             ]}
-            bounces={props.bounces}>
+            bounces={props.bounces}
+          >
             <TouchableWithoutFeedback>
               <View style={[styles.scrollViewContentContainer, props.style]}>
                 {props.children}

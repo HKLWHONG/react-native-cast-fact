@@ -9,7 +9,7 @@ import { StyleSheet, RefreshControl } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
-import { KeyboardAwareSectionList } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareSectionList } from 'react-native-keyboard-aware-scroll-view';
 
 export default class List extends Component {
   constructor(props: any) {
@@ -90,7 +90,8 @@ export default class List extends Component {
     }
 
     return (
-      <KeyboardAwareSectionList {...props}
+      <KeyboardAwareSectionList
+        {...props}
         onLayout={props.onLayout}
         style={[styles.container, props.style]}
         contentContainerStyle={[

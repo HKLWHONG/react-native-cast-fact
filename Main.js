@@ -53,7 +53,8 @@ class Main extends BaseComponent {
               screenOptions={{
                 headerShown: false,
                 animationEnabled: false,
-              }}>
+              }}
+            >
               <Stack.Group>
                 <Stack.Screen name="Launch" component={LaunchView} />
                 <Stack.Screen name="Login" component={LoginView} />
@@ -63,7 +64,8 @@ class Main extends BaseComponent {
                 screenOptions={{
                   presentation: 'modal',
                   animationEnabled: true,
-                }}>
+                }}
+              >
                 <Stack.Screen name="SignUp" component={SignUpView} />
               </Stack.Group>
             </Stack.Navigator>
