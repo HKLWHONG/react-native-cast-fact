@@ -289,7 +289,7 @@ class SignUpView extends BaseComponent {
               //   {},
               //   {},
               // )
-              //   .then((json) => {
+              //   .then(({ json }) => {
                   Router.goBack(props);
               //   })
               //   .catch((error) => {

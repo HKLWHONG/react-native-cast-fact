@@ -34,9 +34,11 @@ export const request = (
         useFetch: true,
       },
     )
-      .then((json) => {
+      .then((params) => {
+        const { json } = params;
+
         if (json && json.payload) {
-          resolve(json);
+          resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Payload not found.`);
         }

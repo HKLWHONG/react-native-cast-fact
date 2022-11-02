@@ -14,6 +14,8 @@ const Environment = {
   USE_DUMMY_DATA: false,
 
   CERTS: [],
+
+  MAX_RECENT_SEARCHES_NUM: 2,
 };
 
 export default Environment;

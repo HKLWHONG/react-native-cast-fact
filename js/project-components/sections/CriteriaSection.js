@@ -21,7 +21,9 @@ import { Image, SingleTouch, TextInput } from '../../components';
 
 import { Section, SearchBar, GroupFrame, Tag } from '../../project-components';
 
-import { Theme, TagProcessor } from '../../utils';
+import { Theme } from '../../utils';
+
+import { SearchProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -50,9 +52,7 @@ class CriteriaSection extends Component {
             onPress={(text) => {
               console.log('[search-text] ', text);
 
-              if (text && text.length > 0) {
-                props.addTag({ text: text, isManual: true });
-              }
+              SearchProcessor.reload();
 
               if (!props.onPressSearchBar) {
                 return;
@@ -61,32 +61,10 @@ class CriteriaSection extends Component {
               props.onPressSearchBar(text);
             }}
             onChangeText={(text) => {
-              if (text && text.length > 0) {
-                let tags = [{ text: text, isManual: true }];
-
-                store.getState().criteriaSectionReducer.tags.forEach((groupFrame) => {
-                  let data = groupFrame.data || [];
-
-                  tags = [...tags, ...data];
+              SearchProvider.search(props, { prefetch: true }, {})
+                .catch((error) => {
+                  console.error(error);
                 });
-
-                SearchProvider.search(
-                  props,
-                  {
-                    tags: JSON.stringify(tags),
-                    prefetch: true,
-                  },
-                  {},
-                )
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              } else {
-                SearchProvider.search(props, { prefetch: true }, {})
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              }
             }}
             onClear={() => {
               SearchProvider.search(props, { prefetch: true }, {})

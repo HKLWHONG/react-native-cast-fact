@@ -5,6 +5,8 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const LOGGING = false;
+
 const IDENTIFIER = '@feed';
 
 export const identifiers = {
@@ -31,7 +33,9 @@ export const setFeeds = (value) => {
           JSON.stringify(value),
           (error) => {
             if (!error) {
-              console.log(`[${identifier}] <${value}> saved.`);
+              if (LOGGING) {
+                console.log(`[${identifier}] <${value}> saved.`);
+              }
 
               resolve();
             } else {
@@ -55,7 +59,9 @@ export const getFeeds = () => {
     try {
       AsyncStorage.getItem(identifier, (error, value) => {
         if (value) {
-          console.log(`[${identifier}] <${value}> read.`);
+          if (LOGGING) {
+            console.log(`[${identifier}] <${value}> read.`);
+          }
 
           resolve(JSON.parse(value));
         } else {

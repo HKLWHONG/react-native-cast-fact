@@ -40,10 +40,10 @@ export default class ActivityIndicator extends Component {
     return (
       <Modal transparent animationType="fade">
         <View onLayout={props.onLayout} style={[styles.container, props.style]}>
-          <View style={styles.box}>
+          <View style={[styles.box, props.boxStyle]}>
             <MaterialIndicator
               style={styles.indicator}
-              color="#826E5C"
+              color={props.color}
               size={30}
               trackWidth={2}
             />
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   box: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -84,13 +84,17 @@ const styles = StyleSheet.create({
 ActivityIndicator.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
+  boxStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   message: PropTypes.string,
+  color: PropTypes.string,
 };
 
 ActivityIndicator.defaultProps = {
   onLayout: undefined,
   style: undefined,
+  boxStyle: undefined,
   hidden: false,
   message: undefined,
+  color: '#FFFFFF',
 };

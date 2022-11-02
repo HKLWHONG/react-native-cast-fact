@@ -46,7 +46,7 @@ export const request = (
             const json = data;
 
             if (json) {
-              resolve(json);
+              resolve({ response: response, json: json });
             } else {
               reject(message);
             }
@@ -54,7 +54,7 @@ export const request = (
             const blob = data;
 
             if (blob && blob.size) {
-              resolve({ data: blob, type: contentType });
+              resolve({ response: response, data: blob, type: contentType });
             } else {
               reject('The blob is empty.');
             }

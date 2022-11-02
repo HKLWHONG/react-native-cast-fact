@@ -12,8 +12,8 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
-const IDENTIFIER = 'SearchApi';
-const URL = Environment.API_URL + '/search';
+const IDENTIFIER = 'RemoveRecentSearchesApi';
+const URL = Environment.API_URL + '/recent_searches/delete';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -35,12 +35,12 @@ export const request = (
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response } = params;
 
-        if (json && json.payload) {
+        if (response.status === 200) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] Payload not found.`);
+          reject(`[${IDENTIFIER}] Delete failed.`);
         }
       })
       .catch((error) => {

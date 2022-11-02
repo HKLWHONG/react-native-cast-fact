@@ -10,7 +10,7 @@ import i18n from '../../i18n';
 
 import { fetch as sslFetch } from 'react-native-ssl-pinning';
 
-const API_LOGGING = true;
+const API_LOGGING = false;
 const API_TIMEOUT = 30000;
 
 /**

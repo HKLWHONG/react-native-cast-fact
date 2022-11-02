@@ -17,7 +17,9 @@ import { Button, Separator } from '../../project-components';
 
 import ViewMoreText from 'react-native-view-more-text';
 
-import { Theme, UserProcessor } from '../../utils';
+import { Theme } from '../../utils';
+
+import { UserProcessor } from '../../processors';
 
 import { Translation } from 'react-i18next';
 

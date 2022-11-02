@@ -8,7 +8,7 @@ export const toPrefix = (tag) => {
    return '';
  }
 
- return tag.prefix || '';
+ return (tag.prefix || '').trim();
 };
 
 export const toText = (tag) => {
@@ -16,7 +16,15 @@ export const toText = (tag) => {
     return '';
   }
 
-  return tag.text || '';
+  return (tag.text || '').trim();
+};
+
+export const toRangeText = (tag) => {
+  if (!tag) {
+    return '';
+  }
+
+  return ((tag.fromText || '') + ' - ' + (tag.toText || '')).trim();
 };
 
 export const toSuffix = (tag) => {
@@ -24,7 +32,7 @@ export const toSuffix = (tag) => {
     return '';
   }
 
-  return tag.suffix || '';
+  return (tag.suffix || '').trim();
 };
 
 export const toString = (tag) => {
@@ -35,13 +43,21 @@ export const toString = (tag) => {
   return (toPrefix(tag) + ' ' + toText(tag) + ' ' + toSuffix(tag)).trim();
 };
 
+export const toRangeString = (tag) => {
+  if (!tag) {
+    return '';
+  }
+
+  return (toPrefix(tag) + ' ' + toRangeText(tag) + ' ' + toSuffix(tag)).trim();
+};
+
 export const format = (data) => {
   let tags = [
     ...data,
   ].map((groupFrame, groupFrameId) => {
     return {
+      ...groupFrame,
       groupFrameId: groupFrameId.toString(),
-      label: groupFrame.label,
       data: groupFrame.data.map((tag, tagId) => {
         return {
           ...tag,

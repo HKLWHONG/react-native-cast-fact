@@ -5,6 +5,8 @@
 
 import { CommonActionType, CriteriaSectionActionType } from '../../../types';
 
+import { CriteriaProcessor } from '../../../../processors';
+
 const initialState = {
   text: '',
   tags: [],
@@ -36,62 +38,10 @@ export default function criteriaSectionReducer(state = initialState, action) {
       if (!action.tag) {
         return;
       }
-
-      if (action.tag.text) {
-        action.tag.text = action.tag.text.trim();
-      }
-
-      let tags = state.tags.filter((groupFrame) => {
-        return groupFrame.groupFrameId === '0';
-      });
-
-      if (tags.length === 0) {
-        tags.push({
-          groupFrameId: '0',
-          data: [
-            {
-              ...action.tag,
-              tagId: '0',
-              rightAccessoryType: 'delete',
-            },
-          ],
-        });
-      } else {
-        let existingTags = tags[0].data.filter((tag) => {
-          return (
-            tag.text && action.tag.text
-            &&
-            tag.text.toLowerCase() === action.tag.text.toLowerCase()
-          );
-        });
-
-        if (existingTags.length === 0) {
-          let maxTagId = -1;
-
-          tags[0].data.forEach((tag, i) => {
-            let tagId = parseInt(tag.tagId);
-            if (tagId > maxTagId) {
-              maxTagId = tagId;
-            }
-          });
-
-          let tag = {
-            ...action.tag,
-            tagId: (maxTagId + 1).toString(),
-            rightAccessoryType: 'delete',
-          };
-
-          if (action.tag.isManual) {
-            tags[0].data.splice(0, 0, tag);
-          } else {
-            tags[0].data.push(tag);
-          }
-        }
-      }
-
+      
       return {
         ...state,
-        tags: tags,
+        tags: CriteriaProcessor.addTag(state.tags, action.tag),
       };
     }
 

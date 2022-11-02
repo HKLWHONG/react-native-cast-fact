@@ -2,6 +2,7 @@
 
 const zhHK = {
   app: {
+    loading: '加載中',
     login: '登入',
     sign_up: 'Sign Up',
     criteria: 'Criteria',

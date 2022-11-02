@@ -34,9 +34,11 @@ export const request = (
         useFetch: true,
       },
     )
-      .then((json) => {
+      .then((params) => {
+        const { json } = params;
+
         if (json && json.payload && json.payload.token) {
-          resolve(json);
+          resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Token not found.`);
         }

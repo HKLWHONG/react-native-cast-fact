@@ -11,7 +11,6 @@ import {
   store,
   CriteriaSectionAction,
   MainTabAction,
-  RecentSearchesSectionAction,
   SearchAction,
 } from '../../redux';
 
@@ -42,7 +41,7 @@ import {
   Router,
 } from '../../utils';
 
-import { SearchProvider } from '../../providers';
+import { SearchProvider, TagProvider } from '../../providers';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -81,26 +80,6 @@ class SearchView extends BaseComponent {
     const { props } = this;
   };
 
-  addRecentSearchesGroupFrame = (tags) => {
-    const { props } = this;
-
-    if (tags.length === 0) {
-      return;
-    }
-
-    let data = tags[0].data.map((tag) => {
-      tag = { ...tag };
-
-      delete tag.rightAccessoryType;
-
-      return tag;
-    });
-
-    props.addRecentSearchesGroupFrame({
-      data: data,
-    });
-  };
-
   renderHeader = () => {
     const { props } = this;
 
@@ -124,8 +103,6 @@ class SearchView extends BaseComponent {
             label={section.title}
             onPressSearchBar={async () => {
               await SearchProvider.presearch(props);
-
-              this.addRecentSearchesGroupFrame(store.getState().criteriaSectionReducer.tags);
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -158,7 +135,7 @@ class SearchView extends BaseComponent {
                 }),
               }]);
 
-              await SearchProvider.presearch(props);
+              await SearchProvider.presearch(props, { disableAddRecentSearches: true });
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -265,6 +242,16 @@ class SearchView extends BaseComponent {
               sections={sections}
               renderItem={this.renderItem}
               SectionSeparatorComponent={this.renderSectionSeparatorComponent}
+              androidRefreshControlColor={Theme.colors.general.black}
+              iosRefreshControlColor={Theme.colors.general.white}
+              refreshing={props.refreshing}
+              onRefresh={async (refreshing) => {
+                props.setRefreshing(true);
+
+                await TagProvider.prefetchTags(props);
+
+                props.setRefreshing(false);
+              }}
             />
           </Body>
         )}
@@ -318,6 +305,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    refreshing: state.searchReducer.refreshing,
     criteriaTags: state.criteriaSectionReducer.tags,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
@@ -327,9 +315,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(SearchAction.setRefreshing(...args)),
     setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
-    addRecentSearchesGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.addGroupFrame(...args)),
   };
 }
 

@@ -13,8 +13,11 @@ import {
 
 import {
   Common,
-  TagProcessor,
 } from '../utils';
+
+import {
+  TagProcessor
+} from '../processors';
 
 import {
   TagStorage,
@@ -26,7 +29,7 @@ import {
 
 const IDENTIFIER = 'TagProvider';
 
-export const fetchTags = async (props) => {
+export const prefetchTags = async (props, params, options) => {
   let cachedTags = await TagStorage.getTags()
     .catch((error) => {
       console.error(error);
@@ -35,11 +38,13 @@ export const fetchTags = async (props) => {
   if (cachedTags) {
     console.log(`[${IDENTIFIER}] cached-tags-found.`);
 
-    store.dispatch(DataAction.setTags(cachedTags));
+    store.dispatch(DataAction.setFindTalentSectionTags(cachedTags));
     store.dispatch(FindTalentSectionAction.setTags(cachedTags));
 
-    getTags(props, {})
-      .then((json) => {
+    getTags(props, params, options)
+      .then((params) => {
+        const { json } = params;
+
         let tags = TagProcessor.format(json.payload);
 
         TagStorage.setTags(tags)
@@ -50,7 +55,7 @@ export const fetchTags = async (props) => {
         if (JSON.stringify(cachedTags) !== JSON.stringify(tags)) {
           console.log(`[${IDENTIFIER}] need-to-reload-tags.`);
 
-          store.dispatch(DataAction.setTags(tags));
+          store.dispatch(DataAction.setFindTalentSectionTags(tags));
           store.dispatch(FindTalentSectionAction.setTags(tags));
         } else {
           console.log(`[${IDENTIFIER}] no-need-to-reload-tags.`);
@@ -62,20 +67,20 @@ export const fetchTags = async (props) => {
   } else {
     console.log(`[${IDENTIFIER}] no-cached-tags.`);
 
-    let json = await getTags(props, {})
+    params = await getTags(props, params, options)
       .catch((error) => {
         console.error(error);
       });
 
-    if (json && json.payload) {
-      let tags = TagProcessor.format(json.payload);
+    if (params && params.json && params.json.payload) {
+      let tags = TagProcessor.format(params.json.payload);
 
       TagStorage.setTags(tags)
         .catch((error) => {
           console.error(error);
         });
 
-      store.dispatch(DataAction.setTags(tags));
+      store.dispatch(DataAction.setFindTalentSectionTags(tags));
       store.dispatch(FindTalentSectionAction.setTags(tags));
     }
   }
@@ -85,13 +90,15 @@ export const getTags = (props, params, options) => {
   return new Promise((resolve, reject) => {
     GetTagApi.request(
       props,
-      {},
-      {},
+      params,
+      options,
     )
-      .then((json) => {
-        store.dispatch(DataAction.setTags(TagProcessor.format(json.payload)));
+      .then((params) => {
+        const { json } = params;
 
-        resolve(json);
+        store.dispatch(DataAction.setFindTalentSectionTags(TagProcessor.format(json.payload)));
+
+        resolve(params);
       })
       .catch((error) => {
         reject(error);

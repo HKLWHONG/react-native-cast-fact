@@ -13,7 +13,9 @@ import { connect } from 'react-redux';
 
 import { Image, SimpleList, SingleTouch } from '../../components';
 
-import { Theme, UserProcessor } from '../../utils';
+import { Theme } from '../../utils';
+
+import { UserProcessor } from '../../processors';
 
 import { Translation } from 'react-i18next';
 

@@ -5,21 +5,18 @@
 
 import { PropTypes } from 'react';
 
-import Environment from '../config/Environment';
+import { Environment } from '../config';
 
 import * as Request from './Request';
 import * as Header from './Header';
 
-import { store, AppAction } from '../redux';
+import { store } from '../redux';
 
-import { Common } from '../utils';
-
-const IDENTIFIER = 'TemplateAPI';
-const URL = Environment.API_URL + '/template';
+const IDENTIFIER = 'GetRecentSearchesApi';
+const URL = Environment.API_URL + '/recent_searches/read';
 
 export const request = (
   props: PropTypes.object.isRequired,
-  query?: PropTypes.object.isRequired,
   body?: PropTypes.object.isRequired,
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
@@ -28,28 +25,26 @@ export const request = (
       props,
       IDENTIFIER,
       URL,
-      '${method}',
+      'POST',
       await Header.getAuthHeader(),
-      query,
+      {},
       body,
-      options,
+      {
+        ...options,
+        useFetch: true,
+      },
     )
       .then((params) => {
         const { json } = params;
-        
-        if (json && json.xxxDTO) {
-          resolve(json);
+
+        if (json && json.payload) {
+          resolve(params);
         } else {
-          const message = Common.getAPIErrorMessage(json);
-
-          store.dispatch(AppAction.showPullDownMessageBox(message));
-
-          reject(message);
+          reject(`[${IDENTIFIER}] Payload not found.`);
         }
       })
       .catch((error) => {
         reject(error);
-      })
-      .done();
+      });
   });
 };

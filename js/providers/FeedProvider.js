@@ -13,8 +13,11 @@ import {
 
 import {
   Common,
-  FeedProcessor,
 } from '../utils';
+
+import {
+  FeedProcessor,
+} from '../processors';
 
 import {
   FeedStorage,
@@ -26,7 +29,7 @@ import {
 
 const IDENTIFIER = 'FeedProvider';
 
-export const prefetchFeeds = async (props) => {
+export const prefetchFeeds = async (props, params, options) => {
   let page = 1;
 
   let cachedFeeds = await FeedStorage.getFeeds()
@@ -41,11 +44,17 @@ export const prefetchFeeds = async (props) => {
 
     store.dispatch(FeedAction.setFeeds(cachedFeeds));
 
-    getFeeds(props, {
-      page: page,
-      length: store.getState().feedReducer.feedsPaging.length,
-    })
-      .then((json) => {
+    getFeeds(
+      props,
+      {
+        page: page,
+        length: store.getState().feedReducer.feedsPaging.length,
+      },
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
         let feeds = FeedProcessor.format([], json.payload);
 
         FeedStorage.setFeeds(feeds)
@@ -68,16 +77,20 @@ export const prefetchFeeds = async (props) => {
   } else {
     console.log(`[${IDENTIFIER}] no-cached-feeds.`);
 
-    let json = await getFeeds(props, {
-      page: page,
-      length: store.getState().feedReducer.feedsPaging.length,
-    })
+    params = await getFeeds(
+      props,
+      {
+        page: page,
+        length: store.getState().feedReducer.feedsPaging.length,
+      },
+      options,
+    )
       .catch((error) => {
         console.error(error);
       });
 
-    if (json && json.payload) {
-      let feeds = FeedProcessor.format([], json.payload);
+    if (params && params.json && params.json.payload) {
+      let feeds = FeedProcessor.format([], params.json.payload);
 
       FeedStorage.setFeeds(feeds)
         .catch((error) => {
@@ -98,10 +111,10 @@ export const getFeeds = (props, params, options) => {
         page: params && params.page,
         length: params && params.length,
       },
-      {},
+      options,
     )
-      .then((json) => {
-        resolve(json);
+      .then((params) => {
+        resolve(params);
       })
       .catch((error) => {
         reject(error);

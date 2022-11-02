@@ -5,7 +5,7 @@
 
 import { CommonActionType, FindTalentSectionActionType } from '../../../types';
 
-import { TagProcessor } from '../../../../utils';
+import { TagProcessor } from '../../../../processors';
 
 const initialState = {
   tags: [],

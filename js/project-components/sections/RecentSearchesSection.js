@@ -11,6 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 import {
+  store,
   RecentSearchesSectionAction,
   CriteriaSectionAction,
   FindTalentSectionAction,
@@ -28,7 +29,9 @@ import {
   Tag,
 } from '../../project-components';
 
-import { Theme, TagProcessor } from '../../utils';
+import { Theme } from '../../utils';
+
+import { TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -142,10 +145,15 @@ class RecentSearchesSection extends Component {
               style={style}
               rightAccessoryType="delete"
               onPress={props.onPressGroupFrame}
-              onPressRightAccessory={({ groupFrameId }) => {
-                // console.log('[groupFrameId] ', groupFrameId);
+              onPressRightAccessory={({ origin }) => {
+                // console.log('[origin]', origin);
 
-                props.deleteGroupFrame(groupFrameId);
+                SearchProvider.removeRecentSearches(props, {
+                  ids: [origin.id],
+                })
+                  .catch((error) => {
+                    console.error(error);
+                  });
               }}
             >
               {tags}
@@ -170,7 +178,24 @@ class RecentSearchesSection extends Component {
             label={props.label}
             rightAccessoryType={rightAccessoryType}
             onPress={() => {
-              props.deleteTags();
+              // console.log('[origin]', origin);
+
+              tags = store.getState().recentSearchesSectionReducer.tags;
+
+              let ids = tags
+                .map((tag) => {
+                  return tag && tag.origin && tag.origin.id;
+                })
+                .filter((id) => {
+                  return id;
+                });
+
+              SearchProvider.removeRecentSearches(props, {
+                ids: ids,
+              })
+                .catch((error) => {
+                  console.error(error);
+                });
             }}
           >
             {children}
@@ -216,8 +241,6 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(RecentSearchesSectionAction.reset(...args)),
     updateTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
-    deleteGroupFrame: (...args) => dispatch(RecentSearchesSectionAction.deleteGroupFrame(...args)),
-    deleteTags: (...args) => dispatch(RecentSearchesSectionAction.deleteTags(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };

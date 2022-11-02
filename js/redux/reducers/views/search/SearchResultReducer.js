@@ -25,16 +25,16 @@ export default function searchResultReducer(state = initialState, action) {
     case SearchResultActionType.RESET:
       return initialState;
 
-    case SearchResultActionType.SEARCHED:
-      return {
-        ...state,
-        searched: action.searched,
-      };
-
     case SearchResultActionType.REFRESHING:
       return {
         ...state,
         refreshing: action.refreshing,
+      };
+
+    case SearchResultActionType.SEARCHED:
+      return {
+        ...state,
+        searched: action.searched,
       };
 
     case SearchResultActionType.RESULTS:

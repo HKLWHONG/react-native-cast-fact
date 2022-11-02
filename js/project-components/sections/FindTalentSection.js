@@ -30,7 +30,11 @@ import {
   RangeTag,
 } from '../../project-components';
 
-import { Theme, TagProcessor } from '../../utils';
+import { AppRegex } from '../../regex';
+
+import { Theme } from '../../utils';
+
+import { SearchProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -87,21 +91,51 @@ class FindTalentSection extends Component {
                         ...tag,
                         groupFrameId: groupFrame.groupFrameId,
                       }}
-                      fromValue={tag.fromValue}
-                      toValue={tag.toValue}
-                      regexOfFromValue={tag.regexOfFromValue}
-                      regexOfToValue={tag.regexOfToValue}
-                      maxLengthOfFromValue={parseInt(tag.maxLengthOfFromValue)}
-                      maxLengthOfToValue={parseInt(tag.maxLengthOfToValue)}
-                      onChangeFromValue={({ groupFrameId, tagId, value }) => {
-                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [value] ${value}`);
+                      fromText={tag.fromText}
+                      toText={tag.toText}
+                      regexOfFromText={tag.regexOfFromText}
+                      regexOfToText={tag.regexOfToText}
+                      maxLengthOfFromText={
+                        tag.maxLengthOfFromText
+                        &&
+                        AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLengthOfFromText)
+                          ? parseInt(tag.maxLengthOfFromText)
+                          : undefined
+                      }
+                      maxLengthOfToText={
+                        tag.maxLengthOfToText
+                        &&
+                        AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLengthOfToText)
+                          ? parseInt(tag.maxLengthOfToText)
+                          : undefined
+                      }
+                      onChangeFromText={({ groupFrameId, tagId, text }) => {
+                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [text] ${text}`);
 
-                        props.updateTag(groupFrameId, tagId, { fromValue: value });
+                        props.updateTag(groupFrameId, tagId, { fromText: text });
+
+                        if (!groupFrame.checked) {
+                          return;
+                        }
+
+                        SearchProvider.search(props, { prefetch: true }, {})
+                          .catch((error) => {
+                            console.error(error);
+                          });
                       }}
-                      onChangeToValue={({ groupFrameId, tagId, value }) => {
-                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [value] ${value}`);
+                      onChangeToText={({ groupFrameId, tagId, text }) => {
+                        // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [text] ${text}`);
 
-                        props.updateTag(groupFrameId, tagId, { toValue: value });
+                        props.updateTag(groupFrameId, tagId, { toText: text });
+
+                        if (!groupFrame.checked) {
+                          return;
+                        }
+
+                        SearchProvider.search(props, { prefetch: true }, {})
+                          .catch((error) => {
+                            console.error(error);
+                          });
                       }}
                     />
                   );
@@ -117,11 +151,17 @@ class FindTalentSection extends Component {
                     dotStyle={{ backgroundColor: tag.color }}
                     disabled={tag.disabled}
                     type={tag.type}
-                    value={tag.value}
                     text={tag.text}
+                    unit={tag.unit}
                     keyboardType={tag.keyboardType}
                     regex={tag.regex}
-                    maxLength={parseInt(tag.maxLength)}
+                    maxLength={
+                      tag.maxLength
+                      &&
+                      AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLength)
+                        ? parseInt(tag.maxLength)
+                        : undefined
+                    }
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
                     source={(() => {
@@ -139,6 +179,31 @@ class FindTalentSection extends Component {
                     checked={tag.checked}
                     onPress={(info) => {
                       // console.log('[info] ', info);
+
+                      if (
+                        tag.leftAccessoryType
+                        &&
+                        tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
+                      ) {
+                        props.updateTag(info.groupFrameId, info.tagId, { checked: !info.checked });
+                      }
+
+                      if (
+                        tag.type
+                        &&
+                        tag.type.toLowerCase() === 'reference'.toLowerCase()
+                      ) {
+                        if (!groupFrame.checked) {
+                          return;
+                        }
+
+                        SearchProvider.search(props, { prefetch: true }, {})
+                          .catch((error) => {
+                            console.error(error);
+                          });
+
+                        return;
+                      }
 
                       let infoText = TagProcessor.toString(info);
 
@@ -176,10 +241,19 @@ class FindTalentSection extends Component {
                           console.error(error);
                         });
                     }}
-                    onChangeValue={({ groupFrameId, tagId, value }) => {
+                    onChangeText={({ groupFrameId, tagId, text }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
 
-                      props.updateTag(groupFrameId, tagId, { value: value });
+                      props.updateTag(groupFrameId, tagId, { text: text });
+
+                      if (!groupFrame.checked) {
+                        return;
+                      }
+
+                      SearchProvider.search(props, { prefetch: true }, {})
+                        .catch((error) => {
+                          console.error(error);
+                        });
                     }}
                   />
                 );
@@ -201,6 +275,11 @@ class FindTalentSection extends Component {
                   // console.log('[groupFrameId] ', groupFrameId);
 
                   props.updateGroupFrame(groupFrameId, { checked: !groupFrame.checked });
+
+                  SearchProvider.search(props, { prefetch: true }, {})
+                    .catch((error) => {
+                      console.error(error);
+                    });
                 }}
               >
                 {tags}

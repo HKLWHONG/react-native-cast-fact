@@ -33,7 +33,9 @@ import {
   Tag,
 } from '../../project-components';
 
-import { Theme, Router, FeedProcessor } from '../../utils';
+import { Theme, Router } from '../../utils';
+
+import { FeedProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -107,7 +109,7 @@ class SearchResultView extends BaseComponent {
       page: page,
       length: store.getState().searchResultReducer.feedsPaging.length,
     })
-      .then((json) => {
+      .then(({ json }) => {
         // props.setSearched(true);
         props.setFeedsPagingLoading(false);
         // props.setRefreshing(false);

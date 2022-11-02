@@ -25,12 +25,14 @@ export const login = (props, params, options) => {
         email: params && params.email,
         password: params && params.password,
       },
-      {},
+      options,
     )
-      .then((json) => {
+      .then((params) => {
+        const { json } = params;
+        
         AuthStorage.setToken(json.payload.token)
           .then(() => {
-            resolve(json);
+            resolve(params);
           })
           .catch((error) => {
             reject(error);

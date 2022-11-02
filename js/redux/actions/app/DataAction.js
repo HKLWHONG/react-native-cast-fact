@@ -22,10 +22,19 @@ export const setDummyData = (dummyData) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setTags = (tags) => (dispatch) => {
+export const setRecentSearchesSectionTags = (recentSearchesSectionTags) => (dispatch) => {
   dispatch({
-    type: DataActionType.TAGS,
-    tags: tags,
+    type: DataActionType.RECENT_SEARCHES_SECTION_TAGS,
+    recentSearchesSectionTags: recentSearchesSectionTags,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setFindTalentSectionTags = (findTalentSectionTags) => (dispatch) => {
+  dispatch({
+    type: DataActionType.FIND_TALENT_SECTION_TAGS,
+    findTalentSectionTags: findTalentSectionTags,
   });
 
   return Promise.resolve(store.getState());

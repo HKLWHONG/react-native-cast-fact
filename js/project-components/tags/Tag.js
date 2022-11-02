@@ -137,6 +137,24 @@ class Tag extends Component {
     );
   };
 
+  renderSpaceTextIfNeeded = () => {
+    const { props } = this;
+
+    if (!props.unit || props.unit.length === 0) {
+      return;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <Text style={styles.text}>
+           {' '}
+          </Text>
+        )}
+      </Translation>
+    );
+  };
+
   renderInputContainer = () => {
     const { props, state } = this;
 
@@ -147,11 +165,11 @@ class Tag extends Component {
             <TextInput
               style={styles.input}
               textInputStyle={styles.text}
-              value={props.value}
+              value={props.text}
               maxLength={props.maxLength}
               keyboardType={props.keyboardType}
               onChangeText={(text) => {
-                if (!props.onChangeValue) {
+                if (!props.onChangeText) {
                   return;
                 }
 
@@ -163,17 +181,18 @@ class Tag extends Component {
                   return;
                 }
 
-                props.onChangeValue({
+                props.onChangeText({
                   ...props.info,
-                  value: text,
+                  text: text,
                 })
               }}
               disableBottomLine
               disableMessageView
             />
-           <Text style={styles.text}>
-             {props.text}
-           </Text>
+            {this.renderSpaceTextIfNeeded()}
+            <Text style={styles.text}>
+              {props.unit}
+            </Text>
           </View>
         )}
       </Translation>
@@ -267,10 +286,9 @@ class Tag extends Component {
     let style = {};
 
     let disabled = false;
+    let editable = false;
 
     if (
-      props.disabled
-      ||
       (
         props.type
         &&
@@ -282,6 +300,14 @@ class Tag extends Component {
         &&
         props.rightAccessoryType.toLowerCase() === 'delete'.toLowerCase()
       )
+    ) {
+      editable = true;
+    }
+
+    if (
+      props.disabled
+      ||
+      editable
     ) {
       disabled = true;
     }
@@ -301,7 +327,13 @@ class Tag extends Component {
       };
     }
 
-    if (disabled && !props.disabledWithoutFeedback) {
+    if (
+      disabled
+      &&
+      !editable
+      &&
+      !props.disabledWithoutFeedback
+    ) {
       style = {
         ...style,
         opacity: 0.5,
@@ -461,8 +493,8 @@ Tag.propTypes = {
   disabled: PropTypes.bool,
   disabledWithoutFeedback: PropTypes.bool,
   type: PropTypes.string,
-  value: PropTypes.string,
   text: PropTypes.string,
+  unit: PropTypes.string,
   regex: PropTypes.string,
   maxLength: PropTypes.number,
   keyboardType: PropTypes.string,
@@ -489,8 +521,8 @@ Tag.defaultProps = {
   disabled: false,
   disabledWithoutFeedback: false,
   type: undefined,
-  value: undefined,
   text: undefined,
+  unit: undefined,
   regex: undefined,
   maxLength: undefined,
   keyboardType: undefined,
@@ -501,7 +533,7 @@ Tag.defaultProps = {
   checked: false,
   onPress: undefined,
   onPressRightAccessory: undefined,
-  onChangeValue: undefined,
+  onChangeText: undefined,
 };
 
 function mapStateToProps(state) {

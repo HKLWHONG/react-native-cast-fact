@@ -35,6 +35,7 @@ import {
 
 import {
   TagProvider,
+  SearchProvider,
   FeedProvider,
 } from '../../providers';
 
@@ -68,10 +69,12 @@ class LaunchView extends BaseComponent {
     props.selectDrawer(0);
     props.selectTab(0);
 
-    TagProvider.fetchTags(props);
+    TagProvider.prefetchTags(props);
 
     AuthStorage.getToken()
       .then(async () => {
+        await SearchProvider.prefetchRecentSearches(props);
+
         await FeedProvider.prefetchFeeds(props);
 
         Router.route(props, 'Main');

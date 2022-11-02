@@ -41,26 +41,26 @@ class RangeTag extends Component {
             <Tag
               style={styles.tag}
               type="input"
-              value={props.fromValue}
               text={props.fromText}
-              maxLength={props.maxLengthOfFromValue}
+              unit={props.fromUnit}
+              maxLength={props.maxLengthOfFromText}
               keyboardType="number-pad"
-              onChangeValue={(params) => {
-                if (!props.onChangeFromValue) {
+              onChangeText={(params) => {
+                if (!props.onChangeFromText) {
                   return;
                 }
 
-                const { value } = params;
+                const { text } = params;
 
                 if (
-                  value && value.length > 0
+                  text && text.length > 0
                   &&
-                  props.regexOfFromValue && !new RegExp(props.regexOfFromValue).test(value)
+                  props.regexOfFromText && !new RegExp(props.regexOfFromText).test(text)
                 ) {
                   return;
                 }
 
-                props.onChangeFromValue({
+                props.onChangeFromText({
                   ...props.info,
                   ...params,
                 });
@@ -72,26 +72,26 @@ class RangeTag extends Component {
             <Tag
               style={styles.tag}
               type="input"
-              value={props.toValue}
               text={props.toText}
-              maxLength={props.maxLengthOfToValue}
+              unit={props.toUnit}
+              maxLength={props.maxLengthOfToText}
               keyboardType="number-pad"
-              onChangeValue={(params) => {
-                if (!props.onChangeToValue) {
+              onChangeText={(params) => {
+                if (!props.onChangeToText) {
                   return;
                 }
 
-                const { value } = params;
+                const { text } = params;
 
                 if (
-                  value && value.length > 0
+                  text && text.length > 0
                   &&
-                  props.regexOfToValue && !new RegExp(props.regexOfToValue).test(value)
+                  props.regexOfToText && !new RegExp(props.regexOfToText).test(text)
                 ) {
                   return;
                 }
 
-                props.onChangeToValue({
+                props.onChangeToText({
                   ...props.info,
                   ...params,
                 });
@@ -131,16 +131,16 @@ RangeTag.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
-  fromValue: PropTypes.string,
   fromText: PropTypes.string,
-  toValue: PropTypes.string,
+  fromUnit: PropTypes.string,
   toText: PropTypes.string,
-  regexOfFromValue: PropTypes.string,
-  regexOfToValue: PropTypes.string,
-  maxLengthOfFromValue: PropTypes.number,
-  maxLengthOfToValue: PropTypes.number,
-  onChangeFromValue: PropTypes.func,
-  onChangeToValue: PropTypes.func,
+  toUnit: PropTypes.string,
+  regexOfFromText: PropTypes.string,
+  regexOfToText: PropTypes.string,
+  maxLengthOfFromText: PropTypes.number,
+  maxLengthOfToText: PropTypes.number,
+  onChangeFromText: PropTypes.func,
+  onChangeToText: PropTypes.func,
 };
 
 RangeTag.defaultProps = {
@@ -148,16 +148,16 @@ RangeTag.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
-  fromValue: undefined,
   fromText: undefined,
-  toValue: undefined,
+  fromUnit: undefined,
   toText: undefined,
-  regexOfFromValue: undefined,
-  regexOfToValue: undefined,
-  maxLengthOfFromValue: undefined,
-  maxLengthOfToValue: undefined,
-  onChangeFromValue: undefined,
-  onChangeToValue: undefined,
+  toUnit: undefined,
+  regexOfFromText: undefined,
+  regexOfToText: undefined,
+  maxLengthOfFromText: undefined,
+  maxLengthOfToText: undefined,
+  onChangeFromText: undefined,
+  onChangeToText: undefined,
 };
 
 function mapStateToProps(state) {

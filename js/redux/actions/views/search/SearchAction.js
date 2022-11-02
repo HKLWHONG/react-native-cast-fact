@@ -12,3 +12,12 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setRefreshing = (refreshing) => (dispatch) => {
+  dispatch({
+    type: SearchActionType.REFRESHING,
+    refreshing: refreshing,
+  });
+
+  return Promise.resolve(store.getState());
+};

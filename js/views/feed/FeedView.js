@@ -39,7 +39,9 @@ import {
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-import { Theme, Router, FeedProcessor } from '../../utils';
+import { Theme, Router } from '../../utils';
+
+import { FeedProcessor } from '../../processors';
 
 import { FeedProvider, SearchProvider } from '../../providers';
 
@@ -101,7 +103,7 @@ class FeedView extends BaseComponent {
       page: page,
       length: store.getState().feedReducer.feedsPaging.length,
     })
-      .then((json) => {
+      .then(({ json }) => {
         props.setFeedsPagingLoading(false);
         // props.setRefreshing(false);
 
@@ -257,7 +259,7 @@ class FeedView extends BaseComponent {
                 }),
               }]);
 
-              await SearchProvider.presearch(props);
+              await SearchProvider.presearch(props, { disableAddRecentSearches: true });
 
               Router.push(props, "FeedStack", "SearchResult");
             }}

@@ -24,7 +24,7 @@ import { Header } from '../../project-components';
 
 import { FeedView, SearchView, SearchResultView } from '../../views';
 
-import { TagProcessor } from '../../utils';
+import { TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -72,7 +72,7 @@ class FeedStackNavigator extends BaseComponent {
 
                       props.resetRecentSearchesTags();
 
-                      props.setFindTalentTags(store.getState().dataReducer.tags);
+                      props.setFindTalentTags(store.getState().dataReducer.findTalentSectionTags);
 
                       if (route.name === 'SearchResult') {
                         SearchProvider.search(props, { prefetch: true }, {})

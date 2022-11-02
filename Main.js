@@ -14,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import {
   BaseComponent,
+  ActivityIndicator,
 } from './js/components';
 
 import { DrawerNavigator } from './js/navigators';
@@ -44,6 +45,25 @@ class Main extends BaseComponent {
 
   };
 
+  renderActivityIndicator = () => {
+    const { props } = this;
+
+    console.log(
+      `[activity-indicator-hidden] ${props.activityIndicatorProps.hidden}`,
+    );
+
+    return (
+      <Translation>
+        {(t) => (
+          <ActivityIndicator
+            hidden={props.activityIndicatorProps.hidden}
+            message={props.activityIndicatorProps.message}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   render() {
     return (
       <Translation>
@@ -69,6 +89,7 @@ class Main extends BaseComponent {
                 <Stack.Screen name="SignUp" component={SignUpView} />
               </Stack.Group>
             </Stack.Navigator>
+            {this.renderActivityIndicator()}
           </NavigationContainer>
         )}
       </Translation>
@@ -79,7 +100,9 @@ class Main extends BaseComponent {
 const styles = StyleSheet.create({});
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    activityIndicatorProps: state.appReducer.activityIndicatorProps,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

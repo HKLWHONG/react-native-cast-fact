@@ -3,81 +3,356 @@
  * @flow strict-local
  */
 
+import { Environment } from '../config';
+
 import {
   store,
+  AppAction,
+  DataAction,
   CriteriaSectionAction,
+  RecentSearchesSectionAction,
   SearchResultAction,
 } from '../redux';
 
 import {
   Common,
-  FeedProcessor,
 } from '../utils';
 
 import {
+  FeedProcessor,
+  RecentSearchProcessor,
+  SearchProcessor,
+} from '../processors';
+
+import {
+  SearchStorage,
+} from '../storages';
+
+import {
+  AddRecentSearchesApi,
+  GetRecentSearchesApi,
+  RemoveRecentSearchesApi,
   SearchApi,
 } from '../apis';
 
 const IDENTIFIER = 'SearchProvider';
 
-export const presearch = async (props) => {
-  let page = 1;
+export const prefetchRecentSearches = async (props, params, options) => {
+  // let page = 1;
 
-  let json = await search(props, {
-    page: page,
-    length: store.getState().searchResultReducer.feedsPaging.length,
-  })
+  let cachedRecentSearches = await SearchStorage.getRecentSearches()
     .catch((error) => {
       console.error(error);
     });
 
-  if (json && json.payload) {
-    store.dispatch(SearchResultAction.setFeedsPagingPage(page));
+  if (cachedRecentSearches) {
+    console.log(`[${IDENTIFIER}] cached-recent-searches-found.`);
 
-    let feeds = FeedProcessor.format([], json.payload);
+    store.dispatch(DataAction.setRecentSearchesSectionTags(cachedRecentSearches));
 
-    store.dispatch(SearchResultAction.setFeeds(feeds));
+    RecentSearchProcessor.reload();
+
+    getRecentSearches(
+      props,
+      {
+        // page: page,
+        // length: Environment.MAX_RECENT_SEARCHES_NUM,
+      },
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
+        SearchStorage.setRecentSearches(json.payload)
+          .catch((error) => {
+            console.error(error);
+          });
+
+        if (JSON.stringify(cachedRecentSearches) !== JSON.stringify(json.payload)) {
+          console.log(`[${IDENTIFIER}] need-to-reload-recent-searches.`);
+
+          RecentSearchProcessor.reload();
+        } else {
+          console.log(`[${IDENTIFIER}] no-need-to-reload-recent-searches.`);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    console.log(`[${IDENTIFIER}] no-cached-recent-searches.`);
+
+    params = await getRecentSearches(
+      props,
+      {
+        // page: page,
+        // length: Environment.MAX_RECENT_SEARCHES_NUM,
+      },
+      options,
+    )
+      .catch((error) => {
+        console.error(error);
+      });
+
+    if (params && params.json && params.json.payload) {
+      SearchStorage.setRecentSearches(params.json.payload)
+        .catch((error) => {
+          console.error(error);
+        });
+
+      RecentSearchProcessor.reload();
+    }
   }
 };
 
-export const search = (props, params, options) => {
+export const getRecentSearches = (props, params, options) => {
   return new Promise((resolve, reject) => {
+    GetRecentSearchesApi.request(
+      props,
+      {
+        page: params && params.page,
+        length: params && params.length,
+      },
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const addRecentSearches = async (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    if (!params || !params.tags) {
+      resolve();
+
+      return;
+    }
+
+    let tags = RecentSearchProcessor.format(params.tags);
+
+    if (tags.length === 0) {
+      resolve();
+
+      return;
+    }
+
+    AddRecentSearchesApi.request(
+      props,
+      {
+        tags: JSON.stringify(tags),
+      },
+      options,
+    )
+      .then(async (params) => {
+        const { json } = params;
+
+        SearchStorage.setRecentSearches(json.payload)
+          .catch((error) => {
+            console.error(error);
+          });
+
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+
+        RecentSearchProcessor.reload();
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const removeRecentSearches = async (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    if (!params || !params.ids) {
+      resolve();
+
+      return;
+    }
+
+    let ids = RecentSearchProcessor.toIds(params.ids);
+
+    if (ids.length === 0) {
+      resolve();
+
+      return;
+    }
+
+    let recentSearchesSectionTags = store.getState().dataReducer.recentSearchesSectionTags.filter((tag) => {
+      let found = false;
+
+      params.ids.forEach((id) => {
+        if (id === tag.id) {
+          found = true;
+        }
+      });
+
+      return !found;
+    });
+
+    store.dispatch(DataAction.setRecentSearchesSectionTags(recentSearchesSectionTags));
+
+    RecentSearchProcessor.reload();
+
+    RemoveRecentSearchesApi.request(
+      props,
+      {
+        ids: ids,
+      },
+      options,
+    )
+      .then(async (params) => {
+        const { json } = params;
+
+        SearchStorage.setRecentSearches(json.payload)
+          .catch((error) => {
+            console.error(error);
+          });
+
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+
+        RecentSearchProcessor.reload();
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const presearch = async (props, params, options) => {
+  store.dispatch(AppAction.showActivityIndicator());
+
+  let page = 1;
+
+  params = await search(
+    props,
+    {
+      page: page,
+      length: store.getState().searchResultReducer.feedsPaging.length,
+      disableAddRecentSearches: params && params.disableAddRecentSearches,
+    },
+    options,
+  )
+    .catch((error) => {
+      console.error(error);
+    });
+
+  if (params && params.json && params.json.payload) {
+    store.dispatch(SearchResultAction.setFeedsPagingPage(page));
+
+    let feeds = FeedProcessor.format([], params.json.payload);
+
+    store.dispatch(SearchResultAction.setFeeds(feeds));
+  }
+
+  store.dispatch(AppAction.hideActivityIndicator());
+};
+
+export const search = (props, params, options) => {
+  return new Promise(async (resolve, reject) => {
     if (!params || !params.prefetch) {
       store.dispatch(SearchResultAction.setSearched(false));
     }
 
-    let tags = [];
+    let tags = SearchProcessor.format(store.getState().criteriaSectionReducer.tags);
 
-    store.getState().criteriaSectionReducer.tags.forEach((groupFrame) => {
-      let data = groupFrame.data || [];
+    if (params && params.prefetch) {
+      tags = SearchProcessor.format(SearchProcessor.getCriteriaTags());
+    }
+    
+    tags = (params && params.tags) || tags;
 
-      tags = [...tags, ...data];
-    });
+    let tasks = 0;
+    let numberOfFinsihedTasks = 0;
+    let searchApiParams = undefined;
+    let searchApiError = undefined;
+
+    if (
+      !params.disableAddRecentSearches
+      &&
+      (!params || !params.prefetch)
+      &&
+      tags.length > 0
+    ) {
+      tasks += 1;
+
+      addRecentSearches(props, { tags: tags })
+        .then((params) => {
+          numberOfFinsihedTasks += 1;
+
+          if (tasks === numberOfFinsihedTasks) {
+            if (searchApiParams) {
+              resolve(searchApiParams);
+            } else {
+              reject(searchApiError);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+
+          numberOfFinsihedTasks += 1;
+
+          if (tasks === numberOfFinsihedTasks) {
+            if (searchApiParams) {
+              resolve(searchApiParams);
+            } else {
+              reject(searchApiError);
+            }
+          }
+        });
+    }
+
+    tasks += 1;
 
     SearchApi.request(
       props,
       {
-        tags: (params && params.tags) || JSON.stringify(tags),
+        tags: JSON.stringify(tags),
         page: params && params.page,
         length: params && params.length,
         prefetch: params && params.prefetch,
       },
-      {},
+      options,
     )
-      .then((json) => {
-        if (params && params.prefetch) {
-          console.log('[json.payload.length]', json.payload.length);
-          store.dispatch(CriteriaSectionAction.setLengthOfResults(json.payload.length));
+      .then((params) => {
+        const { json } = params;
+
+        store.dispatch(CriteriaSectionAction.setLengthOfResults(json.payload.length));
+
+        store.dispatch(SearchResultAction.setResults(json.payload));
+
+        store.dispatch(SearchResultAction.setSearched(true));
+
+        numberOfFinsihedTasks += 1;
+
+        if (tasks === numberOfFinsihedTasks) {
+          resolve(params);
         } else {
-          store.dispatch(SearchResultAction.setResults(json.payload));
-
-          store.dispatch(SearchResultAction.setSearched(true));
+          searchApiParams = params;
         }
-
-        resolve(json);
       })
       .catch((error) => {
-        reject(error);
+        store.dispatch(SearchResultAction.setSearched(true));
+
+        numberOfFinsihedTasks += 1;
+
+        if (tasks === numberOfFinsihedTasks) {
+          resolve(error);
+        } else {
+          searchApiError = error;
+        }
       });
   });
 };

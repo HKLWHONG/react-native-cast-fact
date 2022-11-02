@@ -5,6 +5,8 @@
 
 import { CommonActionType, RecentSearchesSectionActionType } from '../../../types';
 
+import { RecentSearchProcessor } from '../../../../processors';
+
 const initialState = {
   tags: [],
 };
@@ -51,41 +53,9 @@ export default function recentSearchesSectionReducer(state = initialState, actio
         return;
       }
 
-      let maxGroupFrameId = -1;
-
-      let tags = [...state.tags];
-
-      tags.forEach((groupFrame, index) => {
-        let groupFrameId = parseInt(groupFrame.groupFrameId);
-        if (groupFrameId > maxGroupFrameId) {
-          maxGroupFrameId = groupFrameId;
-        }
-      });
-
-      let groupFrame = {
-        ...action.groupFrame,
-        groupFrameId: (maxGroupFrameId + 1).toString(),
-        data: action.groupFrame.data || [],
-        rightAccessoryType: 'delete',
-      };
-
-      /*
-       * sorting from new to old
-       */
-      tags.splice(0, 0, groupFrame);
-
-      tags = tags.filter((groupFrame, index) => {
-        return index >= 0 && index < 2;
-      });
-
-      /*
-       * sorting from old to new
-       */
-      // tags.push(groupFrame);
-
       return {
         ...state,
-        tags: tags,
+        tags: RecentSearchProcessor.addGroupFrame(state.tags, action.groupFrame),
       };
     }
 

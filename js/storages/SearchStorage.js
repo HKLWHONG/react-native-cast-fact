@@ -7,16 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LOGGING = false;
 
-const IDENTIFIER = '@auth';
+const IDENTIFIER = '@search';
 
 export const identifiers = {
-  token: `${IDENTIFIER}_token`,
+  recentSearches: `${IDENTIFIER}_recent_searches`,
 };
 
-export const setToken = (value) => {
+export const setRecentSearches = (value) => {
   return new Promise((resolve, reject) => {
-    let identifier = identifiers.token;
-    let expectedDataType = 'string';
+    let identifier = identifiers.recentSearches;
+    let expectedDataType = 'object';
 
     try {
       if (value === undefined || value === null) {
@@ -30,7 +30,7 @@ export const setToken = (value) => {
       } else if (typeof value === expectedDataType) {
         AsyncStorage.setItem(
           identifier,
-          value,
+          JSON.stringify(value),
           (error) => {
             if (!error) {
               if (LOGGING) {
@@ -52,9 +52,9 @@ export const setToken = (value) => {
   });
 };
 
-export const getToken = () => {
+export const getRecentSearches = () => {
   return new Promise((resolve, reject) => {
-    let identifier = identifiers.token;
+    let identifier = identifiers.recentSearches;
 
     try {
       AsyncStorage.getItem(identifier, (error, value) => {
@@ -63,7 +63,7 @@ export const getToken = () => {
             console.log(`[${identifier}] <${value}> read.`);
           }
 
-          resolve(value);
+          resolve(JSON.parse(value));
         } else {
           reject(
             `Key '<${identifier}> not found. (error: ${error})'`,

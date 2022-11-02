@@ -2,6 +2,7 @@
 
 const en = {
   app: {
+    loading: 'Loading',
     login: 'Login',
     sign_up: 'Sign Up',
     criteria: 'Criteria',

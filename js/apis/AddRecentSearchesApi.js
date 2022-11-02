@@ -12,8 +12,8 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
-const IDENTIFIER = 'SearchApi';
-const URL = Environment.API_URL + '/search';
+const IDENTIFIER = 'AddRecentSearchesApi';
+const URL = Environment.API_URL + '/recent_searches/create';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -35,12 +35,14 @@ export const request = (
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response } = params;
 
-        if (json && json.payload) {
+        console.log('[response.status]', response.status);
+
+        if (response.status === 201) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] Payload not found.`);
+          reject(`[${IDENTIFIER}] Create failed.`);
         }
       })
       .catch((error) => {

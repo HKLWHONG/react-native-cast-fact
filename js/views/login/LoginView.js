@@ -42,6 +42,7 @@ import {
 
 import {
   AuthProvider,
+  SearchProvider,
   FeedProvider,
 } from '../../providers';
 
@@ -243,6 +244,8 @@ class LoginView extends BaseComponent {
                   //   );
                   // }
                   //
+
+                  await SearchProvider.prefetchRecentSearches(props);
 
                   await FeedProvider.prefetchFeeds(props);
 
