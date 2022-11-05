@@ -52,7 +52,7 @@ class CriteriaSection extends Component {
             onPress={(text) => {
               console.log('[search-text] ', text);
 
-              SearchProcessor.reload();
+              // SearchProcessor.reload();
 
               if (!props.onPressSearchBar) {
                 return;
@@ -161,33 +161,9 @@ class CriteriaSection extends Component {
                     onPressRightAccessory={(info) => {
                       // console.log('[info] ', info);
 
-                      let infoText = TagProcessor.toText(info);
-
-                      props.recentSearchesTags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toText(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: false });
-                        });
-                      });
-
-                      props.findTalentTags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateFindTalentTag(groupFrame.groupFrameId, tag.tagId, { disabled: false });
-                        });
-                      });
-
                       props.deleteTag(info.groupFrameId, info.tagId);
+
+                      TagProcessor.reload();
 
                       if (props.enableResultView) {
                         SearchProvider.search(props, { prefetch: true }, {})
@@ -211,6 +187,8 @@ class CriteriaSection extends Component {
               key={i.toString()}
               info={groupFrame}
               style={{ borderColor: Theme.colors.general.transparent, marginTop: 8 }}
+              disabled
+              disabledWithoutFeedback
             >
               {tags}
             </GroupFrame>
@@ -281,8 +259,6 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
     deleteTag: (...args) => dispatch(CriteriaSectionAction.deleteTag(...args)),
-    updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
-    updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };
 }
 

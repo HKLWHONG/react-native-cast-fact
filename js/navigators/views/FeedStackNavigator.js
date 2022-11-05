@@ -56,25 +56,36 @@ class FeedStackNavigator extends BaseComponent {
           <Stack.Navigator
             screenOptions={{
               headerMode: 'screen',
-              header: ({ navigation, route, options, back }) => {
+              header: (info) => {
+                const { navigation, route, options, back } = info;
+
                 const title = getHeaderTitle(options, route.name);
 
                 return (
                   <Header
                     hiddenLeft={!back}
-                    navigation={navigation}
+                    info={info}
                     source={ic_header_1}
                     title={title}
-                    onPressLeft={(navigation) => {
+                    onPressLeft={(info) => {
+                      const { navigation, route } = info;
+
+                      // console.log('[info]', info);
+                      // console.log('[state]', navigation.getState());
+                      // console.log('[navigation]', navigation);
                       // console.log('[route.name]', route.name);
 
-                      props.resetCriteria();
+                      let state = navigation.getState();
 
-                      props.resetRecentSearchesTags();
+                      if (state && state.index == 1) {
+                        props.resetCriteria();
 
-                      props.setFindTalentTags(store.getState().dataReducer.findTalentSectionTags);
+                        props.resetRecentSearchesTags();
 
-                      if (route.name === 'SearchResult') {
+                        TagProcessor.reload();
+                      }
+
+                      if (back && back.title === t('views.search.header')) {
                         SearchProvider.search(props, { prefetch: true }, {})
                           .catch((error) => {
                             console.error(error);
@@ -87,7 +98,8 @@ class FeedStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
-            }}>
+            }}
+          >
             <Stack.Screen
               name="Feed"
               component={FeedView}

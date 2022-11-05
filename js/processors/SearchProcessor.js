@@ -40,6 +40,8 @@ export const getCriteriaTags = () => {
         !tag.type
         ||
         tag.type.toLowerCase() === 'default'.toLowerCase()
+        ||
+        tag.type.toLowerCase() === 'reference'.toLowerCase()
       ) {
         return;
       }
@@ -48,8 +50,7 @@ export const getCriteriaTags = () => {
         return;
       }
 
-      let referencePrefix = undefined;
-      let referenceSuffix = undefined;
+      let referenceTag = undefined;
 
       let referenceTags = groupFrame.data.filter((referenceTag) => {
         return (
@@ -60,35 +61,16 @@ export const getCriteriaTags = () => {
       });
 
       if (referenceTags.length > 0) {
-        referencePrefix = referenceTags[0].prefix;
-        referenceSuffix = referenceTags[0].suffix;
+        referenceTag = referenceTags[0];
       }
 
-      if (tag.type.toLowerCase() === 'input'.toLowerCase()) {
-        tags = CriteriaProcessor.addTag(
-          tags,
-          {
-            ...tag,
-            text: TagProcessor.toString({
-              ...tag,
-              prefix: referencePrefix || tag.prefix,
-              suffix: referenceSuffix || tag.suffix,
-            }),
-          },
-        );
-      } else if (tag.type.toLowerCase() === 'range'.toLowerCase()) {
-        tags = CriteriaProcessor.addTag(
-          tags,
-          {
-            ...tag,
-            text: TagProcessor.toRangeString({
-              ...tag,
-              prefix: referencePrefix || tag.prefix,
-              suffix: referenceSuffix || tag.suffix,
-            }),
-          },
-        );
-      }
+      tags = CriteriaProcessor.addTag(
+        tags,
+        {
+          ...tag,
+          text: TagProcessor.toReferenceString(tag, referenceTag),
+        },
+      );
     });
   });
 

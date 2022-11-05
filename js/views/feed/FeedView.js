@@ -41,7 +41,7 @@ import { Translation } from 'react-i18next';
 
 import { Theme, Router } from '../../utils';
 
-import { FeedProcessor } from '../../processors';
+import { FeedProcessor, CriteriaProcessor, TagProcessor } from '../../processors';
 
 import { FeedProvider, SearchProvider } from '../../providers';
 
@@ -249,15 +249,15 @@ class FeedView extends BaseComponent {
           <RecentSearchesSection
             label={section.title}
             onPressGroupFrame={async (groupFrame) => {
-              props.setCriteriaTags([{
-                ...groupFrame,
-                data: groupFrame.data.map((tag) => {
-                  return {
-                    ...tag,
-                    rightAccessoryType: 'delete',
-                  };
-                }),
-              }]);
+              let tags = store.getState().criteriaSectionReducer.tags;
+
+              groupFrame.data.forEach((tag) => {
+                tags = CriteriaProcessor.addTag(tags, tag);
+              });
+
+              props.setCriteriaTags(tags);
+
+              TagProcessor.reload();
 
               await SearchProvider.presearch(props, { disableAddRecentSearches: true });
 

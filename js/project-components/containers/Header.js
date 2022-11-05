@@ -37,7 +37,7 @@ class Header extends Component {
       <View style={styles.leftContainer}>
         <SingleTouch
           style={styles.left}
-          onPress={() => props.onPressLeft(props.navigation)}
+          onPress={() => props.onPressLeft(props.info)}
         >
           <Image
             style={styles.leftImage}
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
 });
 
 Header.propTypes = {
+  info: PropTypes.object,
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   headerStyle: ViewPropTypes.style,
@@ -164,7 +165,6 @@ Header.propTypes = {
   hidden: PropTypes.bool,
   hiddenLeft: PropTypes.bool,
   hiddenRight: PropTypes.bool,
-  navigation: PropTypes.object,
   source: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
@@ -176,6 +176,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  info: undefined,
   onLayout: undefined,
   style: undefined,
   headerStyle: undefined,
@@ -183,10 +184,17 @@ Header.defaultProps = {
   hidden: false,
   hiddenLeft: true,
   hiddenRight: true,
-  navigation: undefined,
   source: undefined,
   title: undefined,
-  onPressLeft: (navigation) => navigation.goBack(),
+  onPressLeft: (info) => {
+    if (!info) {
+      return;
+    }
+
+    const { navigation } = info;
+
+    navigation.goBack();
+  },
   onPressRight: undefined,
 };
 

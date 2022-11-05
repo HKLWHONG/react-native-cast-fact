@@ -91,24 +91,18 @@ class FindTalentSection extends Component {
                         ...tag,
                         groupFrameId: groupFrame.groupFrameId,
                       }}
+                      disabled={groupFrame.disabled || tag.disabled}
                       fromText={tag.fromText}
                       toText={tag.toText}
-                      regexOfFromText={tag.regexOfFromText}
-                      regexOfToText={tag.regexOfToText}
-                      maxLengthOfFromText={
-                        tag.maxLengthOfFromText
+                      regex={tag.regex}
+                      maxLength={
+                        tag.maxLength
                         &&
-                        AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLengthOfFromText)
-                          ? parseInt(tag.maxLengthOfFromText)
+                        AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLength)
+                          ? parseInt(tag.maxLength)
                           : undefined
                       }
-                      maxLengthOfToText={
-                        tag.maxLengthOfToText
-                        &&
-                        AppRegex.INTEGER_VALIDATION_REGEX.test(tag.maxLengthOfToText)
-                          ? parseInt(tag.maxLengthOfToText)
-                          : undefined
-                      }
+                      keyboardType={tag.keyboardType}
                       onChangeFromText={({ groupFrameId, tagId, text }) => {
                         // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [text] ${text}`);
 
@@ -149,11 +143,10 @@ class FindTalentSection extends Component {
                       groupFrameId: groupFrame.groupFrameId,
                     }}
                     dotStyle={{ backgroundColor: tag.color }}
-                    disabled={tag.disabled}
+                    disabled={groupFrame.disabled || tag.disabled}
                     type={tag.type}
                     text={tag.text}
                     unit={tag.unit}
-                    keyboardType={tag.keyboardType}
                     regex={tag.regex}
                     maxLength={
                       tag.maxLength
@@ -162,6 +155,7 @@ class FindTalentSection extends Component {
                         ? parseInt(tag.maxLength)
                         : undefined
                     }
+                    keyboardType={tag.keyboardType}
                     leftAccessoryType={tag.leftAccessoryType}
                     rightAccessoryType={tag.rightAccessoryType}
                     source={(() => {
@@ -205,36 +199,12 @@ class FindTalentSection extends Component {
                         return;
                       }
 
-                      let infoText = TagProcessor.toString(info);
-
-                      props.recentSearchesTags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateRecentSearchesTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
-                        });
-                      });
-
-                      props.tags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
-                        });
-                      });
-
                       props.addCriteriaTag({
                         ...tag,
                         text: TagProcessor.toString(tag),
                       });
+
+                      TagProcessor.reload();
 
                       SearchProvider.search(props, { prefetch: true }, {})
                         .catch((error) => {
@@ -269,12 +239,16 @@ class FindTalentSection extends Component {
               <GroupFrame
                 info={groupFrame}
                 style={{ borderColor: Theme.colors.general.transparent }}
+                disabled={groupFrame.disabled}
+                rightAccessoryDisabled={groupFrame.rightAccessoryDisabled}
                 rightAccessoryType={groupFrame.rightAccessoryType}
                 checked={groupFrame.checked}
                 onPressRightAccessory={({ groupFrameId }) => {
-                  // console.log('[groupFrameId] ', groupFrameId);
-
                   props.updateGroupFrame(groupFrameId, { checked: !groupFrame.checked });
+
+                  SearchProcessor.reload();
+
+                  TagProcessor.reload();
 
                   SearchProvider.search(props, { prefetch: true }, {})
                     .catch((error) => {
@@ -339,7 +313,6 @@ function mapDispatchToProps(dispatch) {
     updateGroupFrame: (...args) => dispatch(FindTalentSectionAction.updateGroupFrame(...args)),
     updateTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
-    updateRecentSearchesTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
   };
 }
 

@@ -59,7 +59,8 @@ class CalendarStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
-            }}>
+            }}
+          >
             <Stack.Screen
               name="Calendar"
               component={CalendarView}

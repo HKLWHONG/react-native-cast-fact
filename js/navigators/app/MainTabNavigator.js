@@ -11,6 +11,9 @@ import {
   store,
   DrawerAction,
   MainTabAction,
+  CriteriaSectionAction,
+  RecentSearchesSectionAction,
+  FindTalentSectionAction,
 } from '../../redux';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -29,6 +32,8 @@ import {
 import { Translation } from 'react-i18next';
 
 import { Router } from '../../utils';
+
+import { TagProcessor } from '../../processors';
 
 const ic_tab_bar_light = require('../../../assets/images/ic_tab_bar_light/ic_tab_bar_light.png');
 const ic_tab_bar_search = require('../../../assets/images/ic_tab_bar_search/ic_tab_bar_search.png');
@@ -114,6 +119,12 @@ class MainTabNavigator extends BaseComponent {
                             store.getState().mainTabReducer.tapCount > 1
                           ) {
                             // console.log('[double-tapped]');
+
+                            props.resetCriteria();
+
+                            props.resetRecentSearchesTags();
+
+                            TagProcessor.reload();
 
                             navigation.popToTop();
                           } else {
@@ -363,6 +374,9 @@ function mapDispatchToProps(dispatch) {
     selectTab: (...args) => dispatch(MainTabAction.select(...args)),
     setTapCount: (...args) => dispatch(MainTabAction.setTapCount(...args)),
     setTapTimer: (...args) => dispatch(MainTabAction.setTapTimer(...args)),
+    resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
+    resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
+    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
   };
 }
 

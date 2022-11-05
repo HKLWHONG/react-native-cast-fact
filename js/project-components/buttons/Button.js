@@ -107,15 +107,6 @@ class Button extends Component {
       }
     }
 
-    let disabledStyle = {};
-
-    if (props.disabled) {
-      disabledStyle = {
-        ...disabledStyle,
-        backgroundColor: 'rgba(130, 110, 92, 0.3)',
-      };
-    }
-
     return (
       <Translation>
         {(t) => (
@@ -125,7 +116,7 @@ class Button extends Component {
             disabled={props.disabled}
             onPress={props.onPress}
           >
-            <View style={[styles.button, style, disabledStyle, props.buttonStyle]}>
+            <View style={[styles.button, style, props.buttonStyle]}>
               {this.renderImageIfNeeded()}
               {this.renderTextIfNeeded()}
             </View>

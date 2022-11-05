@@ -165,6 +165,7 @@ class Tag extends Component {
             <TextInput
               style={styles.input}
               textInputStyle={styles.text}
+              editable={!props.disabled}
               value={props.text}
               maxLength={props.maxLength}
               keyboardType={props.keyboardType}
@@ -285,6 +286,21 @@ class Tag extends Component {
 
     let style = {};
 
+    if (
+      (props.type && props.type.toLowerCase() === 'input'.toLowerCase())
+      ||
+      (props.type && props.type.toLowerCase() === 'range'.toLowerCase())
+      ||
+      (props.leftAccessoryType && props.leftAccessoryType.toLowerCase() === 'check'.toLowerCase())
+    ) {
+      style = {
+        ...style,
+        backgroundColor: Theme.colors.general.transparent,
+        borderWidth: 1,
+        borderColor: Theme.colors.background.secondary,
+      };
+    }
+
     let disabled = false;
     let editable = false;
 
@@ -305,27 +321,14 @@ class Tag extends Component {
     }
 
     if (
-      props.disabled
-      ||
-      editable
+      props.type
+      &&
+      props.type.toLowerCase() === 'input'.toLowerCase()
     ) {
-      disabled = true;
+      editable = !props.disabled;
     }
 
-    if (
-      (props.type && props.type.toLowerCase() === 'input'.toLowerCase())
-      ||
-      (props.type && props.type.toLowerCase() === 'range'.toLowerCase())
-      ||
-      (props.leftAccessoryType && props.leftAccessoryType.toLowerCase() === 'check'.toLowerCase())
-    ) {
-      style = {
-        ...style,
-        backgroundColor: Theme.colors.general.transparent,
-        borderWidth: 1,
-        borderColor: Theme.colors.background.secondary,
-      };
-    }
+    disabled = props.disabled || editable;
 
     if (
       disabled

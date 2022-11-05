@@ -41,6 +41,8 @@ import {
   Router,
 } from '../../utils';
 
+import { CriteriaProcessor, TagProcessor } from '../../processors';
+
 import { SearchProvider, TagProvider } from '../../providers';
 
 import i18n from '../../../i18n';
@@ -125,15 +127,15 @@ class SearchView extends BaseComponent {
           <RecentSearchesSection
             label={section.title}
             onPressGroupFrame={async (groupFrame) => {
-              props.setCriteriaTags([{
-                ...groupFrame,
-                data: groupFrame.data.map((tag) => {
-                  return {
-                    ...tag,
-                    rightAccessoryType: 'delete',
-                  };
-                }),
-              }]);
+              let tags = store.getState().criteriaSectionReducer.tags;
+
+              groupFrame.data.forEach((tag) => {
+                tags = CriteriaProcessor.addTag(tags, tag);
+              });
+
+              props.setCriteriaTags(tags);
+
+              TagProcessor.reload();
 
               await SearchProvider.presearch(props, { disableAddRecentSearches: true });
 

@@ -97,36 +97,12 @@ class RecentSearchesSection extends Component {
                         props.onPressTag(info);
                       }
 
-                      let infoText = TagProcessor.toText(info);
-
-                      props.tags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toText(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
-                        });
-                      });
-
-                      props.findTalentTags.forEach((groupFrame) => {
-                        let tags = groupFrame.data.filter((tag) => {
-                          let text = TagProcessor.toString(tag);
-
-                          return infoText.toLowerCase() === text.toLowerCase();
-                        });
-
-                        tags.forEach((tag) => {
-                          props.updateFindTalentTag(groupFrame.groupFrameId, tag.tagId, { disabled: true });
-                        });
-                      });
-
                       props.addCriteriaTag({
                         ...tag,
                         text: TagProcessor.toText(tag),
                       });
+
+                      TagProcessor.reload();
 
                       SearchProvider.search(props, { prefetch: true }, {})
                         .catch((error) => {
@@ -242,7 +218,6 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(RecentSearchesSectionAction.reset(...args)),
     updateTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
-    updateFindTalentTag: (...args) => dispatch(FindTalentSectionAction.updateTag(...args)),
   };
 }
 

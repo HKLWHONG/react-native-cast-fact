@@ -40,11 +40,12 @@ class RangeTag extends Component {
           >
             <Tag
               style={styles.tag}
+              disabled={props.disabled}
               type="input"
               text={props.fromText}
               unit={props.fromUnit}
-              maxLength={props.maxLengthOfFromText}
-              keyboardType="number-pad"
+              maxLength={props.maxLength}
+              keyboardType={props.keyboardType}
               onChangeText={(params) => {
                 if (!props.onChangeFromText) {
                   return;
@@ -55,7 +56,7 @@ class RangeTag extends Component {
                 if (
                   text && text.length > 0
                   &&
-                  props.regexOfFromText && !new RegExp(props.regexOfFromText).test(text)
+                  props.regex && !new RegExp(props.regex).test(text)
                 ) {
                   return;
                 }
@@ -71,11 +72,12 @@ class RangeTag extends Component {
             </Text>
             <Tag
               style={styles.tag}
+              disabled={props.disabled}
               type="input"
               text={props.toText}
               unit={props.toUnit}
-              maxLength={props.maxLengthOfToText}
-              keyboardType="number-pad"
+              maxLength={props.maxLength}
+              keyboardType={props.keyboardType}
               onChangeText={(params) => {
                 if (!props.onChangeToText) {
                   return;
@@ -86,7 +88,7 @@ class RangeTag extends Component {
                 if (
                   text && text.length > 0
                   &&
-                  props.regexOfToText && !new RegExp(props.regexOfToText).test(text)
+                  props.regex && !new RegExp(props.regext).test(text)
                 ) {
                   return;
                 }
@@ -135,10 +137,9 @@ RangeTag.propTypes = {
   fromUnit: PropTypes.string,
   toText: PropTypes.string,
   toUnit: PropTypes.string,
-  regexOfFromText: PropTypes.string,
-  regexOfToText: PropTypes.string,
-  maxLengthOfFromText: PropTypes.number,
-  maxLengthOfToText: PropTypes.number,
+  regex: PropTypes.string,
+  maxLength: PropTypes.number,
+  keyboardType: PropTypes.string,
   onChangeFromText: PropTypes.func,
   onChangeToText: PropTypes.func,
 };
@@ -152,10 +153,9 @@ RangeTag.defaultProps = {
   fromUnit: undefined,
   toText: undefined,
   toUnit: undefined,
-  regexOfFromText: undefined,
-  regexOfToText: undefined,
-  maxLengthOfFromText: undefined,
-  maxLengthOfToText: undefined,
+  regex: undefined,
+  maxLength: undefined,
+  keyboardType: undefined,
   onChangeFromText: undefined,
   onChangeToText: undefined,
 };

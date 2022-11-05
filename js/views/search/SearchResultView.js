@@ -11,6 +11,9 @@ import {
   store,
   SearchResultAction,
   MainTabAction,
+  CriteriaSectionAction,
+  RecentSearchesSectionAction,
+  FindTalentSectionAction,
 } from '../../redux';
 
 import {
@@ -35,7 +38,7 @@ import {
 
 import { Theme, Router } from '../../utils';
 
-import { FeedProcessor } from '../../processors';
+import { FeedProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -91,6 +94,20 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
 
     props.reset();
+
+    // console.log('[this.props.navigation]', this.props.navigation);
+
+    let state = props.navigation && props.navigation.getState();
+
+    // console.log('[state]', state);
+
+    if (state && state.index == 0) {
+      props.resetCriteria();
+
+      props.resetRecentSearchesTags();
+
+      TagProcessor.reload();
+    }
   };
 
   loadMoreFeeds = (feeds) => {
@@ -530,6 +547,9 @@ function mapDispatchToProps(dispatch) {
     setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
     updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
     setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
+    resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
+    setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
   };
 }
 

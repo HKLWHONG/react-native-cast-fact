@@ -41,6 +41,8 @@ export const prefetchTags = async (props, params, options) => {
     store.dispatch(DataAction.setFindTalentSectionTags(cachedTags));
     store.dispatch(FindTalentSectionAction.setTags(cachedTags));
 
+    TagProcessor.reload();
+    
     getTags(props, params, options)
       .then((params) => {
         const { json } = params;
@@ -57,6 +59,8 @@ export const prefetchTags = async (props, params, options) => {
 
           store.dispatch(DataAction.setFindTalentSectionTags(tags));
           store.dispatch(FindTalentSectionAction.setTags(tags));
+
+          TagProcessor.reload();
         } else {
           console.log(`[${IDENTIFIER}] no-need-to-reload-tags.`);
         }
@@ -82,6 +86,8 @@ export const prefetchTags = async (props, params, options) => {
 
       store.dispatch(DataAction.setFindTalentSectionTags(tags));
       store.dispatch(FindTalentSectionAction.setTags(tags));
+
+      TagProcessor.reload();
     }
   }
 };

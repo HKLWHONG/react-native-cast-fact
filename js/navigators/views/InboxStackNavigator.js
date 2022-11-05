@@ -59,7 +59,8 @@ class InboxStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
-            }}>
+            }}
+          >
             <Stack.Screen
               name="Inbox"
               component={InboxView}

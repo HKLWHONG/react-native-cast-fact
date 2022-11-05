@@ -21,6 +21,7 @@ import { Translation } from 'react-i18next';
 
 const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 const ic_checkmark = require('../../../assets/images/ic_checkmark/ic_checkmark.png');
+const ic_plus = require('../../../assets/images/ic_plus/ic_plus.png');
 
 class GroupFrame extends Component {
   constructor(props: any) {
@@ -32,11 +33,25 @@ class GroupFrame extends Component {
   renderDeleteButton = () => {
     const { props } = this;
 
+    let style = {};
+
+    let disabled = props.disabled || props.rightAccessoryDisabled;
+
+    if (
+      disabled
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
           <SingleTouch
-            style={styles.rightAccessoryButton}
+            style={[style, styles.rightAccessoryButton]}
+            disabled={disabled}
             onPress={() => {
               if (!props.onPressRightAccessory) {
                 return;
@@ -59,14 +74,69 @@ class GroupFrame extends Component {
   renderCheckButton = () => {
     const { props } = this;
 
+    let style = {};
+
+    let disabled = props.disabled || props.rightAccessoryDisabled;
+
+    if (
+      disabled
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
           <Button
+            style={style}
+            disabled={disabled}
             buttonStyle={styles.checkAccessoryButton}
             imageStyle={styles.checkAccessoryButtonImage}
             type="small"
             source={props.checked ? ic_checkmark : undefined}
+            resizeMode="center"
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory(props.info);
+            }}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderPlusButton = () => {
+    const { props } = this;
+
+    let style = {};
+
+    let disabled = props.disabled || props.rightAccessoryDisabled;
+
+    if (
+      disabled
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={style}
+            disabled={disabled}
+            buttonStyle={styles.checkAccessoryButton}
+            imageStyle={styles.checkAccessoryButtonImage}
+            type="small"
+            source={ic_plus}
             resizeMode="center"
             onPress={() => {
               if (!props.onPressRightAccessory) {
@@ -95,6 +165,8 @@ class GroupFrame extends Component {
         children = this.renderDeleteButton();
       } else if (props.rightAccessoryType.toLowerCase() === 'check'.toLowerCase()) {
         children = this.renderCheckButton();
+      } else if (props.rightAccessoryType.toLowerCase() === 'plus'.toLowerCase()) {
+        children = this.renderPlusButton();
       }
     }
 
@@ -116,10 +188,19 @@ class GroupFrame extends Component {
       return null;
     }
 
+    let style = {};
+
     let disabled = props.disabled;
 
-    if (disabled === undefined) {
-      disabled = !props.onPress;
+    if (
+      disabled
+      &&
+      !props.disabledWithoutFeedback
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
     }
 
     return (
@@ -127,8 +208,8 @@ class GroupFrame extends Component {
         {(t) => (
           <SingleTouch
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}
-            disabled={disabled}
+            style={[styles.container, style, props.style]}
+            disabled={disabled || !props.onPress}
             onPress={() => {
               if (!props.onPress) {
                 return;
@@ -222,6 +303,8 @@ GroupFrame.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
+  disabledWithoutFeedback: PropTypes.bool,
+  rightAccessoryDisabled: PropTypes.bool,
   rightAccessoryType: PropTypes.string,
   checked: PropTypes.bool,
   onPress: PropTypes.func,
@@ -234,7 +317,9 @@ GroupFrame.defaultProps = {
   children: undefined,
   style: undefined,
   hidden: false,
-  disabled: undefined,
+  disabled: false,
+  disabledWithoutFeedback: false,
+  rightAccessoryDisabled: false,
   rightAccessoryType: undefined,
   checked: false,
   onPress: undefined,

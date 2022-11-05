@@ -59,7 +59,8 @@ class ProfileStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
-            }}>
+            }}
+          >
             <Stack.Screen
               name="Profile"
               component={ProfileView}

@@ -19,9 +19,11 @@ import {
 } from '../utils';
 
 import {
+  CommonProcessor,
   FeedProcessor,
   RecentSearchProcessor,
   SearchProcessor,
+  TagProcessor,
 } from '../processors';
 
 import {
@@ -163,6 +165,8 @@ export const addRecentSearches = async (props, params, options) => {
 
         RecentSearchProcessor.reload();
 
+        TagProcessor.reload();
+
         resolve(params);
       })
       .catch((error) => {
@@ -187,7 +191,9 @@ export const removeRecentSearches = async (props, params, options) => {
       return;
     }
 
-    let recentSearchesSectionTags = store.getState().dataReducer.recentSearchesSectionTags.filter((tag) => {
+    let recentSearchesSectionTags = CommonProcessor.deepCopy(store.getState().dataReducer.recentSearchesSectionTags);
+
+    recentSearchesSectionTags.filter((tag) => {
       let found = false;
 
       params.ids.forEach((id) => {
@@ -202,6 +208,8 @@ export const removeRecentSearches = async (props, params, options) => {
     store.dispatch(DataAction.setRecentSearchesSectionTags(recentSearchesSectionTags));
 
     RecentSearchProcessor.reload();
+
+    TagProcessor.reload();
 
     RemoveRecentSearchesApi.request(
       props,
@@ -221,6 +229,8 @@ export const removeRecentSearches = async (props, params, options) => {
         store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
 
         RecentSearchProcessor.reload();
+
+        TagProcessor.reload();
 
         resolve(params);
       })
@@ -265,12 +275,16 @@ export const search = (props, params, options) => {
       store.dispatch(SearchResultAction.setSearched(false));
     }
 
+    // if (params && params.prefetch) {
+    //   SearchProcessor.reload();
+    // }
+
     let tags = SearchProcessor.format(store.getState().criteriaSectionReducer.tags);
 
-    if (params && params.prefetch) {
-      tags = SearchProcessor.format(SearchProcessor.getCriteriaTags());
-    }
-    
+    // if (params && params.prefetch) {
+    //   tags = SearchProcessor.format(SearchProcessor.getCriteriaTags());
+    // }
+
     tags = (params && params.tags) || tags;
 
     let tasks = 0;

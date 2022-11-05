@@ -7,6 +7,8 @@ import { Environment } from '../config';
 
 import { store, RecentSearchesSectionAction } from '../redux';
 
+import { CommonProcessor } from '../processors';
+
 export const format = (tags) => {
   if (!tags || tags.length === 0) {
     return [];
@@ -38,13 +40,17 @@ export const toIds = (ids) => {
 export const reload = () => {
   store.dispatch(RecentSearchesSectionAction.reset());
 
-  let recentSearches = [...store.getState().dataReducer.recentSearchesSectionTags];
+  store.dispatch(RecentSearchesSectionAction.setTags(getTags()));
+};
+
+export const getTags = () => {
+  let tags = [];
+
+  let recentSearches = [...CommonProcessor.deepCopy(store.getState().dataReducer.recentSearchesSectionTags)];
 
   if (recentSearches.length === 0) {
-    return;
+    return [];
   }
-
-  let tags = [];
 
   recentSearches.reverse().forEach((recentSearch, index) => {
     if (!recentSearch.tags) {
@@ -59,12 +65,12 @@ export const reload = () => {
     tags = addGroupFrame(tags, groupFrame);
   });
 
-  store.dispatch(RecentSearchesSectionAction.setTags(tags));
+  return tags;
 };
 
 export const addGroupFrame = (tags, groupFrame) => {
   tags = [...tags];
-  
+
   if (!groupFrame) {
     return tags;
   }
@@ -107,6 +113,35 @@ export const addGroupFrame = (tags, groupFrame) => {
 
   tags = tags.filter((groupFrame, index) => {
     return index >= 0 && index < Environment.MAX_RECENT_SEARCHES_NUM;
+  });
+
+  return tags;
+};
+
+export const updateTag = (tags, groupFrameId, tagId, object) => {
+  tags = [...tags];
+
+  if (!groupFrameId || !tagId || !object) {
+    return tags;
+  }
+
+  tags = tags.map((groupFrame) => {
+    if (groupFrame.groupFrameId === groupFrameId) {
+      let data = groupFrame.data.map((tag) => {
+        if (tag.tagId === tagId) {
+          tag = {
+            ...tag,
+            ...object,
+          };
+        }
+
+        return tag;
+      });
+
+      groupFrame.data = data;
+    }
+
+    return groupFrame;
   });
 
   return tags;
