@@ -50,25 +50,11 @@ export const getCriteriaTags = () => {
         return;
       }
 
-      let referenceTag = undefined;
-
-      let referenceTags = groupFrame.data.filter((referenceTag) => {
-        return (
-          referenceTag.referenceId === tag.id
-          &&
-          referenceTag.checked
-        );
-      });
-
-      if (referenceTags.length > 0) {
-        referenceTag = referenceTags[0];
-      }
-
       tags = CriteriaProcessor.addTag(
         tags,
         {
           ...tag,
-          text: TagProcessor.toReferenceString(tag, referenceTag),
+          text: TagProcessor.toReferenceString(tag, TagProcessor.getReferenceTag(groupFrame, tag)),
         },
       );
     });

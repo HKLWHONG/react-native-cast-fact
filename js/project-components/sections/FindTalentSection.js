@@ -180,6 +180,8 @@ class FindTalentSection extends Component {
                         tag.leftAccessoryType.toLowerCase() === 'check'.toLowerCase()
                       ) {
                         props.updateTag(info.groupFrameId, info.tagId, { checked: !info.checked });
+
+                        TagProcessor.reload();
                       }
 
                       if (
@@ -216,6 +218,8 @@ class FindTalentSection extends Component {
 
                       props.updateTag(groupFrameId, tagId, { text: text });
 
+                      TagProcessor.reload();
+                      
                       if (!groupFrame.checked) {
                         return;
                       }

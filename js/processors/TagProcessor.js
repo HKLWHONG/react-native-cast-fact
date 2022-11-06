@@ -180,21 +180,13 @@ export const reload = () => {
         });
       });
 
-      let object = {
-        disabled: matched,
-      };
-
-      if (findTalentGroupFrame.rightAccessoryType.toLowerCase() === 'check'.toLowerCase()) {
-        object = {
-          ...object,
-          checked: matched,
-        };
-      }
-
       findTalentTags = FindTalentProcessor.updateGroupFrame(
         findTalentTags,
         findTalentGroupFrame.groupFrameId,
-        object,
+        {
+          disabled: matched,
+          checked: matched,
+        },
       );
     } else {
       findTalentGroupFrame.data.forEach((findTalentTag) => {
@@ -225,4 +217,22 @@ export const reload = () => {
 
   store.dispatch(RecentSearchesSectionAction.setTags(recentSearchesTags));
   store.dispatch(FindTalentSectionAction.setTags(findTalentTags));
+};
+
+export const getReferenceTag = (groupFrame, tag) => {
+  let referenceTag = undefined;
+
+  let referenceTags = groupFrame.data.filter((referenceTag) => {
+    return (
+      referenceTag.referenceId === tag.id
+      &&
+      referenceTag.checked
+    );
+  });
+
+  if (referenceTags.length > 0) {
+    referenceTag = referenceTags[0];
+  }
+
+  return referenceTag;
 };
