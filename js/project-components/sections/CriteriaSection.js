@@ -52,7 +52,7 @@ class CriteriaSection extends Component {
             onPress={(text) => {
               console.log('[search-text] ', text);
 
-              // SearchProcessor.reload();
+              SearchProcessor.reload();
 
               if (!props.onPressSearchBar) {
                 return;
@@ -61,10 +61,32 @@ class CriteriaSection extends Component {
               props.onPressSearchBar(text);
             }}
             onChangeText={(text) => {
-              SearchProvider.search(props, { prefetch: true }, {})
-                .catch((error) => {
-                  console.error(error);
+              if (text && text.length > 0) {
+                let tags = [{ text: text, isManual: true }];
+
+                store.getState().criteriaSectionReducer.tags.forEach((groupFrame) => {
+                  let data = groupFrame.data || [];
+
+                  tags = [...tags, ...data];
                 });
+
+                SearchProvider.search(
+                  props,
+                  {
+                    tags: tags,
+                    prefetch: true,
+                  },
+                  {},
+                )
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              } else {
+                SearchProvider.search(props, { prefetch: true }, {})
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
             }}
             onClear={() => {
               SearchProvider.search(props, { prefetch: true }, {})
