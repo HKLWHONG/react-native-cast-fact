@@ -165,8 +165,10 @@ class Tag extends Component {
             <TextInput
               style={styles.input}
               textInputStyle={styles.text}
+              placeholderTextColor={Theme.colors.text.subtitle}
               editable={!props.disabled}
               value={props.text}
+              placeholder={props.placeholder}
               maxLength={props.maxLength}
               keyboardType={props.keyboardType}
               onChangeText={(text) => {
@@ -186,6 +188,20 @@ class Tag extends Component {
                   ...props.info,
                   text: text,
                 })
+              }}
+              onFocus={() => {
+                if (!props.onFocus) {
+                  return;
+                }
+
+                props.onFocus(props.info);
+              }}
+              onBlur={() => {
+                if (!props.onBlur) {
+                  return;
+                }
+
+                props.onBlur(props.info);
               }}
               disableBottomLine
               disableMessageView
@@ -497,6 +513,7 @@ Tag.propTypes = {
   disabledWithoutFeedback: PropTypes.bool,
   type: PropTypes.string,
   text: PropTypes.string,
+  placeholder: PropTypes.string,
   unit: PropTypes.string,
   regex: PropTypes.string,
   maxLength: PropTypes.number,
@@ -513,6 +530,8 @@ Tag.propTypes = {
   onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
   onChangeText: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 Tag.defaultProps = {
@@ -525,6 +544,7 @@ Tag.defaultProps = {
   disabledWithoutFeedback: false,
   type: undefined,
   text: undefined,
+  placeholder: undefined,
   unit: undefined,
   regex: undefined,
   maxLength: undefined,
@@ -537,6 +557,8 @@ Tag.defaultProps = {
   onPress: undefined,
   onPressRightAccessory: undefined,
   onChangeText: undefined,
+  onFocus: undefined,
+  onBlur: undefined,
 };
 
 function mapStateToProps(state) {

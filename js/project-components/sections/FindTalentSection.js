@@ -93,7 +93,9 @@ class FindTalentSection extends Component {
                       }}
                       disabled={groupFrame.disabled || tag.disabled}
                       fromText={tag.fromText}
+                      fromPlaceholder={tag.fromPlaceholder}
                       toText={tag.toText}
+                      toPlaceholder={tag.toPlaceholder}
                       regex={tag.regex}
                       maxLength={
                         tag.maxLength
@@ -106,7 +108,7 @@ class FindTalentSection extends Component {
                       onChangeFromText={({ groupFrameId, tagId, text }) => {
                         // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [text] ${text}`);
 
-                        props.updateTag(groupFrameId, tagId, { fromText: text });
+                        props.updateTag(groupFrameId, tagId, { fromText: text, fromPlaceholder: text });
 
                         if (!groupFrame.checked) {
                           return;
@@ -117,10 +119,44 @@ class FindTalentSection extends Component {
                             console.error(error);
                           });
                       }}
+                      onFocusFrom={(info) => {
+                        // console.log('[onFocusFrom-info.fromText]', info.fromText);
+                        // console.log('[onFocusFrom-info.fromPlaceholder]', info.fromPlaceholder);
+
+                        props.updateTag(info.groupFrameId, info.tagId, { fromText: '', fromPlaceholder: info.fromText });
+                      }}
+                      onBlurFrom={(info) => {
+                        // console.log('[onBlurFrom-info.fromText]', info.fromText);
+                        // console.log('[onBlurFrom-info.fromPlaceholder]', info.fromPlaceholder);
+
+                        if (
+                          info.fromText && info.fromText.length > 0
+                          &&
+                          info.toText && info.toText.length > 0
+                        ) {
+                          let fromTextValue = AppRegex.FLOAT_VALIDATION_REGEX.test(info.fromText)
+                                                  ? parseFloat(info.fromText)
+                                                  : 0;
+
+                          let toTextValue = AppRegex.FLOAT_VALIDATION_REGEX.test(info.toText)
+                                                  ? parseFloat(info.toText)
+                                                  : 0;
+
+                          if (fromTextValue > toTextValue) {
+                            let defaultText = info.defaultText || '0';
+
+                            props.updateTag(info.groupFrameId, info.tagId, { fromText: defaultText, fromPlaceholder: defaultText });
+
+                            return;
+                          }
+                        }
+
+                        props.updateTag(info.groupFrameId, info.tagId, { fromText: info.fromPlaceholder, fromPlaceholder: '' });
+                      }}
                       onChangeToText={({ groupFrameId, tagId, text }) => {
                         // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}, [text] ${text}`);
 
-                        props.updateTag(groupFrameId, tagId, { toText: text });
+                        props.updateTag(groupFrameId, tagId, { toText: text, toPlaceholder: text });
 
                         if (!groupFrame.checked) {
                           return;
@@ -130,6 +166,40 @@ class FindTalentSection extends Component {
                           .catch((error) => {
                             console.error(error);
                           });
+                      }}
+                      onFocusTo={(info) => {
+                        // console.log('[onFocusTo-info.toText]', info.toText);
+                        // console.log('[onFocusTo-info.toPlaceholder]', info.toPlaceholder);
+
+                        props.updateTag(info.groupFrameId, info.tagId, { toText: '', toPlaceholder: info.toText });
+                      }}
+                      onBlurTo={(info) => {
+                        // console.log('[onBlurTo-info.toText]', info.toText);
+                        // console.log('[onBlurTo-info.toPlaceholder]', info.toPlaceholder);
+
+                        if (
+                          info.fromText && info.fromText.length > 0
+                          &&
+                          info.toText && info.toText.length > 0
+                        ) {
+                          let fromTextValue = AppRegex.FLOAT_VALIDATION_REGEX.test(info.fromText)
+                                                  ? parseFloat(info.fromText)
+                                                  : 0;
+
+                          let toTextValue = AppRegex.FLOAT_VALIDATION_REGEX.test(info.toText)
+                                                  ? parseFloat(info.toText)
+                                                  : 0;
+
+                          if (fromTextValue > toTextValue) {
+                            let defaultText = info.defaultText || '0';
+
+                            props.updateTag(info.groupFrameId, info.tagId, { toText: defaultText, toPlaceholder: defaultText });
+
+                            return;
+                          }
+                        }
+
+                        props.updateTag(info.groupFrameId, info.tagId, { toText: info.toPlaceholder, toPlaceholder: '' });
                       }}
                     />
                   );
@@ -146,6 +216,7 @@ class FindTalentSection extends Component {
                     disabled={groupFrame.disabled || tag.disabled}
                     type={tag.type}
                     text={tag.text}
+                    placeholder={tag.placeholder}
                     unit={tag.unit}
                     regex={tag.regex}
                     maxLength={
@@ -216,10 +287,10 @@ class FindTalentSection extends Component {
                     onChangeText={({ groupFrameId, tagId, text }) => {
                       // console.log(`[groupFrameId] ${groupFrameId}, [tagId] ${tagId}`);
 
-                      props.updateTag(groupFrameId, tagId, { text: text });
+                      props.updateTag(groupFrameId, tagId, { text: text, placeholder: text });
 
                       TagProcessor.reload();
-                      
+
                       if (!groupFrame.checked) {
                         return;
                       }
@@ -228,6 +299,18 @@ class FindTalentSection extends Component {
                         .catch((error) => {
                           console.error(error);
                         });
+                    }}
+                    onFocus={(info) => {
+                      // console.log('[onFocus-info.text]', info.text);
+                      // console.log('[onFocus-info.placeholder]', info.placeholder);
+
+                      props.updateTag(info.groupFrameId, info.tagId, { text: '', placeholder: info.text });
+                    }}
+                    onBlur={(info) => {
+                      // console.log('[onBlur-info.text]', info.text);
+                      // console.log('[onBlur-info.placeholder]', info.placeholder);
+
+                      props.updateTag(info.groupFrameId, info.tagId, { text: info.placeholder, placeholder: '' });
                     }}
                   />
                 );

@@ -40,9 +40,11 @@ class RangeTag extends Component {
           >
             <Tag
               style={styles.tag}
+              placeholderTextColor={Theme.colors.text.subtitle}
               disabled={props.disabled}
               type="input"
               text={props.fromText}
+              placeholder={props.fromPlaceholder}
               unit={props.fromUnit}
               maxLength={props.maxLength}
               keyboardType={props.keyboardType}
@@ -66,15 +68,31 @@ class RangeTag extends Component {
                   ...params,
                 });
               }}
+              onFocus={() => {
+                if (!props.onFocusFrom) {
+                  return;
+                }
+
+                props.onFocusFrom(props.info);
+              }}
+              onBlur={() => {
+                if (!props.onBlurFrom) {
+                  return;
+                }
+
+                props.onBlurFrom(props.info);
+              }}
             />
             <Text style={styles.text}>
               {'-'}
             </Text>
             <Tag
               style={styles.tag}
+              placeholderTextColor={Theme.colors.text.subtitle}
               disabled={props.disabled}
               type="input"
               text={props.toText}
+              placeholder={props.toPlaceholder}
               unit={props.toUnit}
               maxLength={props.maxLength}
               keyboardType={props.keyboardType}
@@ -97,6 +115,20 @@ class RangeTag extends Component {
                   ...props.info,
                   ...params,
                 });
+              }}
+              onFocus={() => {
+                if (!props.onFocusTo) {
+                  return;
+                }
+
+                props.onFocusTo(props.info);
+              }}
+              onBlur={() => {
+                if (!props.onBlurTo) {
+                  return;
+                }
+
+                props.onBlurTo(props.info);
               }}
             />
           </View>
@@ -134,14 +166,20 @@ RangeTag.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   fromText: PropTypes.string,
+  fromPlaceholder: PropTypes.string,
   fromUnit: PropTypes.string,
   toText: PropTypes.string,
+  toPlaceholder: PropTypes.string,
   toUnit: PropTypes.string,
   regex: PropTypes.string,
   maxLength: PropTypes.number,
   keyboardType: PropTypes.string,
   onChangeFromText: PropTypes.func,
+  onFocusFrom: PropTypes.func,
+  onBlurFrom: PropTypes.func,
   onChangeToText: PropTypes.func,
+  onFocusTo: PropTypes.func,
+  onBlurTo: PropTypes.func,
 };
 
 RangeTag.defaultProps = {
@@ -150,14 +188,20 @@ RangeTag.defaultProps = {
   style: undefined,
   hidden: false,
   fromText: undefined,
+  fromPlaceholder: undefined,
   fromUnit: undefined,
   toText: undefined,
+  toPlaceholder: undefined,
   toUnit: undefined,
   regex: undefined,
   maxLength: undefined,
-  keyboardType: undefined,
+  keyboardType: 'numeric',
   onChangeFromText: undefined,
+  onFocusFrom: undefined,
+  onBlurFrom: undefined,
   onChangeToText: undefined,
+  onFocusTo: undefined,
+  onBlurTo: undefined,
 };
 
 function mapStateToProps(state) {

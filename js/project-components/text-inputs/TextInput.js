@@ -65,11 +65,19 @@ class TextInput extends Component {
               this.setState({
                 isFocused: true,
               });
+
+              if (props.onFocus) {
+                props.onFocus();
+              }
             }}
             onBlur={() => {
               this.setState({
                 isFocused: false,
               });
+
+              if (props.onBlur) {
+                props.onBlur();
+              }
             }}
           />
         )}
