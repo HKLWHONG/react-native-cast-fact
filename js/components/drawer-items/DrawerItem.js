@@ -9,7 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types';
 
-import { SingleTouch } from '../touches';
+import { SingleTouch } from '../../components';
 
 export default class DrawerItem extends Component {
   constructor(props: any) {

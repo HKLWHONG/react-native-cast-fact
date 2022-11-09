@@ -17,7 +17,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
-import { SingleTouch } from '../touches';
+import { SingleTouch } from '../../components';
 
 export default class DateTimePicker extends Component {
   constructor(props: any) {

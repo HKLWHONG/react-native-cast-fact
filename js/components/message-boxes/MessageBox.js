@@ -15,7 +15,7 @@ import {
 
 import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types';
 
-import { Root, Header, Body, Footer } from '../containers';
+import { Root, Header, Body, Footer } from '../../components';
 
 export default class MessageBox extends Component {
   constructor(props: any) {

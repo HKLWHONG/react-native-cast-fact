@@ -20,7 +20,7 @@ import {
   SafeAreaInsetsContext,
 } from 'react-native-safe-area-context';
 
-import { Root, Header, Body, Footer } from '../containers';
+import { Root, Header, Body, Footer } from '../../components';
 
 let timeout;
 

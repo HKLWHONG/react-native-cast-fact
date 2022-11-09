@@ -8,4 +8,9 @@ import Footer from './Footer';
 import Header from './Header';
 import Root from './Root';
 
-export { Body, Footer, Header, Root };
+export {
+  Body,
+  Footer,
+  Header,
+  Root,
+};

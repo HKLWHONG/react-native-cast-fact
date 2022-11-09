@@ -15,5 +15,6 @@ export * from './message-boxes';
 export * from './paging-views';
 export * from './separators';
 export * from './text-inputs';
+export * from './texts';
 export * from './title-content-pairs';
 export * from './touches';

@@ -323,6 +323,77 @@ class FeedView extends BaseComponent {
     );
   };
 
+  onViewMoreTextLayout = ({ item, index, separators, nativeEvent }) => {
+    const { props } = this;
+
+    const { feedId, numberOfLines } = item;
+    const { length } = nativeEvent.lines;
+
+    if (numberOfLines) {
+      return;
+    }
+
+    console.log('[view-more-text-layout-item-feedId]', feedId);
+    console.log('[view-more-text-layout-nativeEvent-lines-length]', length);
+
+    props.updateFeed(feedId, { numberOfLines: length });
+  };
+
+  onPressCalendar = ({ item, index, separators }) => {
+    const { props } = this;
+
+    // TODO
+  };
+
+  onPressFollow = ({ item, index, separators }) => {
+    const { props } = this;
+
+    // console.log('[followed] ', item && item.profile && item.profile.followed);
+
+    props.updateFeed(item.feedId, {
+      profile: {
+        ...item.profile,
+        followed: !(item && item.profile && item.profile.followed),
+      },
+    });
+  };
+
+  onPressLike = ({ item, index, separators }) => {
+    const { props } = this;
+
+    // console.log('[liked] ', item && item.post && item.post.liked);
+
+    props.updateFeed(item.feedId, {
+      post: {
+        ...item.post,
+        liked: !(item && item.post && item.post.liked),
+      },
+    });
+  };
+
+  onPressBookmark = ({ item, index, separators }) => {
+    const { props } = this;
+
+    // console.log('[bookmarked] ', item && item.post && item.post.bookmarked);
+
+    props.updateFeed(item.feedId, {
+      post: {
+        ...item.post,
+        bookmarked: !(item && item.post && item.post.bookmarked),
+      },
+    });
+  };
+
+  onPressViewMoreText = ({ item, index, separators }) => {
+    const { props } = this;
+
+    const { feedId, expanded } = item;
+
+    console.log('[view-more-text-expanded] ', expanded);
+
+    props.updateFeed(feedId, { expanded: !expanded });
+  };
+
   onEndReached = () => {
     const { props } = this;
 
@@ -348,40 +419,13 @@ class FeedView extends BaseComponent {
             label={section.title}
           >
             <FeedList
+              onViewMoreTextLayout={this.onViewMoreTextLayout}
               data={props.feeds}
-              onPressCalendar={({ item, index, separators }) => {
-                // TODO
-              }}
-              onPressFollow={({ item, index, separators }) => {
-                // console.log('[followed] ', item && item.profile && item.profile.followed);
-
-                props.updateFeed(item.feedId, {
-                  profile: {
-                    ...item.profile,
-                    followed: !(item && item.profile && item.profile.followed),
-                  },
-                });
-              }}
-              onPressLike={({ item, index, separators }) => {
-                // console.log('[liked] ', item && item.post && item.post.liked);
-
-                props.updateFeed(item.feedId, {
-                  post: {
-                    ...item.post,
-                    liked: !(item && item.post && item.post.liked),
-                  },
-                });
-              }}
-              onPressBookmark={({ item, index, separators }) => {
-                // console.log('[bookmarked] ', item && item.post && item.post.bookmarked);
-
-                props.updateFeed(item.feedId, {
-                  post: {
-                    ...item.post,
-                    bookmarked: !(item && item.post && item.post.bookmarked),
-                  },
-                });
-              }}
+              onPressCalendar={this.onPressCalendar}
+              onPressFollow={this.onPressFollow}
+              onPressLike={this.onPressLike}
+              onPressBookmark={this.onPressBookmark}
+              onPressViewMoreText={this.onPressViewMoreText}
               onEndReached={this.onEndReached}
             />
           </Section>

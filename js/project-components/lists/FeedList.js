@@ -11,11 +11,9 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { Image, SimpleList, SingleTouch } from '../../components';
+import { Image, SimpleList, SingleTouch, ViewMoreText } from '../../components';
 
 import { Button, Separator } from '../../project-components';
-
-import ViewMoreText from 'react-native-view-more-text';
 
 import { Theme } from '../../utils';
 
@@ -384,13 +382,36 @@ class FeedList extends Component {
             </View>
             <View style={styles.centerBottomContainer}>
               <ViewMoreText
-                numberOfLines={3}
+                onTextLayout={(e) => {
+                  if (!props.onViewMoreTextLayout) {
+                    return;
+                  }
+                  const { length } = e.nativeEvent.lines;
+
+                  props.onViewMoreTextLayout({ ...params, ...e });
+                }}
+                textStyle={styles.text}
+                numberOfLines={(() => {
+                  let numberOfLines = 3;
+
+                  if (!item || !item.numberOfLines || item.numberOfLines <= numberOfLines) {
+                    return;
+                  }
+
+                  return numberOfLines;
+                })()}
                 renderViewMore={this.renderViewMore}
                 renderViewLess={this.renderViewLess}
+                expanded = {item && item.expanded}
+                onPress={() => {
+                  if (!props.onPressViewMoreText) {
+                    return;
+                  }
+
+                  props.onPressViewMoreText(params);
+                }}
               >
-                <Text style={styles.text}>
-                  {item && item.post && item.post.description}
-                </Text>
+                {item && item.post && item.post.description}
               </ViewMoreText>
             </View>
             <View style={styles.bottomBottomContainer}>
@@ -462,9 +483,9 @@ class FeedList extends Component {
       return null;
     }
 
-    // let initialNumToRender = Platform.OS === 'android' ? 5 : undefined;
-    // let maxToRenderPerBatch = Platform.OS === 'android' ? 10 : undefined;
-    // let windowSize = Platform.OS === 'android' ? 10 : undefined;
+    let initialNumToRender = Platform.OS === 'android' ? 5 : undefined;
+    let maxToRenderPerBatch = Platform.OS === 'android' ? 10 : undefined;
+    let windowSize = Platform.OS === 'android' ? 10 : undefined;
 
     // console.log('[Platform.OS] ', Platform.OS);
     // console.log('[initialNumToRender] ', initialNumToRender);
@@ -486,6 +507,9 @@ class FeedList extends Component {
             ItemSeparatorComponent={this.renderItemSeparatorComponent}
             refreshing={props.refreshing}
             onRefresh={props.onRefresh}
+            initialNumToRender={initialNumToRender}
+            maxToRenderPerBatch={maxToRenderPerBatch}
+            windowSize={windowSize}
           />
         )}
       </Translation>
@@ -754,6 +778,7 @@ const styles = StyleSheet.create({
 
 FeedList.propTypes = {
   onLayout: PropTypes.func,
+  onViewMoreTextLayout: PropTypes.func,
   style: ViewPropTypes.style,
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
@@ -761,13 +786,15 @@ FeedList.propTypes = {
   onPressCalendar: PropTypes.func,
   onPressFollow: PropTypes.func,
   onPressLike: PropTypes.func,
-  onPressStar: PropTypes.func,
+  onPressBookmark: PropTypes.func,
+  onPressViewMoreText: PropTypes.func,
   onRefresh: PropTypes.func,
   refreshing: PropTypes.bool,
 };
 
 FeedList.defaultProps = {
   onLayout: undefined,
+  onViewMoreTextLayout: undefined,
   style: undefined,
   contentContainerStyle: undefined,
   hidden: false,
@@ -776,6 +803,7 @@ FeedList.defaultProps = {
   onPressFollow: undefined,
   onPressLike: undefined,
   onPressBookmark: undefined,
+  onPressViewMoreText: undefined,
   onRefresh: undefined,
   refreshing: undefined,
 };

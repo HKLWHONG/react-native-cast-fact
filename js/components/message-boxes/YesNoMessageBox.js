@@ -9,8 +9,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types';
 
-import MessageBox from './MessageBox';
-import { SingleTouch } from '../touches';
+import { MessageBox, SingleTouch } from '../../components';
 
 export default class YesNoMessageBox extends Component {
   constructor(props: any) {
