@@ -137,7 +137,7 @@ class SearchView extends BaseComponent {
 
               TagProcessor.reload();
 
-              await SearchProvider.presearch(props, { disableAddRecentSearches: true });
+              await SearchProvider.presearch(props, {}, { disableAddRecentSearches: true });
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
@@ -247,12 +247,47 @@ class SearchView extends BaseComponent {
               androidRefreshControlColor={Theme.colors.general.black}
               iosRefreshControlColor={Theme.colors.general.white}
               refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
+              onRefresh={(refreshing) => {
                 props.setRefreshing(true);
 
-                await TagProvider.prefetchTags(props);
+                let numberOfTasks = 2;
+                let numberOfFinsihedTasks = 0;
 
-                props.setRefreshing(false);
+                SearchProvider.search(props, { prefetch: true }, {})
+                  .then(() => {
+                    numberOfFinsihedTasks += 1;
+
+                    if (numberOfTasks === numberOfFinsihedTasks) {
+                      props.setRefreshing(false);
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+
+                    numberOfFinsihedTasks += 1;
+
+                    if (numberOfTasks === numberOfFinsihedTasks) {
+                      props.setRefreshing(false);
+                    }
+                  });
+
+                TagProvider.prefetchTags(props)
+                  .then(() => {
+                    numberOfFinsihedTasks += 1;
+
+                    if (numberOfTasks === numberOfFinsihedTasks) {
+                      props.setRefreshing(false);
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+
+                    numberOfFinsihedTasks += 1;
+
+                    if (numberOfTasks === numberOfFinsihedTasks) {
+                      props.setRefreshing(false);
+                    }
+                  });
               }}
             />
           </Body>

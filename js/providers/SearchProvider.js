@@ -241,7 +241,9 @@ export const removeRecentSearches = async (props, params, options) => {
 };
 
 export const presearch = async (props, params, options) => {
-  store.dispatch(AppAction.showActivityIndicator());
+  if (!options || !options.disableActivityIndicator) {
+    store.dispatch(AppAction.showActivityIndicator());
+  }
 
   let page = 1;
 
@@ -250,7 +252,6 @@ export const presearch = async (props, params, options) => {
     {
       page: page,
       length: store.getState().searchResultReducer.feedsPaging.length,
-      disableAddRecentSearches: params && params.disableAddRecentSearches,
     },
     options,
   )
@@ -266,7 +267,9 @@ export const presearch = async (props, params, options) => {
     store.dispatch(SearchResultAction.setFeeds(feeds));
   }
 
-  store.dispatch(AppAction.hideActivityIndicator());
+  if (!options || !options.disableActivityIndicator) {
+    store.dispatch(AppAction.hideActivityIndicator());
+  }
 };
 
 export const search = (props, params, options) => {
@@ -287,25 +290,25 @@ export const search = (props, params, options) => {
 
     tags = (params && params.tags) || tags;
 
-    let tasks = 0;
+    let numberOfTasks = 0;
     let numberOfFinsihedTasks = 0;
     let searchApiParams = undefined;
     let searchApiError = undefined;
 
     if (
-      !params.disableAddRecentSearches
+      (!options || !options.disableAddRecentSearches)
       &&
       (!params || !params.prefetch)
       &&
       tags.length > 0
     ) {
-      tasks += 1;
+      numberOfTasks += 1;
 
       addRecentSearches(props, { tags: tags })
         .then((params) => {
           numberOfFinsihedTasks += 1;
 
-          if (tasks === numberOfFinsihedTasks) {
+          if (numberOfTasks === numberOfFinsihedTasks) {
             if (searchApiParams) {
               resolve(searchApiParams);
             } else {
@@ -318,7 +321,7 @@ export const search = (props, params, options) => {
 
           numberOfFinsihedTasks += 1;
 
-          if (tasks === numberOfFinsihedTasks) {
+          if (numberOfTasks === numberOfFinsihedTasks) {
             if (searchApiParams) {
               resolve(searchApiParams);
             } else {
@@ -328,7 +331,7 @@ export const search = (props, params, options) => {
         });
     }
 
-    tasks += 1;
+    numberOfTasks += 1;
 
     SearchApi.request(
       props,
@@ -351,7 +354,7 @@ export const search = (props, params, options) => {
 
         numberOfFinsihedTasks += 1;
 
-        if (tasks === numberOfFinsihedTasks) {
+        if (numberOfTasks === numberOfFinsihedTasks) {
           resolve(params);
         } else {
           searchApiParams = params;

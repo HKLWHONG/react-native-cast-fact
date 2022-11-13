@@ -63,13 +63,16 @@ class LaunchView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = async () => {
+  initialize = () => {
     const { props } = this;
 
     props.selectDrawer(0);
     props.selectTab(0);
 
-    TagProvider.prefetchTags(props);
+    TagProvider.prefetchTags(props)
+      .catch((error) => {
+        console.error(error);
+      });
 
     AuthStorage.getToken()
       .then(async () => {

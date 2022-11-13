@@ -122,10 +122,16 @@ class SearchResultView extends BaseComponent {
 
     let page = store.getState().searchResultReducer.feedsPaging.page + 1;
 
-    SearchProvider.search(props, {
-      page: page,
-      length: store.getState().searchResultReducer.feedsPaging.length,
-    })
+    SearchProvider.search(
+      props,
+      {
+        page: page,
+        length: store.getState().searchResultReducer.feedsPaging.length,
+      },
+      {
+        disableAddRecentSearches: true,
+      },
+    )
       .then(({ json }) => {
         // props.setSearched(true);
         props.setFeedsPagingLoading(false);
@@ -375,7 +381,14 @@ class SearchResultView extends BaseComponent {
               //
               // this.loadFeeds([]);
 
-              await SearchProvider.presearch(props);
+              await SearchProvider.presearch(
+                props,
+                {},
+                {
+                  disableAddRecentSearches: true,
+                  disableActivityIndicator: true,
+                },
+              );
 
               props.setRefreshing(false);
             }}

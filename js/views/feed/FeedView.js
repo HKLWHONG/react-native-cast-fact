@@ -259,7 +259,7 @@ class FeedView extends BaseComponent {
 
               TagProcessor.reload();
 
-              await SearchProvider.presearch(props, { disableAddRecentSearches: true });
+              await SearchProvider.presearch(props, {}, { disableAddRecentSearches: true });
 
               Router.push(props, "FeedStack", "SearchResult");
             }}
