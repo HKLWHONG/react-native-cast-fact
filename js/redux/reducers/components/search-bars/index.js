@@ -6,5 +6,5 @@
 import searchBarReducer from './SearchBarReducer';
 
 export {
-   searchBarReducer,
+  searchBarReducer,
 };

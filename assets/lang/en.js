@@ -51,8 +51,11 @@ const en = {
     inbox: {
       header: 'Inbox',
     },
-    calendar: {
-      header: 'Calendar',
+    project: {
+      header: 'Projects',
+    },
+    account: {
+      header: 'Account',
     },
     profile: {
       header: 'Profile',

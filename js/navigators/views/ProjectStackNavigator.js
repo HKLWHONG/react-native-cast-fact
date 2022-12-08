@@ -14,9 +14,11 @@ import { getHeaderTitle } from '@react-navigation/elements';
 
 import { BaseComponent } from '../../components';
 
-import { Header } from '../../project-components';
+import { Header, Button } from '../../project-components';
 
-import { CalendarView } from '../../views';
+import { Theme } from '../../utils';
+
+import { ProjectView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
@@ -24,7 +26,9 @@ const Stack = createStackNavigator();
 
 const ic_header_3 = require('../../../assets/images/ic_header_3/ic_header_3.png');
 
-class CalendarStackNavigator extends BaseComponent {
+const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
+
+class ProjectStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -36,6 +40,32 @@ class CalendarStackNavigator extends BaseComponent {
   componentWillUnmount() {
     super.componentWillUnmount();
   }
+
+  renderRightView = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={styles.button}
+            type="circle"
+            source={ic_calendar_plus}
+            resizeMode="center"
+            onPress={() => {
+              console.log('[on-press-create-project]');
+
+              // if (!props.onPressCalendar) {
+              //   return;
+              // }
+              //
+              // props.onPressCalendar(params);
+            }}
+          />
+        )}
+      </Translation>
+    );
+  };
 
   render() {
     const { props } = this;
@@ -52,9 +82,11 @@ class CalendarStackNavigator extends BaseComponent {
                 return (
                   <Header
                     hiddenLeft={!back}
+                    hiddenRight={false}
                     navigation={navigation}
                     source={ic_header_3}
                     title={title}
+                    renderRightView={this.renderRightView}
                   />
                 );
               },
@@ -62,10 +94,10 @@ class CalendarStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Calendar"
-              component={CalendarView}
+              name="Project"
+              component={ProjectView}
               options={{
-                title: t('views.calendar.header'),
+                title: t('views.project.header'),
               }}
             />
           </Stack.Navigator>
@@ -75,7 +107,11 @@ class CalendarStackNavigator extends BaseComponent {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    alignSelf: 'flex-end',
+  },
+});
 
 function mapStateToProps(state) {
   return {};
@@ -85,4 +121,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CalendarStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectStackNavigator);

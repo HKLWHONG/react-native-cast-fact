@@ -23,10 +23,10 @@ import { BaseComponent, Image } from '../../components';
 import { Theme } from '../../utils';
 
 import {
+  AccountStackNavigator,
   FeedStackNavigator,
   InboxStackNavigator,
-  CalendarStackNavigator,
-  ProfileStackNavigator,
+  ProjectStackNavigator,
 } from '../../navigators';
 
 import { Translation } from 'react-i18next';
@@ -230,8 +230,8 @@ class MainTabNavigator extends BaseComponent {
               })}
             />
             <Tab.Screen
-              name="CalendarStack"
-              component={CalendarStackNavigator}
+              name="ProjectStack"
+              component={ProjectStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -272,13 +272,13 @@ class MainTabNavigator extends BaseComponent {
                   props.selectDrawer(2);
                   props.selectTab(2);
 
-                  Router.jumpTo(props, 'CalendarStack');
+                  Router.jumpTo(props, 'ProjectStack');
                 },
               })}
             />
             <Tab.Screen
-              name="ProfileStack"
-              component={ProfileStackNavigator}
+              name="AccountStack"
+              component={AccountStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -319,7 +319,7 @@ class MainTabNavigator extends BaseComponent {
                   props.selectDrawer(3);
                   props.selectTab(3);
 
-                  Router.jumpTo(props, 'ProfileStack');
+                  Router.jumpTo(props, 'AccountStack');
                 },
               })}
             />

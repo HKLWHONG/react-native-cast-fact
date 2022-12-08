@@ -8,7 +8,7 @@ import findTalentSectionReducer from './FindTalentSectionReducer';
 import recentSearchesSectionReducer from './RecentSearchesSectionReducer';
 
 export {
-   criteriaSectionReducer,
-   findTalentSectionReducer,
-   recentSearchesSectionReducer,
+  criteriaSectionReducer,
+  findTalentSectionReducer,
+  recentSearchesSectionReducer,
 };

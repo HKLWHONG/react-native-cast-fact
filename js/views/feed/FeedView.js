@@ -339,6 +339,14 @@ class FeedView extends BaseComponent {
     props.updateFeed(feedId, { numberOfLines: length });
   };
 
+  onPressProfile = ({ item, index, separators }) => {
+    const { props } = this;
+
+    console.log('[onPressProfile]');
+
+    Router.push(props, "FeedStack", "Profile");
+  };
+
   onPressCalendar = ({ item, index, separators }) => {
     const { props } = this;
 
@@ -421,6 +429,7 @@ class FeedView extends BaseComponent {
             <FeedList
               onViewMoreTextLayout={this.onViewMoreTextLayout}
               data={props.feeds}
+              onPressProfile={this.onPressProfile}
               onPressCalendar={this.onPressCalendar}
               onPressFollow={this.onPressFollow}
               onPressLike={this.onPressLike}

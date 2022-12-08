@@ -24,7 +24,7 @@ const ic_header_4 = require('../../../assets/images/ic_header_4/ic_header_4.png'
 
 const Stack = createStackNavigator();
 
-class ProfileStackNavigator extends BaseComponent {
+class AccountStackNavigator extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -65,7 +65,7 @@ class ProfileStackNavigator extends BaseComponent {
               name="Profile"
               component={ProfileView}
               options={{
-                title: t('views.profile.header'),
+                title: t('views.account.header'),
               }}
             />
           </Stack.Navigator>
@@ -85,4 +85,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileStackNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountStackNavigator);

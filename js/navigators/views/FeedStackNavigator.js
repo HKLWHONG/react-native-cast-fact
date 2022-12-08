@@ -22,7 +22,12 @@ import { BaseComponent } from '../../components';
 
 import { Header } from '../../project-components';
 
-import { FeedView, SearchView, SearchResultView } from '../../views';
+import {
+  FeedView,
+  SearchView,
+  SearchResultView,
+  ProfileView,
+} from '../../views';
 
 import { TagProcessor } from '../../processors';
 
@@ -119,6 +124,13 @@ class FeedStackNavigator extends BaseComponent {
               component={SearchResultView}
               options={{
                 title: t('views.search_result.header'),
+              }}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={ProfileView}
+              options={{
+                title: t('views.profile.header'),
               }}
             />
           </Stack.Navigator>

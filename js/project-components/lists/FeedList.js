@@ -59,11 +59,21 @@ class FeedList extends Component {
     return (
       <Translation>
         {(t) => (
-          <Image
-            style={styles.avatarImage}
-            source={{ uri: uri }}
-            resizeMode={"contain"}
-          />
+          <SingleTouch
+            onPress={() => {
+              if (!props.onPressProfile) {
+                return;
+              }
+
+              props.onPressProfile(params);
+            }}
+          >
+            <Image
+              style={styles.avatarImage}
+              source={{ uri: uri }}
+              resizeMode={"contain"}
+            />
+          </SingleTouch>
         )}
       </Translation>
     );
@@ -584,8 +594,6 @@ const styles = StyleSheet.create({
   },
   calendarImage: {
     // backgroundColor: '#ff0',
-    width: 21,
-    height: 21,
   },
   followButtonContainer: {
     // backgroundColor: '#00f',
@@ -783,6 +791,7 @@ FeedList.propTypes = {
   contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   type: PropTypes.string,
+  onPressProfile: PropTypes.func,
   onPressCalendar: PropTypes.func,
   onPressFollow: PropTypes.func,
   onPressLike: PropTypes.func,
@@ -799,6 +808,7 @@ FeedList.defaultProps = {
   contentContainerStyle: undefined,
   hidden: false,
   type: undefined,
+  onPressProfile: undefined,
   onPressCalendar: undefined,
   onPressFollow: undefined,
   onPressLike: undefined,

@@ -4,6 +4,11 @@
  */
 
 import FeedList from './FeedList';
+import ProfileCastingSheetList from './ProfileCastingSheetList';
 import ProfileList from './ProfileList';
 
-export { FeedList, ProfileList };
+export {
+  FeedList,
+  ProfileCastingSheetList,
+  ProfileList,
+};

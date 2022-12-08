@@ -34,7 +34,7 @@ class Header extends Component {
     }
 
     return (
-      <View style={styles.leftContainer}>
+      <View style={[styles.leftContainer, props.leftContainerStyle]}>
         <SingleTouch
           style={styles.left}
           onPress={() => props.onPressLeft(props.info)}
@@ -71,11 +71,20 @@ class Header extends Component {
   renderRightContainerIfNeeded = () => {
     const { props } = this;
 
+    if (props.hiddenRight || !props.renderRightView) {
+      return;
+    }
+
+    let children = props.renderRightView();
+
     return (
-      <View
-       style={styles.rightContainer}
-       hidden={props.hiddenRight}
-      />
+      <Translation>
+        {(t) => (
+          <View style={[styles.rightContainer, props.rightContainerStyle]}>
+            {children}
+          </View>
+        )}
+      </Translation>
     );
   };
 
@@ -119,12 +128,13 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     aspectRatio: 3.52,
     flexDirection: 'row',
-    padding: 16,
+    paddingHorizontal: 16,
   },
   leftContainer: {
     // backgroundColor: '#00f',
     flex: 1,
     justifyContent: 'flex-end',
+    paddingBottom: 16,
   },
   left: {
     width: 30,
@@ -138,8 +148,10 @@ const styles = StyleSheet.create({
     height: 25,
   },
   centerContainer: {
+    // backgroundColor: '#f00',
     flex: 8,
     justifyContent: 'flex-end',
+    paddingBottom: 16,
   },
   title: {
     // backgroundColor: '#f00',
@@ -150,8 +162,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   rightContainer: {
+    // backgroundColor: '#0f0',
     flex: 1,
     justifyContent: 'flex-end',
+    paddingBottom: 12,
   },
   right: {},
 });
@@ -161,7 +175,8 @@ Header.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   headerStyle: ViewPropTypes.style,
-  barStyle: ViewPropTypes.style,
+  leftContainerStyle: ViewPropTypes.style,
+  rightContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   hiddenLeft: PropTypes.bool,
   hiddenRight: PropTypes.bool,
@@ -171,6 +186,7 @@ Header.propTypes = {
     PropTypes.number,
   ]),
   title: PropTypes.string,
+  renderRightView: PropTypes.func,
   onPressLeft: PropTypes.func,
   onPressRight: PropTypes.func,
 };
@@ -180,12 +196,14 @@ Header.defaultProps = {
   onLayout: undefined,
   style: undefined,
   headerStyle: undefined,
-  barStyle: undefined,
+  leftContainerStyle: undefined,
+  rightContainerStyle: undefined,
   hidden: false,
   hiddenLeft: true,
   hiddenRight: true,
   source: undefined,
   title: undefined,
+  renderRightView: undefined,
   onPressLeft: (info) => {
     if (!info) {
       return;

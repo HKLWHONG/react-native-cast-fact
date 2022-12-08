@@ -4,5 +4,9 @@
  */
 
  import feedListReducer from './FeedListReducer';
+ import promrofileCastingSheetListReducer from './ProfileCastingSheetListReducer';
 
- export { feedListReducer };
+ export {
+  feedListReducer,
+  promrofileCastingSheetListReducer,
+};

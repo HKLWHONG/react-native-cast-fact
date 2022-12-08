@@ -3,14 +3,14 @@
  * @flow strict-local
  */
 
-import CalendarStackNavigator from './CalendarStackNavigator';
+import AccountStackNavigator from './AccountStackNavigator';
 import FeedStackNavigator from './FeedStackNavigator';
 import InboxStackNavigator from './InboxStackNavigator';
-import ProfileStackNavigator from './ProfileStackNavigator';
+import ProjectStackNavigator from './ProjectStackNavigator';
 
 export {
-  CalendarStackNavigator,
+  AccountStackNavigator,
   FeedStackNavigator,
   InboxStackNavigator,
-  ProfileStackNavigator,
+  ProjectStackNavigator,
 };

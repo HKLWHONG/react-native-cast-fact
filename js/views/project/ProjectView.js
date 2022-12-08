@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-// import { CalendarAction } from '../../redux';
+// import { ProjectAction } from '../../redux';
 
 import {
   BaseComponent,
@@ -38,7 +38,7 @@ import { Theme, Router } from '../../utils';
 
 // const background = require('../../../assets/images/project_background.png');
 
-class CalendarView extends BaseComponent {
+class ProjectView extends BaseComponent {
   constructor(props) {
     super(props);
   }
@@ -148,4 +148,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CalendarView);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectView);

@@ -24,24 +24,6 @@ class Button extends Component {
     this.state = {};
   }
 
-  renderTextIfNeeded = () => {
-    const { props } = this;
-
-    if (!props.text || !props.text.length) {
-      return;
-    }
-
-    return (
-      <Translation>
-        {(t) => (
-          <Text style={[styles.text, props.textStyle]}>
-            {props.text}
-          </Text>
-        )}
-      </Translation>
-    );
-  };
-
   renderImageIfNeeded = () => {
     const { props } = this;
 
@@ -54,9 +36,19 @@ class Button extends Component {
     ) {
       style = {
         ...style,
-        width: 14,
-        height: 14,
-      }
+        width: 21,
+        height: 21,
+      };
+    } else if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'circle'.toLowerCase()
+    ) {
+      style = {
+        ...style,
+        width: 35,
+        height: 18,
+      };
     }
 
     let children = (
@@ -88,6 +80,73 @@ class Button extends Component {
     );
   };
 
+  renderRightAccessoryIfNeeded = () => {
+    const { props } = this;
+
+    if (!props.rightAccessorySource) {
+      return;
+    }
+
+    let style = {};
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.rightAccessoryImageContainer}>
+            <Image
+              style={[styles.rightAccessoryImage, props.rightAccessoryImageStyle]}
+              source={props.rightAccessorySource}
+              resizeMode={props.resizeMode}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderTextIfNeeded = () => {
+    const { props } = this;
+
+    if (!props.text || !props.text.length) {
+      return;
+    }
+
+    let style = {};
+
+    if (
+      props.type &&
+      props.type.toLowerCase() === 'small'.toLowerCase()
+    ) {
+      style = {
+        ...style,
+        fontSize: 11,
+        letterSpacing: 0.5,
+        textTransform: 'uppercase',
+      };
+    }
+    else if (
+      props.type &&
+      props.type.toLowerCase() === 'circle'.toLowerCase()
+    ) {
+      style = {
+        ...style,
+        fontSize: 11,
+        letterSpacing: 0.5,
+        textTransform: 'uppercase',
+      };
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <Text style={[styles.text, style, props.textStyle]}>
+            {props.text}
+          </Text>
+        )}
+      </Translation>
+    );
+  };
+
   render() {
     const { props } = this;
 
@@ -95,16 +154,36 @@ class Button extends Component {
       return null;
     }
 
+    let containerStyle = {};
     let style = {};
 
     if (
       props.type &&
-      props.type.toLowerCase() === 'Small'.toLowerCase()
+      props.type.toLowerCase() === 'small'.toLowerCase()
     ) {
       style = {
         ...style,
         minHeight: 30,
-      }
+        paddingHorizontal: 8,
+        paddingVertical: 5,
+      };
+    } else if (
+      props.type &&
+      props.type.toLowerCase() === 'circle'.toLowerCase()
+    ) {
+      containerStyle = {
+        backgroundColor: Theme.colors.general.black,
+        borderRadius: 100,
+      };
+
+      style = {
+        ...style,
+        minWidth: 35,
+        minHeight: 35,
+        paddingHorizontal: 0,
+        paddingTop: 9,
+        paddingBottom: 8,
+      };
     }
 
     return (
@@ -112,13 +191,16 @@ class Button extends Component {
         {(t) => (
           <SingleTouch
             onLayout={props.onLayout}
-            style={[styles.container, props.style]}
+            style={[styles.container, containerStyle, props.style]}
             disabled={props.disabled}
             onPress={props.onPress}
           >
             <View style={[styles.button, style, props.buttonStyle]}>
-              {this.renderImageIfNeeded()}
-              {this.renderTextIfNeeded()}
+              {this.renderRightAccessoryIfNeeded()}
+              <View>
+                {this.renderImageIfNeeded()}
+                {this.renderTextIfNeeded()}
+              </View>
             </View>
           </SingleTouch>
         )}
@@ -135,6 +217,7 @@ const styles = StyleSheet.create({
   },
   button: {
     minHeight: 60,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -155,6 +238,14 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
   },
+  rightAccessoryImageContainer: {
+    // backgroundColor: '#0f0',
+    marginRight: 2,
+  },
+  rightAccessoryImage: {
+    width: 21,
+    height: 21,
+  },
 });
 
 Button.propTypes = {
@@ -163,10 +254,16 @@ Button.propTypes = {
   buttonStyle: ViewPropTypes.style,
   textStyle: TextPropTypes.style,
   imageStyle: ViewPropTypes.style,
+  rightAccessoryImageStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   type: PropTypes.string,
   text: PropTypes.string,
   source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
+  rightAccessorySource: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.object,
     PropTypes.number,
@@ -182,10 +279,12 @@ Button.defaultProps = {
   buttonStyle: undefined,
   textStyle: undefined,
   imageStyle: undefined,
+  rightAccessoryImageStyle: undefined,
   hidden: false,
   type: undefined,
   text: undefined,
   source: undefined,
+  rightAccessorySource: undefined,
   resizeMode: "contain",
   disabled: false,
   onPress: undefined,
