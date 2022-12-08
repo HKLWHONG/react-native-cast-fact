@@ -5945,6 +5945,11 @@ react-native-collapsible@^1.6.0:
   resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.6.0.tgz#ca261ffff16914f872059bb0972e3a78c4b37f9c"
   integrity sha512-beZjdgbT9Y/Pg591Xy5XkKG20HffJiVad4n9bfcUF/f783A+tvOVXnqvbS58Lkaym93mi4jcDPMuW9Vc1t6rqg==
 
+react-native-context-menu-view@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-context-menu-view/-/react-native-context-menu-view-1.8.0.tgz#7dbefaa89feb9f8825727f7cc3c84ea3b333581d"
+  integrity sha512-Wp/WjcWUHFTtYkwPFxnHRKCO58kfwhkXT3QoyQtL80x6nD9gwOwZ3MXm0y03F2rB9a6ehl8UbqUhCBCPvt4tNw==
+
 react-native-device-info@^10.2.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.2.0.tgz#be17a1b86cabbe53f4adde96b662204784d3cefd"

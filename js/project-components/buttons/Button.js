@@ -173,7 +173,7 @@ class Button extends Component {
     ) {
       containerStyle = {
         backgroundColor: Theme.colors.general.black,
-        borderRadius: 100,
+        borderRadius: 999,
       };
 
       style = {

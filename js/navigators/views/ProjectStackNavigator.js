@@ -22,6 +22,8 @@ import { ProjectView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
+import ContextMenu from "react-native-context-menu-view";
+
 const Stack = createStackNavigator();
 
 const ic_header_3 = require('../../../assets/images/ic_header_3/ic_header_3.png');
@@ -47,21 +49,27 @@ class ProjectStackNavigator extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Button
-            style={styles.button}
-            type="circle"
-            source={ic_calendar_plus}
-            resizeMode="center"
-            onPress={() => {
-              console.log('[on-press-create-project]');
-
-              // if (!props.onPressCalendar) {
-              //   return;
-              // }
-              //
-              // props.onPressCalendar(params);
+          <ContextMenu
+            actions={[{ title: "Title 1" }, { title: "Title 2" }]}
+            previewBackgroundColor={'transparent'}
+            onPress={(e) => {
+              console.log(
+                `Pressed ${e.nativeEvent.name} at index ${e.nativeEvent.index}`
+              );
             }}
-          />
+            onCancel={(e) => {
+              console.log(
+                `Cancelled`
+              );
+            }}
+          >
+            <Button
+              style={styles.button}
+              type="circle"
+              source={ic_calendar_plus}
+              resizeMode="center"
+            />
+          </ContextMenu>
         )}
       </Translation>
     );
