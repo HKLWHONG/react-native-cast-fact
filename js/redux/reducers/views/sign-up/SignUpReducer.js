@@ -8,17 +8,17 @@ import { CommonActionType, SignUpActionType } from '../../../types';
 const initialState = {
   account: {
     info: {
-      name: undefined,
-      nameMessage: undefined,
+      firstnameEn: undefined,
+      lastnameEn: undefined,
+      firstnameZh: undefined,
+      lastnameZh: undefined,
+      nickname: undefined,
       phoneCode: '+852',
       phoneNumber: undefined,
-      phoneMessage: undefined,
     },
     credentials: {
       email: undefined,
-      emailMessage: undefined,
       password: undefined,
-      passwordMessage: undefined,
     },
   },
 };
@@ -31,26 +31,62 @@ export default function signUpReducer(state = initialState, action) {
     case SignUpActionType.RESET:
       return initialState;
 
-    case SignUpActionType.ACCOUNT_NAME:
+    case SignUpActionType.ACCOUNT_FIRSTNAME_EN:
       return {
         ...state,
         account: {
           ...state.account,
           info: {
             ...state.account.info,
-            name: action.name,
+            firstnameEn: action.firstnameEn,
           },
         },
       };
 
-    case SignUpActionType.ACCOUNT_NAME_MESSAGE:
+    case SignUpActionType.ACCOUNT_LASTNAME_EN:
       return {
         ...state,
         account: {
           ...state.account,
           info: {
             ...state.account.info,
-            nameMessage: action.nameMessage,
+            lastnameEn: action.lastnameEn,
+          },
+        },
+      };
+
+    case SignUpActionType.ACCOUNT_FIRSTNAME_ZH:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          info: {
+            ...state.account.info,
+            firstnameZh: action.firstnameZh,
+          },
+        },
+      };
+
+    case SignUpActionType.ACCOUNT_LASTNAME_ZH:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          info: {
+            ...state.account.info,
+            lastnameZh: action.lastnameZh,
+          },
+        },
+      };
+
+    case SignUpActionType.ACCOUNT_NICKNAME:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          info: {
+            ...state.account.info,
+            nickname: action.nickname,
           },
         },
       };
@@ -63,18 +99,6 @@ export default function signUpReducer(state = initialState, action) {
           credentials: {
             ...state.account.credentials,
             email: action.email,
-          },
-        },
-      };
-
-    case SignUpActionType.ACCOUNT_EMAIL_MESSAGE:
-      return {
-        ...state,
-        account: {
-          ...state.account,
-          credentials: {
-            ...state.account.credentials,
-            emailMessage: action.emailMessage,
           },
         },
       };
@@ -103,18 +127,6 @@ export default function signUpReducer(state = initialState, action) {
         },
       };
 
-    case SignUpActionType.ACCOUNT_PHONE_MESSAGE:
-      return {
-        ...state,
-        account: {
-          ...state.account,
-          info: {
-            ...state.account.info,
-            phoneMessage: action.phoneMessage,
-          },
-        },
-      };
-
     case SignUpActionType.ACCOUNT_PASSWORD:
       return {
         ...state,
@@ -123,18 +135,6 @@ export default function signUpReducer(state = initialState, action) {
           credentials: {
             ...state.account.credentials,
             password: action.password,
-          },
-        },
-      };
-
-    case SignUpActionType.ACCOUNT_PASSWORD_MESSAGE:
-      return {
-        ...state,
-        account: {
-          ...state.account,
-          credentials: {
-            ...state.account.credentials,
-            passwordMessage: action.passwordMessage,
           },
         },
       };

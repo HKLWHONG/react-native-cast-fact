@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     width: 11,
     height: 11,
-    borderRadius: 5,
+    borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Theme.colors.text.subtitle,
   },

@@ -83,13 +83,13 @@ export const route = (props, stack, name) => {
     // store.dispatch(MainTabAction.select(3));
   }
 
-  if (
-    stack !== 'Launch' &&
-    stack !== 'Login' &&
-    stack !== 'SignUp'
-  ) {
-    props.navigation.dispatch(DrawerActions.closeDrawer());
-  }
+  // if (
+  //   stack !== 'Launch' &&
+  //   stack !== 'Login' &&
+  //   stack !== 'SignUp'
+  // ) {
+  //   props.navigation.dispatch(DrawerActions.closeDrawer());
+  // }
 };
 
 export const jumpTo = (props, stack, name, params) => {
@@ -102,7 +102,7 @@ export const jumpTo = (props, stack, name, params) => {
     params: params,
   });
 
-  props.navigation.dispatch(DrawerActions.closeDrawer());
+  // props.navigation.dispatch(DrawerActions.closeDrawer());
 };
 
 export const push = (props, stack, name, params) => {
@@ -123,9 +123,9 @@ export const push = (props, stack, name, params) => {
     params: params,
   });
 
-  if (!isCoreStacks) {
-    props.navigation.dispatch(DrawerActions.closeDrawer());
-  }
+  // if (!isCoreStacks) {
+  //   props.navigation.dispatch(DrawerActions.closeDrawer());
+  // }
 };
 
 export const popToTop = (props) => {

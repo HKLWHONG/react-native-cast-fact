@@ -13,19 +13,46 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setName = (name) => (dispatch) => {
+export const setFirstnameEn = (firstnameEn) => (dispatch) => {
   dispatch({
-    type: SignUpActionType.ACCOUNT_NAME,
-    name: name,
+    type: SignUpActionType.ACCOUNT_FIRSTNAME_EN,
+    firstnameEn: firstnameEn,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const setNameMessage = (nameMessage) => (dispatch) => {
+export const setLastnameEn = (lastnameEn) => (dispatch) => {
   dispatch({
-    type: SignUpActionType.ACCOUNT_NAME_MESSAGE,
-    nameMessage: nameMessage,
+    type: SignUpActionType.ACCOUNT_LASTNAME_EN,
+    lastnameEn: lastnameEn,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setFirstnameZh = (firstnameZh) => (dispatch) => {
+  dispatch({
+    type: SignUpActionType.ACCOUNT_FIRSTNAME_ZH,
+    firstnameZh: firstnameZh,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setLastnameZh = (lastnameZh) => (dispatch) => {
+  dispatch({
+    type: SignUpActionType.ACCOUNT_LASTNAME_ZH,
+    lastnameZh: lastnameZh,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setNickname = (nickname) => (dispatch) => {
+  dispatch({
+    type: SignUpActionType.ACCOUNT_NICKNAME,
+    nickname: nickname,
   });
 
   return Promise.resolve(store.getState());
@@ -35,15 +62,6 @@ export const setEmail = (email) => (dispatch) => {
   dispatch({
     type: SignUpActionType.ACCOUNT_EMAIL,
     email: email,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setEmailMessage = (emailMessage) => (dispatch) => {
-  dispatch({
-    type: SignUpActionType.ACCOUNT_EMAIL_MESSAGE,
-    emailMessage: emailMessage,
   });
 
   return Promise.resolve(store.getState());
@@ -73,28 +91,10 @@ export const setPhoneNumber = (phoneNumber) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setPhoneMessage = (phoneMessage) => (dispatch) => {
-  dispatch({
-    type: SignUpActionType.ACCOUNT_PHONE_MESSAGE,
-    phoneMessage: phoneMessage,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
 export const setPassword = (password) => (dispatch) => {
   dispatch({
     type: SignUpActionType.ACCOUNT_PASSWORD,
     password: password,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setPasswordMessage = (passwordMessage) => (dispatch) => {
-  dispatch({
-    type: SignUpActionType.ACCOUNT_PASSWORD_MESSAGE,
-    passwordMessage: passwordMessage,
   });
 
   return Promise.resolve(store.getState());

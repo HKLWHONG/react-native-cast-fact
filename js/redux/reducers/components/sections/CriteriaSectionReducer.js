@@ -36,9 +36,9 @@ export default function criteriaSectionReducer(state = initialState, action) {
     case CriteriaSectionActionType.TAGS_ADD_TAG:
     {
       if (!action.tag) {
-        return;
+        return state;
       }
-      
+
       return {
         ...state,
         tags: CriteriaProcessor.addTag(state.tags, action.tag),

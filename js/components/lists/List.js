@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, RefreshControl } from 'react-native';
+import { StyleSheet, View, RefreshControl, TouchableWithoutFeedback } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -26,7 +26,7 @@ export default class List extends Component {
 
   renderSectionHeader = ({ section }) => {
     const { props } = this;
-    
+
     if (!props.renderSectionHeader) {
       return;
     }
@@ -41,7 +41,13 @@ export default class List extends Component {
       return;
     }
 
-    return props.renderItem(params);
+    return (
+      <TouchableWithoutFeedback>
+        <View>
+          {props.renderItem(params)}
+        </View>
+      </TouchableWithoutFeedback>
+    );
   };
 
   refreshControl = () => {

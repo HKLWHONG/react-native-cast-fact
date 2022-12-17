@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 // import { AppAction } from './js/redux';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 import {
   BaseComponent,
@@ -82,7 +82,7 @@ class Main extends BaseComponent {
               </Stack.Group>
               <Stack.Group
                 screenOptions={{
-                  presentation: 'modal',
+                  cardStyleInterpolator: CardStyleInterpolators. forVerticalIOS,
                   animationEnabled: true,
                 }}
               >

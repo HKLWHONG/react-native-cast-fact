@@ -213,24 +213,60 @@ class SignUpView extends BaseComponent {
       <Translation>
         {(t) => (
           <View>
-            <TextInput
-              style={styles.textInput}
-              label={t('views.sign_up.name_label')}
-              value={props.account.info.name}
-              message={t(props.account.info.nameMessage)}
-              onChangeText={(text) => {
-                props.setName(text);
-                props.setNameMessage(undefined);
-              }}
-            />
+            {
+              /*
+              <View style={styles.nameContainer}>
+                <TextInput
+                  style={[styles.textInput, { marginRight: 8 }]}
+                  label={t('views.sign_up.firstname_en_label')}
+                  value={props.account.info.firstnameEn}
+                  onChangeText={(text) => {
+                    props.setFirstnameEn(text);
+                  }}
+                />
+                <TextInput
+                  style={[styles.textInput, { marginLeft: 8 }]}
+                  label={t('views.sign_up.lastname_en_label')}
+                  value={props.account.info.lastnameEn}
+                  onChangeText={(text) => {
+                    props.setLastnameEn(text);
+                  }}
+                />
+              </View>
+              <View style={styles.nameContainer}>
+                <TextInput
+                  style={[styles.textInput, { marginRight: 8 }]}
+                  label={t('views.sign_up.lastname_zh_label')}
+                  value={props.account.info.firstnameZh}
+                  onChangeText={(text) => {
+                    props.setFirstnameZh(text);
+                  }}
+                />
+                <TextInput
+                  style={[styles.textInput, { marginLeft: 8 }]}
+                  label={t('views.sign_up.firstname_zh_label')}
+                  value={props.account.info.lastnameZh}
+                  onChangeText={(text) => {
+                    props.setLastnameZh(text);
+                  }}
+                />
+              </View>
+              <TextInput
+                style={styles.textInput}
+                label={t('views.sign_up.nickname_label')}
+                value={props.account.info.nickname}
+                onChangeText={(text) => {
+                  props.setNickname(text);
+                }}
+              />
+              */
+            }
             <TextInput
               style={styles.textInput}
               label={t('views.sign_up.email_label')}
               value={props.account.credentials.email}
-              message={t(props.account.credentials.emailMessage)}
               onChangeText={(text) => {
                 props.setEmail(text);
-                props.setEmailMessage(undefined);
               }}
             />
             <TextInput
@@ -240,14 +276,11 @@ class SignUpView extends BaseComponent {
               value={props.account.info.phone}
               keyboardType="number-pad"
               keyboardTypeLeft="number-pad"
-              message={t(props.account.info.phoneMessage)}
               onChangeTextLeft={(text) => {
                 props.setPhoneCode(text);
-                props.setPhoneMessage(undefined);
               }}
               onChangeText={(text) => {
                 props.setPhoneNumber(text);
-                props.setPhoneMessage(undefined);
               }}
               enableLeftInput
             />
@@ -256,10 +289,8 @@ class SignUpView extends BaseComponent {
               label={t('views.sign_up.password_label')}
               value={props.account.credentials.password}
               secureTextEntry={secureTextEntry}
-              message={t(props.account.credentials.passwordMessage)}
               onChangeText={(text) => {
                 props.setPassword(text);
-                props.setPasswordMessage(undefined);
               }}
             />
           </View>
@@ -403,7 +434,7 @@ const styles = StyleSheet.create({
   },
   headerBackground: {
     // backgroundColor: '#00f',
-    marginTop: 27,
+    marginTop: 87,
     marginLeft: 16,
   },
   headerText: {
@@ -421,7 +452,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingVertical: 16,
   },
+  nameContainer: {
+    // backgroundColor: '#f00',
+    flexDirection: 'row',
+  },
   textInput: {
+    flex: 1,
     marginBottom: 8,
   },
   signUpButton: {
@@ -469,15 +505,15 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SignUpAction.reset(...args)),
-    setName: (...args) => dispatch(SignUpAction.setName(...args)),
-    setNameMessage: (...args) => dispatch(SignUpAction.setNameMessage(...args)),
+    setFirstnameEn: (...args) => dispatch(SignUpAction.setFirstnameEn(...args)),
+    setLastnameEn: (...args) => dispatch(SignUpAction.setLastnameEn(...args)),
+    setFirstnameZh: (...args) => dispatch(SignUpAction.setFirstnameZh(...args)),
+    setLastnameZh: (...args) => dispatch(SignUpAction.setLastnameZh(...args)),
+    setNickname: (...args) => dispatch(SignUpAction.setNickname(...args)),
     setEmail: (...args) => dispatch(SignUpAction.setEmail(...args)),
-    setEmailMessage: (...args) => dispatch(SignUpAction.setEmailMessage(...args)),
     setPhoneCode: (...args) => dispatch(SignUpAction.setPhoneCode(...args)),
     setPhoneNumber: (...args) => dispatch(SignUpAction.setPhoneNumber(...args)),
-    setPhoneMessage: (...args) => dispatch(SignUpAction.setPhoneMessage(...args)),
     setPassword: (...args) => dispatch(SignUpAction.setPassword(...args)),
-    setPasswordMessage: (...args) => dispatch(SignUpAction.setPasswordMessage(...args)),
   };
 }
 

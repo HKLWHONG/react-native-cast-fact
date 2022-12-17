@@ -19,6 +19,7 @@ export const colors = {
   background: {
     primary: '#131313',
     secondary: '#1C1C1C',
+    slideSheet: 'rgba(0, 0, 0, 0.3)',
   },
   borders: {
     gray: 'rgba(114, 114, 114, 0.5)',

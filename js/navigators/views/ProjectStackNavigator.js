@@ -8,7 +8,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
@@ -16,7 +16,7 @@ import { BaseComponent } from '../../components';
 
 import { Header, Button } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, Router } from '../../utils';
 
 import { ProjectView } from '../../views';
 
@@ -49,27 +49,31 @@ class ProjectStackNavigator extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <ContextMenu
-            actions={[{ title: "Title 1" }, { title: "Title 2" }]}
-            previewBackgroundColor={'transparent'}
-            onPress={(e) => {
-              console.log(
-                `Pressed ${e.nativeEvent.name} at index ${e.nativeEvent.index}`
-              );
-            }}
-            onCancel={(e) => {
-              console.log(
-                `Cancelled`
-              );
-            }}
-          >
+          // <ContextMenu
+          //   actions={[{ title: "New Project" }]}
+          //   previewBackgroundColor={'transparent'}
+          //   onPress={(e) => {
+          //     console.log(
+          //       `Pressed ${e.nativeEvent.name} at index ${e.nativeEvent.index}`
+          //     );
+          //   }}
+          //   onCancel={(e) => {
+          //     console.log(
+          //       `Cancelled`
+          //     );
+          //   }}
+          //   dropdownMenuMode
+          // >
             <Button
               style={styles.button}
               type="circle"
               source={ic_calendar_plus}
               resizeMode="center"
+              onPress={() => {
+                Router.push(props, "CreateProjectSlideSheet");
+              }}
             />
-          </ContextMenu>
+          // </ContextMenu>
         )}
       </Translation>
     );

@@ -13,7 +13,10 @@ import {
 } from './app';
 
 import {
+  profileInfoCardReducer,
+  slideSheetReducer,
   feedListReducer,
+  profileCastingSheetListReducer,
   searchBarReducer,
   criteriaSectionReducer,
   findTalentSectionReducer,
@@ -30,20 +33,28 @@ import {
 } from './views';
 
 const reducers = combineReducers({
+  // app
   appReducer,
   dataReducer,
+  drawerReducer,
+  mainTabReducer,
+
+  // components
+  profileInfoCardReducer,
+  slideSheetReducer,
   feedListReducer,
+  profileCastingSheetListReducer,
   searchBarReducer,
   criteriaSectionReducer,
   findTalentSectionReducer,
   recentSearchesSectionReducer,
-  drawerReducer,
+
+  // views
   feedReducer,
   launchReducer,
   loginReducer,
   searchReducer,
   searchResultReducer,
-  mainTabReducer,
   signUpReducer,
 });
 

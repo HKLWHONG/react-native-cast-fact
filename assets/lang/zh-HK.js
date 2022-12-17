@@ -9,6 +9,12 @@ const zhHK = {
     recent_searches: 'Recent Searches',
     based_on_projects_format: 'Based On Project {0}',
     feed: 'Feed',
+    my_projects: 'My Projects',
+    my_events: 'My Events',
+    name: 'Name',
+    duration: 'Duration',
+    next: "Next",
+    create: "Create",
     follow: 'Follow',
     followed: 'Followed',
     find_talent: 'Find Talent',
@@ -33,7 +39,10 @@ const zhHK = {
       create_account: 'Create Account',
     },
     sign_up: {
-      name_label: 'Name',
+      firstname_en_label: 'First Name',
+      lastname_en_label: 'Last Name',
+      firstname_zh_label: '中文名字',
+      lastname_zh_label: '中文姓氏',
       email_label: 'Email',
       phone_label: 'Phone',
       password_label: 'Password',
@@ -53,6 +62,10 @@ const zhHK = {
     },
     project: {
       header: 'Projects',
+    },
+    create_project: {
+      title: 'Create Project',
+      project_information: 'Project Information',
     },
     account: {
       header: 'Account',

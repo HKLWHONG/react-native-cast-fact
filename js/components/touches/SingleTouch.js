@@ -10,6 +10,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 
 import { ViewPropTypes, ColorPropType } from 'deprecated-react-native-prop-types';
@@ -47,7 +48,11 @@ export default class SingleTouch extends Component {
   }
 
   onPressCallBack = (event) => {
-    const { props } = this;
+    const { props, state } = this;
+
+    if (state.disabled) {
+      return;
+    }
 
     this.setState(
       {
@@ -83,7 +88,11 @@ export default class SingleTouch extends Component {
   };
 
   onPressInCallBack = (event) => {
-    const { props } = this;
+    const { props, state } = this;
+
+    if (state.disabled) {
+      return;
+    }
 
     if (props.onPressIn) {
       props.onPressIn(event);
@@ -91,7 +100,11 @@ export default class SingleTouch extends Component {
   };
 
   onPressOutCallBack = (event) => {
-    const { props } = this;
+    const { props, state } = this;
+
+    if (state.disabled) {
+      return;
+    }
 
     if (props.onPressOut) {
       props.onPressOut(event);
@@ -132,7 +145,7 @@ export default class SingleTouch extends Component {
         <TouchableHighlight
           onLayout={props.onLayout}
           style={[styles.container, enableSafeAreaStyle, props.style]}
-          disabled={props.disabled || state.disabled}
+          disabled={props.disabled}
           onPress={this.onPressCallBack}
           onPressIn={this.onPressInCallBack}
           onPressOut={this.onPressOutCallBack}
@@ -157,12 +170,14 @@ export default class SingleTouch extends Component {
         <TouchableWithoutFeedback
           onLayout={props.onLayout}
           style={[styles.container, enableSafeAreaStyle, props.style]}
-          disabled={props.disabled || state.disabled}
+          disabled={props.disabled}
           onPress={this.onPressCallBack}
           onPressIn={this.onPressInCallBack}
           onPressOut={this.onPressOutCallBack}
         >
-          {props.children}
+          <View style={{ flex: 1}}>
+            {props.children}
+          </View>
         </TouchableWithoutFeedback>
       );
     }
@@ -171,7 +186,7 @@ export default class SingleTouch extends Component {
       <TouchableOpacity
         onLayout={props.onLayout}
         style={[styles.container, enableSafeAreaStyle, props.style]}
-        disabled={props.disabled || state.disabled}
+        disabled={props.disabled}
         onPress={this.onPressCallBack}
         onPressIn={this.onPressInCallBack}
         onPressOut={this.onPressOutCallBack}

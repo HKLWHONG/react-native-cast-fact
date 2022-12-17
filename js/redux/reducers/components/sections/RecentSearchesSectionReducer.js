@@ -50,7 +50,7 @@ export default function recentSearchesSectionReducer(state = initialState, actio
     case RecentSearchesSectionActionType.TAGS_ADD_GROUP_FRAME:
     {
       if (!action.groupFrame) {
-        return;
+        return state;
       }
 
       return {

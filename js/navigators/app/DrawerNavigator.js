@@ -23,6 +23,8 @@ import { Translation } from 'react-i18next';
 
 import { Router } from '../../utils';
 
+import { CreateProjectSlideSheetContainer } from '../../views';
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -117,6 +119,15 @@ class DrawerNavigator extends BaseComponent {
           animationEnabled: false,
         }}>
         <Stack.Screen name="MainTab" component={MainTabNavigator} />
+        <Stack.Group
+          screenOptions={{
+            presentation: 'transparentModal',
+            headerShown: false,
+            animationEnabled: false,
+          }}
+        >
+          <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainer} />
+        </Stack.Group>
       </Stack.Navigator>
     );
   };
