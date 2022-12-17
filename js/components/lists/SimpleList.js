@@ -11,6 +11,8 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+
 export default class SimpleList extends Component {
   constructor(props: any) {
     super(props);
@@ -69,24 +71,26 @@ export default class SimpleList extends Component {
     }
 
     return (
-      <KeyboardAwareFlatList
-        {...props}
-        onLayout={props.onLayout}
-        style={[styles.container, props.style]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          props.contentContainerStyle,
-        ]}
-        keyExtractor={this.keyExtractor}
-        renderItem={this.renderItem}
-        onEndReachedThreshold={0.5}
-        onEndReached={props.onEndReached}
-        refreshControl={this.refreshControl()}
-        onRefresh={props.onRefresh}
-        refreshing={props.refreshing}
-        bounces={props.bounces}
-        horizontal={props.horizontal}
-      />
+      <NativeViewGestureHandler disallowInterruption>
+        <KeyboardAwareFlatList
+          {...props}
+          onLayout={props.onLayout}
+          style={[styles.container, props.style]}
+          contentContainerStyle={[
+            styles.contentContainer,
+            props.contentContainerStyle,
+          ]}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={props.onEndReached}
+          refreshControl={this.refreshControl()}
+          onRefresh={props.onRefresh}
+          refreshing={props.refreshing}
+          bounces={props.bounces}
+          horizontal={props.horizontal}
+        />
+      </NativeViewGestureHandler>
     );
   }
 }

@@ -11,6 +11,8 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { KeyboardAwareSectionList } from 'react-native-keyboard-aware-scroll-view';
 
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+
 export default class List extends Component {
   constructor(props: any) {
     super(props);
@@ -96,27 +98,29 @@ export default class List extends Component {
     }
 
     return (
-      <KeyboardAwareSectionList
-        {...props}
-        onLayout={props.onLayout}
-        style={[styles.container, props.style]}
-        contentContainerStyle={[
-          styles.contentContainer,
-          props.contentContainerStyle,
-        ]}
-        keyExtractor={this.keyExtractor}
-        sections={sections}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        onEndReachedThreshold={0.5}
-        onEndReached={props.onEndReached}
-        refreshControl={this.refreshControl()}
-        onRefresh={props.onRefresh}
-        refreshing={props.refreshing}
-        bounces={props.bounces}
-        stickySectionHeadersEnabled={props.stickySectionHeadersEnabled}
-        horizontal={props.horizontal}
-      />
+      <NativeViewGestureHandler disallowInterruption>
+        <KeyboardAwareSectionList
+          {...props}
+          onLayout={props.onLayout}
+          style={[styles.container, props.style]}
+          contentContainerStyle={[
+            styles.contentContainer,
+            props.contentContainerStyle,
+          ]}
+          keyExtractor={this.keyExtractor}
+          sections={sections}
+          renderSectionHeader={this.renderSectionHeader}
+          renderItem={this.renderItem}
+          onEndReachedThreshold={0.5}
+          onEndReached={props.onEndReached}
+          refreshControl={this.refreshControl()}
+          onRefresh={props.onRefresh}
+          refreshing={props.refreshing}
+          bounces={props.bounces}
+          stickySectionHeadersEnabled={props.stickySectionHeadersEnabled}
+          horizontal={props.horizontal}
+        />
+      </NativeViewGestureHandler>
     );
   }
 }

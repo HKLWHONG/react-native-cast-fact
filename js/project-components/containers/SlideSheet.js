@@ -97,6 +97,18 @@ class SlideSheet extends Component {
     );
   };
 
+  renderBackgroundComponent = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View />
+        )}
+      </Translation>
+    );
+  };
+
   render() {
     const { props } = this;
 
@@ -166,6 +178,7 @@ class SlideSheet extends Component {
             handleComponent={handleComponent}
             // index={1}
             // detach={true}
+            backgroundComponent={this.renderBackgroundComponent}
             snapPoints={props.snapPoints}
             enablePanDownToClose
             onChange={useCallback((index: number) => {
