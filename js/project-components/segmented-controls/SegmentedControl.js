@@ -76,48 +76,6 @@ class SegmentedControl extends Component {
               />
             </View>
           </SingleTouch>
-          <SingleTouch
-            style={{
-              flex: 1,
-            }}
-          >
-            <View
-              style={{
-                // backgroundColor: 'cyan',
-                alignItems: 'center',
-                borderWidth: StyleSheet.hairlineWidth,
-                borderColor: Theme.colors.borders.gray,
-                paddingVertical: 12,
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={preview}
-                resizeMode="contain"
-              />
-            </View>
-          </SingleTouch>
-          <SingleTouch
-            style={{
-              flex: 1,
-            }}
-          >
-            <View
-              style={{
-                // backgroundColor: 'blue',
-                alignItems: 'center',
-                borderWidth: StyleSheet.hairlineWidth,
-                borderColor: Theme.colors.borders.gray,
-                paddingVertical: 12,
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={preview}
-                resizeMode="contain"
-              />
-            </View>
-          </SingleTouch>
           </View>
         )}
       </Translation>

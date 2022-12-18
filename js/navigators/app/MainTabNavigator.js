@@ -60,6 +60,91 @@ class MainTabNavigator extends BaseComponent {
     super.componentWillUnmount();
   }
 
+  tabPress = ({ navigation, route }, e, { index, stack }) => {
+    const { props } = this;
+
+    // console.log('[navigation] ', navigation);
+    // console.log('[route] ', route);
+    // console.log('[route.state] ', route.state);
+
+    e.preventDefault();
+
+    if (navigation.isFocused()) {
+      if (!store.getState().mainTabReducer.tapTimer) {
+        props.setTapTimer(
+          setTimeout(() => {
+            if (
+              route.state && route.state.index > 0
+              &&
+              store.getState().mainTabReducer.tapCount > 1
+            ) {
+              // console.log('[double-tapped]');
+
+              props.resetCriteria();
+
+              props.resetRecentSearchesTags();
+
+              TagProcessor.reload();
+
+              navigation.popToTop();
+            } else {
+              // console.log('[single-tapped]');
+
+              let routeIndex = (route.state && route.state.index) || 0;
+
+              if (
+                store.getState().mainTabReducer.listRefs.length > index
+                &&
+                store.getState().mainTabReducer.listRefs[index].length > routeIndex
+                &&
+                store.getState().mainTabReducer.listRefs[index][routeIndex].props
+                &&
+                store.getState().mainTabReducer.listRefs[index][routeIndex].props.scrollToPosition
+              ) {
+                store.getState().mainTabReducer.listRefs[index][routeIndex].props.scrollToPosition(0, 0);
+              }
+            }
+
+            props.setTapTimer(undefined);
+
+            // console.log('[tap-timer-reset]');
+
+            props.setTapCount(0);
+
+            // console.log('[tap-count-reset]', store.getState().mainTabReducer.tapCount);
+          }, 250),
+        );
+
+        // console.log('[tap-timer-set]');
+      }
+
+      // console.log('[tap-count]', store.getState().mainTabReducer.tapCount);
+
+      props.setTapCount(store.getState().mainTabReducer.tapCount + 1);
+
+      // console.log('[tap-count-updated]', store.getState().mainTabReducer.tapCount);
+    } else {
+      clearTimeout(store.getState().mainTabReducer.tapTimer);
+      props.setTapTimer(undefined);
+      props.setTapCount(0);
+
+      props.selectDrawer(index);
+      props.selectTab(index);
+
+      if (Platform.OS === 'ios') {
+        Router.jumpTo(props, stack);
+      } else {
+        // let routes = (route.state && route.state.routes) || [];
+        //
+        // routes = routes.map((route) => route.name);
+        //
+        // Router.route(props, 'FeedStack', routes);
+
+        Router.route(props, stack);
+      }
+    }
+  };
+
   render() {
     const { props } = this;
 
@@ -101,84 +186,9 @@ class MainTabNavigator extends BaseComponent {
                 },
                 tabBarLabel: t(''),
               }}
-              listeners={({ navigation, route }) => ({
+              listeners={(params) => ({
                 tabPress: (e) => {
-                  // console.log('[navigation] ', navigation);
-                  // console.log('[route] ', route);
-                  // console.log('[route.state] ', route.state);
-
-                  e.preventDefault();
-
-                  if (navigation.isFocused()) {
-                    if (!store.getState().mainTabReducer.tapTimer) {
-                      props.setTapTimer(
-                        setTimeout(() => {
-                          if (
-                            route.state && route.state.index > 0
-                            &&
-                            store.getState().mainTabReducer.tapCount > 1
-                          ) {
-                            // console.log('[double-tapped]');
-
-                            props.resetCriteria();
-
-                            props.resetRecentSearchesTags();
-
-                            TagProcessor.reload();
-
-                            navigation.popToTop();
-                          } else {
-                            // console.log('[single-tapped]');
-
-                            let index = (route.state && route.state.index) || 0;
-
-                            if (
-                              store.getState().mainTabReducer.listRefs.length > 0
-                              &&
-                              store.getState().mainTabReducer.listRefs[0].length > index
-                            ) {
-                              store.getState().mainTabReducer.listRefs[0][index].props.scrollToPosition(0, 0);
-                            }
-                          }
-
-                          props.setTapTimer(undefined);
-
-                          // console.log('[tap-timer-reset]');
-
-                          props.setTapCount(0);
-
-                          // console.log('[tap-count-reset]', store.getState().mainTabReducer.tapCount);
-                        }, 250),
-                      );
-
-                      // console.log('[tap-timer-set]');
-                    }
-
-                    // console.log('[tap-count]', store.getState().mainTabReducer.tapCount);
-
-                    props.setTapCount(store.getState().mainTabReducer.tapCount + 1);
-
-                    // console.log('[tap-count-updated]', store.getState().mainTabReducer.tapCount);
-                  } else {
-                    clearTimeout(store.getState().mainTabReducer.tapTimer);
-                    props.setTapTimer(undefined);
-                    props.setTapCount(0);
-
-                    props.selectDrawer(0);
-                    props.selectTab(0);
-
-                    if (Platform.OS === 'ios') {
-                      Router.jumpTo(props, 'FeedStack');
-                    } else {
-                      // let routes = (route.state && route.state.routes) || [];
-                      //
-                      // routes = routes.map((route) => route.name);
-                      //
-                      // Router.route(props, 'FeedStack', routes);
-
-                      Router.route(props, 'FeedStack');
-                    }
-                  }
+                  this.tabPress(params, e, { index: 0, stack: 'FeedStack' });
                 },
               })}
             />
@@ -214,18 +224,9 @@ class MainTabNavigator extends BaseComponent {
                 },
                 tabBarLabel: t(''),
               }}
-              listeners={({ navigation, route }) => ({
+              listeners={(params) => ({
                 tabPress: (e) => {
-                  e.preventDefault();
-
-                  clearTimeout(store.getState().mainTabReducer.tapTimer);
-                  props.setTapTimer(undefined);
-                  props.setTapCount(0);
-
-                  props.selectDrawer(1);
-                  props.selectTab(1);
-
-                  Router.jumpTo(props, 'InboxStack');
+                  this.tabPress(params, e, { index: 1, stack: 'InboxStack' });
                 },
               })}
             />
@@ -261,18 +262,9 @@ class MainTabNavigator extends BaseComponent {
                 },
                 tabBarLabel: t(''),
               }}
-              listeners={({ navigation, route }) => ({
+              listeners={(params) => ({
                 tabPress: (e) => {
-                  e.preventDefault();
-
-                  clearTimeout(store.getState().mainTabReducer.tapTimer);
-                  props.setTapTimer(undefined);
-                  props.setTapCount(0);
-
-                  props.selectDrawer(2);
-                  props.selectTab(2);
-
-                  Router.jumpTo(props, 'ProjectStack');
+                  this.tabPress(params, e, { index: 2, stack: 'ProjectStack' });
                 },
               })}
             />
@@ -308,18 +300,9 @@ class MainTabNavigator extends BaseComponent {
                 },
                 tabBarLabel: t(''),
               }}
-              listeners={({ navigation, route }) => ({
+              listeners={(params) => ({
                 tabPress: (e) => {
-                  e.preventDefault();
-
-                  clearTimeout(store.getState().mainTabReducer.tapTimer);
-                  props.setTapTimer(undefined);
-                  props.setTapCount(0);
-
-                  props.selectDrawer(3);
-                  props.selectTab(3);
-
-                  Router.jumpTo(props, 'AccountStack');
+                  this.tabPress(params, e, { index: 3, stack: 'AccountStack' });
                 },
               })}
             />

@@ -120,7 +120,15 @@ class RecentSearchesSection extends Component {
               info={groupFrame}
               style={style}
               rightAccessoryType="delete"
-              onPress={props.onPressGroupFrame}
+              onPress={(params) => {
+                props.resetCriteria();
+
+                if (!props.onPressGroupFrame) {
+                  return;
+                }
+
+                props.onPressGroupFrame(params);
+              }}
               onPressRightAccessory={({ origin }) => {
                 // console.log('[origin]', origin);
 
@@ -217,6 +225,7 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(RecentSearchesSectionAction.reset(...args)),
     updateTag: (...args) => dispatch(RecentSearchesSectionAction.updateTag(...args)),
+    resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     addCriteriaTag: (...args) => dispatch(CriteriaSectionAction.addTag(...args)),
   };
 }

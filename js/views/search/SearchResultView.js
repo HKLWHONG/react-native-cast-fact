@@ -365,7 +365,7 @@ class SearchResultView extends BaseComponent {
         {(t) => (
           <List
             innerRef={(ref) => {
-              props.setListRef(0, 2, ref);
+              props.setListRef(0, props.navigation.getState().index, ref);
             }}
             contentContainerStyle={styles.listContentContainer}
             sections={sections}

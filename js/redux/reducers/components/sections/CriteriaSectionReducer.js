@@ -8,7 +8,6 @@ import { CommonActionType, CriteriaSectionActionType } from '../../../types';
 import { CriteriaProcessor } from '../../../../processors';
 
 const initialState = {
-  text: '',
   tags: [],
   lengthOfResults: 0,
 };
@@ -20,12 +19,6 @@ export default function criteriaSectionReducer(state = initialState, action) {
 
     case CriteriaSectionActionType.RESET:
       return initialState;
-
-    case CriteriaSectionActionType.TEXT:
-      return {
-        ...state,
-        text: action.text || '',
-      };
 
     case CriteriaSectionActionType.TAGS:
       return {

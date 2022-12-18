@@ -238,7 +238,7 @@ class SearchView extends BaseComponent {
             scrollable={false}>
             <List
               innerRef={(ref) => {
-                props.setListRef(0, 1, ref);
+                props.setListRef(0, props.navigation.getState().index, ref);
               }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}

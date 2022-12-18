@@ -342,7 +342,7 @@ class ProjectView extends BaseComponent {
           >
             <List
               innerRef={(ref) => {
-                props.setListRef(2, 0, ref);
+                props.setListRef(2, props.navigation.getState().index, ref);
               }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}

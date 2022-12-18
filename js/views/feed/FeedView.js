@@ -537,7 +537,7 @@ class FeedView extends BaseComponent {
           >
             <List
               innerRef={(ref) => {
-                props.setListRef(0, 0, ref);
+                props.setListRef(0, props.navigation.getState().index, ref);
               }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
