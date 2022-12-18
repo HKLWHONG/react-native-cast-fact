@@ -89,7 +89,7 @@ class CreateProjectStep2View extends BaseComponent {
           <ViewIndicator
             index={1}
             numberOfIndicators={2}
-            text={t('views.create_project.project_information')}
+            text={t('views.create_project.my_availability')}
           />
         )}
       </Translation>

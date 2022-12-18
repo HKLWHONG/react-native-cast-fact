@@ -121,7 +121,7 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
               if (!props.slideSheetRefs.CreateProjectSlideSheet) {
                 return;
               }
-              
+
               props.slideSheetRefs.CreateProjectSlideSheet.close();
             }}
           >

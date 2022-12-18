@@ -11,7 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { Image } from '../../components';
+import { Image, FontConstants } from '../../components';
 
 import { Theme } from '../../utils';
 
@@ -34,21 +34,23 @@ class ViewIndicator extends Component {
         .fill()
         .map((_, i) => i)
         .map((i) => {
-          let style = { backgroundColor: 'white', };
+          let currentIndicatorTextContainerStyle = styles.indicatorTextContainer;
+          let currentIndicatorTextStyle = styles.indicatorText;
 
           if (i === props.index) {
-            style = {
-              ...style,
-              backgroundColor: 'red',
-            }
+            currentIndicatorTextContainerStyle = styles.currentIndicatorTextContainer;
+            currentIndicatorTextStyle = styles.currentIndicatorText;
           }
 
           return (
-            <Image
+            <View
               key={i.toString()}
-              style={[styles.image, style]}
-              resizeMode="center"
-            />
+              style={currentIndicatorTextContainerStyle}
+            >
+              <Text style={currentIndicatorTextStyle}>
+                {(i + 1).toString()}
+              </Text>
+            </View>
           );
         })
     );
@@ -113,10 +115,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 4,
   },
-  image: {
+  indicatorTextContainer: {
+    backgroundColor: Theme.colors.general.black,
     width: 24,
     height: 24,
+    borderRadius: 999,
+    borderWidth: 2,
+    borderColor: Theme.colors.text.subtitle,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginHorizontal: 4,
+  },
+  indicatorText: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontWeight: FontConstants.WEIGHT_BOLD,
+    lineHeight: 18,
+    textTransform: 'uppercase',
+  },
+  currentIndicatorTextContainer: {
+    backgroundColor: Theme.colors.general.white,
+    width: 24,
+    height: 24,
+    borderRadius: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 4,
+  },
+  currentIndicatorText: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.black,
+    fontSize: 15,
+    fontWeight: FontConstants.WEIGHT_BOLD,
+    lineHeight: 18,
+    textTransform: 'uppercase',
   },
   contentContainer: {
     // backgroundColor: '#f0f',

@@ -67,6 +67,7 @@ const en = {
     create_project: {
       title: 'Create Project',
       project_information: 'Project Information',
+      my_availability: 'My Availability',
     },
     account: {
       header: 'Account',

@@ -11,7 +11,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { Image } from '../../components';
+import { Image, SingleTouch } from '../../components';
 
 import { Theme } from '../../utils';
 
@@ -26,6 +26,8 @@ const Stack = createStackNavigator();
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+const ic_back = require('../../../assets/images/ic_back/ic_back.png');
+
 class SlideSheet extends Component {
   constructor(props: any) {
     super(props);
@@ -33,19 +35,45 @@ class SlideSheet extends Component {
     this.state = {};
   }
 
-  renderLeftContainer = () => {
+  renderLeftContainer = (params) => {
     const { props } = this;
+    const { navigation, route, options, back } = params;
+
+    let children = (
+      <View style={styles.leftImage} />
+    );
+
+    let enabled = navigation.getState().index > 0;
+
+    if (enabled) {
+      children = (
+        <Image
+          style={styles.leftImage}
+          source={ic_back}
+          resizeMode="center"
+        />
+      );
+    }
 
     return (
-      <Translation>
-        {(t) => (
-          <View style={styles.leftContainer} />
-        )}
-      </Translation>
+      <View style={[styles.leftContainer, props.leftContainerStyle]}>
+        <SingleTouch
+          style={styles.left}
+          onPress={() => {
+            if (!enabled) {
+              return;
+            }
+
+            navigation.goBack();
+          }}
+        >
+          {children}
+        </SingleTouch>
+      </View>
     );
   };
 
-  renderCenterContainer = () => {
+  renderCenterContainer = (params) => {
     const { props } = this;
 
     return (
@@ -61,7 +89,7 @@ class SlideSheet extends Component {
     );
   };
 
-  renderRightContainer = () => {
+  renderRightContainer = (params) => {
     const { props } = this;
 
     return (
@@ -79,7 +107,7 @@ class SlideSheet extends Component {
     );
   };
 
-  renderHandleComponent = () => {
+  renderHeader = (params) => {
     const { props } = this;
 
     return (
@@ -87,11 +115,23 @@ class SlideSheet extends Component {
         {(t) => (
           <TouchableWithoutFeedback>
             <View style={styles.handleComponentContainer}>
-              {this.renderLeftContainer()}
-              {this.renderCenterContainer()}
-              {this.renderRightContainer()}
+              {this.renderLeftContainer(params)}
+              {this.renderCenterContainer(params)}
+              {this.renderRightContainer(params)}
             </View>
           </TouchableWithoutFeedback>
+        )}
+      </Translation>
+    );
+  };
+
+  renderHandleComponent = (params) => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View />
         )}
       </Translation>
     );
@@ -143,7 +183,10 @@ class SlideSheet extends Component {
         <NavigationContainer independent>
           <Stack.Navigator
             screenOptions={{
-              headerShown: false,
+              headerMode: 'screen',
+              header: (params) => {
+                return this.renderHeader(params);
+              },
               animationEnabled: props.animationEnabled,
             }}
           >
@@ -175,7 +218,7 @@ class SlideSheet extends Component {
             // handleIndicatorStyle={{
             //   backgroundColor: 'blue',
             // }}
-            handleComponent={handleComponent}
+            handleComponent={this.renderHandleComponent}
             // index={1}
             // detach={true}
             backgroundComponent={this.renderBackgroundComponent}
@@ -210,13 +253,23 @@ const styles = StyleSheet.create({
   },
   leftContainer: {
     // backgroundColor: '#f00',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  left: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftImage: {
+    // backgroundColor: '#0ff',
+    width: 25,
+    height: 25,
+  },
   centerContainer: {
     // backgroundColor: '#0f0',
-    flex: 5,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -230,7 +283,6 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     // backgroundColor: '#00f',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
