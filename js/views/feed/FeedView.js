@@ -53,7 +53,7 @@ class FeedView extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state={};
+    this.state = {};
   }
 
   componentDidMount() {

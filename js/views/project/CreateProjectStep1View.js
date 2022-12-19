@@ -28,6 +28,7 @@ import {
   ViewIndicator,
   Section,
   Button,
+  TextInput,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -39,7 +40,7 @@ import { Theme, Router } from '../../utils';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-// const background = require('../../../assets/images/project_background.png');
+const preview = require('../../../assets/images/preview/preview.png');
 
 class CreateProjectStep1View extends BaseComponent {
   constructor(props) {
@@ -104,9 +105,14 @@ class CreateProjectStep1View extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
+            source={preview}
             label={section.title}
           >
-            <View style={{ backgroundColor: 'red', flex: 1, height: 80 }} />
+            <TextInput
+              style={styles.textInput}
+              disableBottomLine
+              disableMessageView
+            />
           </Section>
         )}
       </Translation>
@@ -121,9 +127,10 @@ class CreateProjectStep1View extends BaseComponent {
       <Translation>
         {(t) => (
           <Section
+            source={preview}
             label={section.title}
           >
-            <View style={{ backgroundColor: 'red', flex: 1, height: 80 }} />
+            <Text style={{ backgroundColor: 'red', flex: 1, height: 80 }} />
           </Section>
         )}
       </Translation>
@@ -239,7 +246,10 @@ class CreateProjectStep1View extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Root style={styles.root}>
+          <Root
+            style={styles.root}
+            keyboardDismissing
+          >
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}
@@ -262,6 +272,13 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingHorizontal: 0,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: Theme.colors.background.secondary,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
   },
   bottomButton: {
     margin: 16,

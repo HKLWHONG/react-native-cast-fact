@@ -25,12 +25,12 @@ import {
   Body,
   Footer,
   List,
-  FontConstants,
 } from '../../components';
 
 import {
   // MyProjectsSection,
   // MyEventsSection,
+  Calendar,
   Section,
   ProjectEventList,
 } from '../../project-components';
@@ -42,45 +42,13 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import {
-  Calendar,
-  CalendarList,
-  Agenda,
-  LocaleConfig,
-} from 'react-native-calendars';
-
-LocaleConfig.locales['en'] = {
-  monthNames: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ],
-  monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-  today: 'Today',
-};
-
-LocaleConfig.defaultLocale = 'en';
-
 const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
 
 class ProjectView extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      date: undefined,
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -124,115 +92,60 @@ class ProjectView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <View>
-            <Calendar
-              theme={{
-                backgroundColor: Theme.colors.general.black,
-                calendarBackground: Theme.colors.general.black,
-                textSectionTitleColor: Theme.colors.text.subtitle,
-                // textSectionTitleDisabledColor: '#d9e1e8',
-                // selectedDayBackgroundColor: Theme.colors.text.subtitle,
-                // selectedDayTextColor: Theme.colors.general.white,
-                todayTextColor: 'cyan',
-                dayTextColor: Theme.colors.general.white,
-                textDisabledColor: Theme.colors.text.subtitle,
-                // dotColor: '#00f',
-                // selectedDotColor: '#00ff00',
-                arrowColor: Theme.colors.text.subtitle,
-                // disabledArrowColor: '#d9e1e8',
-                monthTextColor: Theme.colors.text.subtitle,
-                // indicatorColor: 'blue',
-                // textDayFontFamily: Theme.fonts.regular,
-                // textMonthFontFamily: Theme.fonts.regular,
-                // textDayHeaderFontFamily: Theme.fonts.regular,
-                textDayFontWeight: FontConstants.WEIGHT_MEDIUM,
-                textMonthFontWeight: FontConstants.WEIGHT_REGULAR,
-                textDayHeaderFontWeight: FontConstants.WEIGHT_MEDIUM,
-                textDayFontSize: 16,
-                textMonthFontSize: 16,
-                textDayHeaderFontSize: 12,
-              }}
-              markingType="multi-period"
-              markedDates={{
-                '2022-12-14': {
-                  periods: [
-                    {startingDay: true, endingDay: false, color: 'cyan'},
-                    // {startingDay: false, endingDay: true, color: '#ffa500'},
-                    // {startingDay: true, endingDay: false, color: '#f0e68c'}
-                  ]
-                },
-                '2022-12-15': {
-                  periods: [
-                    {startingDay: false, endingDay: false, color: 'cyan'},
-                    // {color: 'transparent'},
-                    // {startingDay: false, endingDay: false, color: '#f0e68c'}
-                  ]
-                },
-                '2022-12-16': {
-                  periods: [
-                    {startingDay: false, endingDay: true, color: 'cyan'},
-                    // {color: 'transparent'},
-                    // {startingDay: false, endingDay: false, color: '#f0e68c'}
-                  ]
-                }
-              }}
-              // Initially visible month. Default = now
-              initialDate={state.date}
-              // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-              // minDate={'2012-05-10'}
-              // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-              // maxDate={'2023-05-30'}
-              // Handler which gets executed on day press. Default = undefined
-              onDayPress={day => {
-                console.log('selected day', day);
-
-                this.setState({
-                  date: day.dateString,
-                });
-              }}
-              // Handler which gets executed on day long press. Default = undefined
-              onDayLongPress={day => {
-                console.log('selected day', day);
-              }}
-              // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-              monthFormat={'yyyy MM'}
-              // Handler which gets executed when visible month changes in calendar. Default = undefined
-              onMonthChange={month => {
-                console.log('month changed', month);
-              }}
-              // Hide month navigation arrows. Default = false
-              // hideArrows={true}
-              // Replace default arrows with custom ones (direction can be 'left' or 'right')
-              // renderArrow={direction => <Arrow />}
-              // Do not show days of other months in month page. Default = false
-              // hideExtraDays={true}
-              // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
-              // day from another month that is visible in calendar page. Default = false
-              // disableMonthChange={true}
-              // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-              firstDay={0}
-              // Hide day names. Default = false
-              // hideDayNames={true}
-              // Show week numbers to the left. Default = false
-              // showWeekNumbers={true}
-              // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-              // onPressArrowLeft={subtractMonth => subtractMonth()}
-              // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-              // onPressArrowRight={addMonth => addMonth()}
-              // Disable left arrow. Default = false
-              // disableArrowLeft={true}
-              // Disable right arrow. Default = false
-              // disableArrowRight={true}
-              // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-              // disableAllTouchEventsForDisabledDays={true}
-              // Replace default month and year title with custom one. the function receive a date as parameter
-              // renderHeader={date => {
-              //   /*Return JSX*/
-              // }}
-              // Enable the option to swipe between months. Default = false
-              // enableSwipeMonths={true}
-            />
-          </View>
+          <Calendar
+            // markedDates={{
+            //   '2022-12-13': {
+            //     periods: [
+            //       {startingDay: true, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {color: 'transparent'},
+            //     ]
+            //   },
+            //   '2022-12-14': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {startingDay: true, endingDay: true, color: '#ffa500'},
+            //       {startingDay: true, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-15': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-16': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-17': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-18': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-19': {
+            //     periods: [
+            //       {startingDay: false, endingDay: true, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: true, color: '#f0e68c'}
+            //     ]
+            //   },
+            // }}
+            disableSelection
+          />
         )}
       </Translation>
     );

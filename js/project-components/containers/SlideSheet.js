@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import React, { Component, useCallback } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
 
@@ -32,7 +32,9 @@ class SlideSheet extends Component {
   constructor(props: any) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      ref: undefined,
+    };
   }
 
   renderLeftContainer = (params) => {
@@ -209,7 +211,9 @@ class SlideSheet extends Component {
         {(t) => (
           <BottomSheet
             {...props}
-            ref={props.innerRef}
+            ref={(ref) => {
+              this.state.ref = ref;
+            }}
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             // handleStyle={{
@@ -224,15 +228,21 @@ class SlideSheet extends Component {
             backgroundComponent={this.renderBackgroundComponent}
             snapPoints={props.snapPoints}
             enablePanDownToClose
-            onChange={useCallback((index: number) => {
-              if (index === -1) {
+            onChange={(index) => {
+              if (index === 0) {
+                if (!props.didMount) {
+                  return;
+                }
+
+                props.didMount(this.state.ref);
+              } else if (index === -1) {
                 if (!props.onDismiss) {
                   return;
                 }
 
                 props.onDismiss();
               }
-            }, [])}
+            }}
           >
             {children}
           </BottomSheet>
@@ -310,6 +320,7 @@ SlideSheet.propTypes = {
   ]),
   title: PropTypes.string,
   animationEnabled: PropTypes.bool,
+  didMount: PropTypes.func,
   onDismiss: PropTypes.func,
 };
 
@@ -322,6 +333,7 @@ SlideSheet.defaultProps = {
   snapPoints: ['100%'],
   title: undefined,
   animationEnabled: false,
+  didMount: undefined,
   onDismiss: undefined,
 };
 

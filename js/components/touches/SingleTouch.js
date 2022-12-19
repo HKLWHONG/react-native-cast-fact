@@ -175,9 +175,7 @@ export default class SingleTouch extends Component {
           onPressIn={this.onPressInCallBack}
           onPressOut={this.onPressOutCallBack}
         >
-          <View style={{ flex: 1}}>
-            {props.children}
-          </View>
+          {props.children}
         </TouchableWithoutFeedback>
       );
     }

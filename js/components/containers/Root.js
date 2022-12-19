@@ -120,7 +120,13 @@ export default class Root extends Component {
       </ImageBackground>
     );
 
-    return this.renderKeyboardAvoidingViewIfNeeded(children);
+    return (
+      <TouchableWithoutFeedback>
+        <View style={{ flex: 1}}>
+          {this.renderKeyboardAvoidingViewIfNeeded(children)}
+        </View>
+      </TouchableWithoutFeedback>
+    );
   }
 }
 

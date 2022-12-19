@@ -63,9 +63,7 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -115,9 +113,10 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
             scrollable={false}
           >
           <SingleTouch
-            style={props.slideSheetContainer}
             type="TouchableWithoutFeedback"
             onPress={() => {
+              console.log('[onPress]');
+
               if (!props.slideSheetRefs.CreateProjectSlideSheet) {
                 return;
               }
@@ -125,25 +124,27 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
               props.slideSheetRefs.CreateProjectSlideSheet.close();
             }}
           >
-            <SlideSheet
-              innerRef={(ref) => {
-                props.addSlideSheetRef('CreateProjectSlideSheet', ref);
-              }}
-              title={t('views.create_project.title')}
-              components={[
-                {
-                  name: 'CreateProjectStep1',
-                  object: CreateProjectStep1View,
-                },
-                {
-                  name: 'CreateProjectStep2',
-                  object: CreateProjectStep2View,
-                },
-              ]}
-              onDismiss={() => {
-                Router.goBack(props);
-              }}
-            />
+            <View style={styles.slideSheetContainer}>
+              <SlideSheet
+                title={t('views.create_project.title')}
+                components={[
+                  {
+                    name: 'CreateProjectStep1',
+                    object: CreateProjectStep1View,
+                  },
+                  {
+                    name: 'CreateProjectStep2',
+                    object: CreateProjectStep2View,
+                  },
+                ]}
+                didMount={(ref) => {
+                  props.addSlideSheetRef('CreateProjectSlideSheet', ref);
+                }}
+                onDismiss={() => {
+                  Router.goBack(props);
+                }}
+              />
+            </View>
           </SingleTouch>
           {
             /*
