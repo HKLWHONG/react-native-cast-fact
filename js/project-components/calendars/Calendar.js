@@ -52,7 +52,7 @@ class Calendar extends Component {
     super(props);
 
     this.state = {
-      date: undefined,
+      date: props.initialDate,
     };
   }
 
@@ -111,12 +111,14 @@ class Calendar extends Component {
       };
     }
 
-    if (state === 'selected') {
-      dayTextContainerStyle = {
-        ...dayTextContainerStyle,
-        backgroundColor: theme.selectedDayBackgroundColor,
-        borderRadius: 8,
-      };
+    if (!props.disableSelection) {
+      if (date.dateString === this.state.date) {
+        dayTextContainerStyle = {
+          ...dayTextContainerStyle,
+          backgroundColor: theme.selectedDayBackgroundColor,
+          borderRadius: 8,
+        };
+      }
     }
 
     let numberOfPeriods = 0;

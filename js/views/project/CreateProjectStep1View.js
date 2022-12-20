@@ -72,6 +72,8 @@ class CreateProjectStep1View extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.reset();
   };
 
   clearData = () => {
@@ -145,6 +147,8 @@ class CreateProjectStep1View extends BaseComponent {
             }}>
               <SingleTouch
                 onPress={() => {
+                  props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationFrom));
+
                   props.setCalendarModalOnDayPress((date) => {
                     props.updateData({
                       durationFrom: CalendarProcessor.formatDate(new Date(date.dateString)),
@@ -167,6 +171,8 @@ class CreateProjectStep1View extends BaseComponent {
               </View>
               <SingleTouch
                 onPress={() => {
+                  props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationTo));
+
                   props.setCalendarModalOnDayPress((date) => {
                     props.updateData({
                       durationTo: CalendarProcessor.formatDate(new Date(date.dateString)),
@@ -455,7 +461,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(CreateProjectStep1Action.reset(...args)),
     updateData: (...args) => dispatch(CreateProjectStep1Action.updateData(...args)),
+    setCalendarInitialDate: (...args) => dispatch(CalendarModalAction.setInitialDate(...args)),
     setCalendarModalOnDayPress: (...args) => dispatch(CalendarModalAction.setOnDayPress(...args)),
   };
 }

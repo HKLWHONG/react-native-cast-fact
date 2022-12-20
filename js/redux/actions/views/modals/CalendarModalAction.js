@@ -13,6 +13,15 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setInitialDate = (initialDate) => (dispatch) => {
+  dispatch({
+    type: CalendarModalActionType.INITIAL_DATE,
+    initialDate: initialDate,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setOnDayPress = (onDayPress) => (dispatch) => {
   dispatch({
     type: CalendarModalActionType.ON_DAY_PRESS,

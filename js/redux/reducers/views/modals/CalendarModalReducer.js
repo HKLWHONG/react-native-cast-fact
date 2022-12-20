@@ -6,6 +6,7 @@
 import { CommonActionType, CalendarModalActionType } from '../../../types';
 
 const initialState = {
+  initialDate: undefined,
   callbacks: {
     onDayPress: undefined,
   },
@@ -18,6 +19,13 @@ export default function calendarModalReducer(state = initialState, action) {
 
     case CalendarModalActionType.RESET:
       return initialState;
+
+
+    case CalendarModalActionType.INITIAL_DATE:
+      return {
+        ...state,
+        initialDate: action.initialDate,
+      };
 
     case CalendarModalActionType.ON_DAY_PRESS:
       return {

@@ -24,6 +24,7 @@ import {
   Header,
   Body,
   Footer,
+  SingleTouch,
 } from '../../components';
 
 import {
@@ -86,6 +87,7 @@ class CalendarModalView extends BaseComponent {
         {(t) => (
           <Calendar
             style={styles.calendar}
+            initialDate={props.initialDate}
             onDayPress={(date) => {
               console.log('[calendar-modal-view-selected-date]', date);
 
@@ -113,7 +115,18 @@ class CalendarModalView extends BaseComponent {
             style={styles.body}
             scrollable={false}
           >
-            {this.renderCalendarModal()}
+            <SingleTouch
+              type="TouchableWithoutFeedback"
+              onPress={() => {
+                props.setOnDayPress(undefined);
+
+                Router.goBack(props);
+              }}
+            >
+              <View style={styles.calendarContainer}>
+                {this.renderCalendarModal()}
+              </View>
+            </SingleTouch>
           </Body>
         )}
       </Translation>
@@ -158,6 +171,10 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
+  },
+  calendarContainer: {
+    // backgroundColor: '#f00',
+    flex: 1,
     justifyContent: 'center',
   },
   calendar: {
@@ -172,7 +189,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    initialDate: state.calendarModalReducer.initialDate,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
