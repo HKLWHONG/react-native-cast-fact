@@ -93,57 +93,57 @@ class ProjectView extends BaseComponent {
       <Translation>
         {(t) => (
           <Calendar
-            // markedDates={{
-            //   '2022-12-13': {
-            //     periods: [
-            //       {startingDay: true, endingDay: false, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {color: 'transparent'},
-            //     ]
-            //   },
-            //   '2022-12-14': {
-            //     periods: [
-            //       {startingDay: false, endingDay: false, color: 'cyan'},
-            //       {startingDay: true, endingDay: true, color: '#ffa500'},
-            //       {startingDay: true, endingDay: false, color: '#f0e68c'}
-            //     ]
-            //   },
-            //   '2022-12-15': {
-            //     periods: [
-            //       {startingDay: false, endingDay: false, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
-            //     ]
-            //   },
-            //   '2022-12-16': {
-            //     periods: [
-            //       {startingDay: false, endingDay: false, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
-            //     ]
-            //   },
-            //   '2022-12-17': {
-            //     periods: [
-            //       {startingDay: false, endingDay: false, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
-            //     ]
-            //   },
-            //   '2022-12-18': {
-            //     periods: [
-            //       {startingDay: false, endingDay: false, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
-            //     ]
-            //   },
-            //   '2022-12-19': {
-            //     periods: [
-            //       {startingDay: false, endingDay: true, color: 'cyan'},
-            //       {color: 'transparent'},
-            //       {startingDay: false, endingDay: true, color: '#f0e68c'}
-            //     ]
-            //   },
-            // }}
+            markedDates={{
+              '2022-12-13': {
+                periods: [
+                  {startingDay: true, endingDay: false, color: 'cyan'},
+                  {color: 'transparent'},
+                  {color: 'transparent'},
+                ]
+              },
+              '2022-12-14': {
+                periods: [
+                  {startingDay: false, endingDay: false, color: 'cyan'},
+                  {startingDay: true, endingDay: true, color: '#ffa500'},
+                  {startingDay: true, endingDay: false, color: '#f0e68c'}
+                ]
+              },
+              '2022-12-15': {
+                periods: [
+                  {startingDay: false, endingDay: false, color: 'cyan'},
+                  {color: 'transparent'},
+                  {startingDay: false, endingDay: false, color: '#f0e68c'}
+                ]
+              },
+              '2022-12-16': {
+                periods: [
+                  {startingDay: false, endingDay: false, color: 'cyan'},
+                  {color: 'transparent'},
+                  {startingDay: false, endingDay: false, color: '#f0e68c'}
+                ]
+              },
+              '2022-12-17': {
+                periods: [
+                  {startingDay: false, endingDay: false, color: 'cyan'},
+                  {color: 'transparent'},
+                  {startingDay: false, endingDay: false, color: '#f0e68c'}
+                ]
+              },
+              '2022-12-18': {
+                periods: [
+                  {startingDay: false, endingDay: false, color: 'cyan'},
+                  {color: 'transparent'},
+                  {startingDay: false, endingDay: false, color: '#f0e68c'}
+                ]
+              },
+              '2022-12-19': {
+                periods: [
+                  {startingDay: false, endingDay: true, color: 'cyan'},
+                  {color: 'transparent'},
+                  {startingDay: false, endingDay: true, color: '#f0e68c'}
+                ]
+              },
+            }}
             disableSelection
           />
         )}

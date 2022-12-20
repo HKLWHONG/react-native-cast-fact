@@ -3,6 +3,7 @@
  * @flow strict-local
  */
 
+import * as CalendarProcessor from './CalendarProcessor';
 import * as CommonProcessor from './CommonProcessor';
 import * as CriteriaProcessor from './CriteriaProcessor';
 import * as FeedProcessor from './FeedProcessor';
@@ -14,6 +15,7 @@ import * as TagProcessor from './TagProcessor';
 import * as UserProcessor from './UserProcessor';
 
 export {
+  CalendarProcessor,
   CommonProcessor,
   CriteriaProcessor,
   FeedProcessor,

@@ -111,14 +111,12 @@ class Calendar extends Component {
       };
     }
 
-    if (!props.disableSelection) {
-      if (state === 'selected') {
-        dayTextContainerStyle = {
-          ...dayTextContainerStyle,
-          backgroundColor: theme.selectedDayBackgroundColor,
-          borderRadius: 8,
-        };
-      }
+    if (state === 'selected') {
+      dayTextContainerStyle = {
+        ...dayTextContainerStyle,
+        backgroundColor: theme.selectedDayBackgroundColor,
+        borderRadius: 8,
+      };
     }
 
     let numberOfPeriods = 0;
@@ -178,11 +176,8 @@ class Calendar extends Component {
         {(t) => (
           <SingleTouch
             style={styles.dayComponentContainer}
+            disabled={props.disableSelection}
             onPress={() => {
-              if (props.disableSelection) {
-                return;
-              }
-
               console.log('[calendar-selected-date]', date);
 
               this.setState({
@@ -227,57 +222,57 @@ class Calendar extends Component {
             theme={props.theme}
             dayComponent={this.renderDayComponent}
             markingType="multi-period"
-            markedDates={{
-              '2022-12-13': {
-                periods: [
-                  {startingDay: true, endingDay: false, color: 'cyan'},
-                  {color: 'transparent'},
-                  {color: 'transparent'},
-                ]
-              },
-              '2022-12-14': {
-                periods: [
-                  {startingDay: false, endingDay: false, color: 'cyan'},
-                  {startingDay: true, endingDay: true, color: '#ffa500'},
-                  {startingDay: true, endingDay: false, color: '#f0e68c'}
-                ]
-              },
-              '2022-12-15': {
-                periods: [
-                  {startingDay: false, endingDay: false, color: 'cyan'},
-                  {color: 'transparent'},
-                  {startingDay: false, endingDay: false, color: '#f0e68c'}
-                ]
-              },
-              '2022-12-16': {
-                periods: [
-                  {startingDay: false, endingDay: false, color: 'cyan'},
-                  {color: 'transparent'},
-                  {startingDay: false, endingDay: false, color: '#f0e68c'}
-                ]
-              },
-              '2022-12-17': {
-                periods: [
-                  {startingDay: false, endingDay: false, color: 'cyan'},
-                  {color: 'transparent'},
-                  {startingDay: false, endingDay: false, color: '#f0e68c'}
-                ]
-              },
-              '2022-12-18': {
-                periods: [
-                  {startingDay: false, endingDay: false, color: 'cyan'},
-                  {color: 'transparent'},
-                  {startingDay: false, endingDay: false, color: '#f0e68c'}
-                ]
-              },
-              '2022-12-19': {
-                periods: [
-                  {startingDay: false, endingDay: true, color: 'cyan'},
-                  {color: 'transparent'},
-                  {startingDay: false, endingDay: true, color: '#f0e68c'}
-                ]
-              },
-            }}
+            // markedDates={{
+            //   '2022-12-13': {
+            //     periods: [
+            //       {startingDay: true, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {color: 'transparent'},
+            //     ]
+            //   },
+            //   '2022-12-14': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {startingDay: true, endingDay: true, color: '#ffa500'},
+            //       {startingDay: true, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-15': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-16': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-17': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-18': {
+            //     periods: [
+            //       {startingDay: false, endingDay: false, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: false, color: '#f0e68c'}
+            //     ]
+            //   },
+            //   '2022-12-19': {
+            //     periods: [
+            //       {startingDay: false, endingDay: true, color: 'cyan'},
+            //       {color: 'transparent'},
+            //       {startingDay: false, endingDay: true, color: '#f0e68c'}
+            //     ]
+            //   },
+            // }}
             // Initially visible month. Default = now
             initialDate={state.date}
             // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
@@ -346,7 +341,7 @@ const styles = StyleSheet.create({
   },
   dayComponentContainer: {
     // backgroundColor: '#0f0',
-    flex: 1,
+    alignItems: 'center',
     alignSelf: 'stretch',
   },
   dayTextContainer: {
@@ -358,6 +353,7 @@ const styles = StyleSheet.create({
   },
   dayPeriodContainer: {
     // backgroundColor: '#f0f',
+    alignSelf: 'stretch',
   },
   period: {
     flex: 1,

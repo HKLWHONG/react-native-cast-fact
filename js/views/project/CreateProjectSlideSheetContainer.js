@@ -39,6 +39,10 @@ import {
   // ProjectEventList,
 } from '../../project-components';
 
+import {
+  CalendarModalView,
+} from '../../views';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -143,57 +147,19 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
                 onDismiss={() => {
                   Router.goBack(props);
                 }}
-              />
+              >
+                <Stack.Group
+                  screenOptions={{
+                    presentation: 'transparentModal',
+                    headerShown: false,
+                    animationEnabled: false,
+                  }}
+                >
+                  <Stack.Screen name="CalendarModal" component={CalendarModalView} />
+                </Stack.Group>
+              </SlideSheet>
             </View>
           </SingleTouch>
-          {
-            /*
-            <BottomSheet
-              ref={(ref) => {
-                console.log('[test-ref]', ref);
-
-                this.bottomSheetRef = ref;
-              }}
-              handleStyle={{
-                backgroundColor: 'red',
-              }}
-              handleIndicatorStyle={{
-                backgroundColor: 'blue',
-              }}
-              handleComponent={() => {
-                return (
-                  <Text>{'123'}</Text>
-                );
-              }}
-              // index={1}
-              detach={true}
-              snapPoints={['90%']}
-              enablePanDownToClose
-              onChange={useCallback((index: number) => {
-                console.log('handleSheetChanges', index);
-
-                if (index === -1) {
-                  Router.goBack(props);
-                //   this.setModalVisible(false);
-                }
-              }, [])}
-            >
-            <NavigationContainer independent>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                  // animationEnabled: false,
-                }}
-              >
-                <Stack.Group>
-                  <Stack.Screen name="Test2" component={TestView2} />
-                  <Stack.Screen name="Test3" component={TestView3} />
-                </Stack.Group>
-              </Stack.Navigator>
-              </NavigationContainer>
-            </BottomSheet>
-            */
-          }
           </Body>
         )}
       </Translation>
@@ -218,7 +184,7 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Root style={styles.root} backgroundContainerStyle={{ backgroundColor: Theme.colors.background.slideSheet }}>
+          <Root style={styles.root} backgroundContainerStyle={{ backgroundColor: Theme.colors.background.modal }}>
               {this.renderHeader()}
               {this.renderBody()}
               {this.renderFooter()}

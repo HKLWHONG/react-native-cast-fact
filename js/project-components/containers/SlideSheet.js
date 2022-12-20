@@ -160,7 +160,7 @@ class SlideSheet extends Component {
 
     let children = props.children;
 
-    if (!children) {
+    if (!props.customMode) {
       let components = (
         Array(props.components.length)
           .fill()
@@ -195,6 +195,7 @@ class SlideSheet extends Component {
             <Stack.Group>
               {components}
             </Stack.Group>
+            {children}
           </Stack.Navigator>
           </NavigationContainer>
       );
@@ -320,6 +321,7 @@ SlideSheet.propTypes = {
   ]),
   title: PropTypes.string,
   animationEnabled: PropTypes.bool,
+  customMode: PropTypes.bool,
   didMount: PropTypes.func,
   onDismiss: PropTypes.func,
 };
@@ -333,6 +335,7 @@ SlideSheet.defaultProps = {
   snapPoints: ['100%'],
   title: undefined,
   animationEnabled: false,
+  customMode: false,
   didMount: undefined,
   onDismiss: undefined,
 };
