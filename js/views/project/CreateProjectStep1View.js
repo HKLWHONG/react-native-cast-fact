@@ -150,9 +150,7 @@ class CreateProjectStep1View extends BaseComponent {
                   props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationFrom));
 
                   props.setCalendarModalOnDayPress((date) => {
-                    props.updateData({
-                      durationFrom: CalendarProcessor.formatDate(new Date(date.dateString)),
-                    });
+                    props.setDurationFrom(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
                   Router.push(props, 'CalendarModal');
@@ -174,9 +172,7 @@ class CreateProjectStep1View extends BaseComponent {
                   props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationTo));
 
                   props.setCalendarModalOnDayPress((date) => {
-                    props.updateData({
-                      durationTo: CalendarProcessor.formatDate(new Date(date.dateString)),
-                    });
+                    props.setDurationTo(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
                   Router.push(props, 'CalendarModal');
@@ -462,7 +458,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(CreateProjectStep1Action.reset(...args)),
-    updateData: (...args) => dispatch(CreateProjectStep1Action.updateData(...args)),
+    setDurationFrom: (...args) => dispatch(CreateProjectStep1Action.setDurationFrom(...args)),
+    setDurationTo: (...args) => dispatch(CreateProjectStep1Action.setDurationTo(...args)),
     setCalendarInitialDate: (...args) => dispatch(CalendarModalAction.setInitialDate(...args)),
     setCalendarModalOnDayPress: (...args) => dispatch(CalendarModalAction.setOnDayPress(...args)),
   };

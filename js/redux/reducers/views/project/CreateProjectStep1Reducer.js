@@ -22,12 +22,21 @@ export default function createProjectStep1Reducer(state = initialState, action) 
     case CreateProjectStep1ActionType.RESET:
       return initialState;
 
-    case CreateProjectStep1ActionType.DATA:
+    case CreateProjectStep1ActionType.DURATION_FROM:
       return {
         ...state,
         data: {
           ...state.data,
-          ...action.data,
+          durationFrom: action.durationFrom || CalendarProcessor.formatDate(new Date()),
+        },
+      };
+
+    case CreateProjectStep1ActionType.DURATION_TO:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          durationTo: action.durationTo || CalendarProcessor.formatDate(new Date()),
         },
       };
 

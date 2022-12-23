@@ -13,10 +13,19 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const updateData = (data) => (dispatch) => {
+export const setDurationFrom = (durationFrom) => (dispatch) => {
   dispatch({
-    type: CreateProjectStep1ActionType.DATA,
-    data: data,
+    type: CreateProjectStep1ActionType.DURATION_FROM,
+    durationFrom: durationFrom,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setDurationTo = (durationTo) => (dispatch) => {
+  dispatch({
+    type: CreateProjectStep1ActionType.DURATION_TO,
+    durationTo: durationTo,
   });
 
   return Promise.resolve(store.getState());

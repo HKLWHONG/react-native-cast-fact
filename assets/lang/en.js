@@ -16,6 +16,8 @@ const en = {
     location: 'Location',
     type: 'Type',
     notes: 'Notes',
+    overview: 'Overview',
+    availability: 'Availability',
     next: "Next",
     create: "Create",
     follow: 'Follow',
@@ -71,6 +73,8 @@ const en = {
       title: 'Create Project',
       project_information: 'Project Information',
       my_availability: 'My Availability',
+      visibility_on_profile: 'Visibility On Profile',
+      visible_on_profile: 'Visiable On Profile',
     },
     account: {
       header: 'Account',
