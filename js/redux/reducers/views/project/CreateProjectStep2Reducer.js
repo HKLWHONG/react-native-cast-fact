@@ -7,13 +7,13 @@ import { CommonActionType, CreateProjectStep2ActionType } from '../../../types';
 
 import { CalendarProcessor } from '../../../../processors';
 
-function initState() {
+const initState = () => {
   return {
     data: {
       availabilities: [],
     },
   };
-}
+};
 
 export default function createProjectStep2Reducer(state = initState(), action) {
   switch (action.type) {

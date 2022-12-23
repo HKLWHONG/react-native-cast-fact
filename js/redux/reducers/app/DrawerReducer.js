@@ -5,17 +5,19 @@
 
 import { CommonActionType, DrawerActionType } from '../../types';
 
-const initialState = {
-  index: 0,
+const initState = () => {
+  return {
+    index: 0,
+  };
 };
 
-export default function drawerReducer(state = initialState, action) {
+export default function drawerReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case DrawerActionType.RESET:
-      return initialState;
+      return initState();
 
     case DrawerActionType.SELECTION:
       return { ...state, index: action.index };

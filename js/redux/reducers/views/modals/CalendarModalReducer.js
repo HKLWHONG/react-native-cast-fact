@@ -5,20 +5,22 @@
 
 import { CommonActionType, CalendarModalActionType } from '../../../types';
 
-const initialState = {
-  initialDate: undefined,
-  callbacks: {
-    onDayPress: undefined,
-  },
+const initState = () => {
+  return {
+    initialDate: undefined,
+    callbacks: {
+      onDayPress: undefined,
+    },
+  };
 };
 
-export default function calendarModalReducer(state = initialState, action) {
+export default function calendarModalReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case CalendarModalActionType.RESET:
-      return initialState;
+      return initState();
 
 
     case CalendarModalActionType.INITIAL_DATE:

@@ -5,15 +5,17 @@
 
 import { CommonActionType, LaunchActionType } from '../../../types';
 
-const initialState = {};
+const initState = () => {
+  return {};
+};
 
-export default function launchReducer(state = initialState, action) {
+export default function launchReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case LaunchActionType.RESET:
-      return initialState;
+      return initState();
 
     default:
       return state;

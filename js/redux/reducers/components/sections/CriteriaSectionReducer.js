@@ -7,18 +7,20 @@ import { CommonActionType, CriteriaSectionActionType } from '../../../types';
 
 import { CriteriaProcessor } from '../../../../processors';
 
-const initialState = {
-  tags: [],
-  lengthOfResults: 0,
+const initState = () => {
+  return {
+    tags: [],
+    lengthOfResults: 0,
+  };
 };
 
-export default function criteriaSectionReducer(state = initialState, action) {
+export default function criteriaSectionReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case CriteriaSectionActionType.RESET:
-      return initialState;
+      return initState();
 
     case CriteriaSectionActionType.TAGS:
       return {

@@ -5,19 +5,21 @@
 
 import { CommonActionType, DataActionType } from '../../types';
 
-const initialState = {
-  dummyData: [],
-  recentSearchesSectionTags: [],
-  findTalentSectionTags: [],
+const initState = () => {
+  return {
+    dummyData: [],
+    recentSearchesSectionTags: [],
+    findTalentSectionTags: [],
+  };
 };
 
-export default function dataReducer(state = initialState, action) {
+export default function dataReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case DataActionType.RESET:
-      return initialState;
+      return initState();
 
     case DataActionType.DUMMY_DATA:
       return {

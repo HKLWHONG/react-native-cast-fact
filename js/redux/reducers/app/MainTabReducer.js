@@ -5,20 +5,22 @@
 
 import { CommonActionType, MainTabActionType } from '../../types';
 
-const initialState = {
-  index: 0,
-  tapCount: 0,
-  tapTimer: undefined,
-  listRefs: [],
+const initState = () => {
+  return {
+    index: 0,
+    tapCount: 0,
+    tapTimer: undefined,
+    listRefs: [],
+  };
 };
 
-export default function mainTabReducer(state = initialState, action) {
+export default function mainTabReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case MainTabActionType.RESET:
-      return initialState;
+      return initState();
 
     case MainTabActionType.TAP_COUNT:
       return {...state, tapCount: action.tapCount};

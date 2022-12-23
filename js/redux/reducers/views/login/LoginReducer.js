@@ -5,22 +5,24 @@
 
 import { CommonActionType, LoginActionType } from '../../../types';
 
-const initialState = {
-  credentials: {
-    email: undefined,
-    emailMessage: undefined,
-    password: undefined,
-    passwordMessage: undefined,
-  },
+const initState = () => {
+  return {
+    credentials: {
+      email: undefined,
+      emailMessage: undefined,
+      password: undefined,
+      passwordMessage: undefined,
+    },
+  };
 };
 
-export default function loginReducer(state = initialState, action) {
+export default function loginReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case LoginActionType.RESET:
-      return initialState;
+      return initState();
 
     case LoginActionType.CREDENTIALS_EMAIL:
       return {

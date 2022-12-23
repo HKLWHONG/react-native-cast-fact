@@ -7,17 +7,19 @@ import { CommonActionType, FindTalentSectionActionType } from '../../../types';
 
 import { FindTalentProcessor } from '../../../../processors';
 
-const initialState = {
-  tags: [],
-};
+const initState = () => {
+  return {
+    tags: [],
+  };
+}
 
-export default function findTalentSectionReducer(state = initialState, action) {
+export default function findTalentSectionReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case FindTalentSectionActionType.RESET:
-      return initialState;
+      return initState();
 
     case FindTalentSectionActionType.TAGS:
       return {

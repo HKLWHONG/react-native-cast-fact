@@ -5,17 +5,19 @@
 
 import { CommonActionType, ProfileInfoCardActionType } from '../../../types';
 
-const initialState = {
+const initState = () => {
+  return {
 
+  };
 };
 
-export default function profileInfoCardReducer(state = initialState, action) {
+export default function profileInfoCardReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case ProfileInfoCardActionType.RESET:
-      return initialState;
+      return initState();
 
     default:
       return state;

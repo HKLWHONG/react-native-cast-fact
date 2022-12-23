@@ -7,20 +7,22 @@ import { CommonActionType, CreateProjectStep1ActionType } from '../../../types';
 
 import { CalendarProcessor } from '../../../../processors';
 
-const initialState = {
-  data: {
-    durationFrom: CalendarProcessor.formatDate(new Date()),
-    durationTo: CalendarProcessor.formatDate(new Date()),
-  },
+const initState = () => {
+  return {
+    data: {
+      durationFrom: CalendarProcessor.formatDate(new Date()),
+      durationTo: CalendarProcessor.formatDate(new Date()),
+    },
+  };
 };
 
-export default function createProjectStep1Reducer(state = initialState, action) {
+export default function createProjectStep1Reducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case CreateProjectStep1ActionType.RESET:
-      return initialState;
+      return initState();
 
     case CreateProjectStep1ActionType.DURATION_FROM:
       return {

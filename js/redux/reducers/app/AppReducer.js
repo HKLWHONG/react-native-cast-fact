@@ -5,27 +5,29 @@
 
 import { CommonActionType, AppActionType } from '../../types';
 
-const initialState = {
-  activityIndicatorProps: {
-    hidden: true,
-    message: undefined,
-    counter: 0,
-    options: {
-      holder: undefined,
+const initState = () => {
+  return {
+    activityIndicatorProps: {
+      hidden: true,
+      message: undefined,
+      counter: 0,
+      options: {
+        holder: undefined,
+      },
     },
-  },
+  };
 };
 
-export default function appReducer(state = initialState, action) {
+export default function appReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
       return {
-        ...initialState,
+        ...initState(),
         activityIndicatorProps: state.activityIndicatorProps,
       };
 
     case AppActionType.RESET:
-      return initialState;
+      return initState();
 
     case AppActionType.ACTIVITY_INDICATOR:
       let hidden = state.activityIndicatorProps.message;

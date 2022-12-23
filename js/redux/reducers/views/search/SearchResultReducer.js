@@ -5,25 +5,27 @@
 
 import { CommonActionType, SearchResultActionType } from '../../../types';
 
-const initialState = {
-  refreshing: false,
-  searched: false,
-  results: [],
-  feedsPaging: {
-    loading: false,
-    page: 0,
-    length: 30,
-  },
-  feeds: [],
+const initState = () => {
+  return {
+    refreshing: false,
+    searched: false,
+    results: [],
+    feedsPaging: {
+      loading: false,
+      page: 0,
+      length: 30,
+    },
+    feeds: [],
+  };
 };
 
-export default function searchResultReducer(state = initialState, action) {
+export default function searchResultReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case SearchResultActionType.RESET:
-      return initialState;
+      return initState();
 
     case SearchResultActionType.REFRESHING:
       return {

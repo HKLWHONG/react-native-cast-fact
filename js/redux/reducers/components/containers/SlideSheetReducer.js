@@ -5,17 +5,19 @@
 
 import { CommonActionType, SlideSheetActionType } from '../../../types';
 
-const initialState = {
-  refs: {},
+const initState = () => {
+  return {
+    refs: {},
+  };
 };
 
-export default function slideSheetReducer(state = initialState, action) {
+export default function slideSheetReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case SlideSheetActionType.RESET:
-      return initialState;
+      return initState();
 
     case SlideSheetActionType.ADD_REF:
       if (!action.refId) {

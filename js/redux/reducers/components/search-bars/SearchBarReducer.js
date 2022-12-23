@@ -5,17 +5,19 @@
 
 import { CommonActionType, SearchBarActionType } from '../../../types';
 
-const initialState = {
-  text: '',
+const initState = () => {
+  return {
+    text: '',
+  };
 };
 
-export default function searchBarReducer(state = initialState, action) {
+export default function searchBarReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case SearchBarActionType.RESET:
-      return initialState;
+      return initState();
 
     case SearchBarActionType.TEXT:
       return {

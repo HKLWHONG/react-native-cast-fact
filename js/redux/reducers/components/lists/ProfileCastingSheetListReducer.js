@@ -5,17 +5,19 @@
 
 import { CommonActionType, ProfileCastingSheetListActionType } from '../../../types';
 
-const initialState = {
+const initState = () => {
+  return {
 
+  };
 };
 
-export default function profileCastingSheetListReducer(state = initialState, action) {
+export default function profileCastingSheetListReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case ProfileCastingSheetListActionType.RESET:
-      return initialState;
+      return initState();
 
     default:
       return state;

@@ -5,23 +5,25 @@
 
 import { CommonActionType, FeedActionType } from '../../../types';
 
-const initialState = {
-  refreshing: false,
-  feedsPaging: {
-    loading: false,
-    page: 0,
-    length: 30,
-  },
-  feeds: [],
+const initState = () => {
+  return {
+    refreshing: false,
+    feedsPaging: {
+      loading: false,
+      page: 0,
+      length: 30,
+    },
+    feeds: [],
+  };
 };
 
-export default function feedReducer(state = initialState, action) {
+export default function feedReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case FeedActionType.RESET:
-      return initialState;
+      return initState();
 
     case FeedActionType.REFRESHING:
       return {

@@ -5,17 +5,19 @@
 
 import { CommonActionType, FeedListActionType } from '../../../types';
 
-const initialState = {
+const initState = () => {
+  return {
 
+  };
 };
 
-export default function recentSearchesReducer(state = initialState, action) {
+export default function recentSearchesReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case FeedListActionType.RESET:
-      return initialState;
+      return initState();
 
     default:
       return state;

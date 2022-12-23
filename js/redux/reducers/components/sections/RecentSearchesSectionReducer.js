@@ -7,17 +7,19 @@ import { CommonActionType, RecentSearchesSectionActionType } from '../../../type
 
 import { RecentSearchProcessor } from '../../../../processors';
 
-const initialState = {
-  tags: [],
+const initState = () => {
+  return {
+    tags: [],
+  };
 };
 
-export default function recentSearchesSectionReducer(state = initialState, action) {
+export default function recentSearchesSectionReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case RecentSearchesSectionActionType.RESET:
-      return initialState;
+      return initState();
 
     case RecentSearchesSectionActionType.TAGS_RESET:
     {

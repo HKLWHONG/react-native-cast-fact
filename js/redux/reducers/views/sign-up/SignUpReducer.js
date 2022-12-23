@@ -5,31 +5,33 @@
 
 import { CommonActionType, SignUpActionType } from '../../../types';
 
-const initialState = {
-  account: {
-    info: {
-      firstnameEn: undefined,
-      lastnameEn: undefined,
-      firstnameZh: undefined,
-      lastnameZh: undefined,
-      nickname: undefined,
-      phoneCode: '+852',
-      phoneNumber: undefined,
+const initState = () => {
+  return {
+    account: {
+      info: {
+        firstnameEn: undefined,
+        lastnameEn: undefined,
+        firstnameZh: undefined,
+        lastnameZh: undefined,
+        nickname: undefined,
+        phoneCode: '+852',
+        phoneNumber: undefined,
+      },
+      credentials: {
+        email: undefined,
+        password: undefined,
+      },
     },
-    credentials: {
-      email: undefined,
-      password: undefined,
-    },
-  },
+  };
 };
 
-export default function signUpReducer(state = initialState, action) {
+export default function signUpReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
-      return initialState;
+      return initState();
 
     case SignUpActionType.RESET:
-      return initialState;
+      return initState();
 
     case SignUpActionType.ACCOUNT_FIRSTNAME_EN:
       return {
