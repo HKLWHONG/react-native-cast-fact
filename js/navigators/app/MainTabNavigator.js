@@ -97,6 +97,8 @@ class MainTabNavigator extends BaseComponent {
                 &&
                 store.getState().mainTabReducer.listRefs[index].length > routeIndex
                 &&
+                store.getState().mainTabReducer.listRefs[index][routeIndex]
+                &&
                 store.getState().mainTabReducer.listRefs[index][routeIndex].props
                 &&
                 store.getState().mainTabReducer.listRefs[index][routeIndex].props.scrollToPosition

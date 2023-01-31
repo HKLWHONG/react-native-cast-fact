@@ -22,12 +22,14 @@ import {
   Body,
   Footer,
   SingleTouch,
+  Image,
 } from '../../components';
 
 import {
   Button,
   Separator,
   TextInput,
+  Dot,
 } from '../../project-components';
 
 import i18n from '../../../i18n';
@@ -40,6 +42,8 @@ import { Theme, Router } from '../../utils';
 import { TestApi } from '../../apis';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
+
+const preview = require('../../../assets/images/preview/preview.png');
 
 class SignUpView extends BaseComponent {
   constructor(props) {
@@ -293,6 +297,48 @@ class SignUpView extends BaseComponent {
                 props.setPassword(text);
               }}
             />
+            <View style={styles.hintsContainer}>
+              <View style={styles.hintsSubContainer}>
+                <View style={styles.hints}>
+                  <Image
+                    style={styles.hintsImage}
+                    source={preview}
+                    resizeMode="center"
+                  />
+                  <Text style={styles.hintsText}>
+                    {t('12 characters length')}
+                  </Text>
+                </View>
+                <View style={styles.hints}>
+                  <Image
+                    style={styles.hintsImage}
+                    source={preview}
+                    resizeMode="center"
+                  />
+                  <Text style={styles.hintsText}>
+                    {t('1 symbol')}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.hintsSubContainer}>
+                <View style={styles.hints}>
+                  <Image
+                    style={styles.hintsImage}
+                    source={preview}
+                    resizeMode="center"
+                  />
+                  <Text style={styles.hintsText}>
+                    {t('1 lower case')}
+                  </Text>
+                </View>
+                <View style={styles.hints}>
+                  <Dot style={styles.hintsDot}/>
+                  <Text style={styles.hintsText}>
+                    {t('1 upper case')}
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
         )}
       </Translation>
@@ -482,6 +528,30 @@ const styles = StyleSheet.create({
     color: Theme.colors.general.white,
     fontSize: 13,
     fontFamily: Theme.fonts.regular,
+    letterSpacing: 1,
+  },
+  hintsContainer: {},
+  hintsSubContainer: {
+    flexDirection: 'row',
+  },
+  hints: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hintsDot: {
+    marginRight: 8,
+  },
+  hintsImage: {
+    // backgroundColor: '#f00',
+    width: 11,
+    height: 11,
+    marginRight: 8,
+  },
+  hintsText: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.light,
     letterSpacing: 1,
   },
   loginButton: {},
