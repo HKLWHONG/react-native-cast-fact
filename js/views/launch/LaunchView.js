@@ -74,19 +74,29 @@ class LaunchView extends BaseComponent {
         console.error(error);
       });
 
-    AuthStorage.getToken()
-      .then(async () => {
-        await SearchProvider.prefetchRecentSearches(props);
-
-        await FeedProvider.prefetchFeeds(props);
-
+    Promise.all([
+      SearchProvider.prefetchRecentSearches(props),
+      FeedProvider.prefetchFeeds(props),
+    ])
+      .then(() => {
         Router.route(props, 'Main');
-      })
-      .catch((error) => {
-        console.error(error);
-
-        Router.route(props, 'Login');
       });
+
+    //
+
+    // AuthStorage.getToken()
+    //   .then(async () => {
+    //     await SearchProvider.prefetchRecentSearches(props);
+    //
+    //     await FeedProvider.prefetchFeeds(props);
+    //
+    //     Router.route(props, 'Main');
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //
+    //     Router.route(props, 'Login');
+    //   });
   };
 
   clearData = () => {

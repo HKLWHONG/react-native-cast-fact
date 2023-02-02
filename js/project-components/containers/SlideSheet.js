@@ -332,7 +332,7 @@ SlideSheet.defaultProps = {
   style: undefined,
   hidden: false,
   components: [],
-  snapPoints: ['100%'],
+  snapPoints: ['95%'],
   title: undefined,
   animationEnabled: false,
   customMode: false,

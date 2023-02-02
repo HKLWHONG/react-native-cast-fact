@@ -73,7 +73,7 @@ export const route = (props, stack, name) => {
     }),
   );
 
-  if (stack === 'FeedStack') {
+  if (stack === 'SearchStack') {
     store.dispatch(MainTabAction.select(0));
   } else if (stack === 'Stub1Stack') {
     // store.dispatch(MainTabAction.select(1));

@@ -106,7 +106,7 @@ class SearchView extends BaseComponent {
             onPressSearchBar={async () => {
               await SearchProvider.presearch(props);
 
-              Router.push(props, "FeedStack", "SearchResult");
+              Router.push(props, "SearchStack", "SearchResult");
             }}
             enableSearchBar
             enableResultView
@@ -139,7 +139,7 @@ class SearchView extends BaseComponent {
 
               await SearchProvider.presearch(props, {}, { disableAddRecentSearches: true });
 
-              Router.push(props, "FeedStack", "SearchResult");
+              Router.push(props, "SearchStack", "SearchResult");
             }}
           />
         )}

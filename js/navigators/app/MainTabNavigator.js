@@ -23,9 +23,13 @@ import { BaseComponent, Image } from '../../components';
 import { Theme } from '../../utils';
 
 import {
+  AuthStorage,
+} from '../../storages';
+
+import {
   AccountStackNavigator,
-  FeedStackNavigator,
-  InboxStackNavigator,
+  SearchStackNavigator,
+  // InboxStackNavigator,
   ProjectStackNavigator,
 } from '../../navigators';
 
@@ -140,7 +144,7 @@ class MainTabNavigator extends BaseComponent {
         //
         // routes = routes.map((route) => route.name);
         //
-        // Router.route(props, 'FeedStack', routes);
+        // Router.route(props, 'SearchStack', routes);
 
         Router.route(props, stack);
       }
@@ -157,8 +161,8 @@ class MainTabNavigator extends BaseComponent {
            barStyle={styles.bar}
            shifting={false}>
             <Tab.Screen
-              name="FeedStack"
-              component={FeedStackNavigator}
+              name="SearchStack"
+              component={SearchStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -190,86 +194,90 @@ class MainTabNavigator extends BaseComponent {
               }}
               listeners={(params) => ({
                 tabPress: (e) => {
-                  this.tabPress(params, e, { index: 0, stack: 'FeedStack' });
+                  this.tabPress(params, e, { index: 0, stack: 'SearchStack' });
                 },
               })}
             />
-            <Tab.Screen
-              name="InboxStack"
-              component={InboxStackNavigator}
-              options={{
-                tabBarIcon: ({focused}) => {
-                  let dotStyle= {};
+            {
+              /*
+              <Tab.Screen
+                name="InboxStack"
+                component={InboxStackNavigator}
+                options={{
+                  tabBarIcon: ({focused}) => {
+                    let dotStyle= {};
 
-                  // if (focused) {
-                  //   dotStyle = {
-                  //     ...dotStyle,
-                  //     backgroundColor: Theme.colors.general.white,
-                  //   }
-                  // }
+                    // if (focused) {
+                    //   dotStyle = {
+                    //     ...dotStyle,
+                    //     backgroundColor: Theme.colors.general.white,
+                    //   }
+                    // }
 
-                  return (
-                    <ImageBackground
-                      style={styles.background}
-                      imageStyle={styles.iconContainer}
-                      source={focused ? ic_tab_bar_light: undefined}
-                      resizeMode="center"
-                    >
-                      <Image
-                        style={styles.icon}
-                        source={focused ? ic_tab_bar_inbox_focused : ic_tab_bar_inbox}
+                    return (
+                      <ImageBackground
+                        style={styles.background}
+                        imageStyle={styles.iconContainer}
+                        source={focused ? ic_tab_bar_light: undefined}
                         resizeMode="center"
-                      />
-                      <View style={[styles.dot, dotStyle]} />
-                    </ImageBackground>
-                  );
-                },
-                tabBarLabel: t(''),
-              }}
-              listeners={(params) => ({
-                tabPress: (e) => {
-                  this.tabPress(params, e, { index: 1, stack: 'InboxStack' });
-                },
-              })}
-            />
-            <Tab.Screen
-              name="ProjectStack"
-              component={ProjectStackNavigator}
-              options={{
-                tabBarIcon: ({focused}) => {
-                  let dotStyle= {};
+                      >
+                        <Image
+                          style={styles.icon}
+                          source={focused ? ic_tab_bar_inbox_focused : ic_tab_bar_inbox}
+                          resizeMode="center"
+                        />
+                        <View style={[styles.dot, dotStyle]} />
+                      </ImageBackground>
+                    );
+                  },
+                  tabBarLabel: t(''),
+                }}
+                listeners={(params) => ({
+                  tabPress: (e) => {
+                    this.tabPress(params, e, { index: 1, stack: 'InboxStack' });
+                  },
+                })}
+              />
+              <Tab.Screen
+                name="ProjectStack"
+                component={ProjectStackNavigator}
+                options={{
+                  tabBarIcon: ({focused}) => {
+                    let dotStyle= {};
 
-                  // if (focused) {
-                  //   dotStyle = {
-                  //     ...dotStyle,
-                  //     backgroundColor: Theme.colors.general.white,
-                  //   }
-                  // }
+                    // if (focused) {
+                    //   dotStyle = {
+                    //     ...dotStyle,
+                    //     backgroundColor: Theme.colors.general.white,
+                    //   }
+                    // }
 
-                  return (
-                    <ImageBackground
-                      style={styles.background}
-                      imageStyle={styles.iconContainer}
-                      source={focused ? ic_tab_bar_light: undefined}
-                      resizeMode="center"
-                    >
-                      <Image
-                        style={styles.icon}
-                        source={focused ? ic_tab_bar_calendar_focused : ic_tab_bar_calendar}
+                    return (
+                      <ImageBackground
+                        style={styles.background}
+                        imageStyle={styles.iconContainer}
+                        source={focused ? ic_tab_bar_light: undefined}
                         resizeMode="center"
-                      />
-                      <View style={[styles.dot, dotStyle]} />
-                    </ImageBackground>
-                  );
-                },
-                tabBarLabel: t(''),
-              }}
-              listeners={(params) => ({
-                tabPress: (e) => {
-                  this.tabPress(params, e, { index: 2, stack: 'ProjectStack' });
-                },
-              })}
-            />
+                      >
+                        <Image
+                          style={styles.icon}
+                          source={focused ? ic_tab_bar_calendar_focused : ic_tab_bar_calendar}
+                          resizeMode="center"
+                        />
+                        <View style={[styles.dot, dotStyle]} />
+                      </ImageBackground>
+                    );
+                  },
+                  tabBarLabel: t(''),
+                }}
+                listeners={(params) => ({
+                  tabPress: (e) => {
+                    this.tabPress(params, e, { index: 2, stack: 'ProjectStack' });
+                  },
+                })}
+              />
+              */
+            }
             <Tab.Screen
               name="AccountStack"
               component={AccountStackNavigator}
@@ -303,11 +311,102 @@ class MainTabNavigator extends BaseComponent {
                 tabBarLabel: t(''),
               }}
               listeners={(params) => ({
-                tabPress: (e) => {
-                  this.tabPress(params, e, { index: 3, stack: 'AccountStack' });
+                tabPress: async (e) => {
+                  e.preventDefault();
+
+                  AuthStorage.getToken()
+                    .then(() => {
+                      this.tabPress(params, e, { index: 1, stack: 'AccountStack' });
+                    })
+                    .catch((error) => {
+                      console.error(error);
+
+                      Router.push(props, "LoginSlideSheet");
+                    });
                 },
               })}
             />
+            {
+              /*
+              <Tab.Screen
+                name="SettingsStack"
+                component={AccountStackNavigator}
+                options={{
+                  tabBarIcon: ({focused}) => {
+                    let dotStyle= {};
+
+                    // if (focused) {
+                    //   dotStyle = {
+                    //     ...dotStyle,
+                    //     backgroundColor: Theme.colors.general.white,
+                    //   }
+                    // }
+
+                    return (
+                      <ImageBackground
+                        style={styles.background}
+                        imageStyle={styles.iconContainer}
+                        source={focused ? ic_tab_bar_light: undefined}
+                        resizeMode="center"
+                      >
+                        <Image
+                          style={styles.icon}
+                          source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
+                          resizeMode="center"
+                        />
+                        <View style={[styles.dot, dotStyle]} />
+                      </ImageBackground>
+                    );
+                  },
+                  tabBarLabel: t(''),
+                }}
+                listeners={(params) => ({
+                  tabPress: (e) => {
+                    this.tabPress(params, e, { index: 2, stack: 'SettingsStack' });
+                  },
+                })}
+              />
+
+              <Tab.Screen
+                name="ProjectStack"
+                component={ProjectStackNavigator}
+                options={{
+                  tabBarIcon: ({focused}) => {
+                    let dotStyle= {};
+
+                    // if (focused) {
+                    //   dotStyle = {
+                    //     ...dotStyle,
+                    //     backgroundColor: Theme.colors.general.white,
+                    //   }
+                    // }
+
+                    return (
+                      <ImageBackground
+                        style={styles.background}
+                        imageStyle={styles.iconContainer}
+                        source={focused ? ic_tab_bar_light: undefined}
+                        resizeMode="center"
+                      >
+                        <Image
+                          style={styles.icon}
+                          source={focused ? ic_tab_bar_calendar_focused : ic_tab_bar_calendar}
+                          resizeMode="center"
+                        />
+                        <View style={[styles.dot, dotStyle]} />
+                      </ImageBackground>
+                    );
+                  },
+                  tabBarLabel: t(''),
+                }}
+                listeners={(params) => ({
+                  tabPress: (e) => {
+                    this.tabPress(params, e, { index: 3, stack: 'ProjectStack' });
+                  },
+                })}
+              />
+              */
+            }
           </Tab.Navigator>
         )}
       </Translation>

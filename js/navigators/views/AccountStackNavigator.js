@@ -16,7 +16,7 @@ import { BaseComponent } from '../../components';
 
 import { Header } from '../../project-components';
 
-import { ProfileView } from '../../views';
+import { AccountView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
@@ -62,8 +62,8 @@ class AccountStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Profile"
-              component={ProfileView}
+              name="Account"
+              component={AccountView}
               options={{
                 title: t('views.account.header'),
               }}

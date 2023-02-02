@@ -107,6 +107,11 @@ class SearchResultView extends BaseComponent {
       props.resetRecentSearchesTags();
 
       TagProcessor.reload();
+
+      SearchProvider.search(props, { prefetch: true }, {})
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
@@ -368,7 +373,7 @@ class SearchResultView extends BaseComponent {
               if (!ref) {
                 return;
               }
-              
+
               props.setListRef(0, props.navigation.getState().index, ref);
             }}
             contentContainerStyle={styles.listContentContainer}

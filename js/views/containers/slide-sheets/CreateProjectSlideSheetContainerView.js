@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import {
   MainTabAction,
   SlideSheetAction,
-} from '../../redux';
+} from '../../../redux';
 
 import {
   BaseComponent,
@@ -29,7 +29,7 @@ import {
   List,
   FontConstants,
   SingleTouch,
-} from '../../components';
+} from '../../../components';
 
 import {
   SlideSheet,
@@ -37,18 +37,18 @@ import {
   // MyEventsSection,
   // Section,
   // ProjectEventList,
-} from '../../project-components';
+} from '../../../project-components';
 
 import {
   CalendarModalView,
-} from '../../views';
+} from '../../../views';
 
-import i18n from '../../../i18n';
+import i18n from '../../../../i18n';
 import { Translation } from 'react-i18next';
 
-import { AppRegex } from '../../regex';
+import { AppRegex } from '../../../regex';
 
-import { Theme, Router } from '../../utils';
+import { Theme, Router } from '../../../utils';
 
 import BottomSheet from '@gorhom/bottom-sheet';
 
@@ -60,10 +60,10 @@ const Stack = createStackNavigator();
 import {
   CreateProjectStep1View,
   CreateProjectStep2View,
-} from '../../views';
+} from '../../../views';
 
 
-class CreateProjectSlideSheetContainer extends BaseComponent {
+class CreateProjectSlideSheetContainerView extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -184,7 +184,11 @@ class CreateProjectSlideSheetContainer extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Root style={styles.root} backgroundContainerStyle={{ backgroundColor: Theme.colors.background.modal }}>
+          <Root
+            style={styles.root}
+            backgroundContainerStyle={{ backgroundColor: Theme.colors.background.modal }}
+            safeArea={false}
+          >
               {this.renderHeader()}
               {this.renderBody()}
               {this.renderFooter()}
@@ -225,4 +229,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectSlideSheetContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectSlideSheetContainerView);

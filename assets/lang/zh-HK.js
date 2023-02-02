@@ -4,6 +4,8 @@ const zhHK = {
   app: {
     loading: '加載中',
     login: '登入',
+    forgotPassword: '忘記密碼',
+    create_account: 'Create Account',
     sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
@@ -37,6 +39,9 @@ const zhHK = {
     }
   },
   views: {
+    welcome: {
+      login_hint: 'Existing user?',
+    },
     login: {
       email_label: '電郵地址',
       password_label: '密碼',
@@ -56,7 +61,7 @@ const zhHK = {
       header: 'Cast Fact',
     },
     search: {
-      header: 'Search',
+      header: 'Cast Fact',
       result_format: 'More than {0} results.',
     },
     search_result: {

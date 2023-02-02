@@ -4,6 +4,8 @@ const en = {
   app: {
     loading: 'Loading',
     login: 'Login',
+    forgotPassword: 'Forgot Password',
+    create_account: 'Create Account',
     sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
@@ -37,6 +39,9 @@ const en = {
     }
   },
   views: {
+    welcome: {
+      login_hint: 'Existing user?',
+    },
     login: {
       email_label: 'Email',
       password_label: 'Password',
@@ -57,7 +62,7 @@ const en = {
       header: 'Cast Fact',
     },
     search: {
-      header: 'Search',
+      header: 'Cast Fact',
       result_format: 'More than {0} results.',
     },
     search_result: {

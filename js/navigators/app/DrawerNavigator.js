@@ -23,7 +23,10 @@ import { Translation } from 'react-i18next';
 
 import { Router } from '../../utils';
 
-import { CreateProjectSlideSheetContainer } from '../../views';
+import {
+  LoginSlideSheetContainerView,
+  CreateProjectSlideSheetContainerView,
+} from '../../views';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -70,7 +73,7 @@ class DrawerNavigator extends BaseComponent {
                 props.selectDrawer(0);
                 props.selectTab(0);
 
-                Router.route(props, 'FeedStack');
+                Router.route(props, 'SearchStack');
               }}
             />
           </Body>
@@ -126,7 +129,8 @@ class DrawerNavigator extends BaseComponent {
             animationEnabled: false,
           }}
         >
-          <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainer} />
+          <Stack.Screen name="LoginSlideSheet" component={LoginSlideSheetContainerView} />
+          <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainerView} />
         </Stack.Group>
       </Stack.Navigator>
     );

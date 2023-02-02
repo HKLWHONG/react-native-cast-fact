@@ -224,59 +224,40 @@ class LoginView extends BaseComponent {
               //   return;
               // }
 
-              // AuthProvider.login(props, {
-              //   email: 'user001@gmail.com', //props.credentials.loginID,
-              //   password: 'password', //props.credentials.password,
-              // })
-              //   .then(async () => {
-              //     // if (
-              //     //   props.pushNoticationProps.token &&
-              //     //   props.pushNoticationProps.token.length
-              //     // ) {
-              //     //   await UserProvider.updateToken(props, {
-              //     //     deviceToken: props.pushNoticationProps.token,
-              //     //   }).catch((error) => {
-              //     //     console.error(error);
-              //     //   });
-              //     // } else {
-              //     //   console.log(
-              //     //     '[login-view-update-token-bypassed] Token not found.',
-              //     //   );
-              //     // }
-              //     //
-              //
-              //     await SearchProvider.prefetchRecentSearches(props);
-              //
-              //     await FeedProvider.prefetchFeeds(props);
-              //
-              //     Router.route(props, 'Main');
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //
-              //     // props.hideActivityIndicator({
-              //     //   holder: ActivityIndicatorHolders.LOGIN,
-              //     // });
-              //   });
-            }}
-          />
-        )}
-      </Translation>
-    );
-  };
+              AuthProvider.login(props, {
+                email: 'user001@gmail.com', //props.credentials.loginID,
+                password: 'password', //props.credentials.password,
+              })
+                .then(async () => {
+                  // if (
+                  //   props.pushNoticationProps.token &&
+                  //   props.pushNoticationProps.token.length
+                  // ) {
+                  //   await UserProvider.updateToken(props, {
+                  //     deviceToken: props.pushNoticationProps.token,
+                  //   }).catch((error) => {
+                  //     console.error(error);
+                  //   });
+                  // } else {
+                  //   console.log(
+                  //     '[login-view-update-token-bypassed] Token not found.',
+                  //   );
+                  // }
+                  //
 
-  renderForgotPasswordButton = () => {
-    const { props } = this;
+                  await SearchProvider.prefetchRecentSearches(props);
 
-    return (
-      <Translation>
-        {(t) => (
-          <Button
-            style={styles.forgotPasswordButton}
-            textStyle={styles.forgotPasswordButtonText}
-            text={t('app.forgotPassword')}
-            onPress={() => {
+                  await FeedProvider.prefetchFeeds(props);
 
+                  Router.route(props, 'Main');
+                })
+                .catch((error) => {
+                  console.error(error);
+
+                  // props.hideActivityIndicator({
+                  //   holder: ActivityIndicatorHolders.LOGIN,
+                  // });
+                });
             }}
           />
         )}
@@ -339,7 +320,6 @@ class LoginView extends BaseComponent {
           <Body style={styles.body}>
             {this.renderTextInputs()}
             {this.renderLoginButton()}
-            {this.renderForgotPasswordButton()}
             {/* this.renderSeparator() */}
             {/* this.renderOtherLoginButtons() */}
           </Body>
@@ -354,7 +334,23 @@ class LoginView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Footer style={styles.footer} />
+          <Footer style={styles.footer}>
+            <SingleTouch
+              style={styles.createAccountContainer}
+              onPress={() => {
+                Router.push(props, "SignUp");
+              }}
+            >
+              <View style={styles.createAccountSubContainer}>
+                <Text style={styles.createAccountHint}>
+                  {t('views.login.create_account_hint')}
+                </Text>
+                <Text style={styles.createAccount}>
+                  {t('views.login.create_account')}
+                </Text>
+              </View>
+            </SingleTouch>
+          </Footer>
         )}
       </Translation>
     );
@@ -392,6 +388,7 @@ const styles = StyleSheet.create({
   },
   headerBackground: {
     // backgroundColor: '#00f',
+    marginTop: 87,
     marginLeft: 16,
   },
   headerText: {
@@ -408,6 +405,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
+    marginTop: 32,
   },
   textInput: {
     marginBottom: 16,
@@ -417,15 +415,6 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginTop: 16,
-  },
-  forgotPasswordButton: {
-    backgroundColor: Theme.colors.general.transparent,
-  },
-  forgotPasswordButtonText: {
-    color: Theme.colors.text.subtitle,
-    fontSize: 13,
-    fontFamily: Theme.fonts.bold,
-    letterSpacing: 1,
   },
   otherLoginButtonContainer: {
     // backgroundColor: '#0f0',
@@ -442,6 +431,31 @@ const styles = StyleSheet.create({
   },
   footer: {
     // backgroundColor: '#f00',
+  },
+  createAccountContainer: {
+    // backgroundColor: '#f00',
+  },
+  createAccountSubContainer: {
+    backgroundColor: Theme.colors.background.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 64,
+  },
+  createAccountHint: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1.7,
+    marginVertical: 8,
+  },
+  createAccount: {
+    color: Theme.colors.general.white,
+    fontSize: 17,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    marginVertical: 8,
   },
 });
 

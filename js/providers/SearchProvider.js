@@ -39,72 +39,80 @@ import {
 
 const IDENTIFIER = 'SearchProvider';
 
-export const prefetchRecentSearches = async (props, params, options) => {
-  // let page = 1;
+export const prefetchRecentSearches = (props, params, options) => {
+  return new Promise(async (resolve) => {
+    // let page = 1;
 
-  let cachedRecentSearches = await SearchStorage.getRecentSearches()
-    .catch((error) => {
-      console.error(error);
-    });
-
-  if (cachedRecentSearches) {
-    console.log(`[${IDENTIFIER}] cached-recent-searches-found.`);
-
-    store.dispatch(DataAction.setRecentSearchesSectionTags(cachedRecentSearches));
-
-    RecentSearchProcessor.reload();
-
-    getRecentSearches(
-      props,
-      {
-        // page: page,
-        // length: Environment.MAX_RECENT_SEARCHES_NUM,
-      },
-      options,
-    )
-      .then((params) => {
-        const { json } = params;
-
-        SearchStorage.setRecentSearches(json.payload)
-          .catch((error) => {
-            console.error(error);
-          });
-
-        if (JSON.stringify(cachedRecentSearches) !== JSON.stringify(json.payload)) {
-          console.log(`[${IDENTIFIER}] need-to-reload-recent-searches.`);
-
-          RecentSearchProcessor.reload();
-        } else {
-          console.log(`[${IDENTIFIER}] no-need-to-reload-recent-searches.`);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  } else {
-    console.log(`[${IDENTIFIER}] no-cached-recent-searches.`);
-
-    params = await getRecentSearches(
-      props,
-      {
-        // page: page,
-        // length: Environment.MAX_RECENT_SEARCHES_NUM,
-      },
-      options,
-    )
+    let cachedRecentSearches = await SearchStorage.getRecentSearches()
       .catch((error) => {
         console.error(error);
       });
 
-    if (params && params.json && params.json.payload) {
-      SearchStorage.setRecentSearches(params.json.payload)
+    if (cachedRecentSearches) {
+      console.log(`[${IDENTIFIER}] cached-recent-searches-found.`);
+
+      store.dispatch(DataAction.setRecentSearchesSectionTags(cachedRecentSearches));
+
+      RecentSearchProcessor.reload();
+
+      getRecentSearches(
+        props,
+        {
+          // page: page,
+          // length: Environment.MAX_RECENT_SEARCHES_NUM,
+        },
+        options,
+      )
+        .then((params) => {
+          const { json } = params;
+
+          SearchStorage.setRecentSearches(json.payload)
+            .catch((error) => {
+              console.error(error);
+            });
+
+          if (JSON.stringify(cachedRecentSearches) !== JSON.stringify(json.payload)) {
+            console.log(`[${IDENTIFIER}] need-to-reload-recent-searches.`);
+
+            RecentSearchProcessor.reload();
+          } else {
+            console.log(`[${IDENTIFIER}] no-need-to-reload-recent-searches.`);
+          }
+
+          resolve();
+        })
+        .catch((error) => {
+          console.error(error);
+
+          resolve();
+        });
+    } else {
+      console.log(`[${IDENTIFIER}] no-cached-recent-searches.`);
+
+      params = await getRecentSearches(
+        props,
+        {
+          // page: page,
+          // length: Environment.MAX_RECENT_SEARCHES_NUM,
+        },
+        options,
+      )
         .catch((error) => {
           console.error(error);
         });
 
-      RecentSearchProcessor.reload();
+      if (params && params.json && params.json.payload) {
+        SearchStorage.setRecentSearches(params.json.payload)
+          .catch((error) => {
+            console.error(error);
+          });
+
+        RecentSearchProcessor.reload();
+      }
+
+      resolve();
     }
-  }
+  });
 };
 
 export const getRecentSearches = (props, params, options) => {
