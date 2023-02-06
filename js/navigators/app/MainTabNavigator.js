@@ -326,47 +326,48 @@ class MainTabNavigator extends BaseComponent {
                 },
               })}
             />
+            <Tab.Screen
+              name="SettingsStack"
+              component={AccountStackNavigator}
+              options={{
+                tabBarIcon: ({focused}) => {
+                  let dotStyle= {};
+
+                  // if (focused) {
+                  //   dotStyle = {
+                  //     ...dotStyle,
+                  //     backgroundColor: Theme.colors.general.white,
+                  //   }
+                  // }
+
+                  return (
+                    <ImageBackground
+                      style={styles.background}
+                      imageStyle={styles.iconContainer}
+                      source={focused ? ic_tab_bar_light: undefined}
+                      resizeMode="center"
+                    >
+                      <Image
+                        style={styles.icon}
+                        source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
+                        resizeMode="center"
+                      />
+                      <View style={[styles.dot, dotStyle]} />
+                    </ImageBackground>
+                  );
+                },
+                tabBarLabel: t(''),
+              }}
+              listeners={(params) => ({
+                tabPress: (e) => {
+                  e.preventDefault();
+
+                  Router.push(props, "SettingsSlideSheet");
+                },
+              })}
+            />
             {
               /*
-              <Tab.Screen
-                name="SettingsStack"
-                component={AccountStackNavigator}
-                options={{
-                  tabBarIcon: ({focused}) => {
-                    let dotStyle= {};
-
-                    // if (focused) {
-                    //   dotStyle = {
-                    //     ...dotStyle,
-                    //     backgroundColor: Theme.colors.general.white,
-                    //   }
-                    // }
-
-                    return (
-                      <ImageBackground
-                        style={styles.background}
-                        imageStyle={styles.iconContainer}
-                        source={focused ? ic_tab_bar_light: undefined}
-                        resizeMode="center"
-                      >
-                        <Image
-                          style={styles.icon}
-                          source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
-                          resizeMode="center"
-                        />
-                        <View style={[styles.dot, dotStyle]} />
-                      </ImageBackground>
-                    );
-                  },
-                  tabBarLabel: t(''),
-                }}
-                listeners={(params) => ({
-                  tabPress: (e) => {
-                    this.tabPress(params, e, { index: 2, stack: 'SettingsStack' });
-                  },
-                })}
-              />
-
               <Tab.Screen
                 name="ProjectStack"
                 component={ProjectStackNavigator}

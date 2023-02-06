@@ -7,6 +7,7 @@ import { CommonActionType, LoginActionType } from '../../../types';
 
 const initState = () => {
   return {
+    refs: {},
     credentials: {
       email: undefined,
       emailMessage: undefined,
@@ -23,6 +24,15 @@ export default function loginReducer(state = initState(), action) {
 
     case LoginActionType.RESET:
       return initState();
+
+    case LoginActionType.ADD_REF:
+      if (!action.refId) {
+        return state;
+      }
+
+      state.refs[action.refId] = action.refObject;
+
+      return state;
 
     case LoginActionType.CREDENTIALS_EMAIL:
       return {

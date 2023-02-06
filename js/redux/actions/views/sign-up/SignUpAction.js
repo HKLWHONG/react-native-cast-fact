@@ -13,6 +13,16 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const addRef = (refId, refObject) => (dispatch) => {
+  dispatch({
+    type: SignUpActionType.ADD_REF,
+    refId: refId,
+    refObject: refObject,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setFirstnameEn = (firstnameEn) => (dispatch) => {
   dispatch({
     type: SignUpActionType.ACCOUNT_FIRSTNAME_EN,

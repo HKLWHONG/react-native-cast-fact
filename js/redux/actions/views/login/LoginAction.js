@@ -13,6 +13,16 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const addRef = (refId, refObject) => (dispatch) => {
+  dispatch({
+    type: LoginActionType.ADD_REF,
+    refId: refId,
+    refObject: refObject,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setEmail = (email) => (dispatch) => {
   dispatch({
     type: LoginActionType.CREDENTIALS_EMAIL,

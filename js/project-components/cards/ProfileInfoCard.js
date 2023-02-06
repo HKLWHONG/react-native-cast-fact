@@ -86,8 +86,8 @@ class ProfileInfoCard extends Component {
               <Button
                 style={styles.button}
                 type="small"
-                rightAccessorySource={preview}
                 text={t('EDIT PROFILE')}
+                leftAccessorySource={preview}
                 resizeMode="center"
                 onPress={() => {
                   if (!props.onPressCalendar) {

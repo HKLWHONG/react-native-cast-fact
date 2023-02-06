@@ -24,8 +24,9 @@ import { Translation } from 'react-i18next';
 import { Router } from '../../utils';
 
 import {
-  LoginSlideSheetContainerView,
   CreateProjectSlideSheetContainerView,
+  LoginSlideSheetContainerView,
+  SettingsSlideSheetContainerView,
 } from '../../views';
 
 const Drawer = createDrawerNavigator();
@@ -129,8 +130,9 @@ class DrawerNavigator extends BaseComponent {
             animationEnabled: false,
           }}
         >
-          <Stack.Screen name="LoginSlideSheet" component={LoginSlideSheetContainerView} />
           <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainerView} />
+          <Stack.Screen name="LoginSlideSheet" component={LoginSlideSheetContainerView} />
+          <Stack.Screen name="SettingsSlideSheet" component={SettingsSlideSheetContainerView} />
         </Stack.Group>
       </Stack.Navigator>
     );

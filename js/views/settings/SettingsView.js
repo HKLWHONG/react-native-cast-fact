@@ -22,22 +22,21 @@ import {
   Body,
   Footer,
   List,
+  Image,
 } from '../../components';
 
 import {
-
+  Button,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-// const background = require('../../../assets/images/project_background.png');
+const preview = require('../../../assets/images/preview/preview.png');
 
 class SettingsView extends BaseComponent {
   constructor(props) {
@@ -78,209 +77,61 @@ class SettingsView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
+  renderItem = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.itemContainer}>
+            <Button
+              style={styles.button}
+              textStyle={styles.buttonText}
+              text={item.text}
+              alignment="left"
+              leftAccessorySource={item.source}
+              resizeMode="center"
+              onPress={() => {
+                console.log(`[on-press] ${item.text}`)
+              }}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
 
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
+    let sections = [
+      {
+        title: i18n.t(''),
+        data: [
+          {
+            source: preview,
+            text: i18n.t('Change Profile Picture'),
+          },
+          {
+            source: preview,
+            text: i18n.t('Edit Display Name'),
+          },
+          {
+            source: preview,
+            text: i18n.t('Edit Profile'),
+          },
+          {
+            source: preview,
+            text: i18n.t('Change Password'),
+          },
+          {
+            source: preview,
+            text: i18n.t('Logout'),
+          },
+        ],
+      },
+    ];
 
     return (
       <Translation>
@@ -290,30 +141,11 @@ class SettingsView extends BaseComponent {
             scrollable={false}
           >
           {
-            /*
             <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
               renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
             />
-            */
           }
           </Body>
         )}
@@ -357,6 +189,25 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
+  },
+  itemContainer: {
+    // backgroundColor: '#0f0',
+  },
+  button: {
+    // backgroundColor: "#f00",
+    backgroundColor: Theme.colors.general.transparent,
+  },
+  buttonText: {
+    // color: Theme.colors.general.white,
+    // fontSize: 17,
+    // fontFamily: Theme.fonts.bold,
+    // letterSpacing: 2.22,
+    // textTransform: 'uppercase',
+  },
+  image: {
+    // backgroundColor: '#0f0',
+    width: 40,
+    height: 40,
   },
   footer: {
     // backgroundColor: '#f00',

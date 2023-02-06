@@ -7,6 +7,7 @@ import { CommonActionType, SignUpActionType } from '../../../types';
 
 const initState = () => {
   return {
+    refs: {},
     account: {
       info: {
         firstnameEn: undefined,
@@ -32,6 +33,15 @@ export default function signUpReducer(state = initState(), action) {
 
     case SignUpActionType.RESET:
       return initState();
+
+    case SignUpActionType.ADD_REF:
+      if (!action.refId) {
+        return state;
+      }
+
+      state.refs[action.refId] = action.refObject;
+
+      return state;
 
     case SignUpActionType.ACCOUNT_FIRSTNAME_EN:
       return {

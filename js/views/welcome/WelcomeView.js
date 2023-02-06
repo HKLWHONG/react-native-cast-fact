@@ -80,191 +80,87 @@ class WelcomeView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
+  renderTitleContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>
+              {t('views.welcome.title')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderDescriptionContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.descriptionText1}>
+              {t('views.welcome.description_1')}
+            </Text>
+            <Text style={styles.descriptionText2}>
+              {t('views.welcome.description_2')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderSubtitleContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>
+              {t('views.welcome.subtitle')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderButtonContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.buttonContainer}>
+            <Button
+              style={[styles.button, { marginBottom: 4 }]}
+              textStyle={styles.buttonText}
+              text={t('views.welcome.digital_cast_sheet')}
+              description={t('views.welcome.digital_cast_sheet_description')}
+              leftAccessorySource={preview}
+              resizeMode="center"
+              disabled
+            />
+            <Button
+              style={[styles.button, { marginTop: 4 }]}
+              textStyle={styles.buttonText}
+              text={t('views.welcome.searchable_profile')}
+              description={t('views.welcome.searchable_profile_description')}
+              leftAccessorySource={preview}
+              resizeMode="center"
+              disabled
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
 
   renderCreateAccountButton = () => {
     const { props } = this;
@@ -276,7 +172,7 @@ class WelcomeView extends BaseComponent {
             style={styles.createAccountButton}
             text={t('app.create_account')}
             onPress={() => {
-
+              Router.push(props, "SignUp");
             }}
           />
         )}
@@ -287,21 +183,6 @@ class WelcomeView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
-
     return (
       <Translation>
         {(t) => (
@@ -309,187 +190,11 @@ class WelcomeView extends BaseComponent {
             style={styles.body}
             scrollable={false}
           >
-            <View
-              style={{
-                backgroundColor: '#f00',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 36,
-                }}
-              >
-                {t('Hello!')}
-              </Text>
-            </View>
-
-
-
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                }}
-              >
-                {t('Welcome to CAST FACT')}
-              </Text>
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 15,
-                  textAlign: 'center',
-                  marginHorizontal: 48,
-                }}
-              >
-                {t('We have prepared an artisit profile for you.')}
-              </Text>
-            </View>
-
-
-
-            <View
-              style={{
-                backgroundColor: '#0ff',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textAlign: 'center',
-                  marginHorizontal: 80,
-                }}
-              >
-                {t('Create your profile to enjoy the features.')}
-              </Text>
-            </View>
-
-
-
-            <View
-              style={{
-                backgroundColor: '#f00',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginHorizontal: 48,
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={preview}
-                resizeMode="center"
-              />
-              <View
-                style={{
-                  backgroundColor: 'orange',
-                  flex: 1,
-                  marginLeft: 8,
-                }}
-              >
-                <Text
-                  style={{
-                    backgroundColor: '#00f',
-                    color: '#fff',
-                    fontSize: 17,
-                  }}
-                >
-                  {'Digital CAST SHEET'}
-                </Text>
-                <Text
-                  style={{
-                    backgroundColor: '#00f',
-                    color: '#fff',
-                    fontSize: 15,
-                  }}
-                >
-                  {'Digital profile for you.'}
-                </Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#f00',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginHorizontal: 48,
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={preview}
-                resizeMode="center"
-              />
-              <View
-                style={{
-                  backgroundColor: 'orange',
-                  flex: 1,
-                  marginLeft: 8,
-                }}
-              >
-                <Text
-                  style={{
-                    backgroundColor: '#00f',
-                    color: '#fff',
-                    fontSize: 17,
-                  }}
-                >
-                  {'Searchable Profile'}
-                </Text>
-                <Text
-                  style={{
-                    backgroundColor: '#00f',
-                    color: '#fff',
-                    fontSize: 15,
-                  }}
-                >
-                  {'Discoverable for all.'}
-                </Text>
-              </View>
-            </View>
-
-          {this.renderCreateAccountButton()}
-
-          {
-            /*
-            <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
-            />
-            */
-          }
+            {this.renderTitleContainer()}
+            {this.renderDescriptionContainer()}
+            {this.renderSubtitleContainer()}
+            {this.renderButtonContainer()}
+            {this.renderCreateAccountButton()}
           </Body>
         )}
       </Translation>
@@ -516,21 +221,19 @@ class WelcomeView extends BaseComponent {
                 <Text style={styles.login}>
                   {t('app.login')}
                 </Text>
-
                 <Separator style={styles.separator}/>
-
                 <View style={styles.redeemAccountContainer}>
                   <View style={styles.redeemAccountSubContainer}>
                     <Text style={styles.redeemAccountText}>
-                      {'or '}
+                      {t('views.welcome.redeem_text_1')}
                     </Text>
                     <SingleTouch style={styles.redeemAccountButton}>
                       <Text style={styles.redeemAccountButtonText}>
-                        {'Redeem'}
+                        {t('views.welcome.redeem')}
                       </Text>
                     </SingleTouch>
                     <Text style={styles.redeemAccountText}>
-                      {' your account.'}
+                      {t('views.welcome.redeem_text_2')}
                     </Text>
                   </View>
                 </View>
@@ -578,10 +281,69 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 32,
   },
-  image: {
-    // backgroundColor: '#0f0',
-    width: 40,
-    height: 40,
+  titleContainer: {
+    // backgroundColor: '#f00',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  title: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 36,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 8,
+    textTransform: 'uppercase',
+  },
+  descriptionContainer: {
+    // backgroundColor: '#ff0',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  descriptionText1: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 17,
+    fontFamily: Theme.fonts.medium,
+    letterSpacing: 1,
+  },
+  descriptionText2: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1,
+    textAlign: 'center',
+    marginHorizontal: 80,
+  },
+  subtitleContainer: {
+    // backgroundColor: '#0ff',
+    alignItems: 'center',
+    marginTop: 32,
+    marginBottom: 8,
+  },
+  subtitle: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 0,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    marginHorizontal: 64,
+  },
+  buttonContainer: {
+    // backgroundColor: '#f00',
+    marginTop: 8,
+    marginBottom: 32,
+  },
+  button: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.general.transparent,
+  },
+  buttonText: {
+    // color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.medium,
   },
   createAccountButton: {
     marginTop: 16,
@@ -635,9 +397,9 @@ const styles = StyleSheet.create({
   },
   redeemAccountButton: {},
   redeemAccountButtonText: {
-    color: Theme.colors.general.white,
+    color: Theme.colors.text.subtitle,
     fontSize: 13,
-    fontFamily: Theme.fonts.regular,
+    fontFamily: Theme.fonts.bold,
     letterSpacing: 1,
   },
 });

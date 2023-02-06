@@ -40,7 +40,7 @@ import {
 } from '../../../project-components';
 
 import {
-  CalendarModalView,
+  SettingsView,
 } from '../../../views';
 
 import i18n from '../../../../i18n';
@@ -57,13 +57,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 const Stack = createStackNavigator();
 
-import {
-  CreateProjectStep1View,
-  CreateProjectStep2View,
-} from '../../../views';
-
-
-class CreateProjectSlideSheetContainerView extends BaseComponent {
+class SettingsSlideSheetContainerView extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -121,46 +115,34 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs.CreateProjectSlideSheet) {
+              if (!props.slideSheetRefs.SettingsSlideSheet) {
                 return;
               }
 
-              props.slideSheetRefs.CreateProjectSlideSheet.close();
+              props.slideSheetRefs.SettingsSlideSheet.close();
             }}
           >
             <View style={styles.slideSheetContainer}>
               <SlideSheet
-                title={t('views.create_project.title')}
+                title={t('views.settings.header')}
                 components={[
                   {
-                    name: 'CreateProjectStep1',
-                    object: CreateProjectStep1View,
-                  },
-                  {
-                    name: 'CreateProjectStep2',
-                    object: CreateProjectStep2View,
+                    name: 'Settings',
+                    object: SettingsView,
                   },
                 ]}
                 didMount={(ref) => {
                   if (!ref) {
                     return;
                   }
-                  
-                  props.addSlideSheetRef('CreateProjectSlideSheet', ref);
+
+                  props.addSlideSheetRef('SettingsSlideSheet', ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);
                 }}
+                // animationEnabled
               >
-                <Stack.Group
-                  screenOptions={{
-                    presentation: 'transparentModal',
-                    headerShown: false,
-                    animationEnabled: false,
-                  }}
-                >
-                  <Stack.Screen name="CalendarModal" component={CalendarModalView} />
-                </Stack.Group>
               </SlideSheet>
             </View>
           </SingleTouch>
@@ -233,4 +215,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectSlideSheetContainerView);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsSlideSheetContainerView);

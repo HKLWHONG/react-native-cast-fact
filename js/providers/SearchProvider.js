@@ -373,7 +373,7 @@ export const search = (props, params, options) => {
 
         numberOfFinsihedTasks += 1;
 
-        if (tasks === numberOfFinsihedTasks) {
+        if (numberOfTasks === numberOfFinsihedTasks) {
           resolve(error);
         } else {
           searchApiError = error;

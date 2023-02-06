@@ -40,7 +40,19 @@ const en = {
   },
   views: {
     welcome: {
+      title: 'Hello!',
+      description_1: 'Welcome to CAST FACT',
+      description_2: 'We have prepared an artisit profile to you.',
+      subtitle: 'Create Your Profile To Enjoy The Features.',
+      digital_cast_sheet: 'Digital Cast Sheet',
+      digital_cast_sheet_description: 'Digital profile for you.',
+      searchable_profile: 'Sarchable Profile',
+      searchable_profile_description: 'Discoverable for all.',
+      create_account: 'Create Account',
       login_hint: 'Existing user?',
+      redeem_text_1: 'or ',
+      redeem: 'Redeem',
+      redeem_text_2: ' your account.',
     },
     login: {
       email_label: 'Email',
@@ -86,6 +98,9 @@ const en = {
     },
     profile: {
       header: 'Profile',
+    },
+    settings: {
+      header: 'Settings',
     },
   },
   providers: {

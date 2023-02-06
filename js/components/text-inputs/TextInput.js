@@ -103,6 +103,7 @@ export default class TextInput extends Component {
     return (
       <RNTextInput
         {...props}
+        ref={props.innerRef}
         style={[styles.textInput, style, props.textInputStyle]}
         value={props.value}
         placeholder={props.placeholder}

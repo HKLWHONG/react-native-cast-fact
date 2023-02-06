@@ -80,6 +80,10 @@ class LoginView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
+    if (props.refs.EmailTextField) {
+      props.refs.EmailTextField.focus();
+    }
+
     // props.setEmail('user001@gmail.com');
     // props.setPassword('password');
   };
@@ -182,6 +186,13 @@ class LoginView extends BaseComponent {
         {(t) => (
           <View>
             <TextInput
+              innerRef={(ref) => {
+                if (!ref) {
+                  return;
+                }
+
+                props.addRef('EmailTextField', ref);
+              }}
               style={styles.textInput}
               label={t('views.login.email_label')}
               value={props.credentials.email}
@@ -447,6 +458,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
+    refs: state.loginReducer.refs,
     credentials: state.loginReducer.credentials,
   };
 }
@@ -454,6 +466,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(LoginAction.reset(...args)),
+    addRef: (...args) => dispatch(LoginAction.addRef(...args)),
     setEmail: (...args) => dispatch(LoginAction.setEmail(...args)),
     setEmailMessage: (...args) => dispatch(LoginAction.setEmailMessage(...args)),
     setPassword: (...args) => dispatch(LoginAction.setPassword(...args)),

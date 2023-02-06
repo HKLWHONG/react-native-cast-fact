@@ -3,6 +3,10 @@
  * @flow strict-local
  */
 
+import SignUpAccountTypeSelectionView from './SignUpAccountTypeSelectionView';
 import SignUpView from './SignUpView';
 
-export { SignUpView };
+export {
+  SignUpAccountTypeSelectionView,
+   SignUpView,
+};

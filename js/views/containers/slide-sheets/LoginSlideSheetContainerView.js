@@ -40,7 +40,15 @@ import {
 } from '../../../project-components';
 
 import {
-  CalendarModalView,
+  LoginView,
+  WelcomeView,
+  SignUpView,
+  SignUpAccountTypeSelectionView,
+  ProfilePictureSelectionView,
+  ProfileNameEditionView,
+  ProfileNameDisplaySelectionView,
+  ProfileCastSheetEditionView,
+  ProfileCompletionView,
 } from '../../../views';
 
 import i18n from '../../../../i18n';
@@ -56,12 +64,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
-
-import {
-  LoginView,
-  WelcomeView,
-} from '../../../views';
-
 
 class LoginSlideSheetContainerView extends BaseComponent {
   constructor(props) {
@@ -140,8 +142,40 @@ class LoginSlideSheetContainerView extends BaseComponent {
                     name: 'Login',
                     object: LoginView,
                   },
+                  {
+                    name: 'SignUp',
+                    object: SignUpView,
+                  },
+                  {
+                    name: 'SignUpAccountTypeSelection',
+                    object: SignUpAccountTypeSelectionView,
+                  },
+                  {
+                    name: 'ProfilePictureSelection',
+                    object: ProfilePictureSelectionView,
+                  },
+                  {
+                    name: 'ProfileNameEdition',
+                    object: ProfileNameEditionView,
+                  },
+                  {
+                    name: 'ProfileNameDisplaySelection',
+                    object: ProfileNameDisplaySelectionView,
+                  },
+                  {
+                    name: 'ProfileCastSheetEdition',
+                    object: ProfileCastSheetEditionView,
+                  },
+                  {
+                    name: 'ProfileCompletion',
+                    object: ProfileCompletionView,
+                  },
                 ]}
                 didMount={(ref) => {
+                  if (!ref) {
+                    return;
+                  }
+
                   props.addSlideSheetRef('LoginSlideSheet', ref);
                 }}
                 onDismiss={() => {
