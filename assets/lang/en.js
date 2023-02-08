@@ -55,12 +55,14 @@ const en = {
       redeem_text_2: ' your account.',
     },
     login: {
+      header: '',
       email_label: 'Email',
       password_label: 'Password',
       create_account_hint: 'New user?',
       create_account: 'Create Account',
     },
     sign_up: {
+      header: '',
       firstname_en_label: 'First Name',
       lastname_en_label: 'Last Name',
       firstname_zh_label: '中文名字',

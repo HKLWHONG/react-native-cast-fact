@@ -282,11 +282,11 @@ class ProfileCompletionView extends BaseComponent {
               source={preview}
               text={t('Camera')}
               onPress={() => {
-                if (!props.slideSheetRefs.LoginSlideSheet) {
+                if (!props.slideSheetRefs.WelcomeSlideSheet) {
                   return;
                 }
 
-                props.slideSheetRefs.LoginSlideSheet.close();
+                props.slideSheetRefs.WelcomeSlideSheet.close();
               }}
             />
             <Button
@@ -294,11 +294,11 @@ class ProfileCompletionView extends BaseComponent {
               source={preview}
               text={t('Photos')}
               onPress={() => {
-                if (!props.slideSheetRefs.LoginSlideSheet) {
+                if (!props.slideSheetRefs.WelcomeSlideSheet) {
                   return;
                 }
 
-                props.slideSheetRefs.LoginSlideSheet.close();
+                props.slideSheetRefs.WelcomeSlideSheet.close();
               }}
             />
           </View>

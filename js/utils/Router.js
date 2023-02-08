@@ -14,8 +14,6 @@ import { store, MainTabAction } from '../redux';
 const config = {
   coreStacks: [
     'Launch',
-    'Login',
-    'SignUp',
     'Main',
   ],
 };

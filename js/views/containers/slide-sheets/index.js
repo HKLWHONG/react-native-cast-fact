@@ -4,11 +4,11 @@
  */
 
 import CreateProjectSlideSheetContainerView from './CreateProjectSlideSheetContainerView';
-import LoginSlideSheetContainerView from './LoginSlideSheetContainerView';
 import SettingsSlideSheetContainerView from './SettingsSlideSheetContainerView';
+import WelcomeSlideSheetContainerView from './WelcomeSlideSheetContainerView';
 
 export {
   CreateProjectSlideSheetContainerView,
-  LoginSlideSheetContainerView,
   SettingsSlideSheetContainerView,
+  WelcomeSlideSheetContainerView,
 };

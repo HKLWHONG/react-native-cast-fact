@@ -159,7 +159,8 @@ class MainTabNavigator extends BaseComponent {
         {(t) => (
           <Tab.Navigator
            barStyle={styles.bar}
-           shifting={false}>
+           shifting={false}
+          >
             <Tab.Screen
               name="SearchStack"
               component={SearchStackNavigator}
@@ -321,7 +322,7 @@ class MainTabNavigator extends BaseComponent {
                     .catch((error) => {
                       console.error(error);
 
-                      Router.push(props, "LoginSlideSheet");
+                      Router.push(props, "WelcomeSlideSheet");
                     });
                 },
               })}

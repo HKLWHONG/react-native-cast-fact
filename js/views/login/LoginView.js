@@ -80,7 +80,11 @@ class LoginView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    if (props.refs.EmailTextField) {
+    if (
+      props.refs.EmailTextField
+      &&
+      !props.refs.EmailTextField.isFocused()
+    ) {
       props.refs.EmailTextField.focus();
     }
 
@@ -230,6 +234,16 @@ class LoginView extends BaseComponent {
             text={t('app.login')}
             onPress={() => {
               console.log('[credentials] ', props.credentials);
+
+              Router.goBack(props);
+
+              if (!props.slideSheetRefs.WelcomeSlideSheet) {
+                return;
+              }
+
+              props.slideSheetRefs.WelcomeSlideSheet.close();
+
+              Router.jumpTo(props, 'AccountStack');
 
               // if (!this.validateAll()) {
               //   return;
@@ -460,6 +474,7 @@ function mapStateToProps(state) {
   return {
     refs: state.loginReducer.refs,
     credentials: state.loginReducer.credentials,
+    slideSheetRefs: state.slideSheetReducer.refs,
   };
 }
 

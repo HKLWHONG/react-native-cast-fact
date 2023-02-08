@@ -67,7 +67,11 @@ class SignUpView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    if (props.refs.EmailTextField) {
+    if (
+      props.refs.EmailTextField
+      &&
+      !props.refs.EmailTextField.isFocused()
+    ) {
       props.refs.EmailTextField.focus();
     }
   };

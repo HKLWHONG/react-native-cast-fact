@@ -40,6 +40,8 @@ import {
 } from '../../../project-components';
 
 import {
+  CreateProjectStep1View,
+  CreateProjectStep2View,
   CalendarModalView,
 } from '../../../views';
 
@@ -56,12 +58,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
-
-import {
-  CreateProjectStep1View,
-  CreateProjectStep2View,
-} from '../../../views';
-
 
 class CreateProjectSlideSheetContainerView extends BaseComponent {
   constructor(props) {
@@ -145,7 +141,7 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
                   if (!ref) {
                     return;
                   }
-                  
+
                   props.addSlideSheetRef('CreateProjectSlideSheet', ref);
                 }}
                 onDismiss={() => {

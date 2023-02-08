@@ -40,15 +40,15 @@ import {
 } from '../../../project-components';
 
 import {
-  LoginView,
+  // LoginView,
   WelcomeView,
-  SignUpView,
-  SignUpAccountTypeSelectionView,
-  ProfilePictureSelectionView,
-  ProfileNameEditionView,
-  ProfileNameDisplaySelectionView,
-  ProfileCastSheetEditionView,
-  ProfileCompletionView,
+  // SignUpView,
+  // SignUpAccountTypeSelectionView,
+  // ProfilePictureSelectionView,
+  // ProfileNameEditionView,
+  // ProfileNameDisplaySelectionView,
+  // ProfileCastSheetEditionView,
+  // ProfileCompletionView,
 } from '../../../views';
 
 import i18n from '../../../../i18n';
@@ -65,7 +65,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 const Stack = createStackNavigator();
 
-class LoginSlideSheetContainerView extends BaseComponent {
+class WelcomeSlideSheetContainerView extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -90,6 +90,8 @@ class LoginSlideSheetContainerView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.addSlideSheetProps('WelcomeSlideSheet', props);
   };
 
   clearData = () => {
@@ -123,11 +125,11 @@ class LoginSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs.LoginSlideSheet) {
+              if (!props.slideSheetRefs.WelcomeSlideSheet) {
                 return;
               }
 
-              props.slideSheetRefs.LoginSlideSheet.close();
+              props.slideSheetRefs.WelcomeSlideSheet.close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -138,45 +140,45 @@ class LoginSlideSheetContainerView extends BaseComponent {
                     name: 'Welcome',
                     object: WelcomeView,
                   },
-                  {
-                    name: 'Login',
-                    object: LoginView,
-                  },
-                  {
-                    name: 'SignUp',
-                    object: SignUpView,
-                  },
-                  {
-                    name: 'SignUpAccountTypeSelection',
-                    object: SignUpAccountTypeSelectionView,
-                  },
-                  {
-                    name: 'ProfilePictureSelection',
-                    object: ProfilePictureSelectionView,
-                  },
-                  {
-                    name: 'ProfileNameEdition',
-                    object: ProfileNameEditionView,
-                  },
-                  {
-                    name: 'ProfileNameDisplaySelection',
-                    object: ProfileNameDisplaySelectionView,
-                  },
-                  {
-                    name: 'ProfileCastSheetEdition',
-                    object: ProfileCastSheetEditionView,
-                  },
-                  {
-                    name: 'ProfileCompletion',
-                    object: ProfileCompletionView,
-                  },
+                  // {
+                  //   name: 'Login',
+                  //   object: LoginView,
+                  // },
+                  // {
+                  //   name: 'SignUp',
+                  //   object: SignUpView,
+                  // },
+                  // {
+                  //   name: 'SignUpAccountTypeSelection',
+                  //   object: SignUpAccountTypeSelectionView,
+                  // },
+                  // {
+                  //   name: 'ProfilePictureSelection',
+                  //   object: ProfilePictureSelectionView,
+                  // },
+                  // {
+                  //   name: 'ProfileNameEdition',
+                  //   object: ProfileNameEditionView,
+                  // },
+                  // {
+                  //   name: 'ProfileNameDisplaySelection',
+                  //   object: ProfileNameDisplaySelectionView,
+                  // },
+                  // {
+                  //   name: 'ProfileCastSheetEdition',
+                  //   object: ProfileCastSheetEditionView,
+                  // },
+                  // {
+                  //   name: 'ProfileCompletion',
+                  //   object: ProfileCompletionView,
+                  // },
                 ]}
                 didMount={(ref) => {
                   if (!ref) {
                     return;
                   }
 
-                  props.addSlideSheetRef('LoginSlideSheet', ref);
+                  props.addSlideSheetRef('WelcomeSlideSheet', ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);
@@ -252,7 +254,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addSlideSheetRef: (...args) => dispatch(SlideSheetAction.addRef(...args)),
+    addSlideSheetProps: (...args) => dispatch(SlideSheetAction.addProps(...args)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginSlideSheetContainerView);
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeSlideSheetContainerView);

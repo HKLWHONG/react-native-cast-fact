@@ -144,7 +144,7 @@ class WelcomeView extends BaseComponent {
               text={t('views.welcome.digital_cast_sheet')}
               description={t('views.welcome.digital_cast_sheet_description')}
               leftAccessorySource={preview}
-              resizeMode="center"
+              leftAccessoryResizeMode="center"
               disabled
             />
             <Button
@@ -153,7 +153,7 @@ class WelcomeView extends BaseComponent {
               text={t('views.welcome.searchable_profile')}
               description={t('views.welcome.searchable_profile_description')}
               leftAccessorySource={preview}
-              resizeMode="center"
+              leftAccessoryResizeMode="center"
               disabled
             />
           </View>
@@ -172,7 +172,7 @@ class WelcomeView extends BaseComponent {
             style={styles.createAccountButton}
             text={t('app.create_account')}
             onPress={() => {
-              Router.push(props, "SignUp");
+              Router.push(props.slideSheetPropsList.WelcomeSlideSheet, "SignUpStack");
             }}
           />
         )}
@@ -211,7 +211,7 @@ class WelcomeView extends BaseComponent {
             <SingleTouch
               style={styles.loginContainer}
               onPress={() => {
-                Router.push(props, "Login");
+                Router.push(props.slideSheetPropsList.WelcomeSlideSheet, "LoginStack");
               }}
             >
               <View style={styles.loginSubContainer}>
@@ -405,7 +405,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    slideSheetPropsList: state.slideSheetReducer.propsList,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

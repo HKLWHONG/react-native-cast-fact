@@ -55,12 +55,14 @@ const zhHK = {
       redeem_text_2: ' your account.',
     },
     login: {
+      header: '',
       email_label: '電郵地址',
       password_label: '密碼',
       create_account_hint: 'New user?',
       create_account: 'Create Account',
     },
     sign_up: {
+      header: '',
       firstname_en_label: 'First Name',
       lastname_en_label: 'Last Name',
       firstname_zh_label: '中文名字',

@@ -16,7 +16,11 @@ import { BaseComponent, Root, Header, Body, Footer, Image } from '../../componen
 
 import { DrawerItem } from '../../project-components';
 
-import MainTabNavigator from './MainTabNavigator';
+import {
+  MainTabNavigator,
+  LoginStackNavigator,
+  SignUpStackNavigator,
+} from '../../navigators';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -25,8 +29,8 @@ import { Router } from '../../utils';
 
 import {
   CreateProjectSlideSheetContainerView,
-  LoginSlideSheetContainerView,
   SettingsSlideSheetContainerView,
+  WelcomeSlideSheetContainerView,
 } from '../../views';
 
 const Drawer = createDrawerNavigator();
@@ -121,7 +125,8 @@ class DrawerNavigator extends BaseComponent {
         screenOptions={{
           headerShown: false,
           animationEnabled: false,
-        }}>
+        }}
+      >
         <Stack.Screen name="MainTab" component={MainTabNavigator} />
         <Stack.Group
           screenOptions={{
@@ -131,7 +136,9 @@ class DrawerNavigator extends BaseComponent {
           }}
         >
           <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainerView} />
-          <Stack.Screen name="LoginSlideSheet" component={LoginSlideSheetContainerView} />
+          <Stack.Screen name="WelcomeSlideSheet" component={WelcomeSlideSheetContainerView} />
+          <Stack.Screen name="LoginStack" component={LoginStackNavigator} />
+          <Stack.Screen name="SignUpStack" component={SignUpStackNavigator} />
           <Stack.Screen name="SettingsSlideSheet" component={SettingsSlideSheetContainerView} />
         </Stack.Group>
       </Stack.Navigator>

@@ -91,7 +91,7 @@ class SettingsView extends BaseComponent {
               text={item.text}
               alignment="left"
               leftAccessorySource={item.source}
-              resizeMode="center"
+              leftAccessoryResizeMode="center"
               onPress={() => {
                 console.log(`[on-press] ${item.text}`)
               }}
@@ -189,6 +189,9 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
+  },
+  listContentContainer: {
+    padding: 16,
   },
   itemContainer: {
     // backgroundColor: '#0f0',

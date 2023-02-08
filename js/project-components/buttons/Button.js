@@ -89,14 +89,60 @@ class Button extends Component {
 
     let style = {};
 
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'small'.toLowerCase()
+    ) {
+      style = {
+        ...style,
+        marginRight: 4,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
-          <View style={styles.leftAccessoryImageContainer}>
+          <View style={[styles.leftAccessoryImageContainer, style]}>
             <Image
               style={[styles.leftAccessoryImage, props.leftAccessoryImageStyle]}
               source={props.leftAccessorySource}
-              resizeMode={props.resizeMode}
+              resizeMode={props.leftAccessoryResizeMode}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderRightAccessoryIfNeeded = () => {
+    const { props } = this;
+
+    if (!props.rightAccessorySource) {
+      return;
+    }
+
+    let style = {};
+
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'small'.toLowerCase()
+    ) {
+      style = {
+        ...style,
+        marginLeft: 4,
+      };
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={[styles.rightAccessoryImageContainer, style]}>
+            <Image
+              style={[styles.rightAccessoryImage, props.rightAccessoryImageStyle]}
+              source={props.rightAccessorySource}
+              resizeMode={props.rightAccessoryResizeMode}
             />
           </View>
         )}
@@ -112,13 +158,6 @@ class Button extends Component {
     }
 
     let style = {};
-
-    if (!props.source) {
-      style = {
-        ...style,
-        marginLeft: 16,
-      };
-    }
 
     if (
       props.type &&
@@ -162,13 +201,6 @@ class Button extends Component {
     }
 
     let style = {};
-
-    if (!props.source) {
-      style = {
-        ...style,
-        marginLeft: 16,
-      };
-    }
 
     if (
       props.type &&
@@ -281,6 +313,7 @@ class Button extends Component {
                 {this.renderTextIfNeeded()}
                 {this.renderDescriptionIfNeeded()}
               </View>
+              {this.renderRightAccessoryIfNeeded()}
             </View>
           </SingleTouch>
         )}
@@ -331,9 +364,17 @@ const styles = StyleSheet.create({
   },
   leftAccessoryImageContainer: {
     // backgroundColor: '#0f0',
-    marginRight: 2,
+    marginRight: 16,
   },
   leftAccessoryImage: {
+    width: 21,
+    height: 21,
+  },
+  rightAccessoryImageContainer: {
+    // backgroundColor: '#0f0',
+    marginLeft: 16,
+  },
+  rightAccessoryImage: {
     width: 21,
     height: 21,
   },
@@ -362,6 +403,8 @@ Button.propTypes = {
     PropTypes.number,
   ]),
   resizeMode: PropTypes.string,
+  leftAccessoryResizeMode: PropTypes.string,
+  rightAccessoryResizeMode: PropTypes.string,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
 };
@@ -373,6 +416,7 @@ Button.defaultProps = {
   textStyle: undefined,
   imageStyle: undefined,
   leftAccessoryImageStyle: undefined,
+  rightAccessoryImageStyle: undefined,
   hidden: false,
   type: undefined,
   text: undefined,
@@ -380,7 +424,10 @@ Button.defaultProps = {
   alignment: undefined,
   source: undefined,
   leftAccessorySource: undefined,
+  rightAccessorySource: undefined,
   resizeMode: "contain",
+  leftAccessoryResizeMode: "contain",
+  rightAccessoryResizeMode: "contain",
   disabled: false,
   onPress: undefined,
 };

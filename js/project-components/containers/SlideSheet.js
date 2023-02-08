@@ -13,8 +13,11 @@ import { connect } from 'react-redux';
 
 import { Image, SingleTouch } from '../../components';
 
+import { Button } from '../../project-components';
+
 import { Theme } from '../../utils';
 
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -41,13 +44,25 @@ class SlideSheet extends Component {
     const { props } = this;
     const { navigation, route, options, back } = params;
 
+    if (props.renderLeftContainer) {
+      return props.renderLeftContainer();
+    }
+
     let children = (
       <View style={styles.leftImage} />
     );
 
     let enabled = navigation.getState().index > 0;
 
-    if (enabled) {
+    if (
+      (
+        !props.leftButtonHidden
+        &&
+        props.leftButtonHidden !== undefined
+      )
+      ||
+      enabled
+    ) {
       children = (
         <Image
           style={styles.leftImage}
@@ -78,12 +93,22 @@ class SlideSheet extends Component {
   renderCenterContainer = (params) => {
     const { props } = this;
 
+    if (props.renderCenterContainer) {
+      return props.renderCenterContainer();
+    }
+
+    let title = props.title;
+
+    if (props.titleHidden) {
+      title = '';
+    }
+
     return (
       <Translation>
         {(t) => (
           <View style={styles.centerContainer}>
             <Text style={styles.title}>
-              {props.title}
+              {title}
             </Text>
           </View>
         )}
@@ -93,16 +118,58 @@ class SlideSheet extends Component {
 
   renderRightContainer = (params) => {
     const { props } = this;
+    const { navigation, route, options, back } = params;
+
+    if (props.renderRightContainer) {
+      return props.renderRightContainer();
+    }
+
+    let children = (
+      <View style={styles.image} />
+    );
+
+    let enabled = navigation.getState().index > 0;
+
+    if (
+      (
+        !props.rightButtonHidden
+        &&
+        props.rightButtonHidden !== undefined
+      )
+      ||
+      !enabled
+    ) {
+      if (
+        props.rightButtonType
+        &&
+        props.rightButtonType.toLowerCase() === 'next'.toLowerCase()
+      ) {
+        children = (
+          <Button
+            buttonStyle={styles.rightButton}
+            textStyle={styles.rightButtonText}
+            type="small"
+            text={i18n.t('app.next')}
+            rightAccessorySource={preview}
+            rightAccessoryResizeMode="center"
+          />
+        );
+      } else {
+        children = (
+          <Image
+            style={styles.image}
+            source={preview}
+            resizeMode="center"
+          />
+        );
+      }
+    }
 
     return (
       <Translation>
         {(t) => (
           <View style={styles.rightContainer}>
-            <Image
-              style={styles.image}
-              source={preview}
-              resizeMode="center"
-            />
+            {children}
           </View>
         )}
       </Translation>
@@ -197,7 +264,7 @@ class SlideSheet extends Component {
             </Stack.Group>
             {children}
           </Stack.Navigator>
-          </NavigationContainer>
+        </NavigationContainer>
       );
     }
 
@@ -302,6 +369,16 @@ const styles = StyleSheet.create({
     height: 13,
     marginHorizontal: 4,
   },
+  rightButton: {
+    // backgroundColor: '#f00',
+  },
+  rightButtonText: {
+    // color: Theme.colors.general.white,
+    fontSize: 13,
+    // fontFamily: Theme.fonts.bold,
+    letterSpacing: 2.22,
+    // textTransform: 'uppercase',
+  },
 });
 
 SlideSheet.propTypes = {
@@ -312,6 +389,14 @@ SlideSheet.propTypes = {
   ]),
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  titleHidden: PropTypes.bool,
+  leftButtonHidden: PropTypes.bool,
+  rightButtonHidden: PropTypes.bool,
+  leftButtonType: PropTypes.string,
+  rightButtonType: PropTypes.string,
+  renderLeftContainer: PropTypes.func,
+  renderCenterContainer: PropTypes.func,
+  renderRightContainer: PropTypes.func,
   components: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
   ]),
@@ -331,6 +416,14 @@ SlideSheet.defaultProps = {
   children: undefined,
   style: undefined,
   hidden: false,
+  titleHidden: false,
+  leftButtonHidden: undefined,
+  rightButtonHidden: undefined,
+  leftButtonType: undefined,
+  rightButtonType: undefined,
+  renderLeftContainer: undefined,
+  renderCenterContainer: undefined,
+  renderRightContainer: undefined,
   components: [],
   snapPoints: ['95%'],
   title: undefined,

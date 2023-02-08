@@ -22,3 +22,13 @@ export const addRef = (refId, refObject) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const addProps = (propsId, propsObject) => (dispatch) => {
+  dispatch({
+    type: SlideSheetActionType.ADD_PROPS,
+    propsId: propsId,
+    propsObject: propsObject,
+  });
+
+  return Promise.resolve(store.getState());
+};

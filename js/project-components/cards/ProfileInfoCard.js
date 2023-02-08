@@ -88,7 +88,7 @@ class ProfileInfoCard extends Component {
                 type="small"
                 text={t('EDIT PROFILE')}
                 leftAccessorySource={preview}
-                resizeMode="center"
+                leftAccessoryResizeMode="center"
                 onPress={() => {
                   if (!props.onPressCalendar) {
                     return;

@@ -8,6 +8,7 @@ import { CommonActionType, SlideSheetActionType } from '../../../types';
 const initState = () => {
   return {
     refs: {},
+    propsList: {},
   };
 };
 
@@ -25,6 +26,15 @@ export default function slideSheetReducer(state = initState(), action) {
       }
 
       state.refs[action.refId] = action.refObject;
+
+      return state;
+
+    case SlideSheetActionType.ADD_PROPS:
+      if (!action.propsId) {
+        return state;
+      }
+
+      state.propsList[action.propsId] = action.propsObject;
 
       return state;
 
