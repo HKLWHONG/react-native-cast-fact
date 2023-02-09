@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { store, DrawerActionType } from '../../../redux';
+import { store, DrawerActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({

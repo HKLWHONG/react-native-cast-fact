@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { CommonActionType, DrawerActionType } from '../../types';
+import { CommonActionType, DrawerActionType } from '../../../types';
 
 const initState = () => {
   return {

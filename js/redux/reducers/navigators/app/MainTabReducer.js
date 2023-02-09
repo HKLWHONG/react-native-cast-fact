@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { CommonActionType, MainTabActionType } from '../../types';
+import { CommonActionType, MainTabActionType } from '../../../types';
 
 const initState = () => {
   return {

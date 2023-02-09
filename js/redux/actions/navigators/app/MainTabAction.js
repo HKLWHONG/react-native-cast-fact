@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { store, MainTabActionType } from '../../../redux';
+import { store, MainTabActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({

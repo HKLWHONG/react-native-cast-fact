@@ -19,9 +19,12 @@ import {
   Button,
 } from '../../project-components';
 
-import { SignUpView } from '../../views';
+import {
+  SignUpView,
+  SignUpAccountTypeSelectionView,
+} from '../../views';
 
-import { Theme } from '../../utils';
+import { Theme, Router } from '../../utils';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -71,6 +74,9 @@ class SignUpStackNavigator extends BaseComponent {
                           text={i18n.t('app.next')}
                           rightAccessorySource={preview}
                           rightAccessoryResizeMode="center"
+                          onPress={() => {
+                            Router.push(props, "SignUpAccountTypeSelection");
+                          }}
                         />
                       );
                     }}
@@ -93,6 +99,13 @@ class SignUpStackNavigator extends BaseComponent {
             <Stack.Screen
               name="SignUp"
               component={SignUpView}
+              options={{
+                title: t('views.sign_up.header'),
+              }}
+            />
+            <Stack.Screen
+              name="SignUpAccountTypeSelection"
+              component={SignUpAccountTypeSelectionView}
               options={{
                 title: t('views.sign_up.header'),
               }}

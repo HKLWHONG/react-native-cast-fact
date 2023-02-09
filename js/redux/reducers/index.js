@@ -8,8 +8,6 @@ import { combineReducers } from 'redux';
 import {
   appReducer,
   dataReducer,
-  drawerReducer,
-  mainTabReducer,
 } from './app';
 
 import {
@@ -22,6 +20,12 @@ import {
   findTalentSectionReducer,
   recentSearchesSectionReducer,
 } from './components';
+
+import {
+  drawerReducer,
+  mainTabReducer,
+  signUpStackNavigatorReducer,
+} from './navigators';
 
 import {
   feedReducer,
@@ -39,8 +43,6 @@ const reducers = combineReducers({
   // app
   appReducer,
   dataReducer,
-  drawerReducer,
-  mainTabReducer,
 
   // components
   profileInfoCardReducer,
@@ -51,6 +53,11 @@ const reducers = combineReducers({
   criteriaSectionReducer,
   findTalentSectionReducer,
   recentSearchesSectionReducer,
+
+  // navigators
+  drawerReducer,
+  mainTabReducer,
+  signUpStackNavigatorReducer,
 
   // views
   feedReducer,
