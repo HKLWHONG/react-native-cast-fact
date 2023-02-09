@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SignUpAccountTypeSelectionAction, MainTabAction } from '../../redux';
+import { SignUpAccountTypeSelectionAction, MainTabNavigatorAction } from '../../redux';
 
 import {
   BaseComponent,

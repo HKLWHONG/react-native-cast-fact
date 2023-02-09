@@ -7,7 +7,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { connect } from 'react-redux';
-import { DrawerAction, MainTabAction } from '../../redux';
+import { DrawerNavigatorAction, MainTabNavigatorAction } from '../../redux';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -201,8 +201,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectDrawer: (...args) => dispatch(DrawerAction.select(...args)),
-    selectTab: (...args) => dispatch(MainTabAction.select(...args)),
+    selectDrawer: (...args) => dispatch(DrawerNavigatorAction.select(...args)),
+    selectTab: (...args) => dispatch(MainTabNavigatorAction.select(...args)),
   };
 }
 

@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   store,
-  LoginAction,
+  LoginViewAction,
 } from '../../redux';
 
 import {
@@ -461,17 +461,17 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    credentials: state.loginReducer.credentials,
+    credentials: state.loginViewReducer.credentials,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(LoginAction.reset(...args)),
-    setEmail: (...args) => dispatch(LoginAction.setEmail(...args)),
-    setEmailMessage: (...args) => dispatch(LoginAction.setEmailMessage(...args)),
-    setPassword: (...args) => dispatch(LoginAction.setPassword(...args)),
-    setPasswordMessage: (...args) => dispatch(LoginAction.setPasswordMessage(...args)),
+    reset: (...args) => dispatch(LoginViewAction.reset(...args)),
+    setEmail: (...args) => dispatch(LoginViewAction.setEmail(...args)),
+    setEmailMessage: (...args) => dispatch(LoginViewAction.setEmailMessage(...args)),
+    setPassword: (...args) => dispatch(LoginViewAction.setPassword(...args)),
+    setPasswordMessage: (...args) => dispatch(LoginViewAction.setPasswordMessage(...args)),
   };
 }
 

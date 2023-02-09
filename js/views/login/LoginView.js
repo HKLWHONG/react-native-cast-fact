@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   store,
-  LoginAction,
+  LoginViewAction,
 } from '../../redux';
 
 import {
@@ -470,20 +470,20 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    refs: state.loginReducer.refs,
-    credentials: state.loginReducer.credentials,
+    refs: state.loginViewReducer.refs,
+    credentials: state.loginViewReducer.credentials,
     slideSheetRefs: state.slideSheetReducer.refs,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(LoginAction.reset(...args)),
-    addRef: (...args) => dispatch(LoginAction.addRef(...args)),
-    setEmail: (...args) => dispatch(LoginAction.setEmail(...args)),
-    setEmailMessage: (...args) => dispatch(LoginAction.setEmailMessage(...args)),
-    setPassword: (...args) => dispatch(LoginAction.setPassword(...args)),
-    setPasswordMessage: (...args) => dispatch(LoginAction.setPasswordMessage(...args)),
+    reset: (...args) => dispatch(LoginViewAction.reset(...args)),
+    addRef: (...args) => dispatch(LoginViewAction.addRef(...args)),
+    setEmail: (...args) => dispatch(LoginViewAction.setEmail(...args)),
+    setEmailMessage: (...args) => dispatch(LoginViewAction.setEmailMessage(...args)),
+    setPassword: (...args) => dispatch(LoginViewAction.setPassword(...args)),
+    setPasswordMessage: (...args) => dispatch(LoginViewAction.setPasswordMessage(...args)),
   };
 }
 

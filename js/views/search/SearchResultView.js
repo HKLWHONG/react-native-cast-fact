@@ -9,8 +9,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   store,
-  SearchResultAction,
-  MainTabAction,
+  SearchResultViewAction,
+  MainTabNavigatorAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
@@ -81,7 +81,7 @@ class SearchResultView extends BaseComponent {
 
     // props.setFeeds(props.feeds);
 
-    console.log('[search-result-page]', store.getState().searchResultReducer.feedsPaging.page);
+    console.log('[search-result-page]', store.getState().searchResultViewReducer.feedsPaging.page);
 
     // this.search();
 
@@ -118,20 +118,20 @@ class SearchResultView extends BaseComponent {
   loadMoreFeeds = (feeds) => {
     const { props } = this;
 
-    if (store.getState().searchResultReducer.feedsPaging.loading) {
+    if (store.getState().searchResultViewReducer.feedsPaging.loading) {
       return;
     }
 
     props.setFeedsPagingLoading(true);
     // props.setSearched(false);
 
-    let page = store.getState().searchResultReducer.feedsPaging.page + 1;
+    let page = store.getState().searchResultViewReducer.feedsPaging.page + 1;
 
     SearchProvider.search(
       props,
       {
         page: page,
-        length: store.getState().searchResultReducer.feedsPaging.length,
+        length: store.getState().searchResultViewReducer.feedsPaging.length,
       },
       {
         disableAddRecentSearches: true,
@@ -552,23 +552,23 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    refreshing: state.searchResultReducer.refreshing,
-    searched: state.searchResultReducer.searched,
-    results: state.searchResultReducer.results,
-    feeds: state.searchResultReducer.feeds,
+    refreshing: state.searchResultViewReducer.refreshing,
+    searched: state.searchResultViewReducer.searched,
+    results: state.searchResultViewReducer.results,
+    feeds: state.searchResultViewReducer.feeds,
     dummyData: state.dataReducer.dummyData,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(SearchResultAction.reset(...args)),
-    setRefreshing: (...args) => dispatch(SearchResultAction.setRefreshing(...args)),
-    setFeedsPagingLoading: (...args) => dispatch(SearchResultAction.setFeedsPagingLoading(...args)),
-    setFeedsPagingPage: (...args) => dispatch(SearchResultAction.setFeedsPagingPage(...args)),
-    setFeeds: (...args) => dispatch(SearchResultAction.setFeeds(...args)),
-    updateFeed: (...args) => dispatch(SearchResultAction.updateFeed(...args)),
-    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    reset: (...args) => dispatch(SearchResultViewAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(SearchResultViewAction.setRefreshing(...args)),
+    setFeedsPagingLoading: (...args) => dispatch(SearchResultViewAction.setFeedsPagingLoading(...args)),
+    setFeedsPagingPage: (...args) => dispatch(SearchResultViewAction.setFeedsPagingPage(...args)),
+    setFeeds: (...args) => dispatch(SearchResultViewAction.setFeeds(...args)),
+    updateFeed: (...args) => dispatch(SearchResultViewAction.updateFeed(...args)),
+    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),

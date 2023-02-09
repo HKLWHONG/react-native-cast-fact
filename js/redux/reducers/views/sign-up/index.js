@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
- import signUpReducer from './SignUpReducer';
+ import signUpViewReducer from './SignUpViewReducer';
 
- export { signUpReducer };
+ export { signUpViewReducer };

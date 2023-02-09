@@ -3,10 +3,10 @@
  * @flow strict-local
  */
 
-import * as CreateProjectStep1ActionType from './CreateProjectStep1ActionType';
-import * as CreateProjectStep2ActionType from './CreateProjectStep2ActionType';
+import * as CreateProjectStep1ViewActionType from './CreateProjectStep1ViewActionType';
+import * as CreateProjectStep2ViewActionType from './CreateProjectStep2ViewActionType';
 
 export {
-  CreateProjectStep1ActionType,
-  CreateProjectStep2ActionType,
+  CreateProjectStep1ViewActionType,
+  CreateProjectStep2ViewActionType,
 };

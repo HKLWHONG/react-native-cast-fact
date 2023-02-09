@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   store,
-  CalendarModalAction,
+  CalendarModalViewAction,
 } from '../../redux';
 
 import {
@@ -91,8 +91,8 @@ class CalendarModalView extends BaseComponent {
             onDayPress={(date) => {
               console.log('[calendar-modal-view-selected-date]', date);
 
-              if (store.getState().calendarModalReducer.callbacks.onDayPress) {
-                store.getState().calendarModalReducer.callbacks.onDayPress(date);
+              if (store.getState().calendarModalViewReducer.callbacks.onDayPress) {
+                store.getState().calendarModalViewReducer.callbacks.onDayPress(date);
               }
 
               props.setOnDayPress(undefined);
@@ -190,13 +190,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    initialDate: state.calendarModalReducer.initialDate,
+    initialDate: state.calendarModalViewReducer.initialDate,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setOnDayPress: (...args) => dispatch(CalendarModalAction.setOnDayPress(...args)),
+    setOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
   };
 }
 

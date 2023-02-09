@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
- import feedReducer from './FeedReducer';
+ import feedViewReducer from './FeedViewReducer';
 
- export { feedReducer };
+ export { feedViewReducer };

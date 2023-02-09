@@ -9,7 +9,7 @@ import {
   StackActions,
 } from '@react-navigation/native';
 
-import { store, MainTabAction } from '../redux';
+import { store, MainTabNavigatorAction } from '../redux';
 
 const config = {
   coreStacks: [
@@ -72,13 +72,13 @@ export const route = (props, stack, name) => {
   );
 
   if (stack === 'SearchStack') {
-    store.dispatch(MainTabAction.select(0));
+    store.dispatch(MainTabNavigatorAction.select(0));
   } else if (stack === 'Stub1Stack') {
-    // store.dispatch(MainTabAction.select(1));
+    // store.dispatch(MainTabNavigatorAction.select(1));
   } else if (stack === 'Stub2Stack') {
-    // store.dispatch(MainTabAction.select(2));
+    // store.dispatch(MainTabNavigatorAction.select(2));
   } else if (stack === 'Stub3Stack') {
-    // store.dispatch(MainTabAction.select(3));
+    // store.dispatch(MainTabNavigatorAction.select(3));
   }
 
   // if (

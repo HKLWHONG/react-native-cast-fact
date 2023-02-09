@@ -16,7 +16,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
-  MainTabAction,
+  MainTabNavigatorAction,
   SlideSheetAction,
 } from '../../../redux';
 

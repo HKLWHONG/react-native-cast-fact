@@ -3,8 +3,8 @@
  * @flow strict-local
  */
 
-import * as FeedAction from './FeedAction';
+import * as FeedViewAction from './FeedViewAction';
 
 export {
-  FeedAction,
+  FeedViewAction,
 };

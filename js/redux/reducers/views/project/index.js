@@ -3,10 +3,10 @@
  * @flow strict-local
  */
 
- import createProjectStep1Reducer from './CreateProjectStep1Reducer';
- import createProjectStep2Reducer from './CreateProjectStep2Reducer';
+ import createProjectStep1ViewReducer from './CreateProjectStep1ViewReducer';
+ import createProjectStep2ViewReducer from './CreateProjectStep2ViewReducer';
 
  export {
-   createProjectStep1Reducer,
-   createProjectStep2Reducer,
+   createProjectStep1ViewReducer,
+   createProjectStep2ViewReducer,
 };

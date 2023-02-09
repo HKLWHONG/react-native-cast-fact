@@ -3,8 +3,8 @@
  * @flow strict-local
  */
 
-import * as CalendarModalAction from './CalendarModalAction';
+import * as CalendarModalViewAction from './CalendarModalViewAction';
 
 export {
-  CalendarModalAction,
+  CalendarModalViewAction,
 };

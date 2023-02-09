@@ -11,9 +11,9 @@ import {
   store,
   AppAction,
   DataAction,
-  DrawerAction,
-  LaunchAction,
-  MainTabAction,
+  DrawerNavigatorAction,
+  LaunchViewAction,
+  MainTabNavigatorAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
 } from '../../redux';
@@ -180,8 +180,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectDrawer: (...args) => dispatch(DrawerAction.select(...args)),
-    selectTab: (...args) => dispatch(MainTabAction.select(...args)),
+    selectDrawer: (...args) => dispatch(DrawerNavigatorAction.select(...args)),
+    selectTab: (...args) => dispatch(MainTabNavigatorAction.select(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
   };

@@ -9,8 +9,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   store,
-  FeedAction,
-  MainTabAction,
+  FeedViewAction,
+  MainTabNavigatorAction,
   CriteriaSectionAction,
   FindTalentSectionAction,
 } from '../../redux';
@@ -75,7 +75,7 @@ class FeedView extends BaseComponent {
 
     // this.loadFeeds();
 
-    console.log('[feed-page]', store.getState().feedReducer.feedsPaging.page);
+    console.log('[feed-page]', store.getState().feedViewReducer.feedsPaging.page);
 
     // this.loadFeedsFromDummyData();
 
@@ -91,17 +91,17 @@ class FeedView extends BaseComponent {
   loadMoreFeeds = (feeds) => {
     const { props } = this;
 
-    if (store.getState().feedReducer.feedsPaging.loading) {
+    if (store.getState().feedViewReducer.feedsPaging.loading) {
       return;
     }
 
     props.setFeedsPagingLoading(true);
 
-    let page = store.getState().feedReducer.feedsPaging.page + 1;
+    let page = store.getState().feedViewReducer.feedsPaging.page + 1;
 
     FeedProvider.getFeeds(props, {
       page: page,
-      length: store.getState().feedReducer.feedsPaging.length,
+      length: store.getState().feedViewReducer.feedsPaging.length,
     })
       .then(({ json }) => {
         props.setFeedsPagingLoading(false);
@@ -617,8 +617,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    refreshing: state.feedReducer.refreshing,
-    feeds: state.feedReducer.feeds,
+    refreshing: state.feedViewReducer.refreshing,
+    feeds: state.feedViewReducer.feeds,
     dummyData: state.dataReducer.dummyData,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
   };
@@ -626,13 +626,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(FeedAction.reset(...args)),
-    setRefreshing: (...args) => dispatch(FeedAction.setRefreshing(...args)),
-    setFeedsPagingLoading: (...args) => dispatch(FeedAction.setFeedsPagingLoading(...args)),
-    setFeedsPagingPage: (...args) => dispatch(FeedAction.setFeedsPagingPage(...args)),
-    setFeeds: (...args) => dispatch(FeedAction.setFeeds(...args)),
-    updateFeed: (...args) => dispatch(FeedAction.updateFeed(...args)),
-    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    reset: (...args) => dispatch(FeedViewAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(FeedViewAction.setRefreshing(...args)),
+    setFeedsPagingLoading: (...args) => dispatch(FeedViewAction.setFeedsPagingLoading(...args)),
+    setFeedsPagingPage: (...args) => dispatch(FeedViewAction.setFeedsPagingPage(...args)),
+    setFeeds: (...args) => dispatch(FeedViewAction.setFeeds(...args)),
+    updateFeed: (...args) => dispatch(FeedViewAction.updateFeed(...args)),
+    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
   };

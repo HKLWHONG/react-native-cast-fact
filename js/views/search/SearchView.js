@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import {
   store,
   CriteriaSectionAction,
-  MainTabAction,
-  SearchAction,
+  MainTabNavigatorAction,
+  SearchViewAction,
 } from '../../redux';
 
 import {
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    refreshing: state.searchReducer.refreshing,
+    refreshing: state.searchViewReducer.refreshing,
     criteriaTags: state.criteriaSectionReducer.tags,
     recentSearchesTags: state.recentSearchesSectionReducer.tags,
     findTalentTags: state.findTalentSectionReducer.tags,
@@ -355,9 +355,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(SearchAction.reset(...args)),
-    setRefreshing: (...args) => dispatch(SearchAction.setRefreshing(...args)),
-    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    reset: (...args) => dispatch(SearchViewAction.reset(...args)),
+    setRefreshing: (...args) => dispatch(SearchViewAction.setRefreshing(...args)),
+    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
     setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
   };
 }

@@ -14,8 +14,8 @@ import {
 
 import { connect } from 'react-redux';
 import {
-  CreateProjectStep2Action,
-  CalendarModalAction,
+  CreateProjectStep2ViewAction,
+  CalendarModalViewAction,
 } from '../../redux';
 
 import {
@@ -152,9 +152,9 @@ class CreateProjectStep2View extends BaseComponent {
             >
               <SingleTouch
                 onPress={() => {
-                  props.setCalendarInitialDate(CalendarProcessor.toDateString(availability.durationFrom));
+                  props.setCalendarModalViewInitialDate(CalendarProcessor.toDateString(availability.durationFrom));
 
-                  props.setCalendarModalOnDayPress((date) => {
+                  props.setCalendarModalViewOnDayPress((date) => {
                     props.updateAvailability(
                       availability.availabilityId,
                       {
@@ -179,9 +179,9 @@ class CreateProjectStep2View extends BaseComponent {
               </View>
               <SingleTouch
                 onPress={() => {
-                  props.setCalendarInitialDate(CalendarProcessor.toDateString(availability.durationTo));
+                  props.setCalendarModalViewInitialDate(CalendarProcessor.toDateString(availability.durationTo));
 
-                  props.setCalendarModalOnDayPress((date) => {
+                  props.setCalendarModalViewOnDayPress((date) => {
                     props.updateAvailability(
                       availability.availabilityId,
                       {
@@ -408,18 +408,18 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    data: state.createProjectStep2Reducer.data,
+    data: state.createProjectStep2ViewReducer.data,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(CreateProjectStep2Action.reset(...args)),
-    addAvailability: (...args) => dispatch(CreateProjectStep2Action.addAvailability(...args)),
-    updateAvailability: (...args) => dispatch(CreateProjectStep2Action.updateAvailability(...args)),
-    deleteAvailability: (...args) => dispatch(CreateProjectStep2Action.deleteAvailability(...args)),
-    setCalendarInitialDate: (...args) => dispatch(CalendarModalAction.setInitialDate(...args)),
-    setCalendarModalOnDayPress: (...args) => dispatch(CalendarModalAction.setOnDayPress(...args)),
+    reset: (...args) => dispatch(CreateProjectStep2ViewAction.reset(...args)),
+    addAvailability: (...args) => dispatch(CreateProjectStep2ViewAction.addAvailability(...args)),
+    updateAvailability: (...args) => dispatch(CreateProjectStep2ViewAction.updateAvailability(...args)),
+    deleteAvailability: (...args) => dispatch(CreateProjectStep2ViewAction.deleteAvailability(...args)),
+    setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
+    setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
   };
 }
 

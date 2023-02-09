@@ -3,10 +3,10 @@
  * @flow strict-local
  */
 
-import * as DrawerActionType from './DrawerActionType';
-import * as MainTabActionType from './MainTabActionType';
+import * as DrawerNavigatorActionType from './DrawerNavigatorActionType';
+import * as MainTabNavigatorActionType from './MainTabNavigatorActionType';
 
 export {
-  DrawerActionType,
-  MainTabActionType,
+  DrawerNavigatorActionType,
+  MainTabNavigatorActionType,
 };

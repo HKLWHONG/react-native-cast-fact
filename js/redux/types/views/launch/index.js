@@ -3,8 +3,8 @@
  * @flow strict-local
  */
 
-import * as LaunchActionType from './LaunchActionType';
+import * as LaunchViewActionType from './LaunchViewActionType';
 
 export {
-  LaunchActionType,
+  LaunchViewActionType,
 };

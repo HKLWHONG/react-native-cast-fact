@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SignUpAction } from '../../redux';
+import { SignUpViewAction } from '../../redux';
 
 import {
   BaseComponent,
@@ -514,24 +514,24 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    refs: state.signUpReducer.refs,
-    account: state.signUpReducer.account,
+    refs: state.signUpViewReducer.refs,
+    account: state.signUpViewReducer.account,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(SignUpAction.reset(...args)),
-    addRef: (...args) => dispatch(SignUpAction.addRef(...args)),
-    setFirstnameEn: (...args) => dispatch(SignUpAction.setFirstnameEn(...args)),
-    setLastnameEn: (...args) => dispatch(SignUpAction.setLastnameEn(...args)),
-    setFirstnameZh: (...args) => dispatch(SignUpAction.setFirstnameZh(...args)),
-    setLastnameZh: (...args) => dispatch(SignUpAction.setLastnameZh(...args)),
-    setNickname: (...args) => dispatch(SignUpAction.setNickname(...args)),
-    setEmail: (...args) => dispatch(SignUpAction.setEmail(...args)),
-    setPhoneCode: (...args) => dispatch(SignUpAction.setPhoneCode(...args)),
-    setPhoneNumber: (...args) => dispatch(SignUpAction.setPhoneNumber(...args)),
-    setPassword: (...args) => dispatch(SignUpAction.setPassword(...args)),
+    reset: (...args) => dispatch(SignUpViewAction.reset(...args)),
+    addRef: (...args) => dispatch(SignUpViewAction.addRef(...args)),
+    setFirstnameEn: (...args) => dispatch(SignUpViewAction.setFirstnameEn(...args)),
+    setLastnameEn: (...args) => dispatch(SignUpViewAction.setLastnameEn(...args)),
+    setFirstnameZh: (...args) => dispatch(SignUpViewAction.setFirstnameZh(...args)),
+    setLastnameZh: (...args) => dispatch(SignUpViewAction.setLastnameZh(...args)),
+    setNickname: (...args) => dispatch(SignUpViewAction.setNickname(...args)),
+    setEmail: (...args) => dispatch(SignUpViewAction.setEmail(...args)),
+    setPhoneCode: (...args) => dispatch(SignUpViewAction.setPhoneCode(...args)),
+    setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),
+    setPassword: (...args) => dispatch(SignUpViewAction.setPassword(...args)),
   };
 }
 

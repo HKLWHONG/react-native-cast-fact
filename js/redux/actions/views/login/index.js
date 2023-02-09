@@ -3,8 +3,8 @@
  * @flow strict-local
  */
 
-import * as LoginAction from './LoginAction';
+import * as LoginViewAction from './LoginViewAction';
 
 export {
-  LoginAction,
+  LoginViewAction,
 };

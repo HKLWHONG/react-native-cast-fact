@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
- import calendarModalReducer from './CalendarModalReducer';
+ import calendarModalViewReducer from './CalendarModalViewReducer';
 
- export { calendarModalReducer };
+ export { calendarModalViewReducer };

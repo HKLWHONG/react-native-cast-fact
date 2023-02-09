@@ -3,8 +3,8 @@
  * @flow strict-local
  */
 
-import * as SignUpAction from './SignUpAction';
+import * as SignUpViewAction from './SignUpViewAction';
 
 export {
-  SignUpAction,
+  SignUpViewAction,
 };

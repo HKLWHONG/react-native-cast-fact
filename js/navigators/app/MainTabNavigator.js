@@ -9,8 +9,8 @@ import { StyleSheet, Platform, Dimensions, ImageBackground, View } from 'react-n
 import { connect } from 'react-redux';
 import {
   store,
-  DrawerAction,
-  MainTabAction,
+  DrawerNavigatorAction,
+  MainTabNavigatorAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
@@ -74,13 +74,13 @@ class MainTabNavigator extends BaseComponent {
     e.preventDefault();
 
     if (navigation.isFocused()) {
-      if (!store.getState().mainTabReducer.tapTimer) {
+      if (!store.getState().mainTabNavigatorReducer.tapTimer) {
         props.setTapTimer(
           setTimeout(() => {
             if (
               route.state && route.state.index > 0
               &&
-              store.getState().mainTabReducer.tapCount > 1
+              store.getState().mainTabNavigatorReducer.tapCount > 1
             ) {
               // console.log('[double-tapped]');
 
@@ -97,17 +97,17 @@ class MainTabNavigator extends BaseComponent {
               let routeIndex = (route.state && route.state.index) || 0;
 
               if (
-                store.getState().mainTabReducer.listRefs.length > index
+                store.getState().mainTabNavigatorReducer.listRefs.length > index
                 &&
-                store.getState().mainTabReducer.listRefs[index].length > routeIndex
+                store.getState().mainTabNavigatorReducer.listRefs[index].length > routeIndex
                 &&
-                store.getState().mainTabReducer.listRefs[index][routeIndex]
+                store.getState().mainTabNavigatorReducer.listRefs[index][routeIndex]
                 &&
-                store.getState().mainTabReducer.listRefs[index][routeIndex].props
+                store.getState().mainTabNavigatorReducer.listRefs[index][routeIndex].props
                 &&
-                store.getState().mainTabReducer.listRefs[index][routeIndex].props.scrollToPosition
+                store.getState().mainTabNavigatorReducer.listRefs[index][routeIndex].props.scrollToPosition
               ) {
-                store.getState().mainTabReducer.listRefs[index][routeIndex].props.scrollToPosition(0, 0);
+                store.getState().mainTabNavigatorReducer.listRefs[index][routeIndex].props.scrollToPosition(0, 0);
               }
             }
 
@@ -117,20 +117,20 @@ class MainTabNavigator extends BaseComponent {
 
             props.setTapCount(0);
 
-            // console.log('[tap-count-reset]', store.getState().mainTabReducer.tapCount);
+            // console.log('[tap-count-reset]', store.getState().mainTabNavigatorReducer.tapCount);
           }, 250),
         );
 
         // console.log('[tap-timer-set]');
       }
 
-      // console.log('[tap-count]', store.getState().mainTabReducer.tapCount);
+      // console.log('[tap-count]', store.getState().mainTabNavigatorReducer.tapCount);
 
-      props.setTapCount(store.getState().mainTabReducer.tapCount + 1);
+      props.setTapCount(store.getState().mainTabNavigatorReducer.tapCount + 1);
 
-      // console.log('[tap-count-updated]', store.getState().mainTabReducer.tapCount);
+      // console.log('[tap-count-updated]', store.getState().mainTabNavigatorReducer.tapCount);
     } else {
-      clearTimeout(store.getState().mainTabReducer.tapTimer);
+      clearTimeout(store.getState().mainTabNavigatorReducer.tapTimer);
       props.setTapTimer(undefined);
       props.setTapCount(0);
 
@@ -452,16 +452,16 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    index: state.mainTabReducer.index,
+    index: state.mainTabNavigatorReducer.index,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectDrawer: (...args) => dispatch(DrawerAction.select(...args)),
-    selectTab: (...args) => dispatch(MainTabAction.select(...args)),
-    setTapCount: (...args) => dispatch(MainTabAction.setTapCount(...args)),
-    setTapTimer: (...args) => dispatch(MainTabAction.setTapTimer(...args)),
+    selectDrawer: (...args) => dispatch(DrawerNavigatorAction.select(...args)),
+    selectTab: (...args) => dispatch(MainTabNavigatorAction.select(...args)),
+    setTapCount: (...args) => dispatch(MainTabNavigatorAction.setTapCount(...args)),
+    setTapTimer: (...args) => dispatch(MainTabNavigatorAction.setTapTimer(...args)),
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),

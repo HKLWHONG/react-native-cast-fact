@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { ProfileNameDisplaySelectionAction, MainTabAction } from '../../redux';
+import { ProfileNameDisplaySelectionAction, MainTabNavigatorAction } from '../../redux';
 
 import {
   BaseComponent,

@@ -22,21 +22,21 @@ import {
 } from './components';
 
 import {
-  drawerReducer,
-  mainTabReducer,
+  drawerNavigatorReducer,
+  mainTabNavigatorReducer,
   signUpStackNavigatorReducer,
 } from './navigators';
 
 import {
-  feedReducer,
-  launchReducer,
-  loginReducer,
-  calendarModalReducer,
-  createProjectStep1Reducer,
-  createProjectStep2Reducer,
-  searchReducer,
-  searchResultReducer,
-  signUpReducer,
+  feedViewReducer,
+  launchViewReducer,
+  loginViewReducer,
+  calendarModalViewReducer,
+  createProjectStep1ViewReducer,
+  createProjectStep2ViewReducer,
+  searchViewReducer,
+  searchResultViewReducer,
+  signUpViewReducer,
 } from './views';
 
 const reducers = combineReducers({
@@ -55,20 +55,20 @@ const reducers = combineReducers({
   recentSearchesSectionReducer,
 
   // navigators
-  drawerReducer,
-  mainTabReducer,
+  drawerNavigatorReducer,
+  mainTabNavigatorReducer,
   signUpStackNavigatorReducer,
 
   // views
-  feedReducer,
-  launchReducer,
-  loginReducer,
-  calendarModalReducer,
-  createProjectStep1Reducer,
-  createProjectStep2Reducer,
-  searchReducer,
-  searchResultReducer,
-  signUpReducer,
+  feedViewReducer,
+  launchViewReducer,
+  loginViewReducer,
+  calendarModalViewReducer,
+  createProjectStep1ViewReducer,
+  createProjectStep2ViewReducer,
+  searchViewReducer,
+  searchResultViewReducer,
+  signUpViewReducer,
 });
 
 const rootReducer = (state, action) => {

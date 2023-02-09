@@ -3,10 +3,10 @@
  * @flow strict-local
  */
 
- import drawerReducer from './DrawerReducer';
- import mainTabReducer from './MainTabReducer';
+ import drawerNavigatorReducer from './DrawerNavigatorReducer';
+ import mainTabNavigatorReducer from './MainTabNavigatorReducer';
 
  export {
-   drawerReducer,
-   mainTabReducer,
+   drawerNavigatorReducer,
+   mainTabNavigatorReducer,
  };

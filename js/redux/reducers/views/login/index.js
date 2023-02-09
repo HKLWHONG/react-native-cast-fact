@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
- import loginReducer from './LoginReducer';
+ import loginViewReducer from './LoginViewReducer';
 
- export { loginReducer };
+ export { loginViewReducer };

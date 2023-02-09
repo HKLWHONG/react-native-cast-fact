@@ -3,6 +3,6 @@
  * @flow strict-local
  */
 
- import launchReducer from './LaunchReducer';
+ import launchViewReducer from './LaunchViewReducer';
 
- export { launchReducer };
+ export { launchViewReducer };

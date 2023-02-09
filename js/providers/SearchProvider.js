@@ -11,7 +11,7 @@ import {
   DataAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
-  SearchResultAction,
+  SearchResultViewAction,
 } from '../redux';
 
 import {
@@ -259,7 +259,7 @@ export const presearch = async (props, params, options) => {
     props,
     {
       page: page,
-      length: store.getState().searchResultReducer.feedsPaging.length,
+      length: store.getState().searchResultViewReducer.feedsPaging.length,
     },
     options,
   )
@@ -268,11 +268,11 @@ export const presearch = async (props, params, options) => {
     });
 
   if (params && params.json && params.json.payload) {
-    store.dispatch(SearchResultAction.setFeedsPagingPage(page));
+    store.dispatch(SearchResultViewAction.setFeedsPagingPage(page));
 
     let feeds = FeedProcessor.format([], params.json.payload);
 
-    store.dispatch(SearchResultAction.setFeeds(feeds));
+    store.dispatch(SearchResultViewAction.setFeeds(feeds));
   }
 
   if (!options || !options.disableActivityIndicator) {
@@ -283,7 +283,7 @@ export const presearch = async (props, params, options) => {
 export const search = (props, params, options) => {
   return new Promise(async (resolve, reject) => {
     if (!params || !params.prefetch) {
-      store.dispatch(SearchResultAction.setSearched(false));
+      store.dispatch(SearchResultViewAction.setSearched(false));
     }
 
     // if (params && params.prefetch) {
@@ -356,9 +356,9 @@ export const search = (props, params, options) => {
 
         store.dispatch(CriteriaSectionAction.setLengthOfResults(json.payload.length));
 
-        store.dispatch(SearchResultAction.setResults(json.payload));
+        store.dispatch(SearchResultViewAction.setResults(json.payload));
 
-        store.dispatch(SearchResultAction.setSearched(true));
+        store.dispatch(SearchResultViewAction.setSearched(true));
 
         numberOfFinsihedTasks += 1;
 
@@ -369,7 +369,7 @@ export const search = (props, params, options) => {
         }
       })
       .catch((error) => {
-        store.dispatch(SearchResultAction.setSearched(true));
+        store.dispatch(SearchResultViewAction.setSearched(true));
 
         numberOfFinsihedTasks += 1;
 

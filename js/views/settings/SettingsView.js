@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SettingsAction, MainTabAction } from '../../redux';
+import { SettingsAction, MainTabNavigatorAction } from '../../redux';
 
 import {
   BaseComponent,
@@ -223,7 +223,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
   };
 }
 

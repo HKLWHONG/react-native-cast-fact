@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   ProjectAction,
-  MainTabAction,
+  MainTabNavigatorAction,
 } from '../../redux';
 
 import {
@@ -258,7 +258,7 @@ class ProjectView extends BaseComponent {
                 if (!ref) {
                   return;
                 }
-                
+
                 props.setListRef(2, props.navigation.getState().index, ref);
               }}
               contentContainerStyle={styles.listContentContainer}
@@ -409,7 +409,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setListRef: (...args) => dispatch(MainTabAction.setListRef(...args)),
+    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
   };
 }
 

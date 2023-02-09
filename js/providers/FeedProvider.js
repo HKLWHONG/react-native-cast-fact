@@ -8,7 +8,7 @@ import i18n from '../../i18n';
 import {
   store,
   AppAction,
-  FeedAction,
+  FeedViewAction,
 } from '../redux';
 
 import {
@@ -41,15 +41,15 @@ export const prefetchFeeds = (props, params, options) => {
     if (cachedFeeds) {
       console.log(`[${IDENTIFIER}] cached-feeds-found.`);
 
-      store.dispatch(FeedAction.setFeedsPagingPage(page));
+      store.dispatch(FeedViewAction.setFeedsPagingPage(page));
 
-      store.dispatch(FeedAction.setFeeds(cachedFeeds));
+      store.dispatch(FeedViewAction.setFeeds(cachedFeeds));
 
       getFeeds(
         props,
         {
           page: page,
-          length: store.getState().feedReducer.feedsPaging.length,
+          length: store.getState().feedViewReducer.feedsPaging.length,
         },
         options,
       )
@@ -66,8 +66,8 @@ export const prefetchFeeds = (props, params, options) => {
           if (JSON.stringify(cachedFeeds) !== JSON.stringify(feeds)) {
             console.log(`[${IDENTIFIER}] need-to-reload-feeds.`);
 
-            store.dispatch(FeedAction.setFeedsPagingPage(page));
-            store.dispatch(FeedAction.setFeeds(feeds));
+            store.dispatch(FeedViewAction.setFeedsPagingPage(page));
+            store.dispatch(FeedViewAction.setFeeds(feeds));
           } else {
             console.log(`[${IDENTIFIER}] no-need-to-reload-feeds.`);
           }
@@ -86,7 +86,7 @@ export const prefetchFeeds = (props, params, options) => {
         props,
         {
           page: page,
-          length: store.getState().feedReducer.feedsPaging.length,
+          length: store.getState().feedViewReducer.feedsPaging.length,
         },
         options,
       )
@@ -102,8 +102,8 @@ export const prefetchFeeds = (props, params, options) => {
             console.error(error);
           });
 
-        store.dispatch(FeedAction.setFeedsPagingPage(page));
-        store.dispatch(FeedAction.setFeeds(feeds));
+        store.dispatch(FeedViewAction.setFeedsPagingPage(page));
+        store.dispatch(FeedViewAction.setFeeds(feeds));
       }
 
       resolve();

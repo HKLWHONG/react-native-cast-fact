@@ -14,8 +14,8 @@ import {
 
 import { connect } from 'react-redux';
 import {
-  CreateProjectStep1Action,
-  CalendarModalAction,
+  CreateProjectStep1ViewAction,
+  CalendarModalViewAction,
 } from '../../redux';
 
 import {
@@ -147,9 +147,9 @@ class CreateProjectStep1View extends BaseComponent {
             }}>
               <SingleTouch
                 onPress={() => {
-                  props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationFrom));
+                  props.setCalendarModalViewInitialDate(CalendarProcessor.toDateString(props.data.durationFrom));
 
-                  props.setCalendarModalOnDayPress((date) => {
+                  props.setCalendarModalViewOnDayPress((date) => {
                     props.setDurationFrom(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
@@ -169,9 +169,9 @@ class CreateProjectStep1View extends BaseComponent {
               </View>
               <SingleTouch
                 onPress={() => {
-                  props.setCalendarInitialDate(CalendarProcessor.toDateString(props.data.durationTo));
+                  props.setCalendarModalViewInitialDate(CalendarProcessor.toDateString(props.data.durationTo));
 
-                  props.setCalendarModalOnDayPress((date) => {
+                  props.setCalendarModalViewOnDayPress((date) => {
                     props.setDurationTo(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
@@ -451,17 +451,17 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    data: state.createProjectStep1Reducer.data,
+    data: state.createProjectStep1ViewReducer.data,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(CreateProjectStep1Action.reset(...args)),
-    setDurationFrom: (...args) => dispatch(CreateProjectStep1Action.setDurationFrom(...args)),
-    setDurationTo: (...args) => dispatch(CreateProjectStep1Action.setDurationTo(...args)),
-    setCalendarInitialDate: (...args) => dispatch(CalendarModalAction.setInitialDate(...args)),
-    setCalendarModalOnDayPress: (...args) => dispatch(CalendarModalAction.setOnDayPress(...args)),
+    reset: (...args) => dispatch(CreateProjectStep1ViewAction.reset(...args)),
+    setDurationFrom: (...args) => dispatch(CreateProjectStep1ViewAction.setDurationFrom(...args)),
+    setDurationTo: (...args) => dispatch(CreateProjectStep1ViewAction.setDurationTo(...args)),
+    setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
+    setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
   };
 }
 
