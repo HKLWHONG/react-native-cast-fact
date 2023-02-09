@@ -235,54 +235,52 @@ class LoginView extends BaseComponent {
             onPress={() => {
               console.log('[credentials] ', props.credentials);
 
-              Router.goBack(props);
-
-              if (!props.slideSheetRefs.WelcomeSlideSheet) {
-                return;
-              }
-
-              props.slideSheetRefs.WelcomeSlideSheet.close();
-
-              Router.jumpTo(props, 'AccountStack');
-
               // if (!this.validateAll()) {
               //   return;
               // }
 
-              // AuthProvider.login(props, {
-              //   email: 'user001@gmail.com', //props.credentials.loginID,
-              //   password: 'password', //props.credentials.password,
-              // })
-              //   .then(async () => {
-              //     // if (
-              //     //   props.pushNoticationProps.token &&
-              //     //   props.pushNoticationProps.token.length
-              //     // ) {
-              //     //   await UserProvider.updateToken(props, {
-              //     //     deviceToken: props.pushNoticationProps.token,
-              //     //   }).catch((error) => {
-              //     //     console.error(error);
-              //     //   });
-              //     // } else {
-              //     //   console.log(
-              //     //     '[login-view-update-token-bypassed] Token not found.',
-              //     //   );
-              //     // }
-              //     //
-              //
-              //     await SearchProvider.prefetchRecentSearches(props);
-              //
-              //     await FeedProvider.prefetchFeeds(props);
-              //
-              //     Router.route(props, 'Main');
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //
-              //     // props.hideActivityIndicator({
-              //     //   holder: ActivityIndicatorHolders.LOGIN,
-              //     // });
-              //   });
+              AuthProvider.login(props, {
+                email: 'user001@gmail.com', //props.credentials.loginID,
+                password: 'password', //props.credentials.password,
+              })
+                .then(async () => {
+                  // if (
+                  //   props.pushNoticationProps.token &&
+                  //   props.pushNoticationProps.token.length
+                  // ) {
+                  //   await UserProvider.updateToken(props, {
+                  //     deviceToken: props.pushNoticationProps.token,
+                  //   }).catch((error) => {
+                  //     console.error(error);
+                  //   });
+                  // } else {
+                  //   console.log(
+                  //     '[login-view-update-token-bypassed] Token not found.',
+                  //   );
+                  // }
+                  //
+
+                  await SearchProvider.prefetchRecentSearches(props);
+
+                  await FeedProvider.prefetchFeeds(props);
+
+                  Router.goBack(props);
+
+                  if (!props.slideSheetRefs.WelcomeSlideSheet) {
+                    return;
+                  }
+
+                  props.slideSheetRefs.WelcomeSlideSheet.close();
+
+                  Router.jumpTo(props, 'AccountStack');
+                })
+                .catch((error) => {
+                  console.error(error);
+
+                  // props.hideActivityIndicator({
+                  //   holder: ActivityIndicatorHolders.LOGIN,
+                  // });
+                });
             }}
           />
         )}

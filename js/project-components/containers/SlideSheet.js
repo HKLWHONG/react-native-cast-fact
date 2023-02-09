@@ -40,7 +40,7 @@ class SlideSheet extends Component {
     };
   }
 
-  renderLeftContainer = (params) => {
+  renderLeftContainerIfNeeded = (params) => {
     const { props } = this;
     const { navigation, route, options, back } = params;
 
@@ -90,7 +90,7 @@ class SlideSheet extends Component {
     );
   };
 
-  renderCenterContainer = (params) => {
+  renderCenterContainer= (params) => {
     const { props } = this;
 
     if (props.renderCenterContainer) {
@@ -116,7 +116,7 @@ class SlideSheet extends Component {
     );
   };
 
-  renderRightContainer = (params) => {
+  renderRightContainerIfNeeded = (params) => {
     const { props } = this;
     const { navigation, route, options, back } = params;
 
@@ -125,7 +125,7 @@ class SlideSheet extends Component {
     }
 
     let children = (
-      <View style={styles.image} />
+      <View style={styles.rightImage} />
     );
 
     let enabled = navigation.getState().index > 0;
@@ -157,7 +157,7 @@ class SlideSheet extends Component {
       } else {
         children = (
           <Image
-            style={styles.image}
+            style={styles.rightImage}
             source={preview}
             resizeMode="center"
           />
@@ -184,9 +184,9 @@ class SlideSheet extends Component {
         {(t) => (
           <TouchableWithoutFeedback>
             <View style={styles.handleComponentContainer}>
-              {this.renderLeftContainer(params)}
+              {this.renderLeftContainerIfNeeded(params)}
               {this.renderCenterContainer(params)}
-              {this.renderRightContainer(params)}
+              {this.renderRightContainerIfNeeded(params)}
             </View>
           </TouchableWithoutFeedback>
         )}
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
+  rightImage: {
     width: 14,
     height: 13,
     marginHorizontal: 4,

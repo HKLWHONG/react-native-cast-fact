@@ -14,13 +14,21 @@ import { getHeaderTitle } from '@react-navigation/elements';
 
 import { BaseComponent } from '../../components';
 
-import { Header } from '../../project-components';
+import {
+  Header,
+  Button,
+} from '../../project-components';
 
 import { SignUpView } from '../../views';
 
+import { Theme } from '../../utils';
+
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
+
+const preview = require('../../../assets/images/preview/preview.png');
 
 class SignUpStackNavigator extends BaseComponent {
   constructor(props) {
@@ -54,6 +62,18 @@ class SignUpStackNavigator extends BaseComponent {
                     hiddenLeft={!back}
                     info={info}
                     title={title}
+                    renderRightView={() => {
+                      return (
+                        <Button
+                          buttonStyle={styles.rightButton}
+                          textStyle={styles.rightButtonText}
+                          type="small"
+                          text={i18n.t('app.next')}
+                          rightAccessorySource={preview}
+                          rightAccessoryResizeMode="center"
+                        />
+                      );
+                    }}
                     onPressLeft={(info) => {
                       const { navigation, route } = info;
 
@@ -84,7 +104,19 @@ class SignUpStackNavigator extends BaseComponent {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  rightButton: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.secondary,
+  },
+  rightButtonText: {
+    // color: Theme.colors.general.white,
+    fontSize: 13,
+    // fontFamily: Theme.fonts.bold,
+    letterSpacing: 2.22,
+    // textTransform: 'uppercase',
+  },
+});
 
 function mapStateToProps(state) {
   return {};

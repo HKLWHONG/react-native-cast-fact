@@ -360,41 +360,41 @@ class SignUpView extends BaseComponent {
     );
   };
 
-  renderNextButton = () => {
-    const { props } = this;
-
-    return (
-      <Translation>
-        {(t) => (
-          <Button
-            style={styles.nextButton}
-            text={t('app.next')}
-            onPress={() => {
-              Router.push(props, "SignUpAccountTypeSelection");
-
-              // console.log('[account] ', props.account);
-
-              // if (!this.validateAll()) {
-              //   return;
-              // }
-
-              // TestApi.request(
-              //   props,
-              //   {},
-              //   {},
-              // )
-              //   .then(({ json }) => {
-                  // Router.goBack(props);
-              //   })
-              //   .catch((error) => {
-              //     reject(error);
-              //   });
-            }}
-          />
-        )}
-      </Translation>
-    );
-  };
+  // renderNextButton = () => {
+  //   const { props } = this;
+  //
+  //   return (
+  //     <Translation>
+  //       {(t) => (
+  //         <Button
+  //           style={styles.nextButton}
+  //           text={t('app.next')}
+  //           onPress={() => {
+  //             Router.push(props, "SignUpAccountTypeSelection");
+  //
+  //             // console.log('[account] ', props.account);
+  //
+  //             // if (!this.validateAll()) {
+  //             //   return;
+  //             // }
+  //
+  //             // TestApi.request(
+  //             //   props,
+  //             //   {},
+  //             //   {},
+  //             // )
+  //             //   .then(({ json }) => {
+  //                 // Router.goBack(props);
+  //             //   })
+  //             //   .catch((error) => {
+  //             //     reject(error);
+  //             //   });
+  //           }}
+  //         />
+  //       )}
+  //     </Translation>
+  //   );
+  // };
 
   renderBody = () => {
     const { props } = this;
@@ -404,7 +404,7 @@ class SignUpView extends BaseComponent {
         {(t) => (
           <Body style={styles.body}>
             {this.renderTextInputs()}
-            {this.renderNextButton()}
+          {/* this.renderNextButton() */}
           </Body>
         )}
       </Translation>

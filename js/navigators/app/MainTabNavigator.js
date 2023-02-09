@@ -315,15 +315,17 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: async (e) => {
                   e.preventDefault();
 
-                  AuthStorage.getToken()
-                    .then(() => {
-                      this.tabPress(params, e, { index: 1, stack: 'AccountStack' });
-                    })
-                    .catch((error) => {
-                      console.error(error);
+                  Router.push(props, "WelcomeSlideSheet");
 
-                      Router.push(props, "WelcomeSlideSheet");
-                    });
+                  // AuthStorage.getToken()
+                  //   .then(() => {
+                  //     this.tabPress(params, e, { index: 1, stack: 'AccountStack' });
+                  //   })
+                  //   .catch((error) => {
+                  //     console.error(error);
+                  //
+                  //     Router.push(props, "WelcomeSlideSheet");
+                  //   });
                 },
               })}
             />

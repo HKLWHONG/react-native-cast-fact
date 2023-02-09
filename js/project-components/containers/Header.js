@@ -34,18 +34,22 @@ class Header extends Component {
     }
 
     return (
-      <View style={[styles.leftContainer, props.leftContainerStyle]}>
-        <SingleTouch
-          style={styles.left}
-          onPress={() => props.onPressLeft(props.info)}
-        >
-          <Image
-            style={styles.leftImage}
-            source={ic_back}
-            resizeMode="center"
-          />
-        </SingleTouch>
-      </View>
+      <Translation>
+        {(t) => (
+          <View style={[styles.leftContainer, props.leftContainerStyle]}>
+            <SingleTouch
+              style={styles.left}
+              onPress={() => props.onPressLeft(props.info)}
+            >
+              <Image
+                style={styles.leftImage}
+                source={ic_back}
+                resizeMode="center"
+              />
+            </SingleTouch>
+          </View>
+        )}
+      </Translation>
     );
   };
 
@@ -62,25 +66,36 @@ class Header extends Component {
     }
 
     return (
-      <View style={[styles.centerContainer, centerContainerStyle]}>
-        <Text style={styles.title}>{props.title}</Text>
-      </View>
+      <Translation>
+        {(t) => (
+          <View style={[styles.centerContainer, centerContainerStyle]}>
+            <Text style={styles.title}>{props.title}</Text>
+          </View>
+        )}
+      </Translation>
     );
   };
 
   renderRightContainerIfNeeded = () => {
     const { props } = this;
 
-    if (props.hiddenRight || !props.renderRightView) {
+    if (props.hiddenRight) {
       return;
     }
 
-    let children = props.renderRightView();
+    let children = undefined;
+
+    if (props.renderRightView) {
+      children = props.renderRightView();
+    }
 
     return (
       <Translation>
         {(t) => (
-          <View style={[styles.rightContainer, props.rightContainerStyle]}>
+          <View
+           style={[styles.rightContainer, props.rightContainerStyle]}
+           hidden={props.hiddenRight}
+          >
             {children}
           </View>
         )}
@@ -122,13 +137,13 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Theme.colors.background.secondary,
+    backgroundColor: Theme.colors.background.primary,
   },
   headerContainer: {
     // backgroundColor: '#0f0',
     aspectRatio: 3.52,
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
   },
   leftContainer: {
     // backgroundColor: '#00f',
@@ -149,22 +164,23 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#f00',
-    flex: 8,
+    flex: 2,
     justifyContent: 'flex-end',
     paddingBottom: 16,
   },
   title: {
     // backgroundColor: '#f00',
-    color: '#FFFFFF',
+    color: Theme.colors.general.white,
     fontSize: 17,
     fontFamily: Theme.fonts.bold,
     letterSpacing: 5,
     textTransform: 'uppercase',
   },
   rightContainer: {
-    // backgroundColor: '#0f0',
+    // backgroundColor: '#f0f',
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     paddingBottom: 12,
   },
   right: {},
@@ -199,8 +215,8 @@ Header.defaultProps = {
   leftContainerStyle: undefined,
   rightContainerStyle: undefined,
   hidden: false,
-  hiddenLeft: true,
-  hiddenRight: true,
+  hiddenLeft: false,
+  hiddenRight: false,
   source: undefined,
   title: undefined,
   renderRightView: undefined,
