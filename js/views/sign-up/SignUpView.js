@@ -13,7 +13,10 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SignUpViewAction } from '../../redux';
+import {
+  SignUpViewAction,
+  SignUpStackNavigatorAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -66,6 +69,10 @@ class SignUpView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.setSignUpStackNavigatorOnRightButtonPress((e) => {
+      Router.push(props, "SignUpAccountTypeSelection");
+    });
 
     if (
       props.refs.EmailTextField
@@ -532,6 +539,7 @@ function mapDispatchToProps(dispatch) {
     setPhoneCode: (...args) => dispatch(SignUpViewAction.setPhoneCode(...args)),
     setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),
     setPassword: (...args) => dispatch(SignUpViewAction.setPassword(...args)),
+    setSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.setOnRightButtonPress(...args)),
   };
 }
 

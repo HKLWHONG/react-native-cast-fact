@@ -12,3 +12,12 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setOnRightButtonPress = (onRightButtonPress) => (dispatch) => {
+  dispatch({
+    type: SignUpStackNavigatorActionType.ON_RIGHT_BUTTON_PRESS,
+    onRightButtonPress: onRightButtonPress,
+  });
+
+  return Promise.resolve(store.getState());
+};

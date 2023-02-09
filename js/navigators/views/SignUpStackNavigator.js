@@ -7,6 +7,10 @@ import React from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
+import {
+  store,
+  SignUpStackNavigatorAction,
+} from '../../redux';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -74,8 +78,14 @@ class SignUpStackNavigator extends BaseComponent {
                           text={i18n.t('app.next')}
                           rightAccessorySource={preview}
                           rightAccessoryResizeMode="center"
-                          onPress={() => {
-                            Router.push(props, "SignUpAccountTypeSelection");
+                          onPress={(e) => {
+                            console.log('[on-right-button-press]');
+
+                            if (store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPress) {
+                              store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPress(e);
+                            }
+
+                            props.setOnRightButtonPress(undefined);
                           }}
                         />
                       );
@@ -87,6 +97,12 @@ class SignUpStackNavigator extends BaseComponent {
                       // console.log('[state]', navigation.getState());
                       // console.log('[navigation]', navigation);
                       // console.log('[route.name]', route.name);
+
+                      if (route.name) {
+                        props.setOnRightButtonPress((e) => {
+                          Router.push(props, route.name);
+                        });
+                      }
 
                       navigation.goBack();
                     }}
@@ -136,7 +152,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    setOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.setOnRightButtonPress(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStackNavigator);
