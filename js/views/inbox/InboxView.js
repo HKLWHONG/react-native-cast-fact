@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-// import { InboxAction } from '../../redux';
+import { InboxViewAction } from '../../redux';
 
 import {
   BaseComponent,

@@ -26,6 +26,7 @@ import {
 import {
   SignUpView,
   SignUpAccountTypeSelectionView,
+  ProfilePictureSelectionView,
 } from '../../views';
 
 import { Theme, Router } from '../../utils';
@@ -44,11 +45,37 @@ class SignUpStackNavigator extends BaseComponent {
 
   componentDidMount() {
     super.componentDidMount();
+
+    this.initialize();
   }
 
   componentWillUnmount() {
     super.componentWillUnmount();
+
+    this.clearData();
   }
+
+  initialize = () => {
+    const { props } = this;
+  };
+
+  clearData = () => {
+    const { props } = this;
+  };
+
+  hiddenRightIfNeeded = (name) => {
+    const { props } = this;
+
+    const screens = [
+      'ProfilePictureSelection',
+    ];
+
+    const filteredScreens = screens.filter((screen) => {
+      return screen === name;
+    });
+
+    return filteredScreens.length > 0;
+  };
 
   render() {
     const { props } = this;
@@ -67,6 +94,7 @@ class SignUpStackNavigator extends BaseComponent {
                 return (
                   <Header
                     hiddenLeft={!back}
+                    hiddenRight={props.hiddenRight}
                     info={info}
                     title={title}
                     renderRightView={() => {
@@ -99,6 +127,8 @@ class SignUpStackNavigator extends BaseComponent {
                       // console.log('[route.name]', route.name);
 
                       if (route.name) {
+                        props.setHiddenRight(this.hiddenRightIfNeeded(route.name));
+
                         props.setOnRightButtonPress((e) => {
                           Router.push(props, route.name);
                         });
@@ -123,7 +153,14 @@ class SignUpStackNavigator extends BaseComponent {
               name="SignUpAccountTypeSelection"
               component={SignUpAccountTypeSelectionView}
               options={{
-                title: t('views.sign_up.header'),
+                title: t('views.sign_up_account_type_selection.header'),
+              }}
+            />
+            <Stack.Screen
+              name="ProfilePictureSelection"
+              component={ProfilePictureSelectionView}
+              options={{
+                title: t('views.profile_picture_selection.header'),
               }}
             />
           </Stack.Navigator>
@@ -148,11 +185,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    hiddenRight: state.signUpStackNavigatorReducer.hiddenRight,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(SignUpStackNavigatorAction.reset(...args)),
+    setHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
     setOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.setOnRightButtonPress(...args)),
   };
 }

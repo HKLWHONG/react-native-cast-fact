@@ -9,10 +9,10 @@ import { StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import {
   store,
+  LaunchViewAction,
   AppAction,
   DataAction,
   DrawerNavigatorAction,
-  LaunchViewAction,
   MainTabNavigatorAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,

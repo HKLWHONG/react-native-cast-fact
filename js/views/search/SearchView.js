@@ -9,9 +9,9 @@ import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {
   store,
+  SearchViewAction,
   CriteriaSectionAction,
   MainTabNavigatorAction,
-  SearchViewAction,
 } from '../../redux';
 
 import {

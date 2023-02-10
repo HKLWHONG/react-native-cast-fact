@@ -13,7 +13,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SignUpAccountTypeSelectionAction, MainTabNavigatorAction } from '../../redux';
+import {
+  SignUpAccountTypeSelectionViewAction,
+  SignUpStackNavigatorAction,
+  MainTabNavigatorAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -62,6 +66,8 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.setSignUpStackNavigatorHiddenRight(true);
   };
 
   clearData = () => {
@@ -80,215 +86,66 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  renderSelectionButtons = () => {
+  renderTitleContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>
+              {t('views.sign_up_account_type_selection.title')}
+            </Text>
+            <Text style={styles.description}>
+              {t('views.sign_up_account_type_selection.description')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderSubtitleContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>
+              {t('views.sign_up_account_type_selection.subtitle')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderSelectionButtonContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.selectionButtonContainer}>
             <Button
               style={styles.selectionButton}
+              buttonStyle={styles.selectionButtonButton}
+              imageStyle={styles.selectionButtonImage}
+              textStyle={styles.selectionButtonText}
               source={preview}
-              text={t('Artisit')}
+              text={t('app.artisit')}
               onPress={() => {
                 Router.push(props, "ProfilePictureSelection");
               }}
             />
             <Button
               style={styles.selectionButton}
+              buttonStyle={styles.selectionButtonButton}
+              imageStyle={styles.selectionButtonImage}
+              textStyle={styles.selectionButtonText}
               source={preview}
-              text={t('Viewer')}
+              text={t('app.viewer')}
               onPress={() => {
                 // Router.push(props, "SignUp");
               }}
@@ -302,21 +159,6 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
-
     return (
       <Translation>
         {(t) => (
@@ -324,93 +166,112 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
             style={styles.body}
             scrollable={false}
           >
-            <View
-              style={{
-                backgroundColor: '#f00',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 36,
-                }}
-              >
-                {t('Hello!')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Select Your Role.')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-                marginTop: 64,
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Choose From')}
-              </Text>
-            </View>
-
-          {this.renderSelectionButtons()}
-
-          {
-            /*
-            <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
-            />
-            */
-          }
+            {this.renderTitleContainer()}
+            {this.renderSubtitleContainer()}
+            {this.renderSelectionButtonContainer()}
           </Body>
         )}
       </Translation>
     );
   };
+
+  // renderBody = () => {
+  //   const { props } = this;
+  //
+  //   return (
+  //     <Translation>
+  //       {(t) => (
+  //         <Body
+  //           style={styles.body}
+  //           scrollable={false}
+  //         >
+  //           <View
+  //             style={{
+  //               backgroundColor: '#f00',
+  //               alignItems: 'center',
+  //             }}
+  //           >
+  //             <Text
+  //               style={{
+  //                 backgroundColor: '#00f',
+  //                 color: '#fff',
+  //                 fontSize: 36,
+  //               }}
+  //             >
+  //               {t('Hello!')}
+  //             </Text>
+  //           </View>
+  //
+  //           <View
+  //             style={{
+  //               backgroundColor: '#ff0',
+  //               alignItems: 'center',
+  //             }}
+  //           >
+  //             <Text
+  //               style={{
+  //                 backgroundColor: '#00f',
+  //                 color: '#fff',
+  //                 fontSize: 17,
+  //                 textTransform: 'uppercase',
+  //               }}
+  //             >
+  //               {t('Select Your Role.')}
+  //             </Text>
+  //           </View>
+  //
+  //           <View
+  //             style={{
+  //               backgroundColor: '#ff0',
+  //               alignItems: 'center',
+  //               marginTop: 64,
+  //             }}
+  //           >
+  //             <Text
+  //               style={{
+  //                 backgroundColor: '#00f',
+  //                 color: '#fff',
+  //                 fontSize: 17,
+  //                 textTransform: 'uppercase',
+  //               }}
+  //             >
+  //               {t('Choose From')}
+  //             </Text>
+  //           </View>
+  //
+  //         {this.renderSelectionButtons()}
+  //
+  //         {
+  //           /*
+  //           <List
+  //             innerRef={(ref) => {
+  //               props.setListRef(3, props.navigation.getState().index, ref);
+  //             }}
+  //             contentContainerStyle={styles.listContentContainer}
+  //             sections={sections}
+  //             renderItem={this.renderItem}
+  //             androidRefreshControlColor={Theme.colors.general.black}
+  //             iosRefreshControlColor={Theme.colors.general.white}
+  //             refreshing={props.refreshing}
+  //             onRefresh={async (refreshing) => {
+  //               // props.setRefreshing(true);
+  //
+  //               // props.setFeedsPagingPage(0);
+  //               //
+  //               // this.loadFeeds([]);
+  //
+  //               // await FeedProvider.prefetchFeeds(props);
+  //               //
+  //               // props.setRefreshing(false);
+  //             }}
+  //           />
+  //           */
+  //         }
+  //         </Body>
+  //       )}
+  //     </Translation>
+  //   );
+  // };
 
   renderFooter = () => {
     const { props } = this;
@@ -469,12 +330,66 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 32,
   },
+  titleContainer: {
+    // backgroundColor: '#f00',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  title: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 36,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 8,
+    textTransform: 'uppercase',
+  },
+  description: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
+  },
+  subtitleContainer: {
+    // backgroundColor: '#0ff',
+    alignItems: 'center',
+    marginTop: 96,
+    marginBottom: 8,
+  },
+  subtitle: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1.7,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    marginHorizontal: 64,
+  },
   image: {
     // backgroundColor: '#0f0',
     width: 40,
     height: 40,
   },
+  selectionButtonContainer: {
+    // backgroundColor: '#f00',
+    flexDirection: 'row',
+    marginTop: 16,
+  },
   selectionButton: {
+    flex: 1,
+    aspectRatio: 1,
+    marginHorizontal: 8,
+  },
+  selectionButtonButton: {
+    flex: 1,
+  },
+  selectionButtonImage: {
+    width: 60,
+    height: 60,
+  },
+  selectionButtonText: {
     marginTop: 16,
   },
   footer: {
@@ -484,7 +399,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f0f',
     alignItems: 'center',
     paddingTop: 16,
-    paddingBottom: 48,
+    paddingBottom: 64,
   },
   for: {
     color: Theme.colors.text.subtitle,
@@ -505,7 +420,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpAccountTypeSelectionView);

@@ -14,7 +14,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
-  ProjectAction,
+  ProjectViewAction,
   MainTabNavigatorAction,
 } from '../../redux';
 

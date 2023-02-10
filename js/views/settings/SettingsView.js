@@ -13,7 +13,10 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { SettingsAction, MainTabNavigatorAction } from '../../redux';
+import {
+  SettingsViewAction,
+  MainTabNavigatorAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -202,8 +205,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     // color: Theme.colors.general.white,
-    // fontSize: 17,
-    // fontFamily: Theme.fonts.bold,
+    fontSize: 15,
+    fontFamily: Theme.fonts.medium,
     // letterSpacing: 2.22,
     // textTransform: 'uppercase',
   },

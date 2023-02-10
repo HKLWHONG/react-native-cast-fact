@@ -13,6 +13,10 @@ const en = {
     feed: 'Feed',
     my_projects: 'My Projects',
     my_events: 'My Events',
+    artisit: 'Artisit',
+    viewer: 'Viewer',
+    camera: 'Camera',
+    photos: 'Photos',
     name: 'Name',
     duration: 'Duration',
     location: 'Location',
@@ -72,6 +76,12 @@ const en = {
       phone_label: 'Phone',
       password_label: 'Password',
     },
+    sign_up_account_type_selection: {
+      header: '',
+      title: 'Hello',
+      description: 'Select Your Role.',
+      subtitle: 'Choose From',
+    },
     feed: {
       header: 'Cast Fact',
     },
@@ -100,6 +110,9 @@ const en = {
     },
     profile: {
       header: 'Profile',
+    },
+    profile_picture_selection: {
+      header: '',
     },
     settings: {
       header: 'Settings',
