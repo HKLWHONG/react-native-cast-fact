@@ -249,7 +249,7 @@ class LoginView extends BaseComponent {
 
                   await FeedProvider.prefetchFeeds(props);
 
-                  Router.route(props, 'Main');
+                  Router.route(props, 'DrawerNavigator');
                 })
                 .catch((error) => {
                   console.error(error);
@@ -338,7 +338,7 @@ class LoginView extends BaseComponent {
             <SingleTouch
               style={styles.createAccountContainer}
               onPress={() => {
-                Router.push(props, "SignUp");
+                Router.push(props, "SignUpView");
               }}
             >
               <View style={styles.createAccountSubContainer}>

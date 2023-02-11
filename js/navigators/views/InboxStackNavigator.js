@@ -62,7 +62,7 @@ class InboxStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Inbox"
+              name="InboxView"
               component={InboxView}
               options={{
                 title: t('views.inbox.header'),

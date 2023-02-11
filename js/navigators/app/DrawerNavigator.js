@@ -78,7 +78,7 @@ class DrawerNavigator extends BaseComponent {
                 props.selectDrawer(0);
                 props.selectTab(0);
 
-                Router.route(props, 'SearchStack');
+                Router.route(props, 'SearchStackNavigator');
               }}
             />
           </Body>
@@ -135,11 +135,11 @@ class DrawerNavigator extends BaseComponent {
             animationEnabled: false,
           }}
         >
-          <Stack.Screen name="CreateProjectSlideSheet" component={CreateProjectSlideSheetContainerView} />
-          <Stack.Screen name="WelcomeSlideSheet" component={WelcomeSlideSheetContainerView} />
-          <Stack.Screen name="LoginStack" component={LoginStackNavigator} />
-          <Stack.Screen name="SignUpStack" component={SignUpStackNavigator} />
-          <Stack.Screen name="SettingsSlideSheet" component={SettingsSlideSheetContainerView} />
+          <Stack.Screen name="CreateProjectSlideSheetContainerView" component={CreateProjectSlideSheetContainerView} />
+          <Stack.Screen name="WelcomeSlideSheetContainerView" component={WelcomeSlideSheetContainerView} />
+          <Stack.Screen name="LoginStackNavigator" component={LoginStackNavigator} />
+          <Stack.Screen name="SignUpStackNavigator" component={SignUpStackNavigator} />
+          <Stack.Screen name="SettingsSlideSheetContainerView" component={SettingsSlideSheetContainerView} />
         </Stack.Group>
       </Stack.Navigator>
     );

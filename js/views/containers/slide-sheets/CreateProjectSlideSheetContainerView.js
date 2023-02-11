@@ -117,11 +117,11 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs.CreateProjectSlideSheet) {
+              if (!props.slideSheetRefs[this.constructor.name]) {
                 return;
               }
 
-              props.slideSheetRefs.CreateProjectSlideSheet.close();
+              props.slideSheetRefs[this.constructor.name].close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -129,11 +129,11 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
                 title={t('views.create_project.title')}
                 components={[
                   {
-                    name: 'CreateProjectStep1',
+                    name: 'CreateProjectStep1View',
                     object: CreateProjectStep1View,
                   },
                   {
-                    name: 'CreateProjectStep2',
+                    name: 'CreateProjectStep2View',
                     object: CreateProjectStep2View,
                   },
                 ]}
@@ -142,7 +142,7 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
                     return;
                   }
 
-                  props.addSlideSheetRef('CreateProjectSlideSheet', ref);
+                  props.addSlideSheetRef(this.constructor.name, ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);

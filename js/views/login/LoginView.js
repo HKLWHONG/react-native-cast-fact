@@ -266,13 +266,13 @@ class LoginView extends BaseComponent {
 
                   Router.goBack(props);
 
-                  if (!props.slideSheetRefs.WelcomeSlideSheet) {
+                  if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
                     return;
                   }
 
-                  props.slideSheetRefs.WelcomeSlideSheet.close();
+                  props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
 
-                  Router.jumpTo(props, 'AccountStack');
+                  Router.jumpTo(props, 'AccountStackNavigator');
                 })
                 .catch((error) => {
                   console.error(error);

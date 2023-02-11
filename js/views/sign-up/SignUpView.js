@@ -72,8 +72,8 @@ class SignUpView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
-    props.addSignUpStackNavigatorOnRightButtonPress('SignUp', (e) => { //this.constructor.name
-      Router.push(props, 'SignUpAccountTypeSelection');
+    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, (e) => {
+      Router.push(props, 'SignUpAccountTypeSelectionView');
     });
 
     if (
@@ -379,7 +379,7 @@ class SignUpView extends BaseComponent {
   //           style={styles.nextButton}
   //           text={t('app.next')}
   //           onPress={() => {
-  //             Router.push(props, "SignUpAccountTypeSelection");
+  //             Router.push(props, 'SignUpAccountTypeSelectionView');
   //
   //             // console.log('[account] ', props.account);
   //

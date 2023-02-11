@@ -13,8 +13,8 @@ import { store, MainTabNavigatorAction } from '../redux';
 
 const config = {
   coreStacks: [
-    'Launch',
-    'Main',
+    'LaunchView',
+    'DrawerNavigator',
   ],
 };
 
@@ -71,20 +71,20 @@ export const route = (props, stack, name) => {
     }),
   );
 
-  if (stack === 'SearchStack') {
+  if (stack === 'SearchStackNavigator') {
     store.dispatch(MainTabNavigatorAction.select(0));
-  } else if (stack === 'Stub1Stack') {
+  } else if (stack === 'Stub1') {
     // store.dispatch(MainTabNavigatorAction.select(1));
-  } else if (stack === 'Stub2Stack') {
+  } else if (stack === 'Stub2') {
     // store.dispatch(MainTabNavigatorAction.select(2));
-  } else if (stack === 'Stub3Stack') {
+  } else if (stack === 'Stub3') {
     // store.dispatch(MainTabNavigatorAction.select(3));
   }
 
   // if (
-  //   stack !== 'Launch' &&
-  //   stack !== 'Login' &&
-  //   stack !== 'SignUp'
+  //   stack !== 'LaunchView' &&
+  //   stack !== 'LoginView' &&
+  //   stack !== 'SignUpView'
   // ) {
   //   props.navigation.dispatch(DrawerActions.closeDrawer());
   // }

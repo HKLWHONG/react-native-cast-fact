@@ -115,11 +115,11 @@ class SettingsSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs.SettingsSlideSheet) {
+              if (!props.slideSheetRefs[this.constructor.name]) {
                 return;
               }
 
-              props.slideSheetRefs.SettingsSlideSheet.close();
+              props.slideSheetRefs[this.constructor.name].close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -127,7 +127,7 @@ class SettingsSlideSheetContainerView extends BaseComponent {
                 title={t('views.settings.header')}
                 components={[
                   {
-                    name: 'Settings',
+                    name: 'SettingsView',
                     object: SettingsView,
                   },
                 ]}
@@ -136,7 +136,7 @@ class SettingsSlideSheetContainerView extends BaseComponent {
                     return;
                   }
 
-                  props.addSlideSheetRef('SettingsSlideSheet', ref);
+                  props.addSlideSheetRef(this.constructor.name, ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);

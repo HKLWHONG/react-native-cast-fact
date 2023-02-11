@@ -62,7 +62,7 @@ class AccountStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Account"
+              name="AccountView"
               component={AccountView}
               options={{
                 title: t('views.account.header'),

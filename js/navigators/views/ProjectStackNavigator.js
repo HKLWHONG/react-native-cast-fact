@@ -70,7 +70,7 @@ class ProjectStackNavigator extends BaseComponent {
               source={ic_calendar_plus}
               resizeMode="center"
               onPress={() => {
-                Router.push(props, "CreateProjectSlideSheet");
+                Router.push(props, 'CreateProjectSlideSheetContainerView');
               }}
             />
           // </ContextMenu>
@@ -106,7 +106,7 @@ class ProjectStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Project"
+              name="ProjectView"
               component={ProjectView}
               options={{
                 title: t('views.project.header'),

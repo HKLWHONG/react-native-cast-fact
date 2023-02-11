@@ -67,7 +67,7 @@ class SignUpStackNavigator extends BaseComponent {
     const { props } = this;
 
     const screens = [
-      'SignUpAccountTypeSelection',
+      'SignUpAccountTypeSelectionView',
     ];
 
     const filteredScreens = screens.filter((screen) => {
@@ -154,21 +154,21 @@ class SignUpStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="SignUp"
+              name="SignUpView"
               component={SignUpView}
               options={{
                 title: t('views.sign_up.header'),
               }}
             />
             <Stack.Screen
-              name="SignUpAccountTypeSelection"
+              name="SignUpAccountTypeSelectionView"
               component={SignUpAccountTypeSelectionView}
               options={{
                 title: t('views.sign_up_account_type_selection.header'),
               }}
             />
             <Stack.Screen
-              name="ProfilePictureSelection"
+              name="ProfilePictureSelectionView"
               component={ProfilePictureSelectionView}
               options={{
                 title: t('views.profile_picture_selection.header'),

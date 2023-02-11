@@ -80,13 +80,13 @@ class Main extends BaseComponent {
               }}
             >
               <Stack.Group>
-                <Stack.Screen name="Launch" component={LaunchView} />
+                <Stack.Screen name="LaunchView" component={LaunchView} />
                 {
                   /*
-                    <Stack.Screen name="Login" component={LoginView} />
+                    <Stack.Screen name="LoginView" component={LoginView} />
                   */
                 }
-                <Stack.Screen name="Main" component={DrawerNavigator} />
+                <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
               </Stack.Group>
               <Stack.Group
                 screenOptions={{
@@ -96,7 +96,7 @@ class Main extends BaseComponent {
               >
                 {
                   /*
-                    <Stack.Screen name="SignUp" component={SignUpView} />
+                    <Stack.Screen name="SignUpView" component={SignUpView} />
                   */
                 }
               </Stack.Group>

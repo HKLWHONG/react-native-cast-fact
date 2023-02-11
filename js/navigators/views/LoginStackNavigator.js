@@ -71,7 +71,7 @@ class LoginStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Login"
+              name="LoginView"
               component={LoginView}
               options={{
                 title: t('views.login.header'),

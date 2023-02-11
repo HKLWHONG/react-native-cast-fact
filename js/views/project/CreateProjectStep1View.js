@@ -323,7 +323,7 @@ class CreateProjectStep1View extends BaseComponent {
             style={styles.bottomButton}
             text={t('app.next')}
             onPress={() => {
-              Router.push(props, 'CreateProjectStep2');
+              Router.push(props, 'CreateProjectStep2View');
             }}
           />
         )}

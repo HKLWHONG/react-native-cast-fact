@@ -175,7 +175,7 @@ class WelcomeView extends BaseComponent {
             style={styles.createAccountButton}
             text={t('app.create_account')}
             onPress={() => {
-              Router.push(props.slideSheetPropsList.WelcomeSlideSheet, "SignUpStack");
+              Router.push(props.slideSheetPropsList['WelcomeSlideSheetContainerView'], 'SignUpStackNavigator');
             }}
           />
         )}
@@ -214,7 +214,7 @@ class WelcomeView extends BaseComponent {
             <SingleTouch
               style={styles.loginContainer}
               onPress={() => {
-                Router.push(props.slideSheetPropsList.WelcomeSlideSheet, "LoginStack");
+                Router.push(props.slideSheetPropsList['WelcomeSlideSheetContainerView'], 'LoginStackNavigator');
               }}
             >
               <View style={styles.loginSubContainer}>

@@ -282,7 +282,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
               source={preview}
               text={t('Camera')}
               onPress={() => {
-                Router.push(props, "ProfileCastSheetEdition");
+                Router.push(props, 'ProfileCastSheetEditionView');
               }}
             />
             <Button
@@ -290,7 +290,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
               source={preview}
               text={t('Photos')}
               onPress={() => {
-                Router.push(props, "ProfileCastSheetEdition");
+                Router.push(props, 'ProfileCastSheetEditionView');
               }}
             />
           </View>

@@ -144,7 +144,7 @@ class MainTabNavigator extends BaseComponent {
         //
         // routes = routes.map((route) => route.name);
         //
-        // Router.route(props, 'SearchStack', routes);
+        // Router.route(props, 'SearchStackNavigator', routes);
 
         Router.route(props, stack);
       }
@@ -162,7 +162,7 @@ class MainTabNavigator extends BaseComponent {
            shifting={false}
           >
             <Tab.Screen
-              name="SearchStack"
+              name="SearchStackNavigator"
               component={SearchStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
@@ -195,14 +195,14 @@ class MainTabNavigator extends BaseComponent {
               }}
               listeners={(params) => ({
                 tabPress: (e) => {
-                  this.tabPress(params, e, { index: 0, stack: 'SearchStack' });
+                  this.tabPress(params, e, { index: 0, stack: 'SearchStackNavigator' });
                 },
               })}
             />
             {
               /*
               <Tab.Screen
-                name="InboxStack"
+                name="InboxStackNavigator"
                 component={InboxStackNavigator}
                 options={{
                   tabBarIcon: ({focused}) => {
@@ -235,12 +235,12 @@ class MainTabNavigator extends BaseComponent {
                 }}
                 listeners={(params) => ({
                   tabPress: (e) => {
-                    this.tabPress(params, e, { index: 1, stack: 'InboxStack' });
+                    this.tabPress(params, e, { index: 1, stack: 'InboxStackNavigator' });
                   },
                 })}
               />
               <Tab.Screen
-                name="ProjectStack"
+                name="ProjectStackNavigator"
                 component={ProjectStackNavigator}
                 options={{
                   tabBarIcon: ({focused}) => {
@@ -273,14 +273,14 @@ class MainTabNavigator extends BaseComponent {
                 }}
                 listeners={(params) => ({
                   tabPress: (e) => {
-                    this.tabPress(params, e, { index: 2, stack: 'ProjectStack' });
+                    this.tabPress(params, e, { index: 2, stack: 'ProjectStackNavigator' });
                   },
                 })}
               />
               */
             }
             <Tab.Screen
-              name="AccountStack"
+              name="AccountStackNavigator"
               component={AccountStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
@@ -315,23 +315,23 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: async (e) => {
                   e.preventDefault();
 
-                  Router.push(props, "WelcomeSlideSheet");
+                  Router.push(props, 'WelcomeSlideSheetContainerView');
 
                   // AuthStorage.getToken()
                   //   .then(() => {
-                  //     this.tabPress(params, e, { index: 1, stack: 'AccountStack' });
+                  //     this.tabPress(params, e, { index: 1, stack: 'AccountStackNavigator' });
                   //   })
                   //   .catch((error) => {
                   //     console.error(error);
                   //
-                  //     Router.push(props, "WelcomeSlideSheet");
+                  //     Router.push(props, 'WelcomeSlideSheetContainerView');
                   //   });
                 },
               })}
             />
             <Tab.Screen
-              name="SettingsStack"
-              component={AccountStackNavigator}
+              name="SettingsSlideSheetContainerView"
+              component={View}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -365,14 +365,14 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: (e) => {
                   e.preventDefault();
 
-                  Router.push(props, "SettingsSlideSheet");
+                  Router.push(props, 'SettingsSlideSheetContainerView');
                 },
               })}
             />
             {
               /*
               <Tab.Screen
-                name="ProjectStack"
+                name="ProjectStackNavigator"
                 component={ProjectStackNavigator}
                 options={{
                   tabBarIcon: ({focused}) => {
@@ -405,7 +405,7 @@ class MainTabNavigator extends BaseComponent {
                 }}
                 listeners={(params) => ({
                   tabPress: (e) => {
-                    this.tabPress(params, e, { index: 3, stack: 'ProjectStack' });
+                    this.tabPress(params, e, { index: 3, stack: 'ProjectStackNavigator' });
                   },
                 })}
               />

@@ -228,7 +228,7 @@ class FeedView extends BaseComponent {
           >
             <SingleTouch
               onPress={() => {
-                Router.push(props, "FeedStack", "Search");
+                Router.push(props, 'FeedStackNavigator', 'SearchView');
               }}
             >
               <SearchBar disabled />
@@ -261,10 +261,10 @@ class FeedView extends BaseComponent {
 
               await SearchProvider.presearch(props, {}, { disableAddRecentSearches: true });
 
-              Router.push(props, "FeedStack", "SearchResult");
+              Router.push(props, 'FeedStackNavigator', 'SearchResultView');
             }}
             onPressTag={(tag) => {
-              Router.push(props, "FeedStack", "Search");
+              Router.push(props, 'FeedStackNavigator', 'SearchView');
             }}
           />
         )}
@@ -344,7 +344,7 @@ class FeedView extends BaseComponent {
 
     console.log('[onPressProfile]');
 
-    Router.push(props, "FeedStack", "Profile");
+    Router.push(props, 'FeedStackNavigator', 'ProfileView');
   };
 
   onPressCalendar = ({ item, index, separators }) => {

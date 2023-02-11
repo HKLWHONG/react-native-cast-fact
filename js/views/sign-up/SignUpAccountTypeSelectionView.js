@@ -136,7 +136,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               source={preview}
               text={t('app.artisit')}
               onPress={() => {
-                Router.push(props, "ProfilePictureSelection");
+                Router.push(props, 'ProfilePictureSelectionView');
               }}
             />
             <Button
@@ -147,7 +147,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               source={preview}
               text={t('app.viewer')}
               onPress={() => {
-                // Router.push(props, "SignUp");
+                // Router.push(props, "SignUpView");
               }}
             />
           </View>

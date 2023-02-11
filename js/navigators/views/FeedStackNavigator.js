@@ -112,7 +112,7 @@ class FeedStackNavigator extends BaseComponent {
                 // console.log('[state-changed-screen-name]', state.routeNames[state.index]);
 
                 let index = state.routeNames.findIndex((routeName) => {
-                  return routeName === 'SearchResult';
+                  return routeName === 'SearchResultView';
                 });
 
                 if (state.index < index) {
@@ -131,28 +131,28 @@ class FeedStackNavigator extends BaseComponent {
             }}
           >
             <Stack.Screen
-              name="Feed"
+              name="FeedView"
               component={FeedView}
               options={{
                 title: t('views.feed.header'),
               }}
             />
             <Stack.Screen
-              name="Search"
+              name="SearchView"
               component={SearchView}
               options={{
                 title: t('views.search.header'),
               }}
             />
             <Stack.Screen
-              name="SearchResult"
+              name="SearchResultView"
               component={SearchResultView}
               options={{
                 title: t('views.search_result.header'),
               }}
             />
             <Stack.Screen
-              name="Profile"
+              name="ProfileView"
               component={ProfileView}
               options={{
                 title: t('views.profile.header'),

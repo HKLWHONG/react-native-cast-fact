@@ -91,7 +91,7 @@ class WelcomeSlideSheetContainerView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.addSlideSheetProps('WelcomeSlideSheet', props);
+    props.addSlideSheetProps(this.constructor.name, props);
   };
 
   clearData = () => {
@@ -125,11 +125,11 @@ class WelcomeSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs.WelcomeSlideSheet) {
+              if (!props.slideSheetRefs[this.constructor.name]) {
                 return;
               }
 
-              props.slideSheetRefs.WelcomeSlideSheet.close();
+              props.slideSheetRefs[this.constructor.name].close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -137,39 +137,39 @@ class WelcomeSlideSheetContainerView extends BaseComponent {
                 title={t('')}
                 components={[
                   {
-                    name: 'Welcome',
+                    name: 'WelcomeView',
                     object: WelcomeView,
                   },
                   // {
-                  //   name: 'Login',
+                  //   name: 'LoginView',
                   //   object: LoginView,
                   // },
                   // {
-                  //   name: 'SignUp',
+                  //   name: 'SignUpView',
                   //   object: SignUpView,
                   // },
                   // {
-                  //   name: 'SignUpAccountTypeSelection',
+                  //   name: 'SignUpAccountTypeSelectionView',
                   //   object: SignUpAccountTypeSelectionView,
                   // },
                   // {
-                  //   name: 'ProfilePictureSelection',
+                  //   name: 'ProfilePictureSelectionView',
                   //   object: ProfilePictureSelectionView,
                   // },
                   // {
-                  //   name: 'ProfileNameEdition',
+                  //   name: 'ProfileNameEditionView',
                   //   object: ProfileNameEditionView,
                   // },
                   // {
-                  //   name: 'ProfileNameDisplaySelection',
+                  //   name: 'ProfileNameDisplaySelectionView',
                   //   object: ProfileNameDisplaySelectionView,
                   // },
                   // {
-                  //   name: 'ProfileCastSheetEdition',
+                  //   name: 'ProfileCastSheetEditionView',
                   //   object: ProfileCastSheetEditionView,
                   // },
                   // {
-                  //   name: 'ProfileCompletion',
+                  //   name: 'ProfileCompletionView',
                   //   object: ProfileCompletionView,
                   // },
                 ]}
@@ -178,7 +178,7 @@ class WelcomeSlideSheetContainerView extends BaseComponent {
                     return;
                   }
 
-                  props.addSlideSheetRef('WelcomeSlideSheet', ref);
+                  props.addSlideSheetRef(this.constructor.name, ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);

@@ -79,7 +79,7 @@ class LaunchView extends BaseComponent {
       FeedProvider.prefetchFeeds(props),
     ])
       .then(() => {
-        Router.route(props, 'Main');
+        Router.route(props, 'DrawerNavigator');
       });
 
     //
@@ -90,12 +90,12 @@ class LaunchView extends BaseComponent {
     //
     //     await FeedProvider.prefetchFeeds(props);
     //
-    //     Router.route(props, 'Main');
+    //     Router.route(props, 'DrawerNavigator');
     //   })
     //   .catch((error) => {
     //     console.error(error);
     //
-    //     Router.route(props, 'Login');
+    //     Router.route(props, 'LoginView');
     //   });
   };
 
