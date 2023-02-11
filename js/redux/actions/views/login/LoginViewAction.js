@@ -13,11 +13,11 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const addRef = (refId, refObject) => (dispatch) => {
+export const addRef = (id, object) => (dispatch) => {
   dispatch({
     type: LoginViewActionType.ADD_REF,
-    refId: refId,
-    refObject: refObject,
+    id: id,
+    object: object,
   });
 
   return Promise.resolve(store.getState());

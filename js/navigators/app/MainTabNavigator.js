@@ -84,11 +84,11 @@ class MainTabNavigator extends BaseComponent {
             ) {
               // console.log('[double-tapped]');
 
-              props.resetCriteria();
-
-              props.resetRecentSearchesTags();
-
-              TagProcessor.reload();
+              // props.resetCriteria();
+              //
+              // props.resetRecentSearchesTags();
+              //
+              // TagProcessor.reload();
 
               navigation.popToTop();
             } else {

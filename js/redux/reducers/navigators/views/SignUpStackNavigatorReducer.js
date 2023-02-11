@@ -9,7 +9,7 @@ const initState = () => {
   return {
     hiddenRight: false,
     callbacks: {
-      onRightButtonPress: undefined,
+      onRightButtonPressList: {},
     },
   };
 };
@@ -28,14 +28,14 @@ export default function signUpStackNavigatorReducer(state = initState(), action)
         hiddenRight: action.hiddenRight,
       };
 
-    case SignUpStackNavigatorActionType.ON_RIGHT_BUTTON_PRESS:
-      return {
-        ...state,
-        callbacks: {
-          ...state.callbacks,
-          onRightButtonPress: action.onRightButtonPress,
-        },
-      };
+    case SignUpStackNavigatorActionType.ADD_ON_RIGHT_BUTTON_PRESS:
+      if (!action.id) {
+        return state;
+      }
+
+      state.callbacks.onRightButtonPressList[action.id] = action.object;
+
+      return state;
 
     default:
       return state;

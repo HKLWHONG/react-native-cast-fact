@@ -67,7 +67,7 @@ class SignUpStackNavigator extends BaseComponent {
     const { props } = this;
 
     const screens = [
-      'ProfilePictureSelection',
+      'SignUpAccountTypeSelection',
     ];
 
     const filteredScreens = screens.filter((screen) => {
@@ -109,11 +109,11 @@ class SignUpStackNavigator extends BaseComponent {
                           onPress={(e) => {
                             console.log('[on-right-button-press]');
 
-                            if (store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPress) {
-                              store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPress(e);
+                            if (route.name) {
+                              if (store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPressList[route.name]) {
+                                store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPressList[route.name](e);
+                              }
                             }
-
-                            props.setOnRightButtonPress(undefined);
                           }}
                         />
                       );
@@ -126,13 +126,13 @@ class SignUpStackNavigator extends BaseComponent {
                       // console.log('[navigation]', navigation);
                       // console.log('[route.name]', route.name);
 
-                      if (route.name) {
-                        props.setHiddenRight(this.hiddenRightIfNeeded(route.name));
-
-                        props.setOnRightButtonPress((e) => {
-                          Router.push(props, route.name);
-                        });
-                      }
+                      // if (route.name) {
+                      //   props.setHiddenRight(this.hiddenRightIfNeeded(route.name));
+                      //
+                      //   props.setOnRightButtonPress((e) => {
+                      //     Router.push(props, route.name);
+                      //   });
+                      // }
 
                       navigation.goBack();
                     }}
@@ -140,6 +140,17 @@ class SignUpStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
+            }}
+            screenListeners={{
+              state: (e) => {
+                const { state } = e.data;
+
+                // console.log('[state-changed]', state);
+                // console.log('[state-changed-route-names]', state.routeNames);
+                // console.log('[state-changed-screen-name]', state.routeNames[state.index]);
+
+                props.setHiddenRight(this.hiddenRightIfNeeded(state.routeNames[state.index]));
+              },
             }}
           >
             <Stack.Screen
@@ -194,7 +205,7 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SignUpStackNavigatorAction.reset(...args)),
     setHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
-    setOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.setOnRightButtonPress(...args)),
+    addOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };
 }
 

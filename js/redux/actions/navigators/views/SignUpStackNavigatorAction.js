@@ -22,10 +22,11 @@ export const setHiddenRight = (hiddenRight) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setOnRightButtonPress = (onRightButtonPress) => (dispatch) => {
+export const addOnRightButtonPress = (id, object) => (dispatch) => {
   dispatch({
-    type: SignUpStackNavigatorActionType.ON_RIGHT_BUTTON_PRESS,
-    onRightButtonPress: onRightButtonPress,
+    type: SignUpStackNavigatorActionType.ADD_ON_RIGHT_BUTTON_PRESS,
+    id: id,
+    object: object,
   });
 
   return Promise.resolve(store.getState());

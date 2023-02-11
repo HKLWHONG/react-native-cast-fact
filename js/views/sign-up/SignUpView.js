@@ -72,8 +72,8 @@ class SignUpView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
-    props.setSignUpStackNavigatorOnRightButtonPress((e) => {
-      Router.push(props, "SignUpAccountTypeSelection");
+    props.addSignUpStackNavigatorOnRightButtonPress('SignUp', (e) => { //this.constructor.name
+      Router.push(props, 'SignUpAccountTypeSelection');
     });
 
     if (
@@ -542,7 +542,7 @@ function mapDispatchToProps(dispatch) {
     setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),
     setPassword: (...args) => dispatch(SignUpViewAction.setPassword(...args)),
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
-    setSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.setOnRightButtonPress(...args)),
+    addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };
 }
 

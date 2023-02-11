@@ -80,22 +80,22 @@ class SearchStackNavigator extends BaseComponent {
                       // console.log('[navigation]', navigation);
                       // console.log('[route.name]', route.name);
 
-                      let state = navigation.getState();
-
-                      if (state && state.index == 1) {
-                        props.resetCriteria();
-
-                        props.resetRecentSearchesTags();
-
-                        TagProcessor.reload();
-                      }
-
-                      if (back && back.title === t('views.search.header')) {
-                        SearchProvider.search(props, { prefetch: true }, {})
-                          .catch((error) => {
-                            console.error(error);
-                          });
-                      }
+                      // let state = navigation.getState();
+                      //
+                      // if (state && state.index == 1) {
+                      //   props.resetCriteria();
+                      //
+                      //   props.resetRecentSearchesTags();
+                      //
+                      //   TagProcessor.reload();
+                      // }
+                      //
+                      // if (back && back.title === t('views.search.header')) {
+                      //   SearchProvider.search(props, { prefetch: true }, {})
+                      //     .catch((error) => {
+                      //       console.error(error);
+                      //     });
+                      // }
 
                       navigation.goBack();
                     }}
@@ -103,6 +103,31 @@ class SearchStackNavigator extends BaseComponent {
                 );
               },
               animationEnabled: Platform.OS === 'ios',
+            }}
+            screenListeners={{
+              state: (e) => {
+                const { state } = e.data;
+
+                // console.log('[state-changed]', state);
+                // console.log('[state-changed-screen-name]', state.routeNames[state.index]);
+
+                let index = state.routeNames.findIndex((routeName) => {
+                  return routeName === 'SearchResult';
+                });
+
+                if (state.index < index) {
+                  props.resetCriteria();
+
+                  props.resetRecentSearchesTags();
+
+                  TagProcessor.reload();
+
+                  SearchProvider.search(props, { prefetch: true }, {})
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }
+              },
             }}
           >
             <Stack.Screen

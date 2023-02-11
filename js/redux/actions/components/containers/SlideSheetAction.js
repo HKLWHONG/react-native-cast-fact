@@ -13,21 +13,21 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const addRef = (refId, refObject) => (dispatch) => {
+export const addRef = (id, object) => (dispatch) => {
   dispatch({
     type: SlideSheetActionType.ADD_REF,
-    refId: refId,
-    refObject: refObject,
+    id: id,
+    object: object,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const addProps = (propsId, propsObject) => (dispatch) => {
+export const addProps = (id, object) => (dispatch) => {
   dispatch({
     type: SlideSheetActionType.ADD_PROPS,
-    propsId: propsId,
-    propsObject: propsObject,
+    id: id,
+    object: object,
   });
 
   return Promise.resolve(store.getState());

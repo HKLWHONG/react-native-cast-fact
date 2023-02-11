@@ -35,11 +35,11 @@ export default function signUpViewReducer(state = initState(), action) {
       return initState();
 
     case SignUpViewActionType.ADD_REF:
-      if (!action.refId) {
+      if (!action.id) {
         return state;
       }
 
-      state.refs[action.refId] = action.refObject;
+      state.refs[action.id] = action.object;
 
       return state;
 

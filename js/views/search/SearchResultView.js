@@ -97,22 +97,22 @@ class SearchResultView extends BaseComponent {
 
     // console.log('[this.props.navigation]', this.props.navigation);
 
-    let state = props.navigation && props.navigation.getState();
-
-    // console.log('[state]', state);
-
-    if (state && state.index == 0) {
-      props.resetCriteria();
-
-      props.resetRecentSearchesTags();
-
-      TagProcessor.reload();
-
-      SearchProvider.search(props, { prefetch: true }, {})
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+    // let state = props.navigation && props.navigation.getState();
+    //
+    // // console.log('[state]', state);
+    //
+    // if (state && state.index == 0) {
+    //   props.resetCriteria();
+    //
+    //   props.resetRecentSearchesTags();
+    //
+    //   TagProcessor.reload();
+    //
+    //   SearchProvider.search(props, { prefetch: true }, {})
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // }
   };
 
   loadMoreFeeds = (feeds) => {
