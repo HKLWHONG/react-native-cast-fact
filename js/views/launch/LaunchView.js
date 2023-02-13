@@ -69,14 +69,8 @@ class LaunchView extends BaseComponent {
     props.selectDrawer(0);
     props.selectTab(0);
 
-    TagProvider.prefetchTags(props)
-      .catch((error) => {
-        console.error(error);
-      });
-
     Promise.all([
-      SearchProvider.prefetchRecentSearches(props),
-      FeedProvider.prefetchFeeds(props),
+      TagProvider.prefetchTags(props),
     ])
       .then(() => {
         Router.route(props, 'DrawerNavigator');

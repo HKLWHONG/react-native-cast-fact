@@ -81,11 +81,11 @@ class LoginView extends BaseComponent {
     const { props } = this;
 
     if (
-      props.refs.EmailTextField
+      props.refs['EmailTextField']
       &&
-      !props.refs.EmailTextField.isFocused()
+      !props.refs['EmailTextField'].isFocused()
     ) {
-      props.refs.EmailTextField.focus();
+      props.refs['EmailTextField'].focus();
     }
 
     // props.setEmail('user001@gmail.com');
@@ -262,9 +262,9 @@ class LoginView extends BaseComponent {
 
                   await SearchProvider.prefetchRecentSearches(props);
 
-                  await FeedProvider.prefetchFeeds(props);
+                  // await FeedProvider.prefetchFeeds(props);
 
-                  Router.goBack(props);
+                  Router.dismiss(props);
 
                   if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
                     return;

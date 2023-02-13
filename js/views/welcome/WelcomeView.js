@@ -189,10 +189,7 @@ class WelcomeView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}
-            scrollable={false}
-          >
+          <Body style={styles.body}>
             {this.renderTitleContainer()}
             {this.renderDescriptionContainer()}
             {this.renderSubtitleContainer()}
@@ -282,7 +279,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 32,
+    marginTop: 16,
   },
   titleContainer: {
     // backgroundColor: '#f00',

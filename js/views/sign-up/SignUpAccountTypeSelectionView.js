@@ -15,7 +15,6 @@ import {
 import { connect } from 'react-redux';
 import {
   SignUpAccountTypeSelectionViewAction,
-  SignUpStackNavigatorAction,
   MainTabNavigatorAction,
 } from '../../redux';
 
@@ -66,8 +65,6 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
-
-    props.setSignUpStackNavigatorHiddenRight(true);
   };
 
   clearData = () => {
@@ -147,7 +144,15 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               source={preview}
               text={t('app.viewer')}
               onPress={() => {
-                // Router.push(props, "SignUpView");
+                Router.dismiss(props);
+
+                if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
+                  return;
+                }
+
+                props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
+
+                Router.jumpTo(props, 'AccountStackNavigator');
               }}
             />
           </View>
@@ -162,10 +167,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}
-            scrollable={false}
-          >
+          <Body style={styles.body}>
             {this.renderTitleContainer()}
             {this.renderSubtitleContainer()}
             {this.renderSelectionButtonContainer()}
@@ -181,10 +183,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
   //   return (
   //     <Translation>
   //       {(t) => (
-  //         <Body
-  //           style={styles.body}
-  //           scrollable={false}
-  //         >
+  //         <Body style={styles.body}>
   //           <View
   //             style={{
   //               backgroundColor: '#f00',
@@ -328,7 +327,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 32,
+    marginTop: 16,
   },
   titleContainer: {
     // backgroundColor: '#f00',
@@ -416,12 +415,14 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    slideSheetRefs: state.slideSheetReducer.refs,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+
   };
 }
 

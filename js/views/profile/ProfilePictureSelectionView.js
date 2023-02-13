@@ -10,6 +10,7 @@ import {
   Dimensions,
   View,
   Text,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -32,13 +33,16 @@ import {
 import {
   Button,
   Separator,
+  ViewIndicator,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
+import { Camera } from 'react-native-vision-camera';
+
+import ImagePicker from 'react-native-image-crop-picker';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -86,19 +90,47 @@ class ProfilePictureSelectionView extends BaseComponent {
     );
   };
 
-  renderTitleContainer = () => {
+  renderProfileContainer = () => {
     const { props } = this;
+
+    // console.log('[props.photo]', props.photo);
+
+    let style = {};
+
+    // if (props.photo) {
+    //   let size = props.photo.width > props.photo.height ? props.photo.height : props.photo.width;
+    //
+    //   style = {
+    //     ...style,
+    //     width: 100,
+    //     height: 100,
+    //   };
+    // }
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>
-              {t('views.sign_up_account_type_selection.title')}
-            </Text>
-            <Text style={styles.description}>
-              {t('views.sign_up_account_type_selection.description')}
-            </Text>
+          <View style={styles.profileContainer}>
+            <ViewIndicator
+              index={0}
+              numberOfIndicators={3}
+              text={t('views.profile_picture_selection.title')}
+            />
+            <Image
+              style={[styles.photo, style]}
+              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
+              resizeMode="contain"
+            />
+            <View style={styles.textContainer}>
+              <Text style={[styles.text, { width: 100 }]}>
+                {t(' ')}
+              </Text>
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={[styles.text, { width: 150 }]}>
+                {t(' ')}
+              </Text>
+            </View>
           </View>
         )}
       </Translation>
@@ -135,8 +167,30 @@ class ProfilePictureSelectionView extends BaseComponent {
               textStyle={styles.selectionButtonText}
               source={preview}
               text={t('app.photos')}
-              onPress={() => {
-                //
+              onPress={async () => {
+                const photo = await ImagePicker.openPicker({
+                  width: 300,
+                  height: 300,
+                  cropping: true
+                })
+                  .catch((error) => {
+                    console.error(error);
+
+                    if (error.toString().toLowerCase() === 'Error: User did not grant library permission.'.toLowerCase()) {
+                      Alert.alert(
+                        'Library Permission',
+                        'Please grant the library permission.',
+                        [{
+                          text: 'OK',
+                          onPress: () => {},
+                        }],
+                      );
+                    }
+                  });
+
+                if (photo) {
+                  props.setPhoto(photo);
+                }
               }}
             />
             <Button
@@ -147,7 +201,7 @@ class ProfilePictureSelectionView extends BaseComponent {
               source={preview}
               text={t('app.camera')}
               onPress={() => {
-                //
+                Router.push(props, 'CameraStackNavigator');
               }}
             />
           </View>
@@ -162,11 +216,8 @@ class ProfilePictureSelectionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}
-            scrollable={false}
-          >
-            {this.renderTitleContainer()}
+          <Body style={styles.body}>
+            {this.renderProfileContainer()}
             {this.renderSubtitleContainer()}
             {this.renderSelectionButtonContainer()}
           </Body>
@@ -174,104 +225,6 @@ class ProfilePictureSelectionView extends BaseComponent {
       </Translation>
     );
   };
-
-  // renderBody = () => {
-  //   const { props } = this;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <Body
-  //           style={styles.body}
-  //           scrollable={false}
-  //         >
-  //           <View
-  //             style={{
-  //               backgroundColor: '#f00',
-  //               alignItems: 'center',
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 36,
-  //               }}
-  //             >
-  //               {t('Hello!')}
-  //             </Text>
-  //           </View>
-  //
-  //           <View
-  //             style={{
-  //               backgroundColor: '#ff0',
-  //               alignItems: 'center',
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 17,
-  //                 textTransform: 'uppercase',
-  //               }}
-  //             >
-  //               {t('Select Your Role.')}
-  //             </Text>
-  //           </View>
-  //
-  //           <View
-  //             style={{
-  //               backgroundColor: '#ff0',
-  //               alignItems: 'center',
-  //               marginTop: 64,
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 17,
-  //                 textTransform: 'uppercase',
-  //               }}
-  //             >
-  //               {t('Choose From')}
-  //             </Text>
-  //           </View>
-  //
-  //         {this.renderSelectionButtons()}
-  //
-  //         {
-  //           /*
-  //           <List
-  //             innerRef={(ref) => {
-  //               props.setListRef(3, props.navigation.getState().index, ref);
-  //             }}
-  //             contentContainerStyle={styles.listContentContainer}
-  //             sections={sections}
-  //             renderItem={this.renderItem}
-  //             androidRefreshControlColor={Theme.colors.general.black}
-  //             iosRefreshControlColor={Theme.colors.general.white}
-  //             refreshing={props.refreshing}
-  //             onRefresh={async (refreshing) => {
-  //               // props.setRefreshing(true);
-  //
-  //               // props.setFeedsPagingPage(0);
-  //               //
-  //               // this.loadFeeds([]);
-  //
-  //               // await FeedProvider.prefetchFeeds(props);
-  //               //
-  //               // props.setRefreshing(false);
-  //             }}
-  //           />
-  //           */
-  //         }
-  //         </Body>
-  //       )}
-  //     </Translation>
-  //   );
-  // };
 
   renderFooter = () => {
     const { props } = this;
@@ -328,33 +281,47 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 32,
+    marginTop: 16,
   },
-  titleContainer: {
+  profileContainer: {
     // backgroundColor: '#f00',
     alignItems: 'center',
-    marginVertical: 16,
   },
-  title: {
-    // backgroundColor: '#00f',
-    color: Theme.colors.general.white,
-    fontSize: 36,
-    fontFamily: Theme.fonts.bold,
-    letterSpacing: 8,
-    textTransform: 'uppercase',
+  photo: {
+    backgroundColor: Theme.colors.background.gray,
+    width: 100,
+    height: 100,
+    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.borders.gray,
+    margin: 16,
   },
-  description: {
+  textContainer: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.gray,
+    borderRadius: 4,
+    marginVertical: 4,
+  },
+  text: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
     fontSize: 15,
-    fontFamily: Theme.fonts.light,
-    letterSpacing: 1.7,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
+  // description: {
+  //   // backgroundColor: '#00f',
+  //   color: Theme.colors.general.white,
+  //   fontSize: 15,
+  //   fontFamily: Theme.fonts.light,
+  //   letterSpacing: 1.7,
+  //   textTransform: 'uppercase',
+  // },
   subtitleContainer: {
     // backgroundColor: '#0ff',
     alignItems: 'center',
-    marginTop: 96,
+    marginTop: 32,
     marginBottom: 8,
   },
   subtitle: {
@@ -366,11 +333,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
     marginHorizontal: 64,
-  },
-  image: {
-    // backgroundColor: '#0f0',
-    width: 40,
-    height: 40,
   },
   selectionButtonContainer: {
     // backgroundColor: '#f00',
@@ -416,12 +378,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    photo: state.profilePictureSelectionViewReducer.photo,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+    setPhoto: (...args) => dispatch(ProfilePictureSelectionViewAction.setPhoto(...args)),
   };
 }
 

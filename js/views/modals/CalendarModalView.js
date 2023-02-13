@@ -111,10 +111,7 @@ class CalendarModalView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}
-            scrollable={false}
-          >
+          <Body style={styles.body}>
             <SingleTouch
               type="TouchableWithoutFeedback"
               onPress={() => {

@@ -31,6 +31,10 @@ import {
 
 import { Theme, Router } from '../../utils';
 
+import {
+  CameraStackNavigator,
+} from '../../navigators';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -68,6 +72,7 @@ class SignUpStackNavigator extends BaseComponent {
 
     const screens = [
       'SignUpAccountTypeSelectionView',
+      'CameraStackNavigator',
     ];
 
     const filteredScreens = screens.filter((screen) => {
@@ -172,6 +177,13 @@ class SignUpStackNavigator extends BaseComponent {
               component={ProfilePictureSelectionView}
               options={{
                 title: t('views.profile_picture_selection.header'),
+              }}
+            />
+            <Stack.Screen
+              name="CameraStackNavigator"
+              component={CameraStackNavigator}
+              options={{
+                title: t(''),
               }}
             />
           </Stack.Navigator>

@@ -105,9 +105,8 @@ class ViewIndicator extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#f00',
+    // backgroundColor: '#f0f',
     paddingHorizontal: 16,
-    paddingVertical: 12,
   },
   indicatorContainer: {
     // backgroundColor: '#0ff',

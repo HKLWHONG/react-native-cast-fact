@@ -13,6 +13,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 export default class Body extends Component {
@@ -41,20 +43,22 @@ export default class Body extends Component {
     if (props.scrollable) {
       return (
         <View style={styles.container}>
-          <ScrollView
-            style={[styles.scrollView, style]}
-            contentContainerStyle={[
-              styles.contentContainerStyle,
-              props.contentContainerStyle,
-            ]}
-            bounces={props.bounces}
-          >
-            <TouchableWithoutFeedback>
-              <View style={[styles.scrollViewContentContainer, props.style]}>
-                {props.children}
-              </View>
-            </TouchableWithoutFeedback>
-          </ScrollView>
+          <NativeViewGestureHandler disallowInterruption>
+            <ScrollView
+              style={[styles.scrollView, style]}
+              contentContainerStyle={[
+                styles.contentContainerStyle,
+                props.contentContainerStyle,
+              ]}
+              bounces={props.bounces}
+            >
+              <TouchableWithoutFeedback>
+                <View style={[styles.scrollViewContentContainer, props.style]}>
+                  {props.children}
+                </View>
+              </TouchableWithoutFeedback>
+            </ScrollView>
+          </NativeViewGestureHandler>
         </View>
       );
     }

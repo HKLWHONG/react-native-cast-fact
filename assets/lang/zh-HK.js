@@ -112,6 +112,7 @@ const zhHK = {
     },
     profile_picture_selection: {
       header: '',
+      title: 'Profile Picture',
     },
     settings: {
       header: 'Settings',

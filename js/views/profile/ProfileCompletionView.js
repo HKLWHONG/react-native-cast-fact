@@ -328,10 +328,7 @@ class ProfileCompletionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body
-            style={styles.body}
-            scrollable={false}
-          >
+          <Body style={styles.body}>
             <View
               style={{
                 backgroundColor: '#f00',
@@ -466,7 +463,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 32,
+    marginTop: 16,
   },
   image: {
     // backgroundColor: '#0f0',

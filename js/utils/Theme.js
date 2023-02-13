@@ -19,6 +19,7 @@ export const colors = {
   background: {
     primary: '#131313',
     secondary: '#1C1C1C',
+    gray: '#2F2F2F',
     modal: 'rgba(0, 0, 0, 0.7)',
   },
   borders: {

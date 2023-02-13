@@ -4,6 +4,7 @@
  */
 
 import AccountStackNavigator from './AccountStackNavigator';
+import CameraStackNavigator from './CameraStackNavigator';
 import FeedStackNavigator from './FeedStackNavigator';
 import InboxStackNavigator from './InboxStackNavigator';
 import LoginStackNavigator from './LoginStackNavigator';
@@ -13,6 +14,7 @@ import SignUpStackNavigator from './SignUpStackNavigator';
 
 export {
   AccountStackNavigator,
+  CameraStackNavigator,
   FeedStackNavigator,
   InboxStackNavigator,
   LoginStackNavigator,

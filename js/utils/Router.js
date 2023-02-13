@@ -141,3 +141,15 @@ export const goBack = (props) => {
 
   props.navigation.goBack();
 };
+
+export const dismiss = (props) => {
+  if (!props || !props.navigation) {
+    return;
+  }
+
+  popToTop(props);
+
+  if (props.navigation.canGoBack()) {
+    goBack(props);
+  }
+};

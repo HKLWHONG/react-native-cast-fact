@@ -77,11 +77,11 @@ class SignUpView extends BaseComponent {
     });
 
     if (
-      props.refs.EmailTextField
+      props.refs['EmailTextField']
       &&
-      !props.refs.EmailTextField.isFocused()
+      !props.refs['EmailTextField'].isFocused()
     ) {
-      props.refs.EmailTextField.focus();
+      props.refs['EmailTextField'].focus();
     }
   };
 
