@@ -3,6 +3,7 @@
 const en = {
   app: {
     loading: 'Loading',
+    cancel: 'Cancel',
     login: 'Login',
     forgotPassword: 'Forgot Password',
     create_account: 'Create Account',
@@ -24,8 +25,9 @@ const en = {
     notes: 'Notes',
     overview: 'Overview',
     availability: 'Availability',
-    next: "Next",
-    create: "Create",
+    next: 'Next',
+    ok: 'Ok',
+    create: 'Create',
     follow: 'Follow',
     followed: 'Followed',
     find_talent: 'Find Talent',

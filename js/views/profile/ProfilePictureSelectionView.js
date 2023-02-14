@@ -32,8 +32,7 @@ import {
 
 import {
   Button,
-  Separator,
-  ViewIndicator,
+  ProfileInfoSetupSection,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -95,7 +94,7 @@ class ProfilePictureSelectionView extends BaseComponent {
 
     // console.log('[props.photo]', props.photo);
 
-    let style = {};
+    // let style = {};
 
     // if (props.photo) {
     //   let size = props.photo.width > props.photo.height ? props.photo.height : props.photo.width;
@@ -110,28 +109,12 @@ class ProfilePictureSelectionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <View style={styles.profileContainer}>
-            <ViewIndicator
-              index={0}
-              numberOfIndicators={3}
-              text={t('views.profile_picture_selection.title')}
-            />
-            <Image
-              style={[styles.photo, style]}
-              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
-              resizeMode="contain"
-            />
-            <View style={styles.textContainer}>
-              <Text style={[styles.text, { width: 100 }]}>
-                {t(' ')}
-              </Text>
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={[styles.text, { width: 150 }]}>
-                {t(' ')}
-              </Text>
-            </View>
-          </View>
+          <ProfileInfoSetupSection
+            index={0}
+            numberOfIndicators={3}
+            text={t('views.profile_picture_selection.title')}
+            source={{ uri: 'file://' + (props.photo && props.photo.path) }}
+          />
         )}
       </Translation>
     );
@@ -181,7 +164,7 @@ class ProfilePictureSelectionView extends BaseComponent {
                         'Library Permission',
                         'Please grant the library permission.',
                         [{
-                          text: 'OK',
+                          text: i18n.t('app.ok').toUpperCase(),
                           onPress: () => {},
                         }],
                       );
@@ -283,41 +266,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
-  profileContainer: {
-    // backgroundColor: '#f00',
-    alignItems: 'center',
-  },
-  photo: {
-    backgroundColor: Theme.colors.background.gray,
-    width: 100,
-    height: 100,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Theme.colors.borders.gray,
-    margin: 16,
-  },
-  textContainer: {
-    // backgroundColor: '#f00',
-    backgroundColor: Theme.colors.background.gray,
-    borderRadius: 4,
-    marginVertical: 4,
-  },
-  text: {
-    // backgroundColor: '#00f',
-    color: Theme.colors.general.white,
-    fontSize: 15,
-    fontFamily: Theme.fonts.bold,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
-  // description: {
-  //   // backgroundColor: '#00f',
-  //   color: Theme.colors.general.white,
-  //   fontSize: 15,
-  //   fontFamily: Theme.fonts.light,
-  //   letterSpacing: 1.7,
-  //   textTransform: 'uppercase',
-  // },
   subtitleContainer: {
     // backgroundColor: '#0ff',
     alignItems: 'center',

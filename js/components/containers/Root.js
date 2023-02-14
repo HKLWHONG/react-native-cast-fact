@@ -99,7 +99,11 @@ export default class Root extends Component {
       );
     }
 
-    return <View style={[styles.container, props.style]}>{children}</View>;
+    return (
+      <View style={[styles.container, props.style]}>
+        {children}
+      </View>
+    );
   };
 
   render() {

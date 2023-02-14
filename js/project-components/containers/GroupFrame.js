@@ -92,7 +92,6 @@ class GroupFrame extends Component {
         {(t) => (
           <Button
             style={style}
-            disabled={disabled}
             buttonStyle={styles.checkAccessoryButton}
             imageStyle={styles.checkAccessoryButtonImage}
             type="small"
@@ -105,6 +104,7 @@ class GroupFrame extends Component {
 
               props.onPressRightAccessory(props.info);
             }}
+            disabled={disabled}
           />
         )}
       </Translation>
@@ -132,7 +132,6 @@ class GroupFrame extends Component {
         {(t) => (
           <Button
             style={style}
-            disabled={disabled}
             buttonStyle={styles.checkAccessoryButton}
             imageStyle={styles.checkAccessoryButtonImage}
             type="small"
@@ -145,6 +144,7 @@ class GroupFrame extends Component {
 
               props.onPressRightAccessory(props.info);
             }}
+            disabled={disabled}
           />
         )}
       </Translation>

@@ -24,6 +24,8 @@ import {
   Camera,
 } from 'react-native-vision-camera';
 
+import { TapGestureHandler, State } from 'react-native-gesture-handler';
+
 import ImagePicker from 'react-native-image-crop-picker';
 
 import {
@@ -98,7 +100,7 @@ class CameraView extends BaseComponent {
         'Camera Permission',
         'Please grant the camera permission.',
         [{
-          text: 'OK',
+          text: i18n.t('app.ok').toUpperCase(),
           onPress: () => Router.goBack(props),
         }],
       );
@@ -116,17 +118,45 @@ class CameraView extends BaseComponent {
     //
     // console.log('[devices]', devices);
 
-    const filteredDevices = devices.filter((device) => {
+    // const backDevices = devices.filter((device) => {
+    //   return (
+    //     device.position === 'back'
+    //     &&
+    //     device.devices.length === 1
+    //   );
+    // });
+
+    const backDevices = devices.filter((device) => {
       return (
-        device.position === 'front'
+        device.position.toLowerCase() === 'back'.toLowerCase()
         &&
         device.devices.length === 1
+        &&
+        device.devices[0].toLowerCase() === 'wide-angle-camera'.toLowerCase()
       );
     });
 
-    const device = filteredDevices.length > 0 ? filteredDevices[0] : undefined;
+    const backDevice = backDevices.length > 0 ? backDevices[0] : undefined;
 
-    console.log('[device]', device);
+    // console.log('[backDevice]', backDevice);
+
+    const frontDevices = devices.filter((device) => {
+      return (
+        device.position.toLowerCase() === 'front'.toLowerCase()
+        &&
+        device.devices.length === 1
+        &&
+        device.devices[0].toLowerCase() === 'wide-angle-camera'.toLowerCase()
+      );
+    });
+
+    const frontDevice = frontDevices.length > 0 ? frontDevices[0] : undefined;
+
+    // console.log('[frontDevice]', frontDevice);
+
+    const device = frontDevice ? frontDevice : backDevice;
+
+    // console.log('[device]', device);
 
     // let format = undefined;
     //
@@ -139,8 +169,11 @@ class CameraView extends BaseComponent {
     // }
 
     props.setDevices(devices);
+    props.setBackDevice(backDevice);
+    props.setFrontDevice(frontDevice);
     props.setDevice(device);
     // props.setFormat(format);
+    props.setFlash(undefined);
   };
 
   clearData = () => {
@@ -153,7 +186,22 @@ class CameraView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Header style={styles.header} />
+          <Header style={styles.header}>
+            <Button
+              style={styles.flashButton}
+              type="small"
+              source={preview}
+              onPress={() => {
+                if (!store.getState().cameraViewReducer.flash) {
+                  props.setFlash('on');
+                } else if (store.getState().cameraViewReducer.flash === 'on') {
+                  props.setFlash('off');
+                } else {
+                  props.setFlash(undefined);
+                }
+              }}
+            />
+          </Header>
         )}
       </Translation>
     );
@@ -168,19 +216,53 @@ class CameraView extends BaseComponent {
 
     if (props.device) {
       children = (
-        <Camera
-          ref={(ref) => {
-            props.addRef('Camera', ref);
+        <TapGestureHandler
+          onHandlerStateChange={async (event) => {
+            // console.log(`[tap-event] (x, y) = (${event.nativeEvent.x}, ${event.nativeEvent.y})`)
+            // console.log(`[tap-event] (absoluteX, absoluteY) = (${event.nativeEvent.absoluteX}, ${event.nativeEvent.absoluteY})`)
+
+            if (event.nativeEvent.state === State.ACTIVE) {
+              const camera = store.getState().cameraViewReducer.refs['Camera'];
+
+              if (!camera) {
+                return;
+              }
+
+              if (!props.device) {
+                return;
+              }
+
+              if (!props.device.supportsFocus) {
+                console.error('The current camera focus is not supported.');
+
+                return;
+              }
+
+              console.log('[camera-event-focus] starting...');
+
+              await camera.focus({ x: event.nativeEvent.x, y: event.nativeEvent.y })
+                .catch((error) => {
+                  console.error(error);
+                });
+
+              console.log('[camera-event-focus] finished.');
+            }
           }}
-          style={styles.cameraContainer}
-          device={props.device}
-          format={props.format}
-          preset="medium"
-          zoom={1.3}
-          enableZoomGesture
-          photo
-          isActive
-        />
+        >
+          <Camera
+            ref={(ref) => {
+              props.addRef('Camera', ref);
+            }}
+            style={[styles.cameraContainer, StyleSheet.absoluteFill]}
+            device={props.device}
+            format={props.format}
+            preset="medium"
+            zoom={1.3}
+            enableZoomGesture
+            photo
+            isActive
+          />
+        </TapGestureHandler>
       );
     }
 
@@ -209,25 +291,49 @@ class CameraView extends BaseComponent {
     );
   };
 
-  renderToolsBarView = () => {
+  renderToolBarContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.toolsBar} />
+          <View style={styles.toolBar}>
+            <Text style={styles.toolBarText}>
+              {t('Photo')}
+            </Text>
+          </View>
         )}
       </Translation>
     );
   };
 
-  renderBottomView = () => {
+  renderBottomLeftContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.bottomContainer}>
+          <View style={styles.bottomLeftContainer}>
+            <Button
+              style={styles.cancelButton}
+              text={t('app.cancel')}
+              onPress={() => {
+                Router.goBack(props);
+              }}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderBottomCenterContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.bottomCenterContainer}>
             <SingleTouch
               onPress={async () => {
                 // console.log('[test-camera]', store.getState().cameraViewReducer.refs['Camera'].takePhoto());
@@ -236,7 +342,9 @@ class CameraView extends BaseComponent {
                   return;
                 }
 
-                const photo = await store.getState().cameraViewReducer.refs['Camera'].takePhoto();
+                const photo = await store.getState().cameraViewReducer.refs['Camera'].takePhoto({
+                  flash: store.getState().cameraViewReducer.flash,
+                });
 
                 // console.log('[take-photo]', photo);
                 //
@@ -264,8 +372,60 @@ class CameraView extends BaseComponent {
                 }
               }}
             >
-              <View style={styles.button} />
+              <View style={styles.takePhotoButtonContainer}>
+                <View style={styles.takePhotoButton}>
+                </View>
+              </View>
             </SingleTouch>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderBottomRightContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.bottomRightContainer}>
+            <Button
+              style={styles.switchCameraButton}
+              type="small"
+              source={preview}
+              onPress={() => {
+                if (store.getState().cameraViewReducer.frontDevice === props.device) {
+                  if (!store.getState().cameraViewReducer.backDevice) {
+                    return;
+                  }
+
+                  props.setDevice(store.getState().cameraViewReducer.backDevice);
+                } else {
+                  if (!store.getState().cameraViewReducer.frontDevice) {
+                    return;
+                  }
+
+                  props.setDevice(store.getState().cameraViewReducer.frontDevice);
+                }
+              }}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderBottomContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.bottomContainer}>
+            {this.renderBottomLeftContainer()}
+            {this.renderBottomCenterContainer()}
+            {this.renderBottomRightContainer()}
           </View>
         )}
       </Translation>
@@ -279,8 +439,8 @@ class CameraView extends BaseComponent {
       <Translation>
         {(t) => (
           <Footer style={styles.footer}>
-            {this.renderToolsBarView()}
-            {this.renderBottomView()}
+            {this.renderToolBarContainer()}
+            {this.renderBottomContainer()}
           </Footer>
         )}
       </Translation>
@@ -310,47 +470,92 @@ const styles = StyleSheet.create({
   },
   header: {
     // backgroundColor: "#f00",
+    aspectRatio: 3.52,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingTop: 24,
+  },
+  flashButton: {
+    backgroundColor: Theme.colors.background.primary,
   },
   body: {
     // backgroundColor: '#0f0',
     // justifyContent: 'center',
     // alignItems: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.borders.gray,
   },
   cameraContainer: {
     // backgroundColor: '#f00',
-    // flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    borderRadius:  Dimensions.get('window').width / 2.0,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Theme.colors.borders.gray,
   },
   footer: {
     // backgroundColor: '#f00',
     // paddingBottom: 32,
   },
-  toolsBar: {
-    backgroundColor: Theme.colors.background.secondary,
-    height: 60,
-  },
-  bottomContainer: {
-    // backgroundColor: '#f0f',
+  toolBar: {
+    // backgroundColor: "#f00",
+    // backgroundColor: Theme.colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 32,
   },
-  button: {
+  toolBarText: {
+    color: Theme.colors.text.camera_tool_bar,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  bottomContainer: {
+    // backgroundColor: '#f0f',
+    flexDirection: 'row',
+    paddingBottom: 32,
+  },
+  bottomLeftContainer: {
+    // backgroundColor: '#f00',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  cancelButton: {
+    backgroundColor: Theme.colors.background.primary,
+  },
+  bottomCenterContainer: {
+    // backgroundColor: '#0f0',
+  },
+  takePhotoButtonContainer: {
     width: 80,
     height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 999,
-    borderWidth: 2,
+    borderWidth: 5,
     borderColor: Theme.colors.general.white,
+  },
+  takePhotoButton: {
+    backgroundColor: Theme.colors.general.white,
+    width: 60,
+    height: 60,
+    borderRadius: 999,
+  },
+  bottomRightContainer: {
+    // backgroundColor: '#00f',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  switchCameraButton: {
+    backgroundColor: Theme.colors.background.secondary,
+    aspectRatio: 1,
+    padding: 8,
+    marginHorizontal: 16,
+    borderRadius: 999,
   },
 });
 
 function mapStateToProps(state) {
   return {
-    devices: state.cameraViewReducer.devices,
     device: state.cameraViewReducer.device,
     format: state.cameraViewReducer.format,
   };
@@ -360,8 +565,11 @@ function mapDispatchToProps(dispatch) {
   return {
     addRef: (...args) => dispatch(CameraViewAction.addRef(...args)),
     setDevices: (...args) => dispatch(CameraViewAction.setDevices(...args)),
+    setBackDevice: (...args) => dispatch(CameraViewAction.setBackDevice(...args)),
+    setFrontDevice: (...args) => dispatch(CameraViewAction.setFrontDevice(...args)),
     setDevice: (...args) => dispatch(CameraViewAction.setDevice(...args)),
     setFormat: (...args) => dispatch(CameraViewAction.setFormat(...args)),
+    setFlash: (...args) => dispatch(CameraViewAction.setFlash(...args)),
     setProfilePictureSelectionViewPhoto: (...args) => dispatch(ProfilePictureSelectionViewAction.setPhoto(...args)),
   };
 }

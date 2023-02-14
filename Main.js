@@ -90,8 +90,9 @@ class Main extends BaseComponent {
               </Stack.Group>
               <Stack.Group
                 screenOptions={{
-                  cardStyleInterpolator: CardStyleInterpolators. forVerticalIOS,
+                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
                   animationEnabled: true,
+                  gestureEnabled: false,
                 }}
               >
                 {

@@ -189,8 +189,8 @@ export default class PullDownMessageBox extends Component {
               backgroundContainerStyle={styles.rootBackgroundContainerStyle}
             >
               <Animated.View
-                onLayout={(e) => {
-                  const height = e.nativeEvent.layout.height;
+                onLayout={(event) => {
+                  const height = event.nativeEvent.layout.height;
 
                   const safeAreaInsets = insets;
 

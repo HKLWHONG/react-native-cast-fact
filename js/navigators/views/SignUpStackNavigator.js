@@ -12,7 +12,7 @@ import {
   SignUpStackNavigatorAction,
 } from '../../redux';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
@@ -111,12 +111,12 @@ class SignUpStackNavigator extends BaseComponent {
                           text={i18n.t('app.next')}
                           rightAccessorySource={preview}
                           rightAccessoryResizeMode="center"
-                          onPress={(e) => {
+                          onPress={(event) => {
                             console.log('[on-right-button-press]');
 
                             if (route.name) {
                               if (store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPressList[route.name]) {
-                                store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPressList[route.name](e);
+                                store.getState().signUpStackNavigatorReducer.callbacks.onRightButtonPressList[route.name](event);
                               }
                             }
                           }}
@@ -134,7 +134,7 @@ class SignUpStackNavigator extends BaseComponent {
                       // if (route.name) {
                       //   props.setHiddenRight(this.hiddenRightIfNeeded(route.name));
                       //
-                      //   props.setOnRightButtonPress((e) => {
+                      //   props.setOnRightButtonPress((event) => {
                       //     Router.push(props, route.name);
                       //   });
                       // }
@@ -147,8 +147,8 @@ class SignUpStackNavigator extends BaseComponent {
               animationEnabled: Platform.OS === 'ios',
             }}
             screenListeners={{
-              state: (e) => {
-                const { state } = e.data;
+              state: (event) => {
+                const { state } = event.data;
 
                 // console.log('[state-changed]', state);
                 // console.log('[state-changed-route-names]', state.routeNames);
@@ -179,13 +179,22 @@ class SignUpStackNavigator extends BaseComponent {
                 title: t('views.profile_picture_selection.header'),
               }}
             />
-            <Stack.Screen
-              name="CameraStackNavigator"
-              component={CameraStackNavigator}
-              options={{
-                title: t(''),
+            <Stack.Group
+              screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                animationEnabled: true,
+                gestureEnabled: false,
               }}
-            />
+            >
+              <Stack.Screen
+                name="CameraStackNavigator"
+                component={CameraStackNavigator}
+                options={{
+                  title: t(''),
+                }}
+              />
+            </Stack.Group>
           </Stack.Navigator>
         )}
       </Translation>

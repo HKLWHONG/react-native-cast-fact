@@ -32,6 +32,24 @@ export const setDevices = (devices) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setBackDevice = (backDevice) => (dispatch) => {
+  dispatch({
+    type: CameraViewActionType.BACK_DEVICE,
+    backDevice: backDevice,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setFrontDevice = (frontDevice) => (dispatch) => {
+  dispatch({
+    type: CameraViewActionType.FRONT_DEVICE,
+    frontDevice: frontDevice,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setDevice = (device) => (dispatch) => {
   dispatch({
     type: CameraViewActionType.DEVICE,
@@ -45,6 +63,15 @@ export const setFormat = (format) => (dispatch) => {
   dispatch({
     type: CameraViewActionType.FORMAT,
     format: format,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setFlash = (flash) => (dispatch) => {
+  dispatch({
+    type: CameraViewActionType.FLASH,
+    flash: flash,
   });
 
   return Promise.resolve(store.getState());

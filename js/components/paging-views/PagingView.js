@@ -84,12 +84,12 @@ export default class PagingView extends Component {
           ref={(element) => {
             this.scrollView = element;
           }}
-          onLayout={(e) => {
+          onLayout={(event) => {
             if (!props.children) {
               return;
             }
 
-            const SW = e.nativeEvent.layout.width;
+            const SW = event.nativeEvent.layout.width;
             let PL = 0;
             let PR = 0;
             let measuredX = 0;
@@ -182,28 +182,28 @@ export default class PagingView extends Component {
             styles.contentContainer,
             state.contentContainerStyle,
           ]}
-          onScrollBeginDrag={(e) => {
-            // const OX = e.nativeEvent.contentOffset.x;
+          onScrollBeginDrag={(event) => {
+            // const OX = event.nativeEvent.contentOffset.x;
 
             // console.log('[onScrollBeginDrag]', OX);
 
             this.setState({
-              onScrollBeginDragContentOffset: e.nativeEvent.contentOffset,
+              onScrollBeginDragContentOffset: event.nativeEvent.contentOffset,
             });
           }}
-          onScrollEndDrag={(e) => {
+          onScrollEndDrag={(event) => {
             const {
               childrenFrame,
               index,
               onScrollBeginDragContentOffset,
             } = this.state;
-            const OX = e.nativeEvent.contentOffset.x;
+            const OX = event.nativeEvent.contentOffset.x;
             let newIndex = index;
 
             // console.log('[onScrollEndDrag]', OX);
             // console.log('[childrenFrame-size]', childrenFrame.length);
-            // console.log('[contentSize]', e.nativeEvent.contentSize);
-            // console.log('[contentOffset]', e.nativeEvent.contentOffset);
+            // console.log('[contentSize]', event.nativeEvent.contentSize);
+            // console.log('[contentOffset]', event.nativeEvent.contentOffset);
 
             // console.log('[props.velocity]', props.velocity);
             // console.log('[value]', OX - onScrollBeginDragContentOffset.x);

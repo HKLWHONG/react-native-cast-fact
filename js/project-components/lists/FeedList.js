@@ -392,11 +392,11 @@ class FeedList extends Component {
             </View>
             <View style={styles.centerBottomContainer}>
               <ViewMoreText
-                onTextLayout={(e) => {
+                onTextLayout={(event) => {
                   if (!props.onViewMoreTextLayout) {
                     return;
                   }
-                  const { length } = e.nativeEvent.lines;
+                  const { length } = event.nativeEvent.lines;
 
                   props.onViewMoreTextLayout({ ...params, ...e });
                 }}

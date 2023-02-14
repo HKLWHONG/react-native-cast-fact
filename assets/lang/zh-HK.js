@@ -3,6 +3,7 @@
 const zhHK = {
   app: {
     loading: '加載中',
+    cancel: 'Cancel',
     login: '登入',
     forgotPassword: '忘記密碼',
     create_account: 'Create Account',
@@ -24,8 +25,9 @@ const zhHK = {
     notes: 'Notes',
     overview: 'Overview',
     availability: 'Availability',
-    next: "Next",
-    create: "Create",
+    next: 'Next',
+    ok: 'Ok',
+    create: 'Create',
     follow: 'Follow',
     followed: 'Followed',
     find_talent: 'Find Talent',

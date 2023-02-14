@@ -33,20 +33,28 @@ class Header extends Component {
       return;
     }
 
+    let children = (
+      <SingleTouch
+        style={styles.left}
+        onPress={() => props.onPressLeft(props.info)}
+      >
+        <Image
+          style={styles.leftImage}
+          source={ic_back}
+          resizeMode="center"
+        />
+      </SingleTouch>
+    );
+
+    if (props.renderLeftView) {
+      children = props.renderLeftView();
+    }
+
     return (
       <Translation>
         {(t) => (
           <View style={[styles.leftContainer, props.leftContainerStyle]}>
-            <SingleTouch
-              style={styles.left}
-              onPress={() => props.onPressLeft(props.info)}
-            >
-              <Image
-                style={styles.leftImage}
-                source={ic_back}
-                resizeMode="center"
-              />
-            </SingleTouch>
+            {children}
           </View>
         )}
       </Translation>
@@ -202,6 +210,7 @@ Header.propTypes = {
     PropTypes.number,
   ]),
   title: PropTypes.string,
+  renderLeftView: PropTypes.func,
   renderRightView: PropTypes.func,
   onPressLeft: PropTypes.func,
   onPressRight: PropTypes.func,
@@ -219,6 +228,7 @@ Header.defaultProps = {
   hiddenRight: false,
   source: undefined,
   title: undefined,
+  renderLeftView: undefined,
   renderRightView: undefined,
   onPressLeft: (info) => {
     if (!info) {

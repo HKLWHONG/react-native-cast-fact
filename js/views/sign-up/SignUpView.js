@@ -72,7 +72,7 @@ class SignUpView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
-    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, (e) => {
+    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
       Router.push(props, 'SignUpAccountTypeSelectionView');
     });
 

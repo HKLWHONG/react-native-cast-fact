@@ -30,6 +30,7 @@ export const colors = {
   },
   text: {
     subtitle: '#727272',
+    camera_tool_bar: '#CDC29A',
   },
   dot: {
     amber: '#E9B86F',

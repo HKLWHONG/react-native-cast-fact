@@ -52,12 +52,12 @@ class ProjectStackNavigator extends BaseComponent {
           // <ContextMenu
           //   actions={[{ title: "New Project" }]}
           //   previewBackgroundColor={'transparent'}
-          //   onPress={(e) => {
+          //   onPress={(event) => {
           //     console.log(
-          //       `Pressed ${e.nativeEvent.name} at index ${e.nativeEvent.index}`
+          //       `Pressed ${event.nativeEvent.name} at index ${event.nativeEvent.index}`
           //     );
           //   }}
-          //   onCancel={(e) => {
+          //   onCancel={(event) => {
           //     console.log(
           //       `Cancelled`
           //     );

@@ -9,8 +9,11 @@ const initState = () => {
   return {
     refs: {},
     devices: undefined,
+    backDevice: undefined,
+    frontDevice: undefined,
     device: undefined,
     format: undefined,
+    flash: undefined,
   };
 };
 
@@ -37,6 +40,18 @@ export default function cameraViewReducer(state = initState(), action) {
         devices: action.devices,
       };
 
+    case CameraViewActionType.BACK_DEVICE:
+      return {
+        ...state,
+        backDevice: action.backDevice,
+      };
+
+    case CameraViewActionType.FRONT_DEVICE:
+      return {
+        ...state,
+        frontDevice: action.frontDevice,
+      };
+
     case CameraViewActionType.DEVICE:
       return {
         ...state,
@@ -47,6 +62,12 @@ export default function cameraViewReducer(state = initState(), action) {
       return {
         ...state,
         format: action.format,
+      };
+
+    case CameraViewActionType.FLASH:
+      return {
+        ...state,
+        flash: action.flash,
       };
 
     default:

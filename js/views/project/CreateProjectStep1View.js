@@ -227,12 +227,12 @@ class CreateProjectStep1View extends BaseComponent {
             <ContextMenu
               actions={[{ title: 'MV' }, { title: 'LIFESTYLE' }, { title: 'PHOTOGRAPHY' }]}
               previewBackgroundColor={'transparent'}
-              onPress={(e) => {
+              onPress={(event) => {
                 console.log(
-                  `Pressed ${e.nativeEvent.name} at index ${e.nativeEvent.index}`
+                  `Pressed ${event.nativeEvent.name} at index ${event.nativeEvent.index}`
                 );
               }}
-              onCancel={(e) => {
+              onCancel={(event) => {
                 console.log(
                   `Cancelled`
                 );

@@ -105,8 +105,8 @@ class FeedStackNavigator extends BaseComponent {
               animationEnabled: Platform.OS === 'ios',
             }}
             screenListeners={{
-              state: (e) => {
-                const { state } = e.data;
+              state: (event) => {
+                const { state } = event.data;
 
                 // console.log('[state-changed]', state);
                 // console.log('[state-changed-screen-name]', state.routeNames[state.index]);

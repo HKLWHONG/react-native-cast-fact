@@ -100,8 +100,8 @@ export default class MessageBox extends Component {
 
     return (
       <Body
-        onLayout={(e) => {
-          const { height } = e.nativeEvent.layout;
+        onLayout={(event) => {
+          const { height } = event.nativeEvent.layout;
           const maxHeight = Dimensions.get('window').height / 2;
 
           if (height > maxHeight) {

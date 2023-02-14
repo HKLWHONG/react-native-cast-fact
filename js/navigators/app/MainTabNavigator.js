@@ -194,8 +194,8 @@ class MainTabNavigator extends BaseComponent {
                 tabBarLabel: t(''),
               }}
               listeners={(params) => ({
-                tabPress: (e) => {
-                  this.tabPress(params, e, { index: 0, stack: 'SearchStackNavigator' });
+                tabPress: (event) => {
+                  this.tabPress(params, event, { index: 0, stack: 'SearchStackNavigator' });
                 },
               })}
             />
@@ -234,8 +234,8 @@ class MainTabNavigator extends BaseComponent {
                   tabBarLabel: t(''),
                 }}
                 listeners={(params) => ({
-                  tabPress: (e) => {
-                    this.tabPress(params, e, { index: 1, stack: 'InboxStackNavigator' });
+                  tabPress: (event) => {
+                    this.tabPress(params, event, { index: 1, stack: 'InboxStackNavigator' });
                   },
                 })}
               />
@@ -272,8 +272,8 @@ class MainTabNavigator extends BaseComponent {
                   tabBarLabel: t(''),
                 }}
                 listeners={(params) => ({
-                  tabPress: (e) => {
-                    this.tabPress(params, e, { index: 2, stack: 'ProjectStackNavigator' });
+                  tabPress: (event) => {
+                    this.tabPress(params, event, { index: 2, stack: 'ProjectStackNavigator' });
                   },
                 })}
               />
@@ -312,8 +312,8 @@ class MainTabNavigator extends BaseComponent {
                 tabBarLabel: t(''),
               }}
               listeners={(params) => ({
-                tabPress: async (e) => {
-                  e.preventDefault();
+                tabPress: async (event) => {
+                  event.preventDefault();
 
                   Router.push(props, 'WelcomeSlideSheetContainerView');
 
@@ -362,8 +362,8 @@ class MainTabNavigator extends BaseComponent {
                 tabBarLabel: t(''),
               }}
               listeners={(params) => ({
-                tabPress: (e) => {
-                  e.preventDefault();
+                tabPress: (event) => {
+                  event.preventDefault();
 
                   Router.push(props, 'SettingsSlideSheetContainerView');
                 },
@@ -404,8 +404,8 @@ class MainTabNavigator extends BaseComponent {
                   tabBarLabel: t(''),
                 }}
                 listeners={(params) => ({
-                  tabPress: (e) => {
-                    this.tabPress(params, e, { index: 3, stack: 'ProjectStackNavigator' });
+                  tabPress: (event) => {
+                    this.tabPress(params, event, { index: 3, stack: 'ProjectStackNavigator' });
                   },
                 })}
               />
