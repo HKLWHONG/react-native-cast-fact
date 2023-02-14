@@ -513,9 +513,9 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.light,
     letterSpacing: 1,
   },
-  nextButton: {
-    marginTop: 64,
-  },
+  // nextButton: {
+  //   marginTop: 64,
+  // },
   footer: {
     // backgroundColor: '#f00',
   },
@@ -532,11 +532,11 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SignUpViewAction.reset(...args)),
     addRef: (...args) => dispatch(SignUpViewAction.addRef(...args)),
-    setFirstnameEn: (...args) => dispatch(SignUpViewAction.setFirstnameEn(...args)),
-    setLastnameEn: (...args) => dispatch(SignUpViewAction.setLastnameEn(...args)),
-    setFirstnameZh: (...args) => dispatch(SignUpViewAction.setFirstnameZh(...args)),
-    setLastnameZh: (...args) => dispatch(SignUpViewAction.setLastnameZh(...args)),
-    setNickname: (...args) => dispatch(SignUpViewAction.setNickname(...args)),
+    // setFirstnameEn: (...args) => dispatch(SignUpViewAction.setFirstnameEn(...args)),
+    // setLastnameEn: (...args) => dispatch(SignUpViewAction.setLastnameEn(...args)),
+    // setFirstnameZh: (...args) => dispatch(SignUpViewAction.setFirstnameZh(...args)),
+    // setLastnameZh: (...args) => dispatch(SignUpViewAction.setLastnameZh(...args)),
+    // setNickname: (...args) => dispatch(SignUpViewAction.setNickname(...args)),
     setEmail: (...args) => dispatch(SignUpViewAction.setEmail(...args)),
     setPhoneCode: (...args) => dispatch(SignUpViewAction.setPhoneCode(...args)),
     setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),

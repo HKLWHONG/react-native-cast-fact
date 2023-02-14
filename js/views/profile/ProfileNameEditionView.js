@@ -13,7 +13,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { ProfileNameEditionViewAction, MainTabNavigatorAction } from '../../redux';
+import {
+  ProfileNameEditionViewAction,
+  SignUpStackNavigatorAction,
+  ProfileInfoSetupSectionAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -26,8 +30,8 @@ import {
 } from '../../components';
 
 import {
-  Button,
-  Separator,
+  ProfileInfoSetupSection,
+  TextInput,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -62,10 +66,28 @@ class ProfileNameEditionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+      Router.push(props, 'ProfileNameDisplaySelectionView');
+    });
+
+    if (
+      props.refs['FirstnameTextField']
+      &&
+      !props.refs['FirstnameTextField'].isFocused()
+    ) {
+      props.refs['FirstnameTextField'].focus();
+    }
   };
 
   clearData = () => {
     const { props } = this;
+
+    props.setProfileInfoSetupSectionFirstnameEn(undefined);
+    props.setProfileInfoSetupSectionLastnameEn(undefined);
+    props.setProfileInfoSetupSectionFirstnameZh(undefined);
+    props.setProfileInfoSetupSectionLastnameZh(undefined);
+    props.setProfileInfoSetupSectionNickname(undefined);
   };
 
   renderHeader = () => {
@@ -80,217 +102,77 @@ class ProfileNameEditionView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  renderSelectionButtons = () => {
+  renderProfileContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Camera')}
-              onPress={() => {
-                Router.push(props, 'ProfileNameDisplaySelectionView');
-              }}
-            />
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Photos')}
-              onPress={() => {
-                Router.push(props, 'ProfileNameDisplaySelectionView');
+          <ProfileInfoSetupSection
+            index={1}
+            text={t('views.profile_name_edition.title')}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderTextInputsContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.textInputsContainer}>
+            <View style={styles.nameContainer}>
+              <TextInput
+                innerRef={(ref) => {
+                  if (!ref) {
+                    return;
+                  }
+
+                  props.addRef('FirstnameTextField', ref);
+                }}
+                style={[styles.textInput, { marginRight: 8 }]}
+                label={t('views.profile_name_edition.firstname_en_label')}
+                value={props.profileInfoSetupSectionAccount.info.firstnameEn}
+                onChangeText={(text) => {
+                  props.setProfileInfoSetupSectionFirstnameEn(text);
+                }}
+              />
+              <TextInput
+                style={[styles.textInput, { marginLeft: 8 }]}
+                label={t('views.profile_name_edition.lastname_en_label')}
+                value={props.profileInfoSetupSectionAccount.info.lastnameEn}
+                onChangeText={(text) => {
+                  props.setProfileInfoSetupSectionLastnameEn(text);
+                }}
+              />
+            </View>
+            <View style={styles.nameContainer}>
+              <TextInput
+                style={[styles.textInput, { marginRight: 8 }]}
+                label={t('views.profile_name_edition.lastname_zh_label')}
+                value={props.profileInfoSetupSectionAccount.info.firstnameZh}
+                onChangeText={(text) => {
+                  props.setProfileInfoSetupSectionFirstnameZh(text);
+                }}
+              />
+              <TextInput
+                style={[styles.textInput, { marginLeft: 8 }]}
+                label={t('views.profile_name_edition.firstname_zh_label')}
+                value={props.profileInfoSetupSectionAccount.info.lastnameZh}
+                onChangeText={(text) => {
+                  props.setProfileInfoSetupSectionLastnameZh(text);
+                }}
+              />
+            </View>
+            <TextInput
+              style={styles.textInput}
+              label={t('views.profile_name_edition.nickname_label')}
+              value={props.profileInfoSetupSectionAccount.info.nickname}
+              onChangeText={(text) => {
+                props.setProfileInfoSetupSectionNickname(text);
               }}
             />
           </View>
@@ -302,107 +184,12 @@ class ProfileNameEditionView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
-
     return (
       <Translation>
         {(t) => (
           <Body style={styles.body}>
-            <View
-              style={{
-                backgroundColor: '#f00',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 36,
-                }}
-              >
-                {t('Hello 3!')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Select Your Role.')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-                marginTop: 64,
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Choose From')}
-              </Text>
-            </View>
-
-          {this.renderSelectionButtons()}
-
-          {
-            /*
-            <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
-            />
-            */
-          }
+            {this.renderProfileContainer()}
+            {this.renderTextInputsContainer()}
           </Body>
         )}
       </Translation>
@@ -457,13 +244,17 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
-  image: {
+  textInputsContainer: {
     // backgroundColor: '#0f0',
-    width: 40,
-    height: 40,
+    marginVertical: 32,
   },
-  selectionButton: {
-    marginTop: 16,
+  nameContainer: {
+    // backgroundColor: '#f00',
+    flexDirection: 'row',
+  },
+  textInput: {
+    flex: 1,
+    marginBottom: 8,
   },
   footer: {
     // backgroundColor: '#f00',
@@ -471,11 +262,22 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    refs: state.profileNameEditionViewReducer.refs,
+    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    addRef: (...args) => dispatch(ProfileNameEditionViewAction.addRef(...args)),
+    addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    setProfileInfoSetupSectionFirstnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameEn(...args)),
+    setProfileInfoSetupSectionLastnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameEn(...args)),
+    setProfileInfoSetupSectionFirstnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameZh(...args)),
+    setProfileInfoSetupSectionLastnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameZh(...args)),
+    setProfileInfoSetupSectionNickname: (...args) => dispatch(ProfileInfoSetupSectionAction.setNickname(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileNameEditionView);

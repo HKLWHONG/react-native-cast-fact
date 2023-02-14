@@ -29,25 +29,25 @@ class Header extends Component {
   renderLeftContainerIfNeeded = () => {
     const { props } = this;
 
-    if (props.hiddenLeft) {
-      return;
-    }
+    let children = undefined;
 
-    let children = (
-      <SingleTouch
-        style={styles.left}
-        onPress={() => props.onPressLeft(props.info)}
-      >
-        <Image
-          style={styles.leftImage}
-          source={ic_back}
-          resizeMode="center"
-        />
-      </SingleTouch>
-    );
-
-    if (props.renderLeftView) {
-      children = props.renderLeftView();
+    if (!props.hiddenLeft) {
+      if (props.renderLeftView) {
+        children = props.renderLeftView();
+      } else {
+        children = (
+          <SingleTouch
+            style={styles.left}
+            onPress={() => props.onPressLeft(props.info)}
+          >
+            <Image
+              style={styles.leftImage}
+              source={ic_back}
+              resizeMode="center"
+            />
+          </SingleTouch>
+        );
+      }
     }
 
     return (
@@ -87,14 +87,12 @@ class Header extends Component {
   renderRightContainerIfNeeded = () => {
     const { props } = this;
 
-    if (props.hiddenRight) {
-      return;
-    }
-
     let children = undefined;
 
-    if (props.renderRightView) {
-      children = props.renderRightView();
+    if (!props.hiddenRight) {
+      if (props.renderRightView) {
+        children = props.renderRightView();
+      }
     }
 
     return (

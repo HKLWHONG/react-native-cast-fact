@@ -23,50 +23,50 @@ export const addRef = (id, object) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setFirstnameEn = (firstnameEn) => (dispatch) => {
-  dispatch({
-    type: SignUpViewActionType.ACCOUNT_FIRSTNAME_EN,
-    firstnameEn: firstnameEn,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setLastnameEn = (lastnameEn) => (dispatch) => {
-  dispatch({
-    type: SignUpViewActionType.ACCOUNT_LASTNAME_EN,
-    lastnameEn: lastnameEn,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setFirstnameZh = (firstnameZh) => (dispatch) => {
-  dispatch({
-    type: SignUpViewActionType.ACCOUNT_FIRSTNAME_ZH,
-    firstnameZh: firstnameZh,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setLastnameZh = (lastnameZh) => (dispatch) => {
-  dispatch({
-    type: SignUpViewActionType.ACCOUNT_LASTNAME_ZH,
-    lastnameZh: lastnameZh,
-  });
-
-  return Promise.resolve(store.getState());
-};
-
-export const setNickname = (nickname) => (dispatch) => {
-  dispatch({
-    type: SignUpViewActionType.ACCOUNT_NICKNAME,
-    nickname: nickname,
-  });
-
-  return Promise.resolve(store.getState());
-};
+// export const setFirstnameEn = (firstnameEn) => (dispatch) => {
+//   dispatch({
+//     type: SignUpViewActionType.ACCOUNT_FIRSTNAME_EN,
+//     firstnameEn: firstnameEn,
+//   });
+//
+//   return Promise.resolve(store.getState());
+// };
+//
+// export const setLastnameEn = (lastnameEn) => (dispatch) => {
+//   dispatch({
+//     type: SignUpViewActionType.ACCOUNT_LASTNAME_EN,
+//     lastnameEn: lastnameEn,
+//   });
+//
+//   return Promise.resolve(store.getState());
+// };
+//
+// export const setFirstnameZh = (firstnameZh) => (dispatch) => {
+//   dispatch({
+//     type: SignUpViewActionType.ACCOUNT_FIRSTNAME_ZH,
+//     firstnameZh: firstnameZh,
+//   });
+//
+//   return Promise.resolve(store.getState());
+// };
+//
+// export const setLastnameZh = (lastnameZh) => (dispatch) => {
+//   dispatch({
+//     type: SignUpViewActionType.ACCOUNT_LASTNAME_ZH,
+//     lastnameZh: lastnameZh,
+//   });
+//
+//   return Promise.resolve(store.getState());
+// };
+//
+// export const setNickname = (nickname) => (dispatch) => {
+//   dispatch({
+//     type: SignUpViewActionType.ACCOUNT_NICKNAME,
+//     nickname: nickname,
+//   });
+//
+//   return Promise.resolve(store.getState());
+// };
 
 export const setEmail = (email) => (dispatch) => {
   dispatch({

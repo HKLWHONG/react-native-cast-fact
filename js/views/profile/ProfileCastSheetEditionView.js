@@ -13,7 +13,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { ProfileCastSheetEditionViewAction, MainTabNavigatorAction } from '../../redux';
+import {
+  ProfileCastSheetEditionViewAction,
+  SignUpStackNavigatorAction,
+  ProfileInfoSetupSectionAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -26,8 +30,8 @@ import {
 } from '../../components';
 
 import {
-  Button,
-  Separator,
+  ProfileInfoSetupSection,
+  TextInput,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -62,6 +66,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+      Router.push(props, 'ProfileCompletionView');
+    });
   };
 
   clearData = () => {
@@ -80,219 +88,28 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  renderSelectionButtons = () => {
+  renderProfileContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Camera')}
-              onPress={() => {
-                Router.push(props, 'ProfileCompletionView');
-              }}
-            />
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Photos')}
-              onPress={() => {
-                Router.push(props, 'ProfileCompletionView');
-              }}
-            />
+          <ProfileInfoSetupSection
+            index={2}
+            text={t('views.profile_cast_sheet_edition.title')}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetContainer}>
           </View>
         )}
       </Translation>
@@ -302,107 +119,12 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
-
     return (
       <Translation>
         {(t) => (
           <Body style={styles.body}>
-            <View
-              style={{
-                backgroundColor: '#f00',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 36,
-                }}
-              >
-                {t('Hello 5!')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Select Your Role.')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-                marginTop: 64,
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Choose From')}
-              </Text>
-            </View>
-
-          {this.renderSelectionButtons()}
-
-          {
-            /*
-            <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
-            />
-            */
-          }
+            {this.renderProfileContainer()}
+            {this.renderCastSheetContainer()}
           </Body>
         )}
       </Translation>
@@ -457,13 +179,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
-  image: {
+  castSheetContainer: {
     // backgroundColor: '#0f0',
-    width: 40,
-    height: 40,
-  },
-  selectionButton: {
-    marginTop: 16,
+    marginVertical: 32,
   },
   footer: {
     // backgroundColor: '#f00',
@@ -471,11 +189,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileCastSheetEditionView);

@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import {
   store,
   CameraViewAction,
-  ProfilePictureSelectionViewAction,
+  ProfileInfoSetupSectionAction,
 } from '../../redux';
 
 import {
@@ -366,7 +366,7 @@ class CameraView extends BaseComponent {
                 console.log('[croppedPhoto]', croppedPhoto);
 
                 if (croppedPhoto) {
-                  props.setProfilePictureSelectionViewPhoto(croppedPhoto);
+                  props.setProfileInfoSetupSectionPhoto(croppedPhoto);
 
                   Router.goBack(props);
                 }
@@ -570,7 +570,7 @@ function mapDispatchToProps(dispatch) {
     setDevice: (...args) => dispatch(CameraViewAction.setDevice(...args)),
     setFormat: (...args) => dispatch(CameraViewAction.setFormat(...args)),
     setFlash: (...args) => dispatch(CameraViewAction.setFlash(...args)),
-    setProfilePictureSelectionViewPhoto: (...args) => dispatch(ProfilePictureSelectionViewAction.setPhoto(...args)),
+    setProfileInfoSetupSectionPhoto: (...args) => dispatch(ProfileInfoSetupSectionAction.setPhoto(...args)),
   };
 }
 

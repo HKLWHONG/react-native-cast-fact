@@ -27,6 +27,10 @@ import {
   SignUpView,
   SignUpAccountTypeSelectionView,
   ProfilePictureSelectionView,
+  ProfileNameEditionView,
+  ProfileNameDisplaySelectionView,
+  ProfileCastSheetEditionView,
+  ProfileCompletionView,
 } from '../../views';
 
 import { Theme, Router } from '../../utils';
@@ -73,6 +77,7 @@ class SignUpStackNavigator extends BaseComponent {
     const screens = [
       'SignUpAccountTypeSelectionView',
       'CameraStackNavigator',
+      'ProfileCompletionView',
     ];
 
     const filteredScreens = screens.filter((screen) => {
@@ -150,11 +155,12 @@ class SignUpStackNavigator extends BaseComponent {
               state: (event) => {
                 const { state } = event.data;
 
-                // console.log('[state-changed]', state);
-                // console.log('[state-changed-route-names]', state.routeNames);
-                // console.log('[state-changed-screen-name]', state.routeNames[state.index]);
+                // console.log(`[${this.constructor.name}-state-changed]`, state);
+                // console.log(`[${this.constructor.name}-state-changed-route-names]`, state.routeNames);
+                // console.log(`[${this.constructor.name}-state-changed-routes]`, state.routes);
+                console.log(`[${this.constructor.name}-state-changed-screen-name]`, state.routes[state.index].name);
 
-                props.setHiddenRight(this.hiddenRightIfNeeded(state.routeNames[state.index]));
+                props.setHiddenRight(this.hiddenRightIfNeeded(state.routes[state.index].name));
               },
             }}
           >
@@ -195,6 +201,34 @@ class SignUpStackNavigator extends BaseComponent {
                 }}
               />
             </Stack.Group>
+            <Stack.Screen
+              name="ProfileNameEditionView"
+              component={ProfileNameEditionView}
+              options={{
+                title: t('views.profile_name_edition.header'),
+              }}
+            />
+            <Stack.Screen
+              name="ProfileNameDisplaySelectionView"
+              component={ProfileNameDisplaySelectionView}
+              options={{
+                title: t('views.profile_name_display_selection.header'),
+              }}
+            />
+            <Stack.Screen
+              name="ProfileCastSheetEditionView"
+              component={ProfileCastSheetEditionView}
+              options={{
+                title: t('views.profile_cast_sheet_edition.header'),
+              }}
+            />
+            <Stack.Screen
+              name="ProfileCompletionView"
+              component={ProfileCompletionView}
+              options={{
+                title: t('views.profile_completion.header'),
+              }}
+            />
           </Stack.Navigator>
         )}
       </Translation>

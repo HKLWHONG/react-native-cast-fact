@@ -12,12 +12,3 @@ export const reset = () => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
-
-export const setPhoto = (photo) => (dispatch) => {
-  dispatch({
-    type: ProfilePictureSelectionViewActionType.PHOTO,
-    photo: photo,
-  });
-
-  return Promise.resolve(store.getState());
-};

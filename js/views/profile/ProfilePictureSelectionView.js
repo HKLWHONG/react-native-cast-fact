@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import {
   ProfilePictureSelectionViewAction,
   SignUpStackNavigatorAction,
-  MainTabNavigatorAction,
+  ProfileInfoSetupSectionAction,
 } from '../../redux';
 
 import {
@@ -71,6 +71,10 @@ class ProfilePictureSelectionView extends BaseComponent {
     const { props } = this;
 
     props.setSignUpStackNavigatorHiddenRight(false);
+
+    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+      Router.push(props, 'ProfileNameEditionView');
+    });
   };
 
   clearData = () => {
@@ -92,28 +96,12 @@ class ProfilePictureSelectionView extends BaseComponent {
   renderProfileContainer = () => {
     const { props } = this;
 
-    // console.log('[props.photo]', props.photo);
-
-    // let style = {};
-
-    // if (props.photo) {
-    //   let size = props.photo.width > props.photo.height ? props.photo.height : props.photo.width;
-    //
-    //   style = {
-    //     ...style,
-    //     width: 100,
-    //     height: 100,
-    //   };
-    // }
-
     return (
       <Translation>
         {(t) => (
           <ProfileInfoSetupSection
             index={0}
-            numberOfIndicators={3}
             text={t('views.profile_picture_selection.title')}
-            source={{ uri: 'file://' + (props.photo && props.photo.path) }}
           />
         )}
       </Translation>
@@ -172,7 +160,7 @@ class ProfilePictureSelectionView extends BaseComponent {
                   });
 
                 if (photo) {
-                  props.setPhoto(photo);
+                  props.setProfileInfoSetupSectionPhoto(photo);
                 }
               }}
             />
@@ -327,14 +315,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    photo: state.profilePictureSelectionViewReducer.photo,
+
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
-    setPhoto: (...args) => dispatch(ProfilePictureSelectionViewAction.setPhoto(...args)),
+    addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    setProfileInfoSetupSectionPhoto: (...args) => dispatch(ProfileInfoSetupSectionAction.setPhoto(...args)),
   };
 }
 

@@ -108,12 +108,17 @@ class FeedStackNavigator extends BaseComponent {
               state: (event) => {
                 const { state } = event.data;
 
-                // console.log('[state-changed]', state);
-                // console.log('[state-changed-screen-name]', state.routeNames[state.index]);
+                // console.log(`[${this.constructor.name}-state-changed]`, state);
+                // console.log(`[${this.constructor.name}-state-changed-route-names]`, state.routeNames);
+                // console.log(`[${this.constructor.name}-state-changed-routes]`, state.routes);
+                console.log(`[${this.constructor.name}-state-changed-screen-name]`, state.routes[state.index].name);
 
-                let index = state.routeNames.findIndex((routeName) => {
-                  return routeName === 'SearchResultView';
-                });
+                let index = state.routes.map((route) => {
+                  return route.name;
+                })
+                  .findIndex((routeName) => {
+                    return routeName === 'SearchResultView';
+                  });
 
                 if (state.index < index) {
                   props.resetCriteria();

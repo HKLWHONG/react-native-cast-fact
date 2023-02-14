@@ -13,7 +13,11 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { ProfileCompletionViewAction, MainTabNavigatorAction } from '../../redux';
+import {
+  ProfileCompletionViewAction,
+  SignUpStackNavigatorAction,
+  ProfileInfoSetupSectionAction,
+} from '../../redux';
 
 import {
   BaseComponent,
@@ -26,8 +30,9 @@ import {
 } from '../../components';
 
 import {
+  ProfileInfoSetupSection,
+  TextInput,
   Button,
-  Separator,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -62,6 +67,10 @@ class ProfileCompletionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
+
+    // props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+    //   Router.push(props, 'ProfileNameDisplaySelectionView');
+    // });
   };
 
   clearData = () => {
@@ -80,228 +89,52 @@ class ProfileCompletionView extends BaseComponent {
     );
   };
 
-  // renderProfileCastingSheetList = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <ProfileCastingSheetList
-  //           data={[
-  //             {
-  //               title: 'Basic Information',
-  //               data: [
-  //                 {
-  //                   title: 'Gender',
-  //                   data: [
-  //                     'Male',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Age',
-  //                   data: [
-  //                     '34, 21.10.1987',
-  //                     'born in Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Occupation',
-  //                   data: [
-  //                     'Screenwriter',
-  //                     'Director',
-  //                     'Editor',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Skills',
-  //                   data: [
-  //                     'Cooking',
-  //                     'Swimming',
-  //                     'Photography',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Year Active',
-  //                   data: [
-  //                     '2012-present (10 years)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Working Base',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Awards',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Nationality',
-  //                   data: [
-  //                     'Hong Kong',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Appearance',
-  //               data: [
-  //                 {
-  //                   title: 'Height',
-  //                   data: [
-  //                     '5’5 (166cm)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Weight',
-  //                   data: [
-  //                     '123 lbs (56kg)',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Hair',
-  //                   data: [
-  //                     'Black',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Eyes',
-  //                   data: [
-  //                     'Brown',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Experience',
-  //               data: [
-  //                 {
-  //                   title: 'Movies',
-  //                   data: [
-  //                     '5',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'TV Shows',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Commercials',
-  //                   data: [
-  //                     '2',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Music Videos',
-  //                   data: [
-  //                     '6',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               title: 'Contacts',
-  //               data: [
-  //                 {
-  //                   title: 'Address',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Email',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Phone',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //                 {
-  //                   title: 'Agent/MGR',
-  //                   data: [
-  //                     '-',
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ]}
-  //           onPressCalendar={this.onPressCalendar}
-  //           onPressFollow={this.onPressFollow}
-  //           onPressLike={this.onPressLike}
-  //           onPressBookmark={this.onPressBookmark}
-  //           onPressViewMoreText={this.onPressViewMoreText}
-  //           onEndReached={this.onEndReached}
-  //         />
-  //       )}
-  //     </Translation>
-  //   );
-  // };
-  //
-  // renderItem = (params) => {
-  //   const { props } = this;
-  //   const { item, index, section, separators } = params;
-  //
-  //   switch (section.index) {
-  //     case 0:
-  //       return this.renderProfileInfoCard(params);
-  //
-  //     case 1:
-  //       return this.renderSegmentedControl(params);
-  //
-  //     case 2:
-  //       return this.renderProfileCastingSheetList(params);
-  //
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  renderSelectionButtons = () => {
+  renderProfileContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}
-          >
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Camera')}
-              onPress={() => {
-                if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
-                  return;
-                }
+          <ProfileInfoSetupSection hiddenViewIndicator />
+        )}
+      </Translation>
+    );
+  };
 
-                props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
-              }}
-            />
-            <Button
-              style={styles.selectionButton}
-              source={preview}
-              text={t('Photos')}
-              onPress={() => {
-                if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
-                  return;
-                }
+  renderResultContainer = () => {
+    const { props } = this;
 
-                props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
-              }}
-            />
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.resultContainer}>
           </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderDoneButton = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={styles.doneButton}
+            text={t('app.done')}
+            onPress={() => {
+              Router.dismiss(props);
+
+              if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
+                return;
+              }
+
+              props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
+
+              Router.jumpTo(props, 'AccountStackNavigator');
+            }}
+          />
         )}
       </Translation>
     );
@@ -310,107 +143,13 @@ class ProfileCompletionView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    // let sections = [
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    //   {
-    //     title: i18n.t(''),
-    //     data: [''],
-    //   },
-    // ];
-
     return (
       <Translation>
         {(t) => (
           <Body style={styles.body}>
-            <View
-              style={{
-                backgroundColor: '#f00',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 36,
-                }}
-              >
-                {t('Hello 6!')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Select Your Role.')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                backgroundColor: '#ff0',
-                alignItems: 'center',
-                marginTop: 64,
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: '#00f',
-                  color: '#fff',
-                  fontSize: 17,
-                  textTransform: 'uppercase',
-                }}
-              >
-                {t('Choose From')}
-              </Text>
-            </View>
-
-          {this.renderSelectionButtons()}
-
-          {
-            /*
-            <List
-              innerRef={(ref) => {
-                props.setListRef(3, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
-            />
-            */
-          }
+            {this.renderProfileContainer()}
+            {this.renderResultContainer()}
+            {this.renderDoneButton()}
           </Body>
         )}
       </Translation>
@@ -465,13 +204,13 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginTop: 16,
   },
-  image: {
+  resultContainer: {
     // backgroundColor: '#0f0',
-    width: 40,
-    height: 40,
+    flex: 1,
+    marginVertical: 32,
   },
-  selectionButton: {
-    marginTop: 16,
+  doneButton: {
+    marginBottom: 64,
   },
   footer: {
     // backgroundColor: '#f00',
@@ -481,11 +220,14 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     slideSheetRefs: state.slideSheetReducer.refs,
+    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileCompletionView);

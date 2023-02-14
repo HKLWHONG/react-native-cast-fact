@@ -7,7 +7,7 @@ import { CommonActionType, ProfilePictureSelectionViewActionType } from '../../.
 
 const initState = () => {
   return {
-    photo: undefined,
+
   };
 };
 
@@ -18,12 +18,6 @@ export default function profilePictureSelectionViewReducer(state = initState(), 
 
     case ProfilePictureSelectionViewActionType.RESET:
       return initState();
-
-    case ProfilePictureSelectionViewActionType.PHOTO:
-      return {
-        ...state,
-        photo: action.photo,
-      };
 
     default:
       return state;

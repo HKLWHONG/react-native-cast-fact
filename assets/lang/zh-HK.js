@@ -26,6 +26,7 @@ const zhHK = {
     overview: 'Overview',
     availability: 'Availability',
     next: 'Next',
+    done: 'Done',
     ok: 'Ok',
     create: 'Create',
     follow: 'Follow',
@@ -42,7 +43,7 @@ const zhHK = {
   components: {
     feed_list: {
       view_more: '查看更多',
-    }
+    },
   },
   views: {
     welcome: {
@@ -69,10 +70,10 @@ const zhHK = {
     },
     sign_up: {
       header: '',
-      firstname_en_label: 'First Name',
-      lastname_en_label: 'Last Name',
-      firstname_zh_label: '中文名字',
-      lastname_zh_label: '中文姓氏',
+      // firstname_en_label: 'First Name',
+      // lastname_en_label: 'Last Name',
+      // firstname_zh_label: '中文名字',
+      // lastname_zh_label: '中文姓氏',
       email_label: 'Email',
       phone_label: 'Phone',
       password_label: 'Password',
@@ -113,8 +114,29 @@ const zhHK = {
       header: 'Profile',
     },
     profile_picture_selection: {
-      header: '',
+      header: 'Profile',
       title: 'Profile Picture',
+    },
+    profile_name_edition: {
+      header: 'Profile',
+      title: 'Name',
+      firstname_en_label: 'First Name',
+      lastname_en_label: 'Last Name',
+      firstname_zh_label: '中文名字',
+      lastname_zh_label: '中文姓氏',
+      nickname_label: 'Nickname',
+    },
+    profile_name_display_selection: {
+      header: 'Profile',
+      title: 'Display Format',
+      subtitle: 'Choose a Display Format',
+    },
+    profile_cast_sheet_edition: {
+      header: 'Profile',
+      title: 'Cast Sheet',
+    },
+    profile_completion: {
+      header: 'Profile',
     },
     settings: {
       header: 'Settings',

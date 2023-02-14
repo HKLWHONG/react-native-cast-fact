@@ -45,13 +45,14 @@ class ProfileInfoSetupSection extends Component {
             style={[styles.container, props.style]}
           >
             <ViewIndicator
+              hidden={props.hiddenViewIndicator}
               index={props.index}
               numberOfIndicators={props.numberOfIndicators}
               text={props.text}
             />
             <Image
               style={styles.photo}
-              source={props.source}
+              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
               resizeMode="contain"
             />
             <View style={styles.textContainer}>
@@ -105,28 +106,25 @@ ProfileInfoSetupSection.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  hiddenViewIndicator: PropTypes.bool,
   index: PropTypes.number,
-  numberOfIndicators: PropTypes.number,
   text: PropTypes.string,
-  source: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-    PropTypes.number,
-  ]),
 };
 
 ProfileInfoSetupSection.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
+  hiddenViewIndicator: false,
   index: 0,
-  numberOfIndicators: 1,
   text: undefined,
-  source: undefined,
 };
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    numberOfIndicators: state.profileInfoSetupSectionReducer.numberOfIndicators,
+    photo: state.profileInfoSetupSectionReducer.photo,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

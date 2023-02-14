@@ -18,6 +18,7 @@ import {
   searchBarReducer,
   criteriaSectionReducer,
   findTalentSectionReducer,
+  profileInfoSetupSectionReducer,
   recentSearchesSectionReducer,
 } from './components';
 
@@ -33,6 +34,7 @@ import {
   loginViewReducer,
   cameraViewReducer,
   calendarModalViewReducer,
+  profileNameEditionViewReducer,
   profilePictureSelectionViewReducer,
   createProjectStep1ViewReducer,
   createProjectStep2ViewReducer,
@@ -54,6 +56,7 @@ const reducers = combineReducers({
   searchBarReducer,
   criteriaSectionReducer,
   findTalentSectionReducer,
+  profileInfoSetupSectionReducer,
   recentSearchesSectionReducer,
 
   // navigators
@@ -67,6 +70,7 @@ const reducers = combineReducers({
   loginViewReducer,
   cameraViewReducer,
   calendarModalViewReducer,
+  profileNameEditionViewReducer,
   profilePictureSelectionViewReducer,
   createProjectStep1ViewReducer,
   createProjectStep2ViewReducer,

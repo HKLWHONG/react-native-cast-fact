@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   currentIndicatorTextContainer: {
-    backgroundColor: Theme.colors.general.white,
+    backgroundColor: Theme.colors.text.subtitle,
     width: 24,
     height: 24,
     borderRadius: 999,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
     fontSize: 15,
-    fontFamily: Theme.fonts.medium,
+    fontFamily: Theme.fonts.bold,
     letterSpacing: 1.7,
     textTransform: 'uppercase',
   },
