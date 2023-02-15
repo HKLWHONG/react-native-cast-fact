@@ -18,6 +18,7 @@ const initState = () => {
         nickname: undefined,
       },
     },
+    displayFormat: undefined,
   };
 };
 
@@ -99,6 +100,12 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
             nickname: action.nickname,
           },
         },
+      };
+
+    case ProfileInfoSetupSectionActionType.DISPLAY_FORMAT:
+      return {
+        ...state,
+        displayFormat: action.displayFormat,
       };
 
     default:

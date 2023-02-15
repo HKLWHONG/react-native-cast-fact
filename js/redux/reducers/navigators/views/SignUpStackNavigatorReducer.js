@@ -9,6 +9,7 @@ const initState = () => {
   return {
     hiddenRight: false,
     callbacks: {
+      onScreenAppearList: {},
       onRightButtonPressList: {},
     },
   };
@@ -27,6 +28,15 @@ export default function signUpStackNavigatorReducer(state = initState(), action)
         ...state,
         hiddenRight: action.hiddenRight,
       };
+
+    case SignUpStackNavigatorActionType.ADD_ON_SCREEN_APPEAR:
+      if (!action.id) {
+        return state;
+      }
+
+      state.callbacks.onScreenAppearList[action.id] = action.object;
+
+      return state;
 
     case SignUpStackNavigatorActionType.ADD_ON_RIGHT_BUTTON_PRESS:
       if (!action.id) {

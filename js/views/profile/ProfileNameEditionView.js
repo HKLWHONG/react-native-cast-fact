@@ -68,7 +68,17 @@ class ProfileNameEditionView extends BaseComponent {
     const { props } = this;
 
     props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+      props.setProfileInfoSetupSectionFirstnameEn('Tai Man');
+      props.setProfileInfoSetupSectionLastnameEn('Chan');
+      props.setProfileInfoSetupSectionFirstnameZh('大文');
+      props.setProfileInfoSetupSectionLastnameZh('陳');
+      props.setProfileInfoSetupSectionNickname('別名');
+
       Router.push(props, 'ProfileNameDisplaySelectionView');
+    });
+
+    props.addSignUpStackNavigatorOnScreenAppear(this.constructor.name, () => {
+      props.setProfileInfoSetupSectionDisplayFormat(undefined);
     });
 
     if (
@@ -134,7 +144,7 @@ class ProfileNameEditionView extends BaseComponent {
                   props.addRef('FirstnameTextField', ref);
                 }}
                 style={[styles.textInput, { marginRight: 8 }]}
-                label={t('views.profile_name_edition.firstname_en_label')}
+                label={t('app.firstname_en')}
                 value={props.profileInfoSetupSectionAccount.info.firstnameEn}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupSectionFirstnameEn(text);
@@ -142,7 +152,7 @@ class ProfileNameEditionView extends BaseComponent {
               />
               <TextInput
                 style={[styles.textInput, { marginLeft: 8 }]}
-                label={t('views.profile_name_edition.lastname_en_label')}
+                label={t('app.lastname_en')}
                 value={props.profileInfoSetupSectionAccount.info.lastnameEn}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupSectionLastnameEn(text);
@@ -152,7 +162,7 @@ class ProfileNameEditionView extends BaseComponent {
             <View style={styles.nameContainer}>
               <TextInput
                 style={[styles.textInput, { marginRight: 8 }]}
-                label={t('views.profile_name_edition.lastname_zh_label')}
+                label={t('app.lastname_zh')}
                 value={props.profileInfoSetupSectionAccount.info.firstnameZh}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupSectionFirstnameZh(text);
@@ -160,7 +170,7 @@ class ProfileNameEditionView extends BaseComponent {
               />
               <TextInput
                 style={[styles.textInput, { marginLeft: 8 }]}
-                label={t('views.profile_name_edition.firstname_zh_label')}
+                label={t('app.firstname_zh')}
                 value={props.profileInfoSetupSectionAccount.info.lastnameZh}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupSectionLastnameZh(text);
@@ -169,7 +179,7 @@ class ProfileNameEditionView extends BaseComponent {
             </View>
             <TextInput
               style={styles.textInput}
-              label={t('views.profile_name_edition.nickname_label')}
+              label={t('app.nickname')}
               value={props.profileInfoSetupSectionAccount.info.nickname}
               onChangeText={(text) => {
                 props.setProfileInfoSetupSectionNickname(text);
@@ -271,12 +281,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addRef: (...args) => dispatch(ProfileNameEditionViewAction.addRef(...args)),
+    addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupSectionFirstnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameEn(...args)),
     setProfileInfoSetupSectionLastnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameEn(...args)),
     setProfileInfoSetupSectionFirstnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameZh(...args)),
     setProfileInfoSetupSectionLastnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameZh(...args)),
     setProfileInfoSetupSectionNickname: (...args) => dispatch(ProfileInfoSetupSectionAction.setNickname(...args)),
+    setProfileInfoSetupSectionDisplayFormat: (...args) => dispatch(ProfileInfoSetupSectionAction.setDisplayFormat(...args)),
   };
 }
 

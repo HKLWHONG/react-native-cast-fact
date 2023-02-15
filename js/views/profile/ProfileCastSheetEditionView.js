@@ -31,8 +31,13 @@ import {
 
 import {
   ProfileInfoSetupSection,
+  CastSheetItem,
   TextInput,
+  Tag,
+  Button,
 } from '../../project-components';
+
+import { KeyboardAccessoryView } from 'react-native-keyboard-accessory'
 
 import { AppRegex } from '../../regex';
 
@@ -88,28 +93,141 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  renderProfileContainer = () => {
+  renderProfileContainer = (params) => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupSection
-            index={2}
-            text={t('views.profile_cast_sheet_edition.title')}
-          />
+          <View style={styles.profileContainer}>
+            <ProfileInfoSetupSection
+              hiddenInfoContainer
+              index={2}
+              text={t('views.profile_cast_sheet_edition.title')}
+            />
+            <Text style={styles.subtitle}>
+              {t('views.profile_cast_sheet_edition.subtitle')}
+            </Text>
+          </View>
         )}
       </Translation>
     );
   };
 
-  renderCastSheetContainer = () => {
+  renderCastSheetGenderItem = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <CastSheetItem text={t('Gender')}>
+            <Tag
+              style={{
+                backgroundColor: Theme.colors.background.secondary,
+              }}
+              type="input"
+              // text={t('Male')}
+              rightAccessoryType="delete"
+              // state={'error'}
+              fill
+            />
+          </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetBirthdayItem = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <CastSheetItem text={t('Birthday')}>
+            <Tag
+              style={{
+                backgroundColor: Theme.colors.background.secondary,
+              }}
+              type="input"
+              // text={t('Male')}
+              rightAccessoryType="delete"
+              // state={'error'}
+              fill
+            />
+          </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetPlaceOfBirthItem = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <CastSheetItem text={t('Place of Birth')}>
+            <Tag
+              style={{
+                backgroundColor: Theme.colors.background.secondary,
+              }}
+              type="input"
+              // text={t('Male')}
+              rightAccessoryType="delete"
+              // state={'error'}
+              fill
+            />
+          </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetOccupationItem = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <CastSheetItem text={t('Occupation')}>
+            <Tag
+              style={{
+                backgroundColor: Theme.colors.background.secondary,
+              }}
+              type="input"
+              // text={t('Male')}
+              rightAccessoryType="delete"
+              // state={'error'}
+              fill
+            />
+          </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetContainer = (params) => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
           <View style={styles.castSheetContainer}>
+            {this.renderCastSheetGenderItem()}
+            {this.renderCastSheetBirthdayItem()}
+            {this.renderCastSheetPlaceOfBirthItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetOccupationItem()}
           </View>
         )}
       </Translation>
@@ -143,21 +261,38 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  render() {
+  renderKeyboardAccessoryView = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <Root
-            style={styles.root}
-            safeArea={false}
-            resizeMode="stretch"
-            keyboardDismissing
-          >
+          <KeyboardAccessoryView androidAdjustResize>
+            {({ isKeyboardVisible }) => {
+              return (
+                <>
+                  <Text style={{ color: '#f00', padding: 16 }}>Always visible</Text>
+                  {!isKeyboardVisible ? (
+                    <Text>Hidden when keyboard is visible</Text>
+                  ) : null}
+                </>
+              );
+            }}
+          </KeyboardAccessoryView>
+        )}
+      </Translation>
+    );
+  };
+
+  render() {
+    return (
+      <Translation>
+        {(t) => (
+          <Root style={styles.root}>
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}
+            {this.renderKeyboardAccessoryView()}
           </Root>
         )}
       </Translation>
@@ -174,10 +309,24 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
-    // justifyContent: 'center',
-    paddingHorizontal: 32,
+    paddingHorizontal: 16,
     paddingVertical: 16,
     marginTop: 16,
+  },
+  listContentContainer: {
+    paddingHorizontal: 0,
+  },
+  profileContainer: {
+    // backgroundColor: "#f00",
+    alignItems: 'center',
+  },
+  subtitle: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
   },
   castSheetContainer: {
     // backgroundColor: '#0f0',

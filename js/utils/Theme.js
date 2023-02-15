@@ -42,6 +42,11 @@ export const colors = {
     hazel: '#521D00',
     red: '#781515',
   },
+  indicator: {
+    attention: '#EFA258',
+    success: '#579938',
+    error: '#E93E3E',
+  },
   general: {
     black: '#000000',
     white: '#FFFFFF',

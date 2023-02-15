@@ -30,12 +30,104 @@ class ProfileInfoSetupSection extends Component {
     this.state = {};
   }
 
+  renderViewIndicator() {
+    const { props } = this;
+
+    if (props.hiddenViewIndicator) {
+      return;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <ViewIndicator
+            hidden={props.hiddenViewIndicator}
+            index={props.index}
+            numberOfIndicators={props.numberOfIndicators}
+            text={props.text}
+          />
+        )}
+      </Translation>
+    );
+  }
+
+  renderInfoContainer() {
+    const { props } = this;
+
+    if (props.hiddenInfoContainer) {
+      return;
+    }
+
+    let name = undefined;
+
+    const firstnameEn = props.account.info.firstnameEn || '';
+    const lastnameEn = props.account.info.lastnameEn || '';
+    const firstnameZh = props.account.info.firstnameZh || '';
+    const lastnameZh = props.account.info.lastnameZh || '';
+    const nickname = props.account.info.nickname || '';
+
+    if (props.displayFormat === 0) {
+      name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`;
+    } else if (props.displayFormat === 1) {
+      name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`;
+    } else if (props.displayFormat === 2) {
+      name = `${nickname} ${lastnameZh}${firstnameZh}`;
+    } else if (props.displayFormat === 3) {
+      name = `${nickname}`;
+    }
+
+    let nameTextContainerStyle = {};
+
+    if (name) {
+      nameTextContainerStyle = {
+        ...nameTextContainerStyle,
+        backgroundColor: Theme.colors.general.transparent,
+      }
+    }
+
+    let titleTextContainerStyle = {};
+
+    if (props.title) {
+      titleTextContainerStyle = {
+        ...titleTextContainerStyle,
+        backgroundColor: Theme.colors.general.transparent,
+      }
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.infoContainer}>
+            <Image
+              style={styles.photo}
+              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
+              resizeMode="contain"
+            />
+            <View style={[styles.textContainer, { minWidth: 150 }, nameTextContainerStyle]}>
+              <Text style={styles.text}>
+                {` ${name || ' '} `}
+              </Text>
+            </View>
+            <View style={[styles.textContainer, { minWidth: 200 }, titleTextContainerStyle]}>
+              <Text style={styles.text}>
+                {` ${props.title || ' '} `}
+              </Text>
+            </View>
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
   render() {
     const { props } = this;
 
     if (props.hidden) {
       return null;
     }
+
+    // console.log('[props.displayFormat]', props.displayFormat);
+    // console.log('[props.account.info]', props.account.info);
 
     return (
       <Translation>
@@ -44,27 +136,8 @@ class ProfileInfoSetupSection extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
           >
-            <ViewIndicator
-              hidden={props.hiddenViewIndicator}
-              index={props.index}
-              numberOfIndicators={props.numberOfIndicators}
-              text={props.text}
-            />
-            <Image
-              style={styles.photo}
-              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
-              resizeMode="contain"
-            />
-            <View style={styles.textContainer}>
-              <Text style={[styles.text, { width: 100 }]}>
-                {t(' ')}
-              </Text>
-            </View>
-            <View style={styles.textContainer}>
-              <Text style={[styles.text, { width: 150 }]}>
-                {t(' ')}
-              </Text>
-            </View>
+            {this.renderViewIndicator()}
+            {this.renderInfoContainer()}
           </View>
         )}
       </Translation>
@@ -74,6 +147,9 @@ class ProfileInfoSetupSection extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor: '#0f0',
+  },
+  infoContainer: {
     // backgroundColor: '#0f0',
     alignItems: 'center',
   },
@@ -89,6 +165,7 @@ const styles = StyleSheet.create({
   textContainer: {
     // backgroundColor: '#f00',
     backgroundColor: Theme.colors.background.gray,
+    alignItems: 'center',
     borderRadius: 4,
     marginVertical: 4,
   },
@@ -107,8 +184,10 @@ ProfileInfoSetupSection.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   hiddenViewIndicator: PropTypes.bool,
+  hiddenInfoContainer: PropTypes.bool,
   index: PropTypes.number,
   text: PropTypes.string,
+  title: PropTypes.string,
 };
 
 ProfileInfoSetupSection.defaultProps = {
@@ -116,14 +195,18 @@ ProfileInfoSetupSection.defaultProps = {
   style: undefined,
   hidden: false,
   hiddenViewIndicator: false,
+  hiddenInfoContainer: false,
   index: 0,
   text: undefined,
+  title: undefined,
 };
 
 function mapStateToProps(state) {
   return {
     numberOfIndicators: state.profileInfoSetupSectionReducer.numberOfIndicators,
     photo: state.profileInfoSetupSectionReducer.photo,
+    account: state.profileInfoSetupSectionReducer.account,
+    displayFormat: state.profileInfoSetupSectionReducer.displayFormat,
   };
 }
 

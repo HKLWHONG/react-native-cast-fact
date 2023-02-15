@@ -25,6 +25,11 @@ const zhHK = {
     notes: 'Notes',
     overview: 'Overview',
     availability: 'Availability',
+    firstname_en: 'First Name',
+    lastname_en: 'Last Name',
+    firstname_zh: '中文名字',
+    lastname_zh: '中文姓氏',
+    nickname: 'Nickname',
     next: 'Next',
     done: 'Done',
     ok: 'Ok',
@@ -120,11 +125,6 @@ const zhHK = {
     profile_name_edition: {
       header: 'Profile',
       title: 'Name',
-      firstname_en_label: 'First Name',
-      lastname_en_label: 'Last Name',
-      firstname_zh_label: '中文名字',
-      lastname_zh_label: '中文姓氏',
-      nickname_label: 'Nickname',
     },
     profile_name_display_selection: {
       header: 'Profile',
@@ -134,6 +134,7 @@ const zhHK = {
     profile_cast_sheet_edition: {
       header: 'Profile',
       title: 'Cast Sheet',
+      subtitle: 'Basic Information',
     },
     profile_completion: {
       header: 'Profile',

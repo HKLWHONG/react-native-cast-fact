@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#f00',
     backgroundColor: Theme.colors.background.secondary,
+    justifyContent: 'center',
     borderRadius: 8,
   },
   button: {

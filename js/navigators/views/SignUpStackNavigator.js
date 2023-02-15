@@ -161,6 +161,10 @@ class SignUpStackNavigator extends BaseComponent {
                 console.log(`[${this.constructor.name}-state-changed-screen-name]`, state.routes[state.index].name);
 
                 props.setHiddenRight(this.hiddenRightIfNeeded(state.routes[state.index].name));
+
+                if (store.getState().signUpStackNavigatorReducer.callbacks.onScreenAppearList[state.routes[state.index].name]) {
+                  store.getState().signUpStackNavigatorReducer.callbacks.onScreenAppearList[state.routes[state.index].name](event);
+                }
               },
             }}
           >

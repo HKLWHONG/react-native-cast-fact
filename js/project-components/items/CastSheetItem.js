@@ -1,0 +1,133 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, View, Text } from 'react-native';
+
+import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+
+import { connect } from 'react-redux';
+
+import { } from '../../components';
+
+import {
+  Button,
+} from '../../project-components';
+
+import { Theme } from '../../utils';
+
+import { Translation } from 'react-i18next';
+
+const preview = require('../../../assets/images/preview/preview.png');
+
+class CastSheetItem extends Component {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {};
+  }
+
+  render() {
+    const { props } = this;
+
+    if (props.hidden) {
+      return null;
+    }
+
+    let children = (
+      <View />
+    );
+
+    if (props.children) {
+      children = props.children;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <View
+            onLayout={props.onLayout}
+            style={[styles.container, props.style]}
+          >
+            <View style={{
+                // backgroundColor: '#f00',
+                flex: 2,
+                alignItems: 'flex-end',
+                paddingRight: 4,
+            }}>
+              <Text style={{
+                color: Theme.colors.text.subtitle,
+                fontSize: 15,
+                fontFamily: Theme.fonts.regular,
+                letterSpacing: 1.7,
+                textTransform: 'uppercase',
+              }}>
+                {props.text}
+              </Text>
+            </View>
+            <View style={{
+                // backgroundColor: '#f0f',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flex: 3,
+                paddingLeft: 4,
+            }}>
+              {children}
+              <Button
+                type="small"
+                source={preview}
+                resizeMode="center"
+              />
+            </View>
+          </View>
+        )}
+      </Translation>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    // backgroundColor: '#0ff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Theme.colors.background.gray,
+    padding: 8,
+    marginVertical: 8,
+  },
+});
+
+CastSheetItem.propTypes = {
+  onLayout: PropTypes.func,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  style: ViewPropTypes.style,
+  hidden: PropTypes.bool,
+  text: PropTypes.string,
+};
+
+CastSheetItem.defaultProps = {
+  onLayout: undefined,
+  children: undefined,
+  style: undefined,
+  hidden: false,
+  text: undefined,
+};
+
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CastSheetItem);

@@ -75,3 +75,12 @@ export const setNickname = (nickname) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setDisplayFormat = (displayFormat) => (dispatch) => {
+  dispatch({
+    type: ProfileInfoSetupSectionActionType.DISPLAY_FORMAT,
+    displayFormat: displayFormat,
+  });
+
+  return Promise.resolve(store.getState());
+};

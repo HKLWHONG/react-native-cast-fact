@@ -158,12 +158,21 @@ class Tag extends Component {
   renderInputContainer = () => {
     const { props, state } = this;
 
+    let style = {};
+
+    if (props.fill) {
+      style = {
+        ...style,
+        flex: 1,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, style]}
               textInputStyle={styles.text}
               placeholderTextColor={Theme.colors.text.subtitle}
               editable={!props.disabled}
@@ -229,10 +238,19 @@ class Tag extends Component {
       children = this.renderInputContainer();
     }
 
+    let style = {};
+
+    if (props.fill) {
+      style = {
+        ...style,
+        flex: 1,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
-          <View style={styles.centerContainer}>
+          <View style={[styles.centerContainer, style]}>
             {children}
           </View>
         )}
@@ -357,6 +375,40 @@ class Tag extends Component {
         ...style,
         opacity: 0.5,
       };
+    }
+
+    if (props.fill === true) {
+      style = {
+        ...style,
+        flex: 1,
+      }
+    } else if (props.fill) {
+      style = {
+        ...style,
+        width: props.fill,
+      }
+    }
+
+    if (props.state) {
+      if (props.state.toLowerCase() === 'attention'.toLowerCase()) {
+        style = {
+          ...style,
+          borderWidth: 2,
+          borderColor: Theme.colors.indicator.attention,
+        };
+      } else if (props.state.toLowerCase() === 'success'.toLowerCase()) {
+        style = {
+          ...style,
+          borderWidth: 2,
+          borderColor: Theme.colors.indicator.success,
+        };
+      } else if (props.state.toLowerCase() === 'error'.toLowerCase()) {
+        style = {
+          ...style,
+          borderWidth: 2,
+          borderColor: Theme.colors.indicator.error,
+        };
+      }
     }
 
     return (
@@ -526,6 +578,11 @@ Tag.propTypes = {
     PropTypes.number,
   ]),
   resizeMode: PropTypes.string,
+  fill: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  state: PropTypes.string,
   checked: PropTypes.bool,
   onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
@@ -553,6 +610,8 @@ Tag.defaultProps = {
   rightAccessoryType: undefined,
   source: undefined,
   resizeMode: 'contain',
+  fill: undefined,
+  state: undefined,
   checked: false,
   onPress: undefined,
   onPressRightAccessory: undefined,
