@@ -27,7 +27,7 @@ import {
 
 import { Translation } from 'react-i18next';
 
-const ic_header_4 = require('../../../assets/images/ic_header_4/ic_header_4.png');
+const ic_header_3 = require('../../../assets/images/ic_header_3/ic_header_3.png');
 
 const Stack = createStackNavigator();
 
@@ -62,7 +62,7 @@ class SettingsStackNavigator extends BaseComponent {
                   <Header
                     hiddenLeft={!back}
                     info={info}
-                    source={ic_header_4}
+                    source={ic_header_3}
                     title={title}
                   />
                 );

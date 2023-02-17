@@ -31,7 +31,7 @@ import {
   Section,
   CriteriaSection,
   ProfileList,
-  FeedList,
+  SearchResultList,
   GroupFrame,
   Tag,
 } from '../../project-components';
@@ -310,21 +310,11 @@ class SearchResultView extends BaseComponent {
             contentContainerStyle={styles.resultSectionContentContainer}
             label={section.title}
           >
-            <FeedList
-              type="simple"
+            <SearchResultList
+              type="grid"
               data={props.feeds}
-              onPressCalendar={({ item, index, separators }) => {
+              onPressSelection={({ item, index, separators }) => {
                 // TODO
-              }}
-              onPressFollow={({ item, index, separators }) => {
-                // console.log('[followed] ', item && item.profile && item.profile.followed);
-
-                props.updateFeed(item.feedId, {
-                  profile: {
-                    ...item.profile,
-                    followed: !(item && item.profile && item.profile.followed),
-                  },
-                });
               }}
               onEndReached={this.onEndReached}
             />

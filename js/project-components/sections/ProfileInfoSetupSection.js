@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     color: Theme.colors.text.subtitle,
     fontSize: 15,
     fontFamily: Theme.fonts.light,
+    textTransform: 'uppercase',
   },
 });
 

@@ -20,7 +20,7 @@ import { AccountView } from '../../views';
 
 import { Translation } from 'react-i18next';
 
-const ic_header_4 = require('../../../assets/images/ic_header_4/ic_header_4.png');
+const ic_header_2 = require('../../../assets/images/ic_header_2/ic_header_2.png');
 
 const Stack = createStackNavigator();
 
@@ -55,7 +55,7 @@ class AccountStackNavigator extends BaseComponent {
                   <Header
                     hiddenLeft={!back}
                     info={info}
-                    source={ic_header_4}
+                    source={ic_header_2}
                     title={title}
                   />
                 );
