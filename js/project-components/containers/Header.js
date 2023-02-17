@@ -31,6 +31,8 @@ class Header extends Component {
 
     let children = undefined;
 
+    let style = {};
+
     if (!props.hiddenLeft) {
       if (props.renderLeftView) {
         children = props.renderLeftView();
@@ -48,12 +50,17 @@ class Header extends Component {
           </SingleTouch>
         );
       }
+    } else {
+      style = {
+        ...style,
+        flex: 0,
+      }
     }
 
     return (
       <Translation>
         {(t) => (
-          <View style={[styles.leftContainer, props.leftContainerStyle]}>
+          <View style={[styles.leftContainer, style, props.leftContainerStyle]}>
             {children}
           </View>
         )}
@@ -65,19 +72,38 @@ class Header extends Component {
     const { props } = this;
 
     let centerContainerStyle = {};
+    let textStyle = {};
 
     if (!props.hiddenLeft) {
       centerContainerStyle = {
         ...centerContainerStyle,
         alignItems: 'center',
-      }
+      };
+
+      textStyle = {
+        ...textStyle,
+        textAlign: 'center',
+      };
+    }
+
+    if (
+      props.renderLeftView
+      ||
+      props.renderRightView
+    ) {
+      centerContainerStyle = {
+        ...centerContainerStyle,
+        flex: 2,
+      };
     }
 
     return (
       <Translation>
         {(t) => (
           <View style={[styles.centerContainer, centerContainerStyle]}>
-            <Text style={styles.title}>{props.title}</Text>
+            <Text style={[styles.title, textStyle]}>
+              {props.title}
+            </Text>
           </View>
         )}
       </Translation>
@@ -170,12 +196,13 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#f00',
-    flex: 2,
+    flex: 5,
     justifyContent: 'flex-end',
+    paddingHorizontal: 8,
     paddingBottom: 16,
   },
   title: {
-    // backgroundColor: '#f00',
+    // backgroundColor: '#0ff',
     color: Theme.colors.general.white,
     fontSize: 17,
     fontFamily: Theme.fonts.bold,
@@ -229,6 +256,8 @@ Header.defaultProps = {
   renderLeftView: undefined,
   renderRightView: undefined,
   onPressLeft: (info) => {
+    console.log('[header-on-press-left]', info);
+
     if (!info) {
       return;
     }

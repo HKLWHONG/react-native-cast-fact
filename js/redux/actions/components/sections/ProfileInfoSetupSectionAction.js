@@ -78,7 +78,7 @@ export const setNickname = (nickname) => (dispatch) => {
 
 export const setDisplayFormat = (displayFormat) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.DISPLAY_FORMAT,
+    type: ProfileInfoSetupSectionActionType.ACCOUNT_DISPLAY_FORMAT,
     displayFormat: displayFormat,
   });
 

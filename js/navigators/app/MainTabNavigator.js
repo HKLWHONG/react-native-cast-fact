@@ -31,6 +31,7 @@ import {
   SearchStackNavigator,
   // InboxStackNavigator,
   ProjectStackNavigator,
+  SettingsStackNavigator,
 } from '../../navigators';
 
 import { Translation } from 'react-i18next';
@@ -330,8 +331,8 @@ class MainTabNavigator extends BaseComponent {
               })}
             />
             <Tab.Screen
-              name="SettingsSlideSheetContainerView"
-              component={View}
+              name="SettingsStackNavigator"
+              component={SettingsStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -363,9 +364,7 @@ class MainTabNavigator extends BaseComponent {
               }}
               listeners={(params) => ({
                 tabPress: (event) => {
-                  event.preventDefault();
-
-                  Router.push(props, 'SettingsSlideSheetContainerView');
+                  this.tabPress(params, event, { index: 2, stack: 'SettingsStackNavigator' });
                 },
               })}
             />

@@ -13,11 +13,11 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const addRef = (id, object) => (dispatch) => {
+export const addRef = (key, value) => (dispatch) => {
   dispatch({
     type: SignUpViewActionType.ADD_REF,
-    id: id,
-    object: object,
+    key: key,
+    value: value,
   });
 
   return Promise.resolve(store.getState());

@@ -1,0 +1,10 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+export const RESET = '@ACCOUNT_CHANGE_PASSWORD_STEP_1_VIEW_RESET';
+
+export const ADD_REF = '@ACCOUNT_CHANGE_PASSWORD_STEP_1_VIEW_ADD_REF';
+
+export const ACCOUNT_PASSWORD = '@ACCOUNT_CHANGE_PASSWORD_STEP_1_VIEW_ACCOUNT_PASSWORD';

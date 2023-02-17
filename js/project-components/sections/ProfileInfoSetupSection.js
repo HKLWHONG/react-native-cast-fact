@@ -30,7 +30,7 @@ class ProfileInfoSetupSection extends Component {
     this.state = {};
   }
 
-  renderViewIndicator() {
+  renderViewIndicator = () => {
     const { props } = this;
 
     if (props.hiddenViewIndicator) {
@@ -49,16 +49,16 @@ class ProfileInfoSetupSection extends Component {
         )}
       </Translation>
     );
-  }
+  };
 
-  renderInfoContainer() {
+  renderInfoContainer = () => {
     const { props } = this;
 
     if (props.hiddenInfoContainer) {
       return;
     }
 
-    let name = undefined;
+    let name = '';
 
     const firstnameEn = props.account.info.firstnameEn || '';
     const lastnameEn = props.account.info.lastnameEn || '';
@@ -66,14 +66,18 @@ class ProfileInfoSetupSection extends Component {
     const lastnameZh = props.account.info.lastnameZh || '';
     const nickname = props.account.info.nickname || '';
 
-    if (props.displayFormat === 0) {
-      name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`;
-    } else if (props.displayFormat === 1) {
-      name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`;
-    } else if (props.displayFormat === 2) {
-      name = `${nickname} ${lastnameZh}${firstnameZh}`;
-    } else if (props.displayFormat === 3) {
-      name = `${nickname}`;
+    if (props.account.info.displayFormat === 0) {
+      name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+    } else if (props.account.info.displayFormat === 1) {
+      name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+    } else if (props.account.info.displayFormat === 2) {
+      name = `${nickname} ${lastnameZh}${firstnameZh}`.trim();
+    } else if (props.account.info.displayFormat === 3) {
+      name = `${nickname}`.trim();
+    }
+
+    if (name.length === 0) {
+      name = undefined;
     }
 
     let nameTextContainerStyle = {};
@@ -85,14 +89,19 @@ class ProfileInfoSetupSection extends Component {
       }
     }
 
-    let titleTextContainerStyle = {};
+    const occupation = props.profileCastSheetEditionViewAccount.info.occupation;
 
-    if (props.title) {
-      titleTextContainerStyle = {
-        ...titleTextContainerStyle,
+    let occupationTextContainerStyle = {};
+
+    if (occupation) {
+      occupationTextContainerStyle = {
+        ...occupationTextContainerStyle,
         backgroundColor: Theme.colors.general.transparent,
       }
     }
+
+    console.log('[profile-info-setup-section-name]', name);
+    console.log('[profile-info-setup-section-occupation]', occupation);
 
     return (
       <Translation>
@@ -104,20 +113,20 @@ class ProfileInfoSetupSection extends Component {
               resizeMode="contain"
             />
             <View style={[styles.textContainer, { minWidth: 150 }, nameTextContainerStyle]}>
-              <Text style={styles.text}>
+              <Text style={styles.name}>
                 {` ${name || ' '} `}
               </Text>
             </View>
-            <View style={[styles.textContainer, { minWidth: 200 }, titleTextContainerStyle]}>
-              <Text style={styles.text}>
-                {` ${props.title || ' '} `}
+            <View style={[styles.textContainer, { minWidth: 200 }, occupationTextContainerStyle]}>
+              <Text style={styles.occupation}>
+                {` ${occupation || ' '} `}
               </Text>
             </View>
           </View>
         )}
       </Translation>
     );
-  }
+  };
 
   render() {
     const { props } = this;
@@ -126,7 +135,7 @@ class ProfileInfoSetupSection extends Component {
       return null;
     }
 
-    // console.log('[props.displayFormat]', props.displayFormat);
+    // console.log('[props.account.info.displayFormat]', props.account.info.displayFormat);
     // console.log('[props.account.info]', props.account.info);
 
     return (
@@ -169,13 +178,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginVertical: 4,
   },
-  text: {
+  name: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
     fontSize: 15,
     fontFamily: Theme.fonts.bold,
     letterSpacing: 1,
     textTransform: 'uppercase',
+  },
+  occupation: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
   },
 });
 
@@ -187,7 +201,7 @@ ProfileInfoSetupSection.propTypes = {
   hiddenInfoContainer: PropTypes.bool,
   index: PropTypes.number,
   text: PropTypes.string,
-  title: PropTypes.string,
+  occupation: PropTypes.string,
 };
 
 ProfileInfoSetupSection.defaultProps = {
@@ -198,7 +212,7 @@ ProfileInfoSetupSection.defaultProps = {
   hiddenInfoContainer: false,
   index: 0,
   text: undefined,
-  title: undefined,
+  occupation: undefined,
 };
 
 function mapStateToProps(state) {
@@ -206,7 +220,7 @@ function mapStateToProps(state) {
     numberOfIndicators: state.profileInfoSetupSectionReducer.numberOfIndicators,
     photo: state.profileInfoSetupSectionReducer.photo,
     account: state.profileInfoSetupSectionReducer.account,
-    displayFormat: state.profileInfoSetupSectionReducer.displayFormat,
+    profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
   };
 }
 

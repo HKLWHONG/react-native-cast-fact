@@ -30,12 +30,30 @@ class CastSheetItem extends Component {
     this.state = {};
   }
 
-  render() {
+  renderLeftContainer() {
     const { props } = this;
 
-    if (props.hidden) {
-      return null;
-    }
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.leftContainer}>
+            <Text style={{
+              color: Theme.colors.text.subtitle,
+              fontSize: 15,
+              fontFamily: Theme.fonts.regular,
+              letterSpacing: 1.7,
+              textTransform: 'uppercase',
+            }}>
+              {props.text}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
+  renderCenterContainer() {
+    const { props } = this;
 
     let children = (
       <View />
@@ -48,41 +66,49 @@ class CastSheetItem extends Component {
     return (
       <Translation>
         {(t) => (
+          <View style={styles.centerContainer}>
+            {children}
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
+  renderRightContainer() {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.rightContainer}>
+            <Button
+              type="small"
+              source={preview}
+              resizeMode="center"
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
+  render() {
+    const { props } = this;
+
+    if (props.hidden) {
+      return null;
+    }
+
+    return (
+      <Translation>
+        {(t) => (
           <View
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
           >
-            <View style={{
-                // backgroundColor: '#f00',
-                flex: 2,
-                alignItems: 'flex-end',
-                paddingRight: 4,
-            }}>
-              <Text style={{
-                color: Theme.colors.text.subtitle,
-                fontSize: 15,
-                fontFamily: Theme.fonts.regular,
-                letterSpacing: 1.7,
-                textTransform: 'uppercase',
-              }}>
-                {props.text}
-              </Text>
-            </View>
-            <View style={{
-                // backgroundColor: '#f0f',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flex: 3,
-                paddingLeft: 4,
-            }}>
-              {children}
-              <Button
-                type="small"
-                source={preview}
-                resizeMode="center"
-              />
-            </View>
+            {this.renderLeftContainer()}
+            {this.renderCenterContainer()}
+            {this.renderRightContainer()}
           </View>
         )}
       </Translation>
@@ -97,9 +123,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: Theme.colors.background.gray,
+    borderColor: Theme.colors.general.transparent,
     padding: 8,
     marginVertical: 8,
+  },
+  leftContainer: {
+    // backgroundColor: '#f0f',
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  centerContainer: {
+    // backgroundColor: '#f00',
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+  rightContainer: {
+    // backgroundColor: '#0ff',
   },
 });
 

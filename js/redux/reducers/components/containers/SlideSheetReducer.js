@@ -21,20 +21,20 @@ export default function slideSheetReducer(state = initState(), action) {
       return initState();
 
     case SlideSheetActionType.ADD_REF:
-      if (!action.id) {
+      if (!action.key) {
         return state;
       }
 
-      state.refs[action.id] = action.object;
+      state.refs[action.key] = action.value;
 
       return state;
 
     case SlideSheetActionType.ADD_PROPS:
-      if (!action.id) {
+      if (!action.key) {
         return state;
       }
 
-      state.propsList[action.id] = action.object;
+      state.propsList[action.key] = action.value;
 
       return state;
 

@@ -79,6 +79,8 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
   clearData = () => {
     const { props } = this;
+
+    props.reset();
   };
 
   renderHeader = () => {
@@ -120,16 +122,21 @@ class ProfileCastSheetEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('Gender')}>
+          <CastSheetItem text={t('app.gender')}>
             <Tag
-              style={{
-                backgroundColor: Theme.colors.background.secondary,
-              }}
+              style={styles.tag}
               type="input"
-              // text={t('Male')}
+              text={props.account.info.gender}
               rightAccessoryType="delete"
-              // state={'error'}
               fill
+              onChangeText={(params) => {
+                const { text } = params;
+
+                props.addAccountInfo('gender', text);
+              }}
+              onPressRightAccessory={() => {
+                props.deleteAccountInfo('gender');
+              }}
             />
           </CastSheetItem>
         )}
@@ -143,16 +150,21 @@ class ProfileCastSheetEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('Birthday')}>
+          <CastSheetItem text={t('app.birthday')}>
             <Tag
-              style={{
-                backgroundColor: Theme.colors.background.secondary,
-              }}
+              style={styles.tag}
               type="input"
-              // text={t('Male')}
+              text={props.account.info.birthday}
               rightAccessoryType="delete"
-              // state={'error'}
               fill
+              onChangeText={(params) => {
+                const { text } = params;
+
+                props.addAccountInfo('birthday', text);
+              }}
+              onPressRightAccessory={() => {
+                props.deleteAccountInfo('birthday');
+              }}
             />
           </CastSheetItem>
         )}
@@ -166,16 +178,21 @@ class ProfileCastSheetEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('Place of Birth')}>
+          <CastSheetItem text={t('app.place_of_birth')}>
             <Tag
-              style={{
-                backgroundColor: Theme.colors.background.secondary,
-              }}
+              style={styles.tag}
               type="input"
-              // text={t('Male')}
+              text={props.account.info.placeOfBirth}
               rightAccessoryType="delete"
-              // state={'error'}
               fill
+              onChangeText={(params) => {
+                const { text } = params;
+
+                props.addAccountInfo('place_of_birth', text);
+              }}
+              onPressRightAccessory={() => {
+                props.deleteAccountInfo('place_of_birth');
+              }}
             />
           </CastSheetItem>
         )}
@@ -189,16 +206,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('Occupation')}>
+          <CastSheetItem text={t('app.occupation')}>
             <Tag
-              style={{
-                backgroundColor: Theme.colors.background.secondary,
-              }}
+              style={styles.tag}
               type="input"
-              // text={t('Male')}
+              text={props.account.info.occupation}
               rightAccessoryType="delete"
-              // state={'error'}
               fill
+              onChangeText={(params) => {
+                const { text } = params;
+
+                props.addAccountInfo('occupation', text);
+              }}
+              onPressRightAccessory={() => {
+                props.deleteAccountInfo('occupation');
+              }}
+            />
+          </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetNationalityItem = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <CastSheetItem text={t('app.nationality')}>
+            <Tag
+              style={styles.tag}
+              type="input"
+              text={props.account.info.nationality}
+              rightAccessoryType="delete"
+              fill
+              onChangeText={(params) => {
+                const { text } = params;
+
+                props.addAccountInfo('nationality', text);
+              }}
+              onPressRightAccessory={() => {
+                props.deleteAccountInfo('nationality');
+              }}
             />
           </CastSheetItem>
         )}
@@ -217,17 +267,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {this.renderCastSheetBirthdayItem()}
             {this.renderCastSheetPlaceOfBirthItem()}
             {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
-            {this.renderCastSheetOccupationItem()}
+            {this.renderCastSheetNationalityItem()}
           </View>
         )}
       </Translation>
@@ -292,7 +332,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}
-            {this.renderKeyboardAccessoryView()}
+          {/* this.renderKeyboardAccessoryView() */}
           </Root>
         )}
       </Translation>
@@ -327,10 +367,14 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.bold,
     letterSpacing: 1.7,
     textTransform: 'uppercase',
+    marginVertical: 16,
   },
   castSheetContainer: {
     // backgroundColor: '#0f0',
-    marginVertical: 32,
+    marginVertical: 16,
+  },
+  tag: {
+    backgroundColor: Theme.colors.background.secondary,
   },
   footer: {
     // backgroundColor: '#f00',
@@ -339,12 +383,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+    account: state.profileCastSheetEditionViewReducer.account,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
+    addAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.addAccountInfo(...args)),
+    deleteAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.deleteAccountInfo(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };
 }

@@ -26,11 +26,11 @@ export default function cameraViewReducer(state = initState(), action) {
       return initState();
 
     case CameraViewActionType.ADD_REF:
-      if (!action.id) {
+      if (!action.key) {
         return state;
       }
 
-      state.refs[action.id] = action.object;
+      state.refs[action.key] = action.value;
 
       return state;
 

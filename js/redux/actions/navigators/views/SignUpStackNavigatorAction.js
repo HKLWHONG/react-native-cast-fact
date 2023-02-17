@@ -22,21 +22,21 @@ export const setHiddenRight = (hiddenRight) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const addOnScreenAppear = (id, object) => (dispatch) => {
+export const addOnScreenAppear = (key, value) => (dispatch) => {
   dispatch({
     type: SignUpStackNavigatorActionType.ADD_ON_SCREEN_APPEAR,
-    id: id,
-    object: object,
+    key: key,
+    value: value,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const addOnRightButtonPress = (id, object) => (dispatch) => {
+export const addOnRightButtonPress = (key, value) => (dispatch) => {
   dispatch({
     type: SignUpStackNavigatorActionType.ADD_ON_RIGHT_BUTTON_PRESS,
-    id: id,
-    object: object,
+    key: key,
+    value: value,
   });
 
   return Promise.resolve(store.getState());

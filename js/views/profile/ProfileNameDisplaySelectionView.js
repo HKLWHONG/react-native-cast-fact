@@ -110,7 +110,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.displayFormat === 0) {
+    if (props.profileInfoSetupSectionAccount.info.displayFormat === 0) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -195,7 +195,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.displayFormat === 1) {
+    if (props.profileInfoSetupSectionAccount.info.displayFormat === 1) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -280,7 +280,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.displayFormat === 2) {
+    if (props.profileInfoSetupSectionAccount.info.displayFormat === 2) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -350,7 +350,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.displayFormat === 3) {
+    if (props.profileInfoSetupSectionAccount.info.displayFormat === 3) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -503,7 +503,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
-    displayFormat: state.profileInfoSetupSectionReducer.displayFormat,
   };
 }
 

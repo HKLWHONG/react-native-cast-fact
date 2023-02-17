@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
   },
   indicatorTextContainer: {
     backgroundColor: Theme.colors.general.black,
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     borderRadius: 999,
     borderWidth: 2,
     borderColor: Theme.colors.text.subtitle,
@@ -128,15 +128,15 @@ const styles = StyleSheet.create({
   indicatorText: {
     // backgroundColor: '#00f',
     color: Theme.colors.text.subtitle,
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: FontConstants.WEIGHT_BOLD,
-    lineHeight: 18,
+    lineHeight: 16,
     textTransform: 'uppercase',
   },
   currentIndicatorTextContainer: {
     backgroundColor: Theme.colors.text.subtitle,
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     borderRadius: 999,
     justifyContent: 'center',
     alignItems: 'center',
@@ -145,9 +145,9 @@ const styles = StyleSheet.create({
   currentIndicatorText: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.black,
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: FontConstants.WEIGHT_BOLD,
-    lineHeight: 18,
+    lineHeight: 16,
     textTransform: 'uppercase',
   },
   contentContainer: {
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     color: Theme.colors.general.white,
     fontSize: 15,
     fontFamily: Theme.fonts.bold,
-    letterSpacing: 1.7,
+    letterSpacing: 5,
     textTransform: 'uppercase',
   },
 });

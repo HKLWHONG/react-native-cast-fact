@@ -1,6 +1,10 @@
 /* eslint-disable prettier/prettier */
 
 const en = {
+  system: {
+    app_name: 'Cast Fact',
+    version_name: 'Public BETA',
+  },
   app: {
     loading: 'Loading',
     cancel: 'Cancel',
@@ -10,7 +14,7 @@ const en = {
     sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
-    based_on_projects_format: 'Based On Project {0}',
+    based_on_projects_format: 'Based on Project {0}',
     feed: 'Feed',
     my_projects: 'My Projects',
     my_events: 'My Events',
@@ -30,7 +34,13 @@ const en = {
     firstname_zh: '中文名字',
     lastname_zh: '中文姓氏',
     nickname: 'Nickname',
+    gender: 'Gender',
+    birthday: 'Birthday',
+    place_of_birth: 'Place of Birth',
+    occupation: 'Occupation',
+    nationality: 'Nationality',
     next: 'Next',
+    change: 'Change',
     done: 'Done',
     ok: 'Ok',
     create: 'Create',
@@ -115,6 +125,19 @@ const en = {
     },
     account: {
       header: 'Account',
+    },
+    account_change_password_step1: {
+      header: 'Change Password',
+      title: 'Step1',
+      current_password: 'Current Password',
+      description: 'Enter your registered email to verify your identity & follow the instructions to reset password.'
+    },
+    account_change_password_step2: {
+      header: 'Change Password',
+      title: 'Step2',
+      subtitle: 'Change password for',
+      new_password: 'New Password',
+      confirmation: 'Confirmation',
     },
     profile: {
       header: 'Profile',

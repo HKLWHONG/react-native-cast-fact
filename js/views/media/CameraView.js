@@ -47,8 +47,6 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -76,20 +74,13 @@ class CameraView extends BaseComponent {
   initialize = async () => {
     const { props } = this;
 
-    // ImagePicker.clean().then(() => {
-    //   console.log('removed all tmp images from tmp directory');
-    // })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-
     // const cameraPermission = await Camera.getCameraPermissionStatus();
     // const microphonePermission = await Camera.getMicrophonePermissionStatus();
 
     const cameraPermission = await Camera.requestCameraPermission();
     // let newMicrophonePermission = await Camera.requestMicrophonePermission();;
 
-    console.log('[cameraPermission]', cameraPermission);
+    console.log('[camera-permission]', cameraPermission);
 
     // console.log('[newCameraPermission]', newCameraPermission);
 

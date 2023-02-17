@@ -29,11 +29,14 @@ import {
 } from './navigators';
 
 import {
+  accountChangePasswordStep1ViewReducer,
+  accountChangePasswordStep2ViewReducer,
   feedViewReducer,
   launchViewReducer,
   loginViewReducer,
   cameraViewReducer,
   calendarModalViewReducer,
+  profileCastSheetEditionViewReducer,
   profileNameDisplaySelectionViewReducer,
   profileNameEditionViewReducer,
   profilePictureSelectionViewReducer,
@@ -66,11 +69,14 @@ const reducers = combineReducers({
   signUpStackNavigatorReducer,
 
   // views
+  accountChangePasswordStep1ViewReducer,
+  accountChangePasswordStep2ViewReducer,
   feedViewReducer,
   launchViewReducer,
   loginViewReducer,
   cameraViewReducer,
   calendarModalViewReducer,
+  profileCastSheetEditionViewReducer,
   profileNameDisplaySelectionViewReducer,
   profileNameEditionViewReducer,
   profilePictureSelectionViewReducer,

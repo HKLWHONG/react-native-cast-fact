@@ -30,20 +30,20 @@ export default function signUpStackNavigatorReducer(state = initState(), action)
       };
 
     case SignUpStackNavigatorActionType.ADD_ON_SCREEN_APPEAR:
-      if (!action.id) {
+      if (!action.key) {
         return state;
       }
 
-      state.callbacks.onScreenAppearList[action.id] = action.object;
+      state.callbacks.onScreenAppearList[action.key] = action.value;
 
       return state;
 
     case SignUpStackNavigatorActionType.ADD_ON_RIGHT_BUTTON_PRESS:
-      if (!action.id) {
+      if (!action.key) {
         return state;
       }
 
-      state.callbacks.onRightButtonPressList[action.id] = action.object;
+      state.callbacks.onRightButtonPressList[action.key] = action.value;
 
       return state;
 

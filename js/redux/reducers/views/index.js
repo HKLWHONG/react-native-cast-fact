@@ -3,6 +3,7 @@
  * @flow strict-local
  */
 
+export * from './account';
 export * from './feed';
 export * from './launch';
 export * from './login';

@@ -95,8 +95,14 @@ class SettingsView extends BaseComponent {
               alignment="left"
               leftAccessorySource={item.source}
               leftAccessoryResizeMode="center"
-              onPress={() => {
+              onPress={(event) => {
                 console.log(`[on-press] ${item.text}`)
+
+                if (!item.onPress) {
+                  return;
+                }
+
+                item.onPress(event);
               }}
             />
           </View>
@@ -114,22 +120,34 @@ class SettingsView extends BaseComponent {
         data: [
           {
             source: preview,
-            text: i18n.t('Change Profile Picture'),
-          },
-          {
-            source: preview,
             text: i18n.t('Edit Display Name'),
+            onPress: () => {
+              Router.push(props, 'ProfileNameDisplaySelectionView');
+            },
           },
           {
-            source: preview,
+            source: {},
             text: i18n.t('Edit Profile'),
+            onPress: () => {
+              Router.push(props, 'ProfileCastSheetEditionView');
+            },
           },
           {
-            source: preview,
+            source: {},
+            text: i18n.t('Change Profile Picture'),
+            onPress: () => {
+              Router.push(props, 'ProfilePictureSelectionView');
+            },
+          },
+          {
+            source: {},
             text: i18n.t('Change Password'),
+            onPress: () => {
+              Router.push(props, 'AccountChangePasswordStep1View');
+            },
           },
           {
-            source: preview,
+            source: {},
             text: i18n.t('Logout'),
           },
         ],
@@ -162,7 +180,17 @@ class SettingsView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Footer style={styles.footer} />
+          <Footer style={styles.footer}>
+            <Text style={styles.footerText}>
+              {t('system.app_name')}
+            </Text>
+            <Text style={styles.footerDescription}>
+              {t('system.version_name')}
+            </Text>
+            <Text style={styles.footerDescription}>
+              {t('v1.0.0')}
+            </Text>
+          </Footer>
         )}
       </Translation>
     );
@@ -217,6 +245,21 @@ const styles = StyleSheet.create({
   },
   footer: {
     // backgroundColor: '#f00',
+    alignItems: 'center',
+    padding: 16,
+  },
+  footerText: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  footerDescription: {
+    color: Theme.colors.background.gray,
+    fontSize: 15,
+    fontFamily: Theme.fonts.regular,
+    letterSpacing: 1,
   },
 });
 

@@ -46,13 +46,15 @@ class AccountStackNavigator extends BaseComponent {
           <Stack.Navigator
             screenOptions={{
               headerMode: 'screen',
-              header: ({ navigation, route, options, back }) => {
+              header: (info) => {
+                const { navigation, route, options, back } = info;
+
                 const title = getHeaderTitle(options, route.name);
 
                 return (
                   <Header
                     hiddenLeft={!back}
-                    navigation={navigation}
+                    info={info}
                     source={ic_header_4}
                     title={title}
                   />

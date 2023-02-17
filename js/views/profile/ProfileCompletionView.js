@@ -16,8 +16,12 @@ import { connect } from 'react-redux';
 import {
   ProfileCompletionViewAction,
   SignUpStackNavigatorAction,
+  SignUpViewAction,
   ProfileInfoSetupSectionAction,
+  ProfileCastSheetEditionViewAction,
 } from '../../redux';
+
+import ImagePicker from 'react-native-image-crop-picker';
 
 import {
   BaseComponent,
@@ -38,8 +42,6 @@ import {
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
-
-// import { TestApi } from '../../apis';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -67,14 +69,21 @@ class ProfileCompletionView extends BaseComponent {
 
   initialize = () => {
     const { props } = this;
-
-    // props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
-    //   Router.push(props, 'ProfileNameDisplaySelectionView');
-    // });
   };
 
   clearData = () => {
     const { props } = this;
+
+    ImagePicker.clean().then(() => {
+      console.log('[image-picker] Removed all tmp images from tmp directory.');
+    })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      props.resetSignUpView();
+      props.resetProfileInfoSetupSection();
+      props.resetProfileCastSheetEditionView();
   };
 
   renderHeader = () => {
@@ -108,6 +117,17 @@ class ProfileCompletionView extends BaseComponent {
       <Translation>
         {(t) => (
           <View style={styles.resultContainer}>
+            <Image
+              style={styles.resultImage}
+              source={preview}
+              resizeMode="center"
+            />
+            <Text style={styles.resultText}>
+              {t('Complete')}
+            </Text>
+            <Text style={styles.description}>
+              {t('Your profile is now ready.')}
+            </Text>
           </View>
         )}
       </Translation>
@@ -207,7 +227,27 @@ const styles = StyleSheet.create({
   resultContainer: {
     // backgroundColor: '#0f0',
     flex: 1,
+    alignItems: 'center',
     marginVertical: 32,
+  },
+  resultImage: {
+    width: 80,
+    height: 80,
+    marginTop: 32,
+  },
+  resultText: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 36,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 8,
+    textTransform: 'uppercase',
+    marginVertical: 16,
+  },
+  description: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
   },
   doneButton: {
     marginBottom: 64,
@@ -227,6 +267,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    resetSignUpView: (...args) => dispatch(SignUpViewAction.reset(...args)),
+    resetProfileInfoSetupSection: (...args) => dispatch(ProfileInfoSetupSectionAction.reset(...args)),
+    resetProfileCastSheetEditionView: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
   };
 }
 

@@ -16,9 +16,9 @@ const initState = () => {
         firstnameZh: undefined,
         lastnameZh: undefined,
         nickname: undefined,
+        displayFormat: undefined,
       },
     },
-    displayFormat: undefined,
   };
 };
 
@@ -102,10 +102,16 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.DISPLAY_FORMAT:
+    case ProfileInfoSetupSectionActionType.ACCOUNT_DISPLAY_FORMAT:
       return {
         ...state,
-        displayFormat: action.displayFormat,
+        account: {
+          ...state.account,
+          info: {
+            ...state.account.info,
+            displayFormat: action.displayFormat,
+          },
+        },
       };
 
     default:

@@ -3,11 +3,11 @@
  * @flow strict-local
  */
 
-import { store, SlideSheetActionType } from '../../../../redux';
+import { store, AccountChangePasswordStep1ViewActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: SlideSheetActionType.RESET,
+    type: AccountChangePasswordStep1ViewActionType.RESET,
   });
 
   return Promise.resolve(store.getState());
@@ -15,7 +15,7 @@ export const reset = () => (dispatch) => {
 
 export const addRef = (key, value) => (dispatch) => {
   dispatch({
-    type: SlideSheetActionType.ADD_REF,
+    type: AccountChangePasswordStep1ViewActionType.ADD_REF,
     key: key,
     value: value,
   });
@@ -23,11 +23,10 @@ export const addRef = (key, value) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const addProps = (key, value) => (dispatch) => {
+export const setPassword = (password) => (dispatch) => {
   dispatch({
-    type: SlideSheetActionType.ADD_PROPS,
-    key: key,
-    value: value,
+    type: AccountChangePasswordStep1ViewActionType.ACCOUNT_PASSWORD,
+    password: password,
   });
 
   return Promise.resolve(store.getState());
