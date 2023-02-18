@@ -40,6 +40,15 @@ export const setResults = (results) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setSearchResultListType = (searchResultListType) => (dispatch) => {
+  dispatch({
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_TYPE,
+    searchResultListType: searchResultListType,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setSearchResultListPagingLoading = (loading) => (dispatch) => {
   dispatch({
     type: SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LOADING,

@@ -46,7 +46,7 @@ class Button extends Component {
     ) {
       style = {
         ...style,
-        width: 35,
+        width: 18,
         height: 18,
       };
     }

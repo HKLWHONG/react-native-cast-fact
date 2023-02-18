@@ -72,6 +72,13 @@ class SearchStackNavigator extends BaseComponent {
                     info={info}
                     source={ic_header_1}
                     title={title}
+                    renderRightView={() => {
+                      // console.log('[route.name]', route.name);
+
+                      if (store.getState().searchStackNavigatorReducer.callbacks.onRightViewRenderList[route.name]) {
+                        return store.getState().searchStackNavigatorReducer.callbacks.onRightViewRenderList[route.name](info);
+                      }
+                    }}
                     onPressLeft={(info) => {
                       const { navigation, route } = info;
 

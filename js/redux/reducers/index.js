@@ -25,6 +25,7 @@ import {
 import {
   drawerNavigatorReducer,
   mainTabNavigatorReducer,
+  searchStackNavigatorReducer,
   signUpStackNavigatorReducer,
 } from './navigators';
 
@@ -66,6 +67,7 @@ const reducers = combineReducers({
   // navigators
   drawerNavigatorReducer,
   mainTabNavigatorReducer,
+  searchStackNavigatorReducer,
   signUpStackNavigatorReducer,
 
   // views

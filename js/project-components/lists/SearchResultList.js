@@ -100,7 +100,7 @@ class SearchResultList extends Component {
               buttonStyle={styles.selectionButton}
               imageStyle={styles.selectionImage}
               type="small"
-              source={ic_calendar_plus}
+              source={item.selected ? ic_calendar_plus : ic_calendar}
               resizeMode="center"
               onPress={() => {
                 if (!props.onPressSelection) {
@@ -161,7 +161,7 @@ class SearchResultList extends Component {
     );
   };
 
-  renderItemForImages = (params) => {
+  renderImageListItem = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
 
@@ -197,13 +197,16 @@ class SearchResultList extends Component {
     );
   };
 
-  renderItemSeparatorComponentForImages = () => {
+  renderImageListItemSeparatorComponent = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <Separator lineStyle={styles.separatorForImages} />
+          <Separator
+            style={styles.imageListSeparator}
+            lineStyle={styles.imageListSeparatorLine}
+          />
         )}
       </Translation>
     );
@@ -231,7 +234,7 @@ class SearchResultList extends Component {
     );
   }
 
-  renderImages = (params) => {
+  renderImageList = (params) => {
     const { props } = this;
     const { item, index, separators } = params;
 
@@ -261,9 +264,10 @@ class SearchResultList extends Component {
       <Translation>
         {(t) => (
           <SimpleList
+            contentContainerStyle={styles.imageListContentContainer}
             data={data}
-            renderItem={this.renderItemForImages}
-            ItemSeparatorComponent={this.renderItemSeparatorComponentForImages}
+            renderItem={this.renderImageListItem}
+            ItemSeparatorComponent={this.renderImageListItemSeparatorComponent}
             horizontal
             showsHorizontalScrollIndicator={false}
           />
@@ -279,7 +283,7 @@ class SearchResultList extends Component {
       <Translation>
         {(t) => (
           <View style={styles.listCenterContainer}>
-            {this.renderImages(params)}
+            {this.renderImageList(params)}
           </View>
         )}
       </Translation>
@@ -399,7 +403,10 @@ class SearchResultList extends Component {
     return (
       <Translation>
         {(t) => (
-          <Separator lineStyle={styles.separator} />
+          <Separator
+            style={styles.separator}
+            lineStyle={styles.separatorLine}
+          />
         )}
       </Translation>
     );
@@ -421,6 +428,8 @@ class SearchResultList extends Component {
     // console.log('[maxToRenderPerBatch] ', maxToRenderPerBatch);
     // console.log('[windowSize] ', windowSize);
 
+    // console.log('[props.type]', props.type);
+
     let numColumns = undefined;
 
     if (
@@ -436,6 +445,7 @@ class SearchResultList extends Component {
         {(t) => (
           <SimpleList
             {...props}
+            key={props.type}
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             contentContainerStyle={[
@@ -462,14 +472,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0ff',
   },
   contentContainer: {},
-  separator: {
-    backgroundColor: Theme.colors.general.transparent,
-    height: 16,
-  },
-  separatorForImages: {
-    backgroundColor: Theme.colors.general.transparent,
-    width: 4,
-  },
   itemContainer: {
     // backgroundColor: '#f00',
     flex: 1,
@@ -479,7 +481,6 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f00',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
     paddingVertical: 8,
   },
   gridTopContainer: {
@@ -533,21 +534,38 @@ const styles = StyleSheet.create({
   selectionButtonContainer: {
     // backgroundColor: '#00f',
     flexDirection: 'row',
-    marginRight: 10,
+    // marginRight: 10,
     marginTop: 1,
     marginBottom: 4,
   },
   selectionButton: {
-    // backgroundColor: '#00f',
-    paddingLeft: 6,
-    paddingRight: 4,
-    paddingVertical: 5,
+    // backgroundColor: '#0ff',
+    // paddingLeft: 6,
+    // paddingRight: 4,
+    // paddingVertical: 5,
   },
   selectionImage: {
     // backgroundColor: '#ff0',
   },
   listCenterContainer: {
     // backgroundColor: '#0f0',
+  },
+  imageListContentContainer: {
+    paddingHorizontal: 0,
+  },
+  separator: {
+    // backgroundColor: '#f00',
+    height: 16,
+  },
+  separatorLine: {
+    // backgroundColor: Theme.colors.general.transparent,
+  },
+  imageListSeparator: {
+    // backgroundColor: '#00f',
+    width: 8,
+  },
+  imageListSeparatorLine: {
+    // backgroundColor: Theme.colors.general.transparent,
   },
   gridCenterContainer: {
     // backgroundColor: '#0f0',
@@ -561,7 +579,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     borderWidth: 1,
     borderColor: Theme.colors.background.secondary,
-    marginHorizontal: 16,
   },
   noPostsImage: {
     // backgroundColor: '#0f0',

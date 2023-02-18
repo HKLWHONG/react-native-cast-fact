@@ -10,6 +10,7 @@ const initState = () => {
     refreshing: false,
     searched: false,
     results: [],
+    searchResultListType: undefined,
     searchResultListPaging: {
       loading: false,
       page: 0,
@@ -43,6 +44,12 @@ export default function searchResultViewReducer(state = initState(), action) {
       return {
         ...state,
         results: action.results || [],
+      };
+
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_TYPE:
+      return {
+        ...state,
+        searchResultListType: action.searchResultListType,
       };
 
     case SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LOADING:
