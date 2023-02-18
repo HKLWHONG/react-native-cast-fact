@@ -44,6 +44,10 @@ import { SearchProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import RNPrint from 'react-native-print';
+// import Pdf from 'react-native-pdf';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -88,6 +92,22 @@ class SearchResultView extends BaseComponent {
     const { props } = this;
 
     props.reset();
+  };
+
+  createPDF = async () => {
+    console.log('[RNHTMLtoPDF]', RNHTMLtoPDF);
+
+    let options = {
+      html: '<h1>PDF TEST</h1>',
+      fileName: 'test',
+      directory: 'Documents',
+    };
+
+    let file = await RNHTMLtoPDF.convert(options)
+    // console.log(file.filePath);
+    alert(file.filePath);
+
+    await RNPrint.print({ filePath: file.filePath })
   };
 
   renderRightView = (info) => {
@@ -443,10 +463,79 @@ class SearchResultView extends BaseComponent {
   renderFooter = () => {
     const { props } = this;
 
+    const numberOfSelected = props.searchResultListData.filter((item) => {
+      return item.selected;
+    }).length;
+
     return (
       <Translation>
         {(t) => (
-          <Footer style={styles.footer} />
+          <Footer style={styles.footer}>
+            <View
+              style={{
+                // backgroundColor: '#f00',
+                backgroundColor: Theme.colors.background.primary,
+                margin: 16,
+                borderRadius: 8,
+                borderWidth: StyleSheet.hairlineWidth,
+                borderColor: Theme.colors.decorations.splitline,
+              }}
+            >
+              <View style={{
+                // backgroundColor: '#00f',
+                flexDirection: 'row',
+                padding: 8,
+              }}>
+                <Text
+                  style={{
+                    color: Theme.colors.text.subtitle,
+                    fontSize: 15,
+                    fontFamily: Theme.fonts.bold,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {`${numberOfSelected} Selected`}
+                </Text>
+              </View>
+              <Separator />
+              <View
+                style={{
+                  // backgroundColor: '#f0f',
+                  flexDirection: 'row',
+                  padding: 8,
+                }}
+              >
+                <View
+                  style={{
+                    // backgroundColor: '#0ff',
+                    flex: 1,
+                    flexDirection: 'row',
+                  }}
+                >
+                  <Button
+                    type="small"
+                    leftAccessorySource={preview}
+                    text={'ALL'}
+                  />
+                  <Button
+                    type="small"
+                    leftAccessorySource={preview}
+                    text={'NONE'}
+                  />
+                </View>
+                <Button
+                  type="small"
+                  source={preview}
+                  onPress={() => {
+                    this.createPDF()
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  }}
+                />
+              </View>
+            </View>
+          </Footer>
         )}
       </Translation>
     );
