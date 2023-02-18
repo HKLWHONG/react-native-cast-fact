@@ -24,6 +24,7 @@ export const colors = {
   },
   borders: {
     gray: 'rgba(114, 114, 114, 0.5)',
+    green: '#7BE148',
   },
   decorations: {
     splitline: '#2F2F2F',

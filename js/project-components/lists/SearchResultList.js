@@ -134,15 +134,27 @@ class SearchResultList extends Component {
       }
     }
 
+    let style = {};
+
+    if (item.selected) {
+      style = {
+        ...style,
+        borderWidth: 4,
+        borderColor: Theme.colors.borders.green,
+      };
+    }
+
     return (
       <Translation>
         {(t) => (
           <View style={styles.gridTopContainer}>
-            <Image
-              style={styles.gridAvatarImage}
-              source={source}
-              resizeMode="contain"
-            />
+            <View style={[styles.gridAvatarImageContainer, style]}>
+              <Image
+                style={styles.gridAvatarImage}
+                source={source}
+                resizeMode="contain"
+              />
+            </View>
           </View>
         )}
       </Translation>
@@ -356,6 +368,13 @@ class SearchResultList extends Component {
         {(t) => (
           <SingleTouch
             style={[styles.itemContainer, style]}
+            onPress={() => {
+              if (!props.onPressSelection) {
+                return;
+              }
+
+              props.onPressSelection(params);
+            }}
             disabled={disabled}
           >
             {topChildren}
@@ -454,6 +473,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     // backgroundColor: '#f00',
     flex: 1,
+    paddingHorizontal: 16,
   },
   listTopContainer: {
     // backgroundColor: '#f00',
@@ -482,6 +502,13 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Theme.colors.borders.gray,
   },
+  gridAvatarImageContainer: {
+    width: 108,
+    height: 108,
+    borderRadius: 999,
+    borderWidth: 4,
+    borderColor: Theme.colors.general.transparent,
+  },
   gridAvatarImage: {
     backgroundColor: Theme.colors.background.gray,
     width: 100,
@@ -489,7 +516,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Theme.colors.borders.gray,
-    marginVertical: 8,
   },
   nameLabel: {
     // backgroundColor: '#0f0',

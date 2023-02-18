@@ -9,7 +9,7 @@ import { store, RecentSearchesSectionAction } from '../redux';
 
 import { CommonProcessor } from '../processors';
 
-export const format = (tags) => {
+export const formatTags = (tags) => {
   if (!tags || tags.length === 0) {
     return [];
   }
@@ -75,7 +75,7 @@ export const addGroupFrame = (tags, groupFrame) => {
     return tags;
   }
 
-  let data = format(groupFrame.data);
+  let data = formatTags(groupFrame.data);
 
   if (data.length === 0) {
     return tags;

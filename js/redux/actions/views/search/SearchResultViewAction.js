@@ -40,46 +40,46 @@ export const setResults = (results) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setFeedsPagingLoading = (loading) => (dispatch) => {
+export const setSearchResultListPagingLoading = (loading) => (dispatch) => {
   dispatch({
-    type: SearchResultViewActionType.FEEDS_PAGING_LOADING,
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LOADING,
     loading: loading,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const setFeedsPagingPage = (page) => (dispatch) => {
+export const setSearchResultListPagingPage = (page) => (dispatch) => {
   dispatch({
-    type: SearchResultViewActionType.FEEDS_PAGING_PAGE,
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_PAGE,
     page: page,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const setFeedsPagingLength = (length) => (dispatch) => {
+export const setSearchResultListPagingLength = (length) => (dispatch) => {
   dispatch({
-    type: SearchResultViewActionType.FEEDS_PAGING_LENGTH,
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LENGTH,
     length: length,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const setFeeds = (feeds) => (dispatch) => {
+export const setSearchResultListData = (searchResultListData) => (dispatch) => {
   dispatch({
-    type: SearchResultViewActionType.FEEDS,
-    feeds: feeds,
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_DATA,
+    searchResultListData: searchResultListData,
   });
 
   return Promise.resolve(store.getState());
 };
 
-export const updateFeed = (feedId, object) => (dispatch) => {
+export const updateSearchResultListData = (resultId, object) => (dispatch) => {
   dispatch({
-    type: SearchResultViewActionType.FEEDS_UPDATE_FEED,
-    feedId: feedId,
+    type: SearchResultViewActionType.SEARCH_RESULT_LIST_UPDATE_DATA,
+    resultId: resultId,
     object: object,
   });
 

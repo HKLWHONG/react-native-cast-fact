@@ -117,10 +117,13 @@ class FeedStackNavigator extends BaseComponent {
                   return route.name;
                 })
                   .findIndex((routeName) => {
-                    return routeName === 'SearchResultView';
+                    return routeName === 'SearchView';
                   });
 
-                if (state.index < index) {
+                // console.log('[state.index]', state.index);
+                // console.log('[index]', index);
+
+                if (state.index <= index) {
                   props.resetCriteria();
 
                   props.resetRecentSearchesTags();

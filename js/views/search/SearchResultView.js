@@ -38,7 +38,7 @@ import {
 
 import { Theme, Router } from '../../utils';
 
-import { FeedProcessor, TagProcessor } from '../../processors';
+import { SearchProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
@@ -73,65 +73,34 @@ class SearchResultView extends BaseComponent {
 
     // console.log('[searched]', props.searched);
     // console.log('[results]', props.results);
-    // console.log('[feeds]', props.feeds);
+    // console.log('[searchResultListData]', props.searchResultListData);
 
-    // if (props.results.length > 0) {
-    //   props.setFeeds(FeedProcessor.format(props.feeds, props.results));
-    // }
-
-    // props.setFeeds(props.feeds);
-
-    console.log('[search-result-page]', store.getState().searchResultViewReducer.feedsPaging.page);
-
-    // this.search();
-
-    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
-
-    // props.setFeeds(FeedProcessor.format(props.feeds, props.results));
+    console.log('[search-result-page]', store.getState().searchResultViewReducer.searchResultListPaging.page);
   };
 
   clearData = () => {
     const { props } = this;
 
     props.reset();
-
-    // console.log('[this.props.navigation]', this.props.navigation);
-
-    // let state = props.navigation && props.navigation.getState();
-    //
-    // // console.log('[state]', state);
-    //
-    // if (state && state.index == 0) {
-    //   props.resetCriteria();
-    //
-    //   props.resetRecentSearchesTags();
-    //
-    //   TagProcessor.reload();
-    //
-    //   SearchProvider.search(props, { prefetch: true }, {})
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }
   };
 
-  loadMoreFeeds = (feeds) => {
+  loadMoreData = (data) => {
     const { props } = this;
 
-    if (store.getState().searchResultViewReducer.feedsPaging.loading) {
+    if (store.getState().searchResultViewReducer.searchResultListPaging.loading) {
       return;
     }
 
-    props.setFeedsPagingLoading(true);
+    props.setSearchResultListPagingLoading(true);
     // props.setSearched(false);
 
-    let page = store.getState().searchResultViewReducer.feedsPaging.page + 1;
+    let page = store.getState().searchResultViewReducer.searchResultListPaging.page + 1;
 
     SearchProvider.search(
       props,
       {
         page: page,
-        length: store.getState().searchResultViewReducer.feedsPaging.length,
+        length: store.getState().searchResultViewReducer.searchResultListPaging.length,
       },
       {
         disableAddRecentSearches: true,
@@ -139,57 +108,22 @@ class SearchResultView extends BaseComponent {
     )
       .then(({ json }) => {
         // props.setSearched(true);
-        props.setFeedsPagingLoading(false);
+        props.setSearchResultListPagingLoading(false);
         // props.setRefreshing(false);
 
         if (json.payload.length > 0) {
-          props.setFeedsPagingPage(page);
+          props.setSearchResultListPagingPage(page);
 
-          props.setFeeds(FeedProcessor.format(feeds || props.feeds, json.payload));
+          props.setSearchResultListData(SearchProcessor.formatSearchResultListData(data || props.searchResultListData, json.payload));
         }
       })
       .catch((error) => {
         console.error(error);
 
         // props.setSearched(true);
-        props.setFeedsPagingLoading(false);
+        props.setSearchResultListPagingLoading(false);
         // props.setRefreshing(false);
       });
-  };
-
-  testAddFeedData = (data, num) => {
-    const { props } = this;
-
-    if (!data) {
-      return;
-    }
-
-    let newData = [];
-
-    for (let i = data.length; i < data.length + num; i += 1) {
-      let uri1 = 'https://kcplace.com/preview.png';
-      let uri2 = 'https://kcplace.com/preview2.png';
-
-      newData.push(
-        {
-          feedId: i.toString(),
-          uri: uri1,
-          uris: [
-            { uri: uri1 },
-            { uri: uri2 },
-            { uri: uri1 },
-            { uri: uri2 },
-            { uri: uri1 },
-            { uri: uri2 },
-          ],
-          name: 'Cath Wong 黃妍',
-          title: 'Photographer',
-          followed: false,
-        },
-      );
-    }
-
-    return [...data, ...newData];
   };
 
   search = () => {
@@ -197,19 +131,13 @@ class SearchResultView extends BaseComponent {
 
     let criteriaTags = store.getState().criteriaSectionReducer.tags;
 
-    let profiles = props.dummyData.filter((data) => {
-      // console.log('[data]', data);
-
-      return data.label === 'profiles';
-    });
-
     // console.log('[criteriaTags', criteriaTags);
 
     if (profiles.length === 0) {
       return;
     }
 
-    let feeds = [];
+    let data = [];
 
     profiles[0].data.forEach((profile) => {
       let matched = false;
@@ -239,19 +167,19 @@ class SearchResultView extends BaseComponent {
         return;
       }
 
-      feeds.push({ profile: profile });
+      data.push({ profile: profile });
     });
 
-    feeds = feeds.map((feed, index) => {
+    data = data.map((item, index) => {
       return {
-        ...feed,
-        feedId: (props.feeds.length + index).toString(),
+        ...item,
+        resultId: (props.searchResultListData.length + index).toString(),
       }
     })
 
-    console.log('[result.found]', feeds.length);
+    console.log('[result.found]', data.length);
 
-    props.setFeeds(feeds);
+    props.setSearchResultListData(data);
   };
 
   renderHeader = () => {
@@ -276,10 +204,6 @@ class SearchResultView extends BaseComponent {
           <CriteriaSection
             label={section.title}
             onChangeTags={async () => {
-              // props.setFeedsPagingPage(0);
-              //
-              // this.loadFeeds([]);
-
               await SearchProvider.presearch(props);
             }}
           />
@@ -293,12 +217,10 @@ class SearchResultView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    this.loadMoreFeeds();
-
-    // props.setFeeds(this.testAddFeedData(props.feeds, 5));
+    this.loadMoreData();
   };
 
-  renderFeedSection = (params) => {
+  renderSearchResultListSection = (params) => {
     const { props, state } = this;
     const { item, index, section, separators } = params;
 
@@ -312,9 +234,16 @@ class SearchResultView extends BaseComponent {
           >
             <SearchResultList
               type="grid"
-              data={props.feeds}
+              data={props.searchResultListData}
               onPressSelection={({ item, index, separators }) => {
-                // TODO
+                // console.log("[on-press-selection-item]", item);
+                // console.log("[on-press-selection-item-profile]", profile);
+                // console.log("[on-press-selection-item-posts]", posts);
+                console.log("[on-press-selection-item-selected]", item.selected);
+
+                props.updateSearchResultListData(item.resultId, {
+                  selected: !item.selected,
+                });
               }}
               onEndReached={this.onEndReached}
             />
@@ -333,7 +262,7 @@ class SearchResultView extends BaseComponent {
         return this.renderCriteriaSection(params);
 
       case 1:
-        return this.renderFeedSection(params);
+        return this.renderSearchResultListSection(params);
 
       default:
         break;
@@ -375,10 +304,6 @@ class SearchResultView extends BaseComponent {
             refreshing={props.refreshing}
             onRefresh={async (refreshing) => {
               props.setRefreshing(true);
-
-              // props.setFeedsPagingPage(0);
-              //
-              // this.loadFeeds([]);
 
               await SearchProvider.presearch(
                 props,
@@ -441,7 +366,7 @@ class SearchResultView extends BaseComponent {
 
     let children = this.renderListView(sections);
 
-    if (props.searched && props.feeds && props.feeds.length === 0) {
+    if (props.searched && props.searchResultListData && props.searchResultListData.length === 0) {
       children = this.renderNoReultView({
         section: sections[0],
       });
@@ -545,8 +470,7 @@ function mapStateToProps(state) {
     refreshing: state.searchResultViewReducer.refreshing,
     searched: state.searchResultViewReducer.searched,
     results: state.searchResultViewReducer.results,
-    feeds: state.searchResultViewReducer.feeds,
-    dummyData: state.dataReducer.dummyData,
+    searchResultListData: state.searchResultViewReducer.searchResultListData,
   };
 }
 
@@ -554,10 +478,10 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultViewAction.reset(...args)),
     setRefreshing: (...args) => dispatch(SearchResultViewAction.setRefreshing(...args)),
-    setFeedsPagingLoading: (...args) => dispatch(SearchResultViewAction.setFeedsPagingLoading(...args)),
-    setFeedsPagingPage: (...args) => dispatch(SearchResultViewAction.setFeedsPagingPage(...args)),
-    setFeeds: (...args) => dispatch(SearchResultViewAction.setFeeds(...args)),
-    updateFeed: (...args) => dispatch(SearchResultViewAction.updateFeed(...args)),
+    setSearchResultListPagingLoading: (...args) => dispatch(SearchResultViewAction.setSearchResultListPagingLoading(...args)),
+    setSearchResultListPagingPage: (...args) => dispatch(SearchResultViewAction.setSearchResultListPagingPage(...args)),
+    setSearchResultListData: (...args) => dispatch(SearchResultViewAction.setSearchResultListData(...args)),
+    updateSearchResultListData: (...args) => dispatch(SearchResultViewAction.updateSearchResultListData(...args)),
     setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),

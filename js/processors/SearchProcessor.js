@@ -9,7 +9,7 @@ import { store, CriteriaSectionAction } from '../redux';
 
 import { CriteriaProcessor, TagProcessor } from '../processors';
 
-export const format = (tags) => {
+export const formatTags = (tags) => {
   if (!tags || tags.length === 0) {
     return [];
   }
@@ -25,6 +25,21 @@ export const format = (tags) => {
   });
 
   return formattedTags;
+};
+
+export const formatSearchResultListData = (list, data) => {
+  let searchResultListData = [
+    ...data,
+  ];
+
+  searchResultListData = searchResultListData.map((item, index) => {
+    return {
+      ...item,
+      resultId: (list.length + index).toString(),
+    }
+  })
+
+  return [...list, ...searchResultListData];
 };
 
 export const reload = () => {

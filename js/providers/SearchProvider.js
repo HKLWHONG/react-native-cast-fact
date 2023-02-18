@@ -146,7 +146,7 @@ export const addRecentSearches = async (props, params, options) => {
       return;
     }
 
-    let tags = RecentSearchProcessor.format(params.tags);
+    let tags = RecentSearchProcessor.formatTags(params.tags);
 
     if (tags.length === 0) {
       resolve();
@@ -259,7 +259,7 @@ export const presearch = async (props, params, options) => {
     props,
     {
       page: page,
-      length: store.getState().searchResultViewReducer.feedsPaging.length,
+      length: store.getState().searchResultViewReducer.searchResultListPaging.length,
     },
     options,
   )
@@ -268,11 +268,11 @@ export const presearch = async (props, params, options) => {
     });
 
   if (params && params.json && params.json.payload) {
-    store.dispatch(SearchResultViewAction.setFeedsPagingPage(page));
+    store.dispatch(SearchResultViewAction.setSearchResultListPagingPage(page));
 
-    let feeds = FeedProcessor.format([], params.json.payload);
+    let data = SearchProcessor.formatSearchResultListData([], params.json.payload);
 
-    store.dispatch(SearchResultViewAction.setFeeds(feeds));
+    store.dispatch(SearchResultViewAction.setSearchResultListData(data));
   }
 
   if (!options || !options.disableActivityIndicator) {
@@ -290,10 +290,10 @@ export const search = (props, params, options) => {
     //   SearchProcessor.reload();
     // }
 
-    let tags = SearchProcessor.format(store.getState().criteriaSectionReducer.tags);
+    let tags = SearchProcessor.formatTags(store.getState().criteriaSectionReducer.tags);
 
     // if (params && params.prefetch) {
-    //   tags = SearchProcessor.format(SearchProcessor.getCriteriaTags());
+    //   tags = SearchProcessor.formatTags(SearchProcessor.getCriteriaTags());
     // }
 
     tags = (params && params.tags) || tags;

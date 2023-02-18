@@ -10,12 +10,12 @@ const initState = () => {
     refreshing: false,
     searched: false,
     results: [],
-    feedsPaging: {
+    searchResultListPaging: {
       loading: false,
       page: 0,
       length: 30,
     },
-    feeds: [],
+    searchResultListData: [],
   };
 };
 
@@ -45,58 +45,58 @@ export default function searchResultViewReducer(state = initState(), action) {
         results: action.results || [],
       };
 
-    case SearchResultViewActionType.FEEDS_PAGING_LOADING:
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LOADING:
       return {
         ...state,
-        feedsPaging: {
-          ...state.feedsPaging,
+        searchResultListPaging: {
+          ...state.searchResultListPaging,
           loading: action.loading,
         },
       };
 
-    case SearchResultViewActionType.FEEDS_PAGING_PAGE:
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_PAGE:
       return {
         ...state,
-        feedsPaging: {
-          ...state.feedsPaging,
+        searchResultListPaging: {
+          ...state.searchResultListPaging,
           page: action.page,
         },
       };
 
-    case SearchResultViewActionType.FEEDS_PAGING_LENGTH:
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_PAGING_LENGTH:
       return {
         ...state,
-        feedsPaging: {
-          ...state.feedsPaging,
+        searchResultListPaging: {
+          ...state.searchResultListPaging,
           length: action.length,
         },
       };
 
-    case SearchResultViewActionType.FEEDS:
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_DATA:
       return {
         ...state,
-        feeds: action.feeds || [],
+        searchResultListData: action.searchResultListData || [],
       };
 
-    case SearchResultViewActionType.FEEDS_UPDATE_FEED:
+    case SearchResultViewActionType.SEARCH_RESULT_LIST_UPDATE_DATA:
     {
-      // console.log('[action.feedId]', action.feedId);
+      // console.log('[action.resultId]', action.resultId);
       // console.log('[action.object]', action.object);
 
-      let feeds = state.feeds.map((feed) => {
-        if (feed.feedId === action.feedId) {
-          feed = {
-            ...feed,
+      let data = state.searchResultListData.map((item) => {
+        if (item.resultId === action.resultId) {
+          item = {
+            ...item,
             ...action.object,
           };
         }
 
-        return feed;
+        return item;
       });
 
       return {
         ...state,
-        feeds: feeds,
+        searchResultListData: data,
       };
     }
 
