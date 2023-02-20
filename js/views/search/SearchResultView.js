@@ -138,9 +138,16 @@ class SearchResultView extends BaseComponent {
               onPress={() => {
                 let selected = true;
 
-                if (store.getState().searchResultViewReducer.searchResultListData.length > 0) {
-                  selected = !store.getState().searchResultViewReducer.searchResultListData[0].selected;
-                }
+                // if (store.getState().searchResultViewReducer.searchResultListData.length > 0) {
+                //   selected = !store.getState().searchResultViewReducer.searchResultListData[0].selected;
+                // }
+
+                store.getState().searchResultViewReducer.searchResultListData.forEach((item) => {
+                  if (item.selected) {
+                    selected = false;
+                  }
+                });
+
 
                 const data = store.getState().searchResultViewReducer.searchResultListData.map((item) => {
                   return {
