@@ -21,7 +21,8 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_eye_on = require('../../../assets/images/ic_eye_on/ic_eye_on.png');
+const ic_eye_off = require('../../../assets/images/ic_eye_off/ic_eye_off.png');
 
 class CastSheetItem extends Component {
   constructor(props: any) {
@@ -77,14 +78,26 @@ class CastSheetItem extends Component {
   renderRightContainer() {
     const { props } = this;
 
+    const source = props.visible ? ic_eye_on : ic_eye_off;
+
     return (
       <Translation>
         {(t) => (
           <View style={styles.rightContainer}>
             <Button
+              style={styles.visibilityButton}
               type="small"
-              source={preview}
+              source={source}
               resizeMode="center"
+              onPress={() => {
+                if (!props.onPressVisibilityButton) {
+                  return;
+                }
+
+                props.onPressVisibilityButton({
+                  visible: props.visible,
+                });
+              }}
             />
           </View>
         )}
@@ -140,6 +153,11 @@ const styles = StyleSheet.create({
   rightContainer: {
     // backgroundColor: '#0ff',
   },
+  visibilityButton: {
+    aspectRatio: 1,
+    borderWidth: 1,
+    borderColor: Theme.colors.background.gray,
+  },
 });
 
 CastSheetItem.propTypes = {
@@ -151,6 +169,8 @@ CastSheetItem.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   text: PropTypes.string,
+  visible: PropTypes.bool,
+  onPressVisibilityButton: PropTypes.func,
 };
 
 CastSheetItem.defaultProps = {
@@ -159,6 +179,8 @@ CastSheetItem.defaultProps = {
   style: undefined,
   hidden: false,
   text: undefined,
+  visible: true,
+  onPressVisibilityButton: undefined,
 };
 
 function mapStateToProps(state) {

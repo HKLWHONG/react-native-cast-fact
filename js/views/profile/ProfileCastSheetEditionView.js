@@ -14,6 +14,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  store,
   ProfileCastSheetEditionViewAction,
   SignUpStackNavigatorAction,
   ProfileInfoSetupSectionAction,
@@ -43,12 +44,8 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
-
-const preview = require('../../../assets/images/preview/preview.png');
 
 class ProfileCastSheetEditionView extends BaseComponent {
   constructor(props) {
@@ -119,23 +116,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderCastSheetGenderItem = () => {
     const { props } = this;
 
+    const key = 'gender';
+
+    const info = props.account.info[key];
+
+    let text = undefined;
+    let visible = undefined;
+
+    if (info) {
+      text = info.text;
+      visible = info.visible;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('app.gender')}>
+          <CastSheetItem
+            text={t('app.gender')}
+            visible={visible}
+            onPressVisibilityButton={(event) => {
+              const { visible } = event;
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                visible: !visible,
+              });
+            }}
+          >
             <Tag
               style={styles.tag}
               type="input"
-              text={props.account.info.gender}
+              text={text}
               rightAccessoryType="delete"
               fill
               onChangeText={(params) => {
                 const { text } = params;
 
-                props.addAccountInfo('gender', text);
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  text: text,
+                });
               }}
               onPressRightAccessory={() => {
-                props.deleteAccountInfo('gender');
+                props.deleteAccountInfo(key);
               }}
             />
           </CastSheetItem>
@@ -147,23 +170,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderCastSheetBirthdayItem = () => {
     const { props } = this;
 
+    const key = 'birthday';
+
+    const info = props.account.info[key];
+
+    let text = undefined;
+    let visible = undefined;
+
+    if (info) {
+      text = info.text;
+      visible = info.visible;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('app.birthday')}>
+          <CastSheetItem
+            text={t('app.birthday')}
+            visible={visible}
+            onPressVisibilityButton={(event) => {
+              const { visible } = event;
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                visible: !visible,
+              });
+            }}
+          >
             <Tag
               style={styles.tag}
               type="input"
-              text={props.account.info.birthday}
+              text={text}
               rightAccessoryType="delete"
               fill
               onChangeText={(params) => {
                 const { text } = params;
 
-                props.addAccountInfo('birthday', text);
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  text: text,
+                });
               }}
               onPressRightAccessory={() => {
-                props.deleteAccountInfo('birthday');
+                props.deleteAccountInfo(key);
               }}
             />
           </CastSheetItem>
@@ -175,23 +224,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderCastSheetPlaceOfBirthItem = () => {
     const { props } = this;
 
+    const key = 'place_of_birth';
+
+    const info = props.account.info[key];
+
+    let text = undefined;
+    let visible = undefined;
+
+    if (info) {
+      text = info.text;
+      visible = info.visible;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('app.place_of_birth')}>
+          <CastSheetItem
+            text={t('app.place_of_birth')}
+            visible={visible}
+            onPressVisibilityButton={(event) => {
+              const { visible } = event;
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                visible: !visible,
+              });
+            }}
+          >
             <Tag
               style={styles.tag}
               type="input"
-              text={props.account.info.placeOfBirth}
+              text={text}
               rightAccessoryType="delete"
               fill
               onChangeText={(params) => {
                 const { text } = params;
 
-                props.addAccountInfo('place_of_birth', text);
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  visible: !visible,
+                });
               }}
               onPressRightAccessory={() => {
-                props.deleteAccountInfo('place_of_birth');
+                props.deleteAccountInfo(key);
               }}
             />
           </CastSheetItem>
@@ -203,23 +278,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderCastSheetOccupationItem = () => {
     const { props } = this;
 
+    const key = 'occupation';
+
+    const info = props.account.info[key];
+
+    let text = undefined;
+    let visible = undefined;
+
+    if (info) {
+      text = info.text;
+      visible = info.visible;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('app.occupation')}>
+          <CastSheetItem
+            text={t('app.occupation')}
+            visible={visible}
+            onPressVisibilityButton={(event) => {
+              const { visible } = event;
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                visible: !visible,
+              });
+            }}
+          >
             <Tag
               style={styles.tag}
               type="input"
-              text={props.account.info.occupation}
+              text={text}
               rightAccessoryType="delete"
               fill
               onChangeText={(params) => {
                 const { text } = params;
 
-                props.addAccountInfo('occupation', text);
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  visible: !visible,
+                });
               }}
               onPressRightAccessory={() => {
-                props.deleteAccountInfo('occupation');
+                props.deleteAccountInfo(key);
               }}
             />
           </CastSheetItem>
@@ -231,23 +332,49 @@ class ProfileCastSheetEditionView extends BaseComponent {
   renderCastSheetNationalityItem = () => {
     const { props } = this;
 
+    const key = 'nationality';
+
+    const info = props.account.info[key];
+
+    let text = undefined;
+    let visible = undefined;
+
+    if (info) {
+      text = info.text;
+      visible = info.visible;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <CastSheetItem text={t('app.nationality')}>
+          <CastSheetItem
+            text={t('app.nationality')}
+            visible={visible}
+            onPressVisibilityButton={(event) => {
+              const { visible } = event;
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                visible: !visible,
+              });
+            }}
+          >
             <Tag
               style={styles.tag}
               type="input"
-              text={props.account.info.nationality}
+              text={text}
               rightAccessoryType="delete"
               fill
               onChangeText={(params) => {
                 const { text } = params;
 
-                props.addAccountInfo('nationality', text);
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  visible: !visible,
+                });
               }}
               onPressRightAccessory={() => {
-                props.deleteAccountInfo('nationality');
+                props.deleteAccountInfo(key);
               }}
             />
           </CastSheetItem>

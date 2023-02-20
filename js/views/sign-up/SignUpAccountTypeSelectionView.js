@@ -37,12 +37,11 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_person = require('../../../assets/images/ic_person/ic_person.png');
+const ic_eyes= require('../../../assets/images/ic_eyes/ic_eyes.png');
 
 class SignUpAccountTypeSelectionView extends BaseComponent {
   constructor(props) {
@@ -130,7 +129,8 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               buttonStyle={styles.selectionButtonButton}
               imageStyle={styles.selectionButtonImage}
               textStyle={styles.selectionButtonText}
-              source={preview}
+              source={ic_person}
+              resizeMode="center"
               text={t('app.artisit')}
               onPress={() => {
                 Router.push(props, 'ProfilePictureSelectionView');
@@ -141,7 +141,8 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               buttonStyle={styles.selectionButtonButton}
               imageStyle={styles.selectionButtonImage}
               textStyle={styles.selectionButtonText}
-              source={preview}
+              source={ic_eyes}
+              resizeMode="center"
               text={t('app.viewer')}
               onPress={() => {
                 Router.dismiss(props);

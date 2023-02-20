@@ -50,7 +50,10 @@ import { Theme, Router } from '../../utils';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_flash_auto = require('../../../assets/images/ic_flash_auto/ic_flash_auto.png');
+const ic_flash_on = require('../../../assets/images/ic_flash_on/ic_flash_on.png');
+const ic_flash_off = require('../../../assets/images/ic_flash_off/ic_flash_off.png');
+const ic_camera_switch = require('../../../assets/images/ic_camera_switch/ic_camera_switch.png');
 
 class CameraView extends BaseComponent {
   constructor(props) {
@@ -174,6 +177,14 @@ class CameraView extends BaseComponent {
   renderHeader = () => {
     const { props } = this;
 
+    let source = ic_flash_auto;
+
+    if (props.flash === 'on') {
+      source = ic_flash_on;
+    } else if (props.flash === 'off') {
+      source = ic_flash_off;
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -181,7 +192,8 @@ class CameraView extends BaseComponent {
             <Button
               style={styles.flashButton}
               type="small"
-              source={preview}
+              source={source}
+              resizeMode="center"
               onPress={() => {
                 if (!store.getState().cameraViewReducer.flash) {
                   props.setFlash('on');
@@ -307,6 +319,7 @@ class CameraView extends BaseComponent {
           <View style={styles.bottomLeftContainer}>
             <Button
               style={styles.cancelButton}
+              textStyle={styles.cancelButtonText}
               text={t('app.cancel')}
               onPress={() => {
                 Router.goBack(props);
@@ -384,7 +397,8 @@ class CameraView extends BaseComponent {
             <Button
               style={styles.switchCameraButton}
               type="small"
-              source={preview}
+              source={ic_camera_switch}
+              resizeMode="center"
               onPress={() => {
                 if (store.getState().cameraViewReducer.frontDevice === props.device) {
                   if (!store.getState().cameraViewReducer.backDevice) {
@@ -464,11 +478,13 @@ const styles = StyleSheet.create({
     aspectRatio: 3.52,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
     paddingTop: 24,
   },
   flashButton: {
+    // backgroundColor: "#0ff",
     backgroundColor: Theme.colors.background.primary,
+    aspectRatio: 1,
+    borderRadius: 999,
   },
   body: {
     // backgroundColor: '#0f0',
@@ -512,6 +528,9 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: Theme.colors.background.primary,
   },
+  cancelButtonText: {
+    fontSize: 15,
+  },
   bottomCenterContainer: {
     // backgroundColor: '#0f0',
   },
@@ -539,9 +558,9 @@ const styles = StyleSheet.create({
   switchCameraButton: {
     backgroundColor: Theme.colors.background.secondary,
     aspectRatio: 1,
+    borderRadius: 999,
     padding: 8,
     marginHorizontal: 16,
-    borderRadius: 999,
   },
 });
 
@@ -549,6 +568,7 @@ function mapStateToProps(state) {
   return {
     device: state.cameraViewReducer.device,
     format: state.cameraViewReducer.format,
+    flash: state.cameraViewReducer.flash,
   };
 }
 

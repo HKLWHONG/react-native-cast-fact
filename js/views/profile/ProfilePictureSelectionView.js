@@ -46,7 +46,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_photo = require('../../../assets/images/ic_photo/ic_photo.png');
+const ic_camera = require('../../../assets/images/ic_camera/ic_camera.png');
 
 class ProfilePictureSelectionView extends BaseComponent {
   constructor(props) {
@@ -136,7 +137,8 @@ class ProfilePictureSelectionView extends BaseComponent {
               buttonStyle={styles.selectionButtonButton}
               imageStyle={styles.selectionButtonImage}
               textStyle={styles.selectionButtonText}
-              source={preview}
+              source={ic_photo}
+              resizeMode="center"
               text={t('app.photos')}
               onPress={async () => {
                 const photo = await ImagePicker.openPicker({
@@ -169,7 +171,8 @@ class ProfilePictureSelectionView extends BaseComponent {
               buttonStyle={styles.selectionButtonButton}
               imageStyle={styles.selectionButtonImage}
               textStyle={styles.selectionButtonText}
-              source={preview}
+              source={ic_camera}
+              resizeMode="center"
               text={t('app.camera')}
               onPress={() => {
                 Router.push(props, 'CameraStackNavigator');

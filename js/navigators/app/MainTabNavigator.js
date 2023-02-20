@@ -49,6 +49,8 @@ const ic_tab_bar_calendar = require('../../../assets/images/ic_tab_bar_calendar/
 const ic_tab_bar_calendar_focused = require('../../../assets/images/ic_tab_bar_calendar_focused/ic_tab_bar_calendar_focused.png');
 const ic_tab_bar_profile = require('../../../assets/images/ic_tab_bar_profile/ic_tab_bar_profile.png');
 const ic_tab_bar_profile_focused = require('../../../assets/images/ic_tab_bar_profile_focused/ic_tab_bar_profile_focused.png');
+const ic_tab_bar_settings = require('../../../assets/images/ic_tab_bar_settings/ic_tab_bar_settings.png');
+const ic_tab_bar_settings_focused = require('../../../assets/images/ic_tab_bar_settings_focused/ic_tab_bar_settings_focused.png');
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -353,7 +355,7 @@ class MainTabNavigator extends BaseComponent {
                     >
                       <Image
                         style={styles.icon}
-                        source={focused ? ic_tab_bar_profile_focused : ic_tab_bar_profile}
+                        source={focused ? ic_tab_bar_settings_focused : ic_tab_bar_settings}
                         resizeMode="center"
                       />
                       <View style={[styles.dot, dotStyle]} />
