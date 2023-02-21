@@ -44,7 +44,7 @@ import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_next = require('../../../assets/images/ic_next/ic_next.png');
 
 class SignUpStackNavigator extends BaseComponent {
   constructor(props) {
@@ -114,7 +114,7 @@ class SignUpStackNavigator extends BaseComponent {
                           textStyle={styles.rightButtonText}
                           type="small"
                           text={i18n.t('app.next')}
-                          rightAccessorySource={preview}
+                          rightAccessorySource={ic_next}
                           rightAccessoryResizeMode="center"
                           onPress={(event) => {
                             console.log('[on-right-button-press]');
@@ -244,6 +244,8 @@ const styles = StyleSheet.create({
   rightButton: {
     // backgroundColor: '#f00',
     backgroundColor: Theme.colors.background.secondary,
+    paddingLeft: 10,
+    paddingRight: 2,
   },
   rightButtonText: {
     // color: Theme.colors.general.white,

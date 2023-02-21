@@ -1,0 +1,8 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+export const RESET = '@SEARCH_STACK_NAVIGATOR_RIGHT_VIEW_RESET';
+
+export const SEARCH_RESULT_LIST_TYPE = '@SEARCH_STACK_NAVIGATOR_RIGHT_VIEW_SEARCH_RESULT_LIST_TYPE';

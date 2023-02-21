@@ -18,3 +18,4 @@ export * from './segmented-controls';
 export * from './separators';
 export * from './tags';
 export * from './text-inputs';
+export * from './views';

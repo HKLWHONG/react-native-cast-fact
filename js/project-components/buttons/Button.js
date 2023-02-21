@@ -96,7 +96,7 @@ class Button extends Component {
     ) {
       style = {
         ...style,
-        marginRight: 4,
+        marginRight: 0,
       };
     }
 
@@ -131,7 +131,7 @@ class Button extends Component {
     ) {
       style = {
         ...style,
-        marginLeft: 4,
+        marginLeft: 0,
       };
     }
 

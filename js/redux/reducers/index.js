@@ -20,6 +20,8 @@ import {
   findTalentSectionReducer,
   profileInfoSetupSectionReducer,
   recentSearchesSectionReducer,
+  segmentedControlReducer,
+  searchStackNavigatorRightViewReducer,
 } from './components';
 
 import {
@@ -63,7 +65,9 @@ const reducers = combineReducers({
   findTalentSectionReducer,
   profileInfoSetupSectionReducer,
   recentSearchesSectionReducer,
-
+  segmentedControlReducer,
+  searchStackNavigatorRightViewReducer,
+  
   // navigators
   drawerNavigatorReducer,
   mainTabNavigatorReducer,

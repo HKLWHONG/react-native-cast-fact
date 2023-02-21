@@ -12,6 +12,7 @@ import {
   SearchResultViewAction,
   MainTabNavigatorAction,
   SearchStackNavigatorAction,
+  SearchStackNavigatorRightViewAction,
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
@@ -28,6 +29,7 @@ import {
 } from '../../components';
 
 import {
+  SearchStackNavigatorRightView,
   Button,
   Separator,
   Section,
@@ -83,7 +85,7 @@ class SearchResultView extends BaseComponent {
     // console.log('[results]', props.results);
     // console.log('[searchResultListData]', props.searchResultListData);
 
-    props.addSearchStackNavigatorOnRightViewRender(this.constructor.name, this.renderRightView);
+    props.addSearchStackNavigatorOnRightViewRender(this.constructor.name, this.renderSearchStackNavigatorRightView);
 
     console.log('[search-result-page]', store.getState().searchResultViewReducer.searchResultListPaging.page);
   };
@@ -110,56 +112,13 @@ class SearchResultView extends BaseComponent {
     await RNPrint.print({ filePath: file.filePath })
   };
 
-  renderRightView = (info) => {
+  renderSearchStackNavigatorRightView = (info) => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View style={{ flexDirection: 'row' }}>
-            <Button
-              style={{ marginRight: 4 }}
-              type="circle"
-              source={preview}
-              resizeMode="center"
-              onPress={() => {
-                if (store.getState().searchResultViewReducer.searchResultListType !== 'grid') {
-                  props.setSearchResultListType('grid');
-                } else {
-                  props.setSearchResultListType(undefined);
-                }
-              }}
-            />
-            <Button
-              style={{ marginLeft: 4 }}
-              type="circle"
-              source={preview}
-              resizeMode="center"
-              onPress={() => {
-                let selected = true;
-
-                // if (store.getState().searchResultViewReducer.searchResultListData.length > 0) {
-                //   selected = !store.getState().searchResultViewReducer.searchResultListData[0].selected;
-                // }
-
-                store.getState().searchResultViewReducer.searchResultListData.forEach((item) => {
-                  if (item.selected) {
-                    selected = false;
-                  }
-                });
-
-
-                const data = store.getState().searchResultViewReducer.searchResultListData.map((item) => {
-                  return {
-                    ...item,
-                    selected: selected,
-                  }
-                });
-
-                props.setSearchResultListData(data);
-              }}
-            />
-          </View>
+          <SearchStackNavigatorRightView />
         )}
       </Translation>
     );
@@ -314,7 +273,7 @@ class SearchResultView extends BaseComponent {
             label={section.title}
           >
             <SearchResultList
-              type={props.searchResultListType}
+              type={props.searchStackNavigatorRightViewSearchResultListType}
               data={props.searchResultListData}
               onPressSelection={({ item, index, separators }) => {
                 // console.log("[on-press-selection-item]", item);
@@ -620,8 +579,8 @@ function mapStateToProps(state) {
     refreshing: state.searchResultViewReducer.refreshing,
     searched: state.searchResultViewReducer.searched,
     results: state.searchResultViewReducer.results,
-    searchResultListType: state.searchResultViewReducer.searchResultListType,
     searchResultListData: state.searchResultViewReducer.searchResultListData,
+    searchStackNavigatorRightViewSearchResultListType: state.searchStackNavigatorRightViewReducer.searchResultListType,
   };
 }
 
@@ -629,13 +588,13 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SearchResultViewAction.reset(...args)),
     setRefreshing: (...args) => dispatch(SearchResultViewAction.setRefreshing(...args)),
-    setSearchResultListType: (...args) => dispatch(SearchResultViewAction.setSearchResultListType(...args)),
     setSearchResultListPagingLoading: (...args) => dispatch(SearchResultViewAction.setSearchResultListPagingLoading(...args)),
     setSearchResultListPagingPage: (...args) => dispatch(SearchResultViewAction.setSearchResultListPagingPage(...args)),
     setSearchResultListData: (...args) => dispatch(SearchResultViewAction.setSearchResultListData(...args)),
     updateSearchResultListData: (...args) => dispatch(SearchResultViewAction.updateSearchResultListData(...args)),
     setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
     addSearchStackNavigatorOnRightViewRender: (...args) => dispatch(SearchStackNavigatorAction.addOnRightViewRender(...args)),
+    setSearchStackNavigatorRightViewSearchResultListType: (...args) => dispatch(SearchStackNavigatorRightViewAction.setSearchResultListType(...args)),
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),

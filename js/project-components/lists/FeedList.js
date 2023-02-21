@@ -22,7 +22,7 @@ import { UserProcessor } from '../../processors';
 import { Translation } from 'react-i18next';
 
 const ic_placeholder = require('../../../assets/images/ic_placeholder/ic_placeholder.png');
-const ic_grid = require('../../../assets/images/ic_grid/ic_grid.png');
+const ic_category = require('../../../assets/images/ic_category/ic_category.png');
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
 const ic_heart = require('../../../assets/images/ic_heart/ic_heart.png');
@@ -428,7 +428,7 @@ class FeedList extends Component {
               <View style={styles.infoContainer}>
                 <Image
                   style={styles.categoryImage}
-                  source={ic_grid}
+                  source={ic_category}
                   resizeMode="center"
                 />
                 <Text style={styles.categoryText}>

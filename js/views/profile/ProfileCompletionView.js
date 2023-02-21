@@ -46,7 +46,7 @@ import { Theme, Router } from '../../utils';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_check_gold = require('../../../assets/images/ic_check_gold/ic_check_gold.png');
 
 class ProfileCompletionView extends BaseComponent {
   constructor(props) {
@@ -119,7 +119,7 @@ class ProfileCompletionView extends BaseComponent {
           <View style={styles.resultContainer}>
             <Image
               style={styles.resultImage}
-              source={preview}
+              source={ic_check_gold}
               resizeMode="center"
             />
             <Text style={styles.resultText}>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   resultText: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
-    fontSize: 36,
+    fontSize: 26,
     fontFamily: Theme.fonts.bold,
     letterSpacing: 8,
     textTransform: 'uppercase',
