@@ -3,8 +3,10 @@
  * @flow strict-local
  */
 
- import searchStackNavigatorRightViewReducer from './SearchStackNavigatorRightViewReducer';
+import profileInfoSetupViewReducer from './ProfileInfoSetupViewReducer';
+import searchStackNavigatorRightViewReducer from './SearchStackNavigatorRightViewReducer';
 
- export {
+export {
+  profileInfoSetupViewReducer,
   searchStackNavigatorRightViewReducer,
 };

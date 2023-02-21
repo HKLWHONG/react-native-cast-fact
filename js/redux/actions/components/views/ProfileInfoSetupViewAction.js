@@ -3,11 +3,11 @@
  * @flow strict-local
  */
 
-import { store, ProfileInfoSetupSectionActionType } from '../../../../redux';
+import { store, ProfileInfoSetupViewActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.RESET,
+    type: ProfileInfoSetupViewActionType.RESET,
   });
 
   return Promise.resolve(store.getState());
@@ -15,7 +15,7 @@ export const reset = () => (dispatch) => {
 
 export const setNumberOfIndicators = (numberOfIndicators) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.NUMBER_OF_INDICATORS,
+    type: ProfileInfoSetupViewActionType.NUMBER_OF_INDICATORS,
     numberOfIndicators: numberOfIndicators,
   });
 
@@ -24,7 +24,7 @@ export const setNumberOfIndicators = (numberOfIndicators) => (dispatch) => {
 
 export const setPhoto = (photo) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.PHOTO,
+    type: ProfileInfoSetupViewActionType.PHOTO,
     photo: photo,
   });
 
@@ -33,7 +33,7 @@ export const setPhoto = (photo) => (dispatch) => {
 
 export const setFirstnameEn = (firstnameEn) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_FIRSTNAME_EN,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_FIRSTNAME_EN,
     firstnameEn: firstnameEn,
   });
 
@@ -42,7 +42,7 @@ export const setFirstnameEn = (firstnameEn) => (dispatch) => {
 
 export const setLastnameEn = (lastnameEn) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_LASTNAME_EN,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_LASTNAME_EN,
     lastnameEn: lastnameEn,
   });
 
@@ -51,7 +51,7 @@ export const setLastnameEn = (lastnameEn) => (dispatch) => {
 
 export const setFirstnameZh = (firstnameZh) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_FIRSTNAME_ZH,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_FIRSTNAME_ZH,
     firstnameZh: firstnameZh,
   });
 
@@ -60,7 +60,7 @@ export const setFirstnameZh = (firstnameZh) => (dispatch) => {
 
 export const setLastnameZh = (lastnameZh) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_LASTNAME_ZH,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_LASTNAME_ZH,
     lastnameZh: lastnameZh,
   });
 
@@ -69,7 +69,7 @@ export const setLastnameZh = (lastnameZh) => (dispatch) => {
 
 export const setNickname = (nickname) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_NICKNAME,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_NICKNAME,
     nickname: nickname,
   });
 
@@ -78,7 +78,7 @@ export const setNickname = (nickname) => (dispatch) => {
 
 export const setDisplayFormat = (displayFormat) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupSectionActionType.ACCOUNT_DISPLAY_FORMAT,
+    type: ProfileInfoSetupViewActionType.ACCOUNT_DISPLAY_FORMAT,
     displayFormat: displayFormat,
   });
 

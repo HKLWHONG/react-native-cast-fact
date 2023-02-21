@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { CommonActionType, ProfileInfoSetupSectionActionType } from '../../../types';
+import { CommonActionType, ProfileInfoSetupViewActionType } from '../../../types';
 
 const initState = () => {
   return {
@@ -22,27 +22,27 @@ const initState = () => {
   };
 };
 
-export default function profileInfoSetupSectionReducer(state = initState(), action) {
+export default function profileInfoSetupViewReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
       return initState();
 
-    case ProfileInfoSetupSectionActionType.RESET:
+    case ProfileInfoSetupViewActionType.RESET:
       return initState();
 
-    case ProfileInfoSetupSectionActionType.NUMBER_OF_INDICATORS:
+    case ProfileInfoSetupViewActionType.NUMBER_OF_INDICATORS:
       return {
         ...state,
         numberOfIndicators: action.numberOfIndicators,
       };
 
-    case ProfileInfoSetupSectionActionType.PHOTO:
+    case ProfileInfoSetupViewActionType.PHOTO:
       return {
         ...state,
         photo: action.photo,
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_FIRSTNAME_EN:
+    case ProfileInfoSetupViewActionType.ACCOUNT_FIRSTNAME_EN:
       return {
         ...state,
         account: {
@@ -54,7 +54,7 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_LASTNAME_EN:
+    case ProfileInfoSetupViewActionType.ACCOUNT_LASTNAME_EN:
       return {
         ...state,
         account: {
@@ -66,7 +66,7 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_FIRSTNAME_ZH:
+    case ProfileInfoSetupViewActionType.ACCOUNT_FIRSTNAME_ZH:
       return {
         ...state,
         account: {
@@ -78,7 +78,7 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_LASTNAME_ZH:
+    case ProfileInfoSetupViewActionType.ACCOUNT_LASTNAME_ZH:
       return {
         ...state,
         account: {
@@ -90,7 +90,7 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_NICKNAME:
+    case ProfileInfoSetupViewActionType.ACCOUNT_NICKNAME:
       return {
         ...state,
         account: {
@@ -102,7 +102,7 @@ export default function profileInfoSetupSectionReducer(state = initState(), acti
         },
       };
 
-    case ProfileInfoSetupSectionActionType.ACCOUNT_DISPLAY_FORMAT:
+    case ProfileInfoSetupViewActionType.ACCOUNT_DISPLAY_FORMAT:
       return {
         ...state,
         account: {

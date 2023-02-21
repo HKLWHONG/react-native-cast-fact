@@ -23,7 +23,7 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
-class ProfileInfoSetupSection extends Component {
+class ProfileInfoSetupView extends Component {
   constructor(props: any) {
     super(props);
 
@@ -89,7 +89,11 @@ class ProfileInfoSetupSection extends Component {
       }
     }
 
-    const occupation = props.profileCastSheetEditionViewAccount.info.occupation;
+    const occupation = (
+      props.profileCastSheetEditionViewAccount.info.occupation
+      &&
+      props.profileCastSheetEditionViewAccount.info.occupation.text
+    );
 
     let occupationTextContainerStyle = {};
 
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
   },
 });
 
-ProfileInfoSetupSection.propTypes = {
+ProfileInfoSetupView.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
@@ -205,7 +209,7 @@ ProfileInfoSetupSection.propTypes = {
   occupation: PropTypes.string,
 };
 
-ProfileInfoSetupSection.defaultProps = {
+ProfileInfoSetupView.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
@@ -218,9 +222,9 @@ ProfileInfoSetupSection.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    numberOfIndicators: state.profileInfoSetupSectionReducer.numberOfIndicators,
-    photo: state.profileInfoSetupSectionReducer.photo,
-    account: state.profileInfoSetupSectionReducer.account,
+    numberOfIndicators: state.profileInfoSetupViewReducer.numberOfIndicators,
+    photo: state.profileInfoSetupViewReducer.photo,
+    account: state.profileInfoSetupViewReducer.account,
     profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
   };
 }
@@ -229,4 +233,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfoSetupSection);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfoSetupView);

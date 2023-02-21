@@ -17,7 +17,7 @@ import {
   store,
   ProfileCastSheetEditionViewAction,
   SignUpStackNavigatorAction,
-  ProfileInfoSetupSectionAction,
+  ProfileInfoSetupViewAction,
 } from '../../redux';
 
 import {
@@ -31,7 +31,7 @@ import {
 } from '../../components';
 
 import {
-  ProfileInfoSetupSection,
+  ProfileInfoSetupView,
   CastSheetItem,
   TextInput,
   Tag,
@@ -99,7 +99,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
       <Translation>
         {(t) => (
           <View style={styles.profileContainer}>
-            <ProfileInfoSetupSection
+            <ProfileInfoSetupView
               hiddenInfoContainer
               index={2}
               text={t('views.profile_cast_sheet_edition.title')}
@@ -262,7 +262,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
                 props.addAccountInfo(key, {
                   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                  visible: !visible,
+                  text: text,
                 });
               }}
               onPressRightAccessory={() => {
@@ -316,7 +316,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
                 props.addAccountInfo(key, {
                   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                  visible: !visible,
+                  text: text,
                 });
               }}
               onPressRightAccessory={() => {

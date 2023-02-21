@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import {
   ProfilePictureSelectionViewAction,
   SignUpStackNavigatorAction,
-  ProfileInfoSetupSectionAction,
+  ProfileInfoSetupViewAction,
 } from '../../redux';
 
 import {
@@ -32,7 +32,7 @@ import {
 
 import {
   Button,
-  ProfileInfoSetupSection,
+  ProfileInfoSetupView,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -100,7 +100,7 @@ class ProfilePictureSelectionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupSection
+          <ProfileInfoSetupView
             index={0}
             text={t('views.profile_picture_selection.title')}
           />
@@ -162,7 +162,7 @@ class ProfilePictureSelectionView extends BaseComponent {
                   });
 
                 if (photo) {
-                  props.setProfileInfoSetupSectionPhoto(photo);
+                  props.setProfileInfoSetupViewPhoto(photo);
                 }
               }}
             />
@@ -326,7 +326,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
-    setProfileInfoSetupSectionPhoto: (...args) => dispatch(ProfileInfoSetupSectionAction.setPhoto(...args)),
+    setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
   };
 }
 

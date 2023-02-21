@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import {
   ProfileNameDisplaySelectionViewAction,
   SignUpStackNavigatorAction,
-  ProfileInfoSetupSectionAction,
+  ProfileInfoSetupViewAction,
 } from '../../redux';
 
 import {
@@ -30,7 +30,7 @@ import {
 } from '../../components';
 
 import {
-  ProfileInfoSetupSection,
+  ProfileInfoSetupView,
   TextInput,
 } from '../../project-components';
 
@@ -71,7 +71,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
       Router.push(props, 'ProfileCastSheetEditionView');
     });
 
-    props.setProfileInfoSetupSectionDisplayFormat(0);
+    props.setProfileInfoSetupViewDisplayFormat(0);
   };
 
   clearData = () => {
@@ -96,7 +96,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupSection
+          <ProfileInfoSetupView
             index={1}
             text={t('views.profile_name_display_selection.title')}
           />
@@ -110,7 +110,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.profileInfoSetupSectionAccount.info.displayFormat === 0) {
+    if (props.profileInfoSetupViewAccount.info.displayFormat === 0) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -123,7 +123,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
           <SingleTouch
             style={[styles.optionContainer, style]}
             onPress={() => {
-              props.setProfileInfoSetupSectionDisplayFormat(0);
+              props.setProfileInfoSetupViewDisplayFormat(0);
             }}
           >
             <View
@@ -195,7 +195,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.profileInfoSetupSectionAccount.info.displayFormat === 1) {
+    if (props.profileInfoSetupViewAccount.info.displayFormat === 1) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -208,7 +208,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
           <SingleTouch
             style={[styles.optionContainer, style]}
             onPress={() => {
-              props.setProfileInfoSetupSectionDisplayFormat(1);
+              props.setProfileInfoSetupViewDisplayFormat(1);
             }}
           >
             <View
@@ -280,7 +280,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.profileInfoSetupSectionAccount.info.displayFormat === 2) {
+    if (props.profileInfoSetupViewAccount.info.displayFormat === 2) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -293,7 +293,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
           <SingleTouch
             style={[styles.optionContainer, style]}
             onPress={() => {
-              props.setProfileInfoSetupSectionDisplayFormat(2);
+              props.setProfileInfoSetupViewDisplayFormat(2);
             }}
           >
             <View
@@ -350,7 +350,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     let style = {};
 
-    if (props.profileInfoSetupSectionAccount.info.displayFormat === 3) {
+    if (props.profileInfoSetupViewAccount.info.displayFormat === 3) {
       style = {
         ...style,
         ...styles.selectedOptionContainer,
@@ -363,7 +363,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
           <SingleTouch
             style={[styles.optionContainer, style]}
             onPress={() => {
-              props.setProfileInfoSetupSectionDisplayFormat(3);
+              props.setProfileInfoSetupViewDisplayFormat(3);
             }}
           >
             <View
@@ -502,14 +502,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+    profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
-    setProfileInfoSetupSectionDisplayFormat: (...args) => dispatch(ProfileInfoSetupSectionAction.setDisplayFormat(...args)),
+    setProfileInfoSetupViewDisplayFormat: (...args) => dispatch(ProfileInfoSetupViewAction.setDisplayFormat(...args)),
   };
 }
 

@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import {
   ProfileNameEditionViewAction,
   SignUpStackNavigatorAction,
-  ProfileInfoSetupSectionAction,
+  ProfileInfoSetupViewAction,
 } from '../../redux';
 
 import {
@@ -30,7 +30,7 @@ import {
 } from '../../components';
 
 import {
-  ProfileInfoSetupSection,
+  ProfileInfoSetupView,
   TextInput,
 } from '../../project-components';
 
@@ -68,17 +68,17 @@ class ProfileNameEditionView extends BaseComponent {
     const { props } = this;
 
     props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
-      props.setProfileInfoSetupSectionFirstnameEn('Tai Man');
-      props.setProfileInfoSetupSectionLastnameEn('Chan');
-      props.setProfileInfoSetupSectionFirstnameZh('大文');
-      props.setProfileInfoSetupSectionLastnameZh('陳');
-      props.setProfileInfoSetupSectionNickname('別名');
+      props.setProfileInfoSetupViewFirstnameEn('Tai Man');
+      props.setProfileInfoSetupViewLastnameEn('Chan');
+      props.setProfileInfoSetupViewFirstnameZh('大文');
+      props.setProfileInfoSetupViewLastnameZh('陳');
+      props.setProfileInfoSetupViewNickname('別名');
 
       Router.push(props, 'ProfileNameDisplaySelectionView');
     });
 
     props.addSignUpStackNavigatorOnScreenAppear(this.constructor.name, () => {
-      props.setProfileInfoSetupSectionDisplayFormat(undefined);
+      props.setProfileInfoSetupViewDisplayFormat(undefined);
     });
 
     if (
@@ -93,11 +93,11 @@ class ProfileNameEditionView extends BaseComponent {
   clearData = () => {
     const { props } = this;
 
-    props.setProfileInfoSetupSectionFirstnameEn(undefined);
-    props.setProfileInfoSetupSectionLastnameEn(undefined);
-    props.setProfileInfoSetupSectionFirstnameZh(undefined);
-    props.setProfileInfoSetupSectionLastnameZh(undefined);
-    props.setProfileInfoSetupSectionNickname(undefined);
+    props.setProfileInfoSetupViewFirstnameEn(undefined);
+    props.setProfileInfoSetupViewLastnameEn(undefined);
+    props.setProfileInfoSetupViewFirstnameZh(undefined);
+    props.setProfileInfoSetupViewLastnameZh(undefined);
+    props.setProfileInfoSetupViewNickname(undefined);
   };
 
   renderHeader = () => {
@@ -118,7 +118,7 @@ class ProfileNameEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupSection
+          <ProfileInfoSetupView
             index={1}
             text={t('views.profile_name_edition.title')}
           />
@@ -145,17 +145,17 @@ class ProfileNameEditionView extends BaseComponent {
                 }}
                 style={[styles.textInput, { marginRight: 8 }]}
                 label={t('app.firstname_en')}
-                value={props.profileInfoSetupSectionAccount.info.firstnameEn}
+                value={props.profileInfoSetupViewAccount.info.firstnameEn}
                 onChangeText={(text) => {
-                  props.setProfileInfoSetupSectionFirstnameEn(text);
+                  props.setProfileInfoSetupViewFirstnameEn(text);
                 }}
               />
               <TextInput
                 style={[styles.textInput, { marginLeft: 8 }]}
                 label={t('app.lastname_en')}
-                value={props.profileInfoSetupSectionAccount.info.lastnameEn}
+                value={props.profileInfoSetupViewAccount.info.lastnameEn}
                 onChangeText={(text) => {
-                  props.setProfileInfoSetupSectionLastnameEn(text);
+                  props.setProfileInfoSetupViewLastnameEn(text);
                 }}
               />
             </View>
@@ -163,26 +163,26 @@ class ProfileNameEditionView extends BaseComponent {
               <TextInput
                 style={[styles.textInput, { marginRight: 8 }]}
                 label={t('app.lastname_zh')}
-                value={props.profileInfoSetupSectionAccount.info.firstnameZh}
+                value={props.profileInfoSetupViewAccount.info.firstnameZh}
                 onChangeText={(text) => {
-                  props.setProfileInfoSetupSectionFirstnameZh(text);
+                  props.setProfileInfoSetupViewFirstnameZh(text);
                 }}
               />
               <TextInput
                 style={[styles.textInput, { marginLeft: 8 }]}
                 label={t('app.firstname_zh')}
-                value={props.profileInfoSetupSectionAccount.info.lastnameZh}
+                value={props.profileInfoSetupViewAccount.info.lastnameZh}
                 onChangeText={(text) => {
-                  props.setProfileInfoSetupSectionLastnameZh(text);
+                  props.setProfileInfoSetupViewLastnameZh(text);
                 }}
               />
             </View>
             <TextInput
               style={styles.textInput}
               label={t('app.nickname')}
-              value={props.profileInfoSetupSectionAccount.info.nickname}
+              value={props.profileInfoSetupViewAccount.info.nickname}
               onChangeText={(text) => {
-                props.setProfileInfoSetupSectionNickname(text);
+                props.setProfileInfoSetupViewNickname(text);
               }}
             />
           </View>
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     refs: state.profileNameEditionViewReducer.refs,
-    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+    profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
   };
 }
 
@@ -283,12 +283,12 @@ function mapDispatchToProps(dispatch) {
     addRef: (...args) => dispatch(ProfileNameEditionViewAction.addRef(...args)),
     addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
-    setProfileInfoSetupSectionFirstnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameEn(...args)),
-    setProfileInfoSetupSectionLastnameEn: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameEn(...args)),
-    setProfileInfoSetupSectionFirstnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setFirstnameZh(...args)),
-    setProfileInfoSetupSectionLastnameZh: (...args) => dispatch(ProfileInfoSetupSectionAction.setLastnameZh(...args)),
-    setProfileInfoSetupSectionNickname: (...args) => dispatch(ProfileInfoSetupSectionAction.setNickname(...args)),
-    setProfileInfoSetupSectionDisplayFormat: (...args) => dispatch(ProfileInfoSetupSectionAction.setDisplayFormat(...args)),
+    setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),
+    setProfileInfoSetupViewLastnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameEn(...args)),
+    setProfileInfoSetupViewFirstnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameZh(...args)),
+    setProfileInfoSetupViewLastnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameZh(...args)),
+    setProfileInfoSetupViewNickname: (...args) => dispatch(ProfileInfoSetupViewAction.setNickname(...args)),
+    setProfileInfoSetupViewDisplayFormat: (...args) => dispatch(ProfileInfoSetupViewAction.setDisplayFormat(...args)),
   };
 }
 

@@ -17,7 +17,7 @@ import {
   ProfileCompletionViewAction,
   SignUpStackNavigatorAction,
   SignUpViewAction,
-  ProfileInfoSetupSectionAction,
+  ProfileInfoSetupViewAction,
   ProfileCastSheetEditionViewAction,
 } from '../../redux';
 
@@ -34,7 +34,7 @@ import {
 } from '../../components';
 
 import {
-  ProfileInfoSetupSection,
+  ProfileInfoSetupView,
   TextInput,
   Button,
 } from '../../project-components';
@@ -82,7 +82,7 @@ class ProfileCompletionView extends BaseComponent {
       });
 
       props.resetSignUpView();
-      props.resetProfileInfoSetupSection();
+      props.resetProfileInfoSetupView();
       props.resetProfileCastSheetEditionView();
   };
 
@@ -104,7 +104,7 @@ class ProfileCompletionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupSection hiddenViewIndicator />
+          <ProfileInfoSetupView hiddenViewIndicator />
         )}
       </Translation>
     );
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     slideSheetRefs: state.slideSheetReducer.refs,
-    profileInfoSetupSectionAccount: state.profileInfoSetupSectionReducer.account,
+    profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
   };
 }
 
@@ -268,7 +268,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     resetSignUpView: (...args) => dispatch(SignUpViewAction.reset(...args)),
-    resetProfileInfoSetupSection: (...args) => dispatch(ProfileInfoSetupSectionAction.reset(...args)),
+    resetProfileInfoSetupView: (...args) => dispatch(ProfileInfoSetupViewAction.reset(...args)),
     resetProfileCastSheetEditionView: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
   };
 }
