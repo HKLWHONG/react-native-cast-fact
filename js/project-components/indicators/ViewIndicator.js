@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f0f',
     alignItems: 'center',
     padding: 4,
+    marginTop: 8,
   },
   text: {
     // backgroundColor: '#00f',

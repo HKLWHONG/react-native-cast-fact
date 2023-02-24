@@ -22,15 +22,11 @@ import { UserProcessor } from '../../processors';
 import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
+
 const ic_placeholder = require('../../../assets/images/ic_placeholder/ic_placeholder.png');
-const ic_category = require('../../../assets/images/ic_category/ic_category.png');
-const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
-const ic_calendar_plus = require('../../../assets/images/ic_calendar_plus/ic_calendar_plus.png');
-const ic_heart = require('../../../assets/images/ic_heart/ic_heart.png');
-const ic_heart_fill = require('../../../assets/images/ic_heart_fill/ic_heart_fill.png');
-const ic_bubble = require('../../../assets/images/ic_bubble/ic_bubble.png');
-const ic_star = require('../../../assets/images/ic_star/ic_star.png');
-const ic_star_fill = require('../../../assets/images/ic_star_fill/ic_star_fill.png');
+
+const ic_list_unselected = require('../../../assets/images/ic_list_unselected/ic_list_unselected.png');
+const ic_list_selected = require('../../../assets/images/ic_list_selected/ic_list_selected.png');
 
 class SearchResultList extends Component {
   constructor(props: any) {
@@ -66,6 +62,7 @@ class SearchResultList extends Component {
 
               props.onPressProfile(params);
             }}
+            disabled
           >
             <Image
               style={styles.listAvatarImage}
@@ -100,7 +97,7 @@ class SearchResultList extends Component {
               buttonStyle={styles.selectionButton}
               imageStyle={styles.selectionImage}
               type="small"
-              source={item.selected ? ic_calendar_plus : ic_calendar}
+              source={item.selected ? ic_list_selected : ic_list_unselected}
               resizeMode="center"
               onPress={() => {
                 if (!props.onPressSelection) {
@@ -109,6 +106,7 @@ class SearchResultList extends Component {
 
                 props.onPressSelection(params);
               }}
+              disabled={!props.searchStackNavigatorRightViewEditModeEnabled}
             />
           </View>
         )}
@@ -364,7 +362,7 @@ class SearchResultList extends Component {
       topChildren = this.renderGridTopContainer(params);
       centerChildren = this.renderGridCenterContainer(params);
 
-      disabled = false;
+      disabled = !props.searchStackNavigatorRightViewEditModeEnabled;
     }
 
     return (
@@ -651,7 +649,9 @@ SearchResultList.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    searchStackNavigatorRightViewEditModeEnabled: state.searchStackNavigatorRightViewReducer.editModeEnabled,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

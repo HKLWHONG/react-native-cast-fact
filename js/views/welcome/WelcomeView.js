@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ImageBackground,
   View,
   Text,
 } from 'react-native';
@@ -42,7 +43,10 @@ import { Theme, Router } from '../../utils';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
+
+const ic_digital_cast_sheet = require('../../../assets/images/ic_digital_cast_sheet/ic_digital_cast_sheet.png');
+const ic_searchable_profile = require('../../../assets/images/ic_searchable_profile/ic_searchable_profile.png');
 
 class WelcomeView extends BaseComponent {
   constructor(props) {
@@ -78,6 +82,21 @@ class WelcomeView extends BaseComponent {
       <Translation>
         {(t) => (
           <Header style={styles.header} />
+        )}
+      </Translation>
+    );
+  };
+
+  renderImageBackground = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={ic_light_background}
+          />
         )}
       </Translation>
     );
@@ -144,18 +163,20 @@ class WelcomeView extends BaseComponent {
             <Button
               style={[styles.button, { marginBottom: 4 }]}
               textStyle={styles.buttonText}
+              leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
               text={t('views.welcome.digital_cast_sheet')}
               description={t('views.welcome.digital_cast_sheet_description')}
-              leftAccessorySource={preview}
+              leftAccessorySource={ic_digital_cast_sheet}
               leftAccessoryResizeMode="center"
               disabled
             />
             <Button
               style={[styles.button, { marginTop: 4 }]}
               textStyle={styles.buttonText}
+              leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
               text={t('views.welcome.searchable_profile')}
               description={t('views.welcome.searchable_profile_description')}
-              leftAccessorySource={preview}
+              leftAccessorySource={ic_searchable_profile}
               leftAccessoryResizeMode="center"
               disabled
             />
@@ -190,6 +211,7 @@ class WelcomeView extends BaseComponent {
       <Translation>
         {(t) => (
           <Body style={styles.body}>
+            {this.renderImageBackground()}
             {this.renderTitleContainer()}
             {this.renderDescriptionContainer()}
             {this.renderSubtitleContainer()}
@@ -279,12 +301,18 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 16,
+  },
+  imageBackground: {
+    // backgroundColor: '#f00',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 230 / 393,
   },
   titleContainer: {
     // backgroundColor: '#f00',
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: 48,
+    marginBottom: 16,
   },
   title: {
     // backgroundColor: '#00f',
@@ -344,6 +372,10 @@ const styles = StyleSheet.create({
     // color: Theme.colors.general.white,
     fontSize: 15,
     fontFamily: Theme.fonts.medium,
+  },
+  buttonLeftAccessoryImage: {
+    flex: 1,
+    aspectRatio: 1,
   },
   createAccountButton: {
     marginTop: 16,

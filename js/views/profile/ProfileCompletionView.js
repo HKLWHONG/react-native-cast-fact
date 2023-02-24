@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ImageBackground,
   View,
   Text,
 } from 'react-native';
@@ -45,6 +46,8 @@ import { Theme, Router } from '../../utils';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
+
+const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
 
 const ic_check_gold = require('../../../assets/images/ic_check_gold/ic_check_gold.png');
 
@@ -98,13 +101,31 @@ class ProfileCompletionView extends BaseComponent {
     );
   };
 
+  renderImageBackground = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={ic_light_background}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderProfileContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoSetupView hiddenViewIndicator />
+          <ProfileInfoSetupView
+            style={styles.profileInfoSetupView}
+            hiddenViewIndicator
+          />
         )}
       </Translation>
     );
@@ -167,6 +188,7 @@ class ProfileCompletionView extends BaseComponent {
       <Translation>
         {(t) => (
           <Body style={styles.body}>
+            {this.renderImageBackground()}
             {this.renderProfileContainer()}
             {this.renderResultContainer()}
             {this.renderDoneButton()}
@@ -222,13 +244,21 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 16,
+  },
+  imageBackground: {
+    // backgroundColor: '#f00',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 230 / 393,
+  },
+  profileInfoSetupView: {
+    marginTop: 72,
   },
   resultContainer: {
     // backgroundColor: '#0f0',
     flex: 1,
     alignItems: 'center',
-    marginVertical: 32,
+    marginVertical: 16,
   },
   resultImage: {
     width: 80,

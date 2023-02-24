@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ImageBackground,
   View,
   Text,
 } from 'react-native';
@@ -39,6 +40,8 @@ import { Theme, Router } from '../../utils';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
+
+const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
 
 const ic_person = require('../../../assets/images/ic_person/ic_person.png');
 const ic_eyes= require('../../../assets/images/ic_eyes/ic_eyes.png');
@@ -77,6 +80,21 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
       <Translation>
         {(t) => (
           <Header style={styles.header} />
+        )}
+      </Translation>
+    );
+  };
+
+  renderImageBackground = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={ic_light_background}
+          />
         )}
       </Translation>
     );
@@ -169,6 +187,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
       <Translation>
         {(t) => (
           <Body style={styles.body}>
+            {this.renderImageBackground()}
             {this.renderTitleContainer()}
             {this.renderSubtitleContainer()}
             {this.renderSelectionButtonContainer()}
@@ -328,12 +347,18 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    marginTop: 16,
+  },
+  imageBackground: {
+    // backgroundColor: '#f00',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 230 / 393,
   },
   titleContainer: {
     // backgroundColor: '#f00',
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: 48,
+    marginBottom: 16,
   },
   title: {
     // backgroundColor: '#00f',

@@ -55,7 +55,10 @@ import { Translation } from 'react-i18next';
 
 const ic_no_result = require('../../../assets/images/ic_no_result/ic_no_result.png');
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_select_all = require('../../../assets/images/ic_select_all/ic_select_all.png');
+const ic_select_none = require('../../../assets/images/ic_select_none/ic_select_none.png');
+
+const ic_export= require('../../../assets/images/ic_export/ic_export.png');
 
 class SearchResultView extends BaseComponent {
   constructor(props) {
@@ -426,8 +429,12 @@ class SearchResultView extends BaseComponent {
     );
   };
 
-  renderFooter = () => {
+  renderEditBar = () => {
     const { props } = this;
+
+    if (!props.searchStackNavigatorRightViewEditModeEnabled) {
+      return;
+    }
 
     const numberOfSelected = props.searchResultListData.filter((item) => {
       return item.selected;
@@ -436,71 +443,110 @@ class SearchResultView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Footer style={styles.footer}>
-            <View
-              style={{
-                // backgroundColor: '#f00',
-                backgroundColor: Theme.colors.background.primary,
-                margin: 16,
-                borderRadius: 8,
-                borderWidth: StyleSheet.hairlineWidth,
-                borderColor: Theme.colors.decorations.splitline,
-              }}
-            >
-              <View style={{
-                // backgroundColor: '#00f',
-                flexDirection: 'row',
-                padding: 8,
-              }}>
-                <Text
-                  style={{
-                    color: Theme.colors.text.subtitle,
-                    fontSize: 15,
-                    fontFamily: Theme.fonts.bold,
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {`${numberOfSelected} Selected`}
-                </Text>
-              </View>
-              <Separator />
-              <View
+          <View
+            style={{
+              // backgroundColor: '#f00',
+              backgroundColor: Theme.colors.background.primary,
+              margin: 16,
+              borderRadius: 8,
+              borderWidth: StyleSheet.hairlineWidth,
+              borderColor: Theme.colors.decorations.splitline,
+            }}
+          >
+            <View style={{
+              // backgroundColor: '#00f',
+              flexDirection: 'row',
+              padding: 8,
+            }}>
+              <Text
                 style={{
-                  // backgroundColor: '#f0f',
-                  flexDirection: 'row',
-                  padding: 8,
+                  color: Theme.colors.text.subtitle,
+                  fontSize: 15,
+                  fontFamily: Theme.fonts.bold,
+                  textTransform: 'uppercase',
                 }}
               >
-                <View
-                  style={{
-                    // backgroundColor: '#0ff',
-                    flex: 1,
-                    flexDirection: 'row',
-                  }}
-                >
-                  <Button
-                    type="small"
-                    leftAccessorySource={preview}
-                    text={'ALL'}
-                  />
-                  <Button
-                    type="small"
-                    leftAccessorySource={preview}
-                    text={'NONE'}
-                  />
-                </View>
+                {`${numberOfSelected} Selected`}
+              </Text>
+            </View>
+            <Separator />
+            <View
+              style={{
+                // backgroundColor: '#f0f',
+                flexDirection: 'row',
+                padding: 8,
+              }}
+            >
+              <View
+                style={{
+                  // backgroundColor: '#0ff',
+                  flex: 1,
+                  flexDirection: 'row',
+                }}
+              >
                 <Button
+                  style={{ marginRight: 4 }}
+                  leftAccessoryImageStyle={{ marginRight: 4 }}
                   type="small"
-                  source={preview}
+                  leftAccessorySource={ic_select_all}
+                  leftAccessoryResizeMode="center"
+                  text={'ALL'}
                   onPress={() => {
-                    this.createPDF()
-                      .catch((error) => {
-                        console.error(error);
-                      });
+                    const data = store.getState().searchResultViewReducer.searchResultListData.map((item) => {
+                      return {
+                        ...item,
+                        selected: true,
+                      }
+                    });
+
+                    props.setSearchResultListData(data);
+                  }}
+                />
+                <Button
+                  style={{ marginLeft: 4 }}
+                  leftAccessoryImageStyle={{ marginRight: 4 }}
+                  type="small"
+                  leftAccessorySource={ic_select_none}
+                  leftAccessoryResizeMode="center"
+                  text={'NONE'}
+                  onPress={() => {
+                    const data = store.getState().searchResultViewReducer.searchResultListData.map((item) => {
+                      return {
+                        ...item,
+                        selected: false,
+                      }
+                    });
+
+                    props.setSearchResultListData(data);
                   }}
                 />
               </View>
+              <Button
+                type="small"
+                source={ic_export}
+                resizeMode="center"
+                onPress={() => {
+                  this.createPDF()
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }}
+              />
             </View>
+          </View>
+        )}
+      </Translation>
+    );
+  }
+
+  renderFooter = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Footer style={styles.footer}>
+            {this.renderEditBar()}
           </Footer>
         )}
       </Translation>
@@ -581,6 +627,7 @@ function mapStateToProps(state) {
     results: state.searchResultViewReducer.results,
     searchResultListData: state.searchResultViewReducer.searchResultListData,
     searchStackNavigatorRightViewSearchResultListType: state.searchStackNavigatorRightViewReducer.searchResultListType,
+    searchStackNavigatorRightViewEditModeEnabled: state.searchStackNavigatorRightViewReducer.editModeEnabled,
   };
 }
 

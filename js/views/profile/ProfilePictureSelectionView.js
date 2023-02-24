@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ImageBackground,
   View,
   Text,
   Alert,
@@ -45,6 +46,8 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
+
+const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
 
 const ic_photo = require('../../../assets/images/ic_photo/ic_photo.png');
 const ic_camera = require('../../../assets/images/ic_camera/ic_camera.png');
@@ -94,6 +97,21 @@ class ProfilePictureSelectionView extends BaseComponent {
     );
   };
 
+  renderImageBackground = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={ic_light_background}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderProfileContainer = () => {
     const { props } = this;
 
@@ -137,6 +155,18 @@ class ProfilePictureSelectionView extends BaseComponent {
               buttonStyle={styles.selectionButtonButton}
               imageStyle={styles.selectionButtonImage}
               textStyle={styles.selectionButtonText}
+              source={ic_camera}
+              resizeMode="center"
+              text={t('app.camera')}
+              onPress={() => {
+                Router.push(props, 'CameraStackNavigator');
+              }}
+            />
+            <Button
+              style={styles.selectionButton}
+              buttonStyle={styles.selectionButtonButton}
+              imageStyle={styles.selectionButtonImage}
+              textStyle={styles.selectionButtonText}
               source={ic_photo}
               resizeMode="center"
               text={t('app.photos')}
@@ -166,18 +196,6 @@ class ProfilePictureSelectionView extends BaseComponent {
                 }
               }}
             />
-            <Button
-              style={styles.selectionButton}
-              buttonStyle={styles.selectionButtonButton}
-              imageStyle={styles.selectionButtonImage}
-              textStyle={styles.selectionButtonText}
-              source={ic_camera}
-              resizeMode="center"
-              text={t('app.camera')}
-              onPress={() => {
-                Router.push(props, 'CameraStackNavigator');
-              }}
-            />
           </View>
         )}
       </Translation>
@@ -191,6 +209,7 @@ class ProfilePictureSelectionView extends BaseComponent {
       <Translation>
         {(t) => (
           <Body style={styles.body}>
+            {this.renderImageBackground()}
             {this.renderProfileContainer()}
             {this.renderSubtitleContainer()}
             {this.renderSelectionButtonContainer()}
@@ -256,6 +275,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingVertical: 16,
     marginTop: 16,
+  },
+  imageBackground: {
+    // backgroundColor: '#f00',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 230 / 393,
   },
   subtitleContainer: {
     // backgroundColor: '#0ff',

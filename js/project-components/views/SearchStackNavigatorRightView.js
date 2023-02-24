@@ -30,6 +30,7 @@ const ic_list = require('../../../assets/images/ic_list/ic_list.png');
 const ic_grid = require('../../../assets/images/ic_grid/ic_grid.png');
 
 const ic_check = require('../../../assets/images/ic_check/ic_check.png');
+const ic_check_green = require('../../../assets/images/ic_check_green/ic_check_green.png');
 
 class SearchStackNavigatorRightView extends Component {
   constructor(props: any) {
@@ -38,6 +39,27 @@ class SearchStackNavigatorRightView extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    const { props } = this;
+
+    this.initialize();
+  }
+
+  componentWillUnmount() {
+
+    this.clearData();
+  }
+
+  initialize = () => {
+    const { props } = this;
+  };
+
+  clearData = () => {
+    const { props } = this;
+
+    props.reset();
+  };
+
   render() {
     const { props } = this;
 
@@ -45,7 +67,9 @@ class SearchStackNavigatorRightView extends Component {
       return null;
     }
 
-    const source = props.searchResultListType === 'grid' ? ic_list : ic_grid;
+    const displayModeButtonSource = props.searchResultListType === 'grid' ? ic_grid : ic_list;
+
+    const editModeButtonSource = props.editModeEnabled ? ic_check_green : ic_check;
 
     return (
       <Translation>
@@ -57,7 +81,7 @@ class SearchStackNavigatorRightView extends Component {
             <Button
               style={{ marginRight: 4 }}
               type="circle"
-              source={source}
+              source={displayModeButtonSource}
               resizeMode="center"
               onPress={() => {
                 if (store.getState().searchStackNavigatorRightViewReducer.searchResultListType !== 'grid') {
@@ -70,30 +94,10 @@ class SearchStackNavigatorRightView extends Component {
             <Button
               style={{ marginLeft: 4 }}
               type="circle"
-              source={ic_check}
+              source={editModeButtonSource}
               resizeMode="center"
               onPress={() => {
-                let selected = true;
-
-                if (store.getState().searchResultViewReducer.searchResultListData.length > 0) {
-                  selected = !store.getState().searchResultViewReducer.searchResultListData[0].selected;
-                }
-
-                store.getState().searchResultViewReducer.searchResultListData.forEach((item) => {
-                  if (item.selected) {
-                    selected = false;
-                  }
-                });
-
-
-                const data = store.getState().searchResultViewReducer.searchResultListData.map((item) => {
-                  return {
-                    ...item,
-                    selected: selected,
-                  }
-                });
-
-                props.setSearchResultViewSearchResultListData(data);
+                props.setSearchResultListEditModeEnabled(!store.getState().searchStackNavigatorRightViewReducer.editModeEnabled);
               }}
             />
           </View>
@@ -125,13 +129,15 @@ SearchStackNavigatorRightView.defaultProps = {
 function mapStateToProps(state) {
   return {
     searchResultListType: state.searchStackNavigatorRightViewReducer.searchResultListType,
+    editModeEnabled: state.searchStackNavigatorRightViewReducer.editModeEnabled,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(SearchStackNavigatorRightViewAction.reset(...args)),
     setSearchResultListType: (...args) => dispatch(SearchStackNavigatorRightViewAction.setSearchResultListType(...args)),
-    setSearchResultViewSearchResultListData: (...args) => dispatch(SearchResultViewAction.setSearchResultListData(...args)),
+    setSearchResultListEditModeEnabled: (...args) => dispatch(SearchStackNavigatorRightViewAction.setSearchResultListEditModeEnabled(...args)),
   };
 }
 

@@ -27,9 +27,11 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 const Stack = createStackNavigator();
 
-const preview = require('../../../assets/images/preview/preview.png');
-
 const ic_back = require('../../../assets/images/ic_back/ic_back.png');
+
+const ic_next = require('../../../assets/images/ic_next/ic_next.png');
+
+const ic_arrow_down = require('../../../assets/images/ic_arrow_down/ic_arrow_down.png');
 
 class SlideSheet extends Component {
   constructor(props: any) {
@@ -150,7 +152,7 @@ class SlideSheet extends Component {
             textStyle={styles.rightButtonText}
             type="small"
             text={i18n.t('app.next')}
-            rightAccessorySource={preview}
+            rightAccessorySource={ic_next}
             rightAccessoryResizeMode="center"
           />
         );
@@ -158,7 +160,7 @@ class SlideSheet extends Component {
         children = (
           <Image
             style={styles.rightImage}
-            source={preview}
+            source={ic_arrow_down}
             resizeMode="center"
           />
         );

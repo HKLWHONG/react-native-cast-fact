@@ -21,3 +21,12 @@ export const setSearchResultListType = (searchResultListType) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setSearchResultListEditModeEnabled = (editModeEnabled) => (dispatch) => {
+  dispatch({
+    type: SearchStackNavigatorRightViewActionType.SEARCH_RESULT_LIST_EDIT_MODE,
+    editModeEnabled: editModeEnabled,
+  });
+
+  return Promise.resolve(store.getState());
+};

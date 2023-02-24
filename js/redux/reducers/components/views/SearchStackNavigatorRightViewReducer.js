@@ -8,6 +8,7 @@ import { CommonActionType, SearchStackNavigatorRightViewActionType } from '../..
 const initState = () => {
   return {
     searchResultListType: undefined,
+    editModeEnabled: false,
   };
 };
 
@@ -23,6 +24,12 @@ export default function searchStackNavigatorRightViewReducer(state = initState()
       return {
         ...state,
         searchResultListType: action.searchResultListType,
+      };
+
+    case SearchStackNavigatorRightViewActionType.SEARCH_RESULT_LIST_EDIT_MODE:
+      return {
+        ...state,
+        editModeEnabled: action.editModeEnabled,
       };
 
     default:
