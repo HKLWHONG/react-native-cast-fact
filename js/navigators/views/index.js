@@ -8,6 +8,7 @@ import CameraStackNavigator from './CameraStackNavigator';
 import FeedStackNavigator from './FeedStackNavigator';
 import InboxStackNavigator from './InboxStackNavigator';
 import LoginStackNavigator from './LoginStackNavigator';
+import ProfileStackNavigator from './ProfileStackNavigator';
 import ProjectStackNavigator from './ProjectStackNavigator';
 import SearchStackNavigator from './SearchStackNavigator';
 import SettingsStackNavigator from './SettingsStackNavigator';
@@ -19,6 +20,7 @@ export {
   FeedStackNavigator,
   InboxStackNavigator,
   LoginStackNavigator,
+  ProfileStackNavigator,
   ProjectStackNavigator,
   SearchStackNavigator,
   SettingsStackNavigator,

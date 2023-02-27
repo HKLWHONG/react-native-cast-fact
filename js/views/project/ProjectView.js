@@ -44,6 +44,8 @@ import { Theme, Router } from '../../utils';
 
 const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
 
+export const IDENTIFIER = 'ProjectView';
+
 class ProjectView extends BaseComponent {
   constructor(props) {
     super(props);

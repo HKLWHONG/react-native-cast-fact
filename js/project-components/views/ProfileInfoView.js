@@ -12,7 +12,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import { connect } from 'react-redux';
 import {
   store,
-  ProfileInfoCardAction,
+  ProfileInfoViewAction,
 } from '../../redux';
 
 import {
@@ -33,7 +33,7 @@ import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
 
-class ProfileInfoCard extends Component {
+class ProfileInfoView extends Component {
   constructor(props: any) {
     super(props);
 
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
   },
 });
 
-ProfileInfoCard.propTypes = {
+ProfileInfoView.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
 };
 
-ProfileInfoCard.defaultProps = {
+ProfileInfoView.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
@@ -163,8 +163,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    reset: (...args) => dispatch(ProfileInfoCardAction.reset(...args)),
+    reset: (...args) => dispatch(ProfileInfoViewAction.reset(...args)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfoCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfoView);

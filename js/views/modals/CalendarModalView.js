@@ -38,6 +38,8 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
+export const IDENTIFIER = 'CalendarModalView';
+
 class CalendarModalView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -111,7 +113,10 @@ class CalendarModalView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Body style={styles.body}>
+          <Body
+            style={styles.body}
+            scrollable={false}
+          >
             <SingleTouch
               type="TouchableWithoutFeedback"
               onPress={() => {
@@ -176,9 +181,6 @@ const styles = StyleSheet.create({
   },
   calendar: {
     marginHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 5,
-    borderColor: Theme.colors.text.subtitle,
   },
   footer: {
     // backgroundColor: '#f00',

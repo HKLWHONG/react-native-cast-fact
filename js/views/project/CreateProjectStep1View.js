@@ -51,6 +51,8 @@ import ContextMenu from "react-native-context-menu-view";
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'CreateProjectStep1View';
+
 class CreateProjectStep1View extends BaseComponent {
   constructor(props) {
     super(props);
@@ -153,7 +155,7 @@ class CreateProjectStep1View extends BaseComponent {
                     props.setDurationFrom(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
-                  Router.push(props, 'CalendarModal');
+                  Router.push(props, 'CalendarModalView');
                 }}
               >
                 <View style={styles.container}>
@@ -175,7 +177,7 @@ class CreateProjectStep1View extends BaseComponent {
                     props.setDurationTo(CalendarProcessor.formatDate(new Date(date.dateString)));
                   });
 
-                  Router.push(props, 'CalendarModal');
+                  Router.push(props, 'CalendarModalView');
                 }}
               >
                 <View style={styles.container}>

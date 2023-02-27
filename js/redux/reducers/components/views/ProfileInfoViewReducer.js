@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import { CommonActionType, ProfileInfoCardActionType } from '../../../types';
+import { CommonActionType, ProfileInfoViewActionType } from '../../../types';
 
 const initState = () => {
   return {
@@ -11,12 +11,12 @@ const initState = () => {
   };
 };
 
-export default function profileInfoCardReducer(state = initState(), action) {
+export default function profileInfoViewReducer(state = initState(), action) {
   switch (action.type) {
     case CommonActionType.DESTROY_SESSION:
       return initState();
 
-    case ProfileInfoCardActionType.RESET:
+    case ProfileInfoViewActionType.RESET:
       return initState();
 
     default:

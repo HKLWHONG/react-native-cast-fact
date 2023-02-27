@@ -44,6 +44,8 @@ import { Translation } from 'react-i18next';
 
 const ic_splash_screen_bg = require('../../../assets/images/ic_splash_screen_bg/ic_splash_screen_bg.png');
 
+export const IDENTIFIER = 'LaunchView';
+
 class LaunchView extends BaseComponent {
   constructor(props) {
     super(props);

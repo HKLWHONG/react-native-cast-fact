@@ -25,7 +25,7 @@ import {
 } from '../../components';
 
 import {
-  ProfileInfoCard,
+  ProfileInfoView,
   SegmentedControl,
   ProfileCastingSheetList,
 } from '../../project-components';
@@ -40,6 +40,8 @@ import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 // const background = require('../../../assets/images/project_background.png');
+
+export const IDENTIFIER = 'ProfileView';
 
 class ProfileView extends BaseComponent {
   constructor(props) {
@@ -80,14 +82,14 @@ class ProfileView extends BaseComponent {
     );
   };
 
-  renderProfileInfoCard = (params) => {
+  renderProfileInfoView = (params) => {
     const { props } = this;
     const { item, index, section, separators } = params;
 
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoCard />
+          <ProfileInfoView />
         )}
       </Translation>
     );
@@ -279,7 +281,7 @@ class ProfileView extends BaseComponent {
 
     switch (section.index) {
       case 0:
-        return this.renderProfileInfoCard(params);
+        return this.renderProfileInfoView(params);
 
       case 1:
         return this.renderSegmentedControl(params);

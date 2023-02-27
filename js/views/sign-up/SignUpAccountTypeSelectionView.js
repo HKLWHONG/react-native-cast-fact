@@ -46,6 +46,8 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 const ic_person = require('../../../assets/images/ic_person/ic_person.png');
 const ic_eyes= require('../../../assets/images/ic_eyes/ic_eyes.png');
 
+export const IDENTIFIER = 'SignUpAccountTypeSelectionView';
+
 class SignUpAccountTypeSelectionView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -171,7 +173,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
 
                 props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
 
-                Router.jumpTo(props, 'AccountStackNavigator');
+                Router.jumpTo(props, 'ProfileStackNavigator');
               }}
             />
           </View>

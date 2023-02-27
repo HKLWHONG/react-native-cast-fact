@@ -41,6 +41,8 @@ import { Translation } from 'react-i18next';
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'SettingsView';
+
 class SettingsView extends BaseComponent {
   constructor(props) {
     super(props);

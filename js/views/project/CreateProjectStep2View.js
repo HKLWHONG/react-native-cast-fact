@@ -51,6 +51,8 @@ import ContextMenu from "react-native-context-menu-view";
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'CreateProjectStep2View';
+
 class CreateProjectStep2View extends BaseComponent {
   constructor(props) {
     super(props);
@@ -163,7 +165,7 @@ class CreateProjectStep2View extends BaseComponent {
                     );
                   });
 
-                  Router.push(props, 'CalendarModal');
+                  Router.push(props, 'CalendarModalView');
                 }}
               >
                 <View style={styles.container}>
@@ -190,7 +192,7 @@ class CreateProjectStep2View extends BaseComponent {
                     );
                   });
 
-                  Router.push(props, 'CalendarModal');
+                  Router.push(props, 'CalendarModalView');
                 }}
               >
                 <View style={styles.container}>

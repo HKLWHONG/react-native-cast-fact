@@ -60,6 +60,8 @@ const ic_select_none = require('../../../assets/images/ic_select_none/ic_select_
 
 const ic_export= require('../../../assets/images/ic_export/ic_export.png');
 
+export const IDENTIFIER = 'SearchResultView';
+
 class SearchResultView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -88,7 +90,7 @@ class SearchResultView extends BaseComponent {
     // console.log('[results]', props.results);
     // console.log('[searchResultListData]', props.searchResultListData);
 
-    props.addSearchStackNavigatorOnRightViewRender(this.constructor.name, this.renderSearchStackNavigatorRightView);
+    props.addSearchStackNavigatorOnRightViewRender(IDENTIFIER, this.renderSearchStackNavigatorRightView);
 
     console.log('[search-result-page]', store.getState().searchResultViewReducer.searchResultListPaging.page);
   };

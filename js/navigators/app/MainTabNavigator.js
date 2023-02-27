@@ -27,7 +27,7 @@ import {
 } from '../../storages';
 
 import {
-  AccountStackNavigator,
+  ProfileStackNavigator,
   SearchStackNavigator,
   // InboxStackNavigator,
   ProjectStackNavigator,
@@ -283,8 +283,8 @@ class MainTabNavigator extends BaseComponent {
               */
             }
             <Tab.Screen
-              name="AccountStackNavigator"
-              component={AccountStackNavigator}
+              name="ProfileStackNavigator"
+              component={ProfileStackNavigator}
               options={{
                 tabBarIcon: ({focused}) => {
                   let dotStyle= {};
@@ -322,7 +322,7 @@ class MainTabNavigator extends BaseComponent {
 
                   // AuthStorage.getToken()
                   //   .then(() => {
-                  //     this.tabPress(params, e, { index: 1, stack: 'AccountStackNavigator' });
+                  //     this.tabPress(params, event, { index: 1, stack: 'ProfileStackNavigator' });
                   //   })
                   //   .catch((error) => {
                   //     console.error(error);

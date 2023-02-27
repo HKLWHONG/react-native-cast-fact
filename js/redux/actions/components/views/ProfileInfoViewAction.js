@@ -3,11 +3,11 @@
  * @flow strict-local
  */
 
-import { store, ProfileInfoCardActionType } from '../../../../redux';
+import { store, ProfileInfoViewActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: ProfileInfoCardActionType.RESET,
+    type: ProfileInfoViewActionType.RESET,
   });
 
   return Promise.resolve(store.getState());

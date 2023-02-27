@@ -49,6 +49,8 @@ const ic_checklist = require('../../../assets/images/ic_checklist/ic_checklist.p
 const ic_calendar = require('../../../assets/images/ic_calendar/ic_calendar.png');
 const ic_stack = require('../../../assets/images/ic_stack/ic_stack.png');
 
+export const IDENTIFIER = 'FeedView';
+
 class FeedView extends BaseComponent {
   constructor(props) {
     super(props);

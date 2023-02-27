@@ -58,6 +58,8 @@ const ic_apple= require('../../../assets/images/ic_apple/ic_apple.png');
 const ic_facebook= require('../../../assets/images/ic_facebook/ic_facebook.png');
 const ic_google= require('../../../assets/images/ic_google/ic_google.png');
 
+export const IDENTIFIER = 'LoginView';
+
 class LoginView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -272,7 +274,7 @@ class LoginView extends BaseComponent {
 
                   props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
 
-                  Router.jumpTo(props, 'AccountStackNavigator');
+                  Router.jumpTo(props, 'ProfileStackNavigator');
                 })
                 .catch((error) => {
                   console.error(error);

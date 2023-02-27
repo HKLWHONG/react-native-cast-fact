@@ -11,7 +11,6 @@ import {
 } from './app';
 
 import {
-  profileInfoCardReducer,
   slideSheetReducer,
   feedListReducer,
   profileCastingSheetListReducer,
@@ -21,6 +20,7 @@ import {
   recentSearchesSectionReducer,
   segmentedControlReducer,
   profileInfoSetupViewReducer,
+  profileInfoViewReducer,
   searchStackNavigatorRightViewReducer,
 } from './components';
 
@@ -56,7 +56,6 @@ const reducers = combineReducers({
   dataReducer,
 
   // components
-  profileInfoCardReducer,
   slideSheetReducer,
   feedListReducer,
   profileCastingSheetListReducer,
@@ -66,6 +65,7 @@ const reducers = combineReducers({
   recentSearchesSectionReducer,
   segmentedControlReducer,
   profileInfoSetupViewReducer,
+  profileInfoViewReducer,
   searchStackNavigatorRightViewReducer,
 
   // navigators

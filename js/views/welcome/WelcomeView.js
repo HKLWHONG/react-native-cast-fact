@@ -34,6 +34,8 @@ import {
   Separator,
 } from '../../project-components';
 
+import * as WelcomeSlideSheetContainerView from '../../views/containers/slide-sheets/WelcomeSlideSheetContainerView';
+
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
@@ -47,6 +49,8 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 
 const ic_digital_cast_sheet = require('../../../assets/images/ic_digital_cast_sheet/ic_digital_cast_sheet.png');
 const ic_searchable_profile = require('../../../assets/images/ic_searchable_profile/ic_searchable_profile.png');
+
+export const IDENTIFIER = 'WelcomeView';
 
 class WelcomeView extends BaseComponent {
   constructor(props) {
@@ -196,7 +200,7 @@ class WelcomeView extends BaseComponent {
             style={styles.createAccountButton}
             text={t('app.create_account')}
             onPress={() => {
-              Router.push(props.slideSheetPropsList['WelcomeSlideSheetContainerView'], 'SignUpStackNavigator');
+              Router.push(props.slideSheetPropsList[WelcomeSlideSheetContainerView.IDENTIFIER], 'SignUpStackNavigator');
             }}
           />
         )}
@@ -233,7 +237,7 @@ class WelcomeView extends BaseComponent {
             <SingleTouch
               style={styles.loginContainer}
               onPress={() => {
-                Router.push(props.slideSheetPropsList['WelcomeSlideSheetContainerView'], 'LoginStackNavigator');
+                Router.push(props.slideSheetPropsList[WelcomeSlideSheetContainerView.IDENTIFIER], 'LoginStackNavigator');
               }}
             >
               <View style={styles.loginSubContainer}>

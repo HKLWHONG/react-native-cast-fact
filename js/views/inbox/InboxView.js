@@ -38,6 +38,8 @@ import { Theme, Router } from '../../utils';
 
 // const background = require('../../../assets/images/project_background.png');
 
+export const IDENTIFIER = 'InboxView';
+
 class InboxView extends BaseComponent {
   constructor(props) {
     super(props);

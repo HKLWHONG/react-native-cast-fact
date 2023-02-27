@@ -12,3 +12,15 @@ export const formatDate = (date) => {
 export const toDateString = (date) => {
   return Moment(Moment(date, 'D MMM yyyy').toDate()).format('yyyy-MM-DD');
 };
+
+export const getYear = (date) => {
+  return Moment(date).format('yyyy');
+};
+
+export const getMonth = (date) => {
+  return Moment(date).format('MMMM');
+};
+
+export const getDay = (date) => {
+  return Moment(date).format('D');
+};

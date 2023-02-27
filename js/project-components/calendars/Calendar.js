@@ -5,15 +5,26 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+} from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 import { connect } from 'react-redux';
 
-import { SingleTouch, FontConstants } from '../../components';
+import {
+  SingleTouch,
+  FontConstants,
+  SimpleList,
+} from '../../components';
 
 import { Theme } from '../../utils';
+
+import { CalendarProcessor } from '../../processors';
 
 import { Translation } from 'react-i18next';
 
@@ -53,7 +64,167 @@ class Calendar extends Component {
 
     this.state = {
       date: props.initialDate,
+      mode: undefined,
     };
+  }
+
+  renderItem = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    // console.log('[item]', item);
+
+    return (
+      <Translation>
+        {(t) => (
+          <SingleTouch
+            style={{
+              // backgroundColor: '#f00',
+              flex: 1,
+              alignItems: 'center',
+              padding: 16,
+            }}
+            onPress={() => {
+              console.log('[item.title]', item.title);
+              console.log('[item.date]', item.date);
+              console.log('[this.state.date]', this.state.date);
+
+              let date = this.state.date ? new Date(this.state.date) : new Date();
+
+              // props.setCalendarModalViewInitialDate(CalendarProcessor.toDateString(props.data.durationTo));
+              //
+              // props.setCalendarModalViewOnDayPress((date) => {
+              //   props.setDurationTo(CalendarProcessor.formatDate(new Date(date.dateString)));
+              // });
+
+              console.log('[test-date]', date);
+
+              const isYearMode = this.state.mode === 'year';
+
+              if (isYearMode) {
+                date.setYear(item.date.getFullYear());
+
+                console.log(`[year] ${date}`);
+              } else {
+                date.setMonth(item.date.getMonth());
+
+                console.log(`[month] ${date}`);
+              }
+
+              this.setState({
+                date: CalendarProcessor.toDateString(date),
+                mode: undefined,
+              });
+            }}
+          >
+            <Text style={styles.yearMonthText}>
+              {item.title}
+            </Text>
+          </SingleTouch>
+        )}
+      </Translation>
+    );
+  };
+
+  renderYearMonthList = () => {
+    const { props, state } = this;
+
+    const isYearMode = state.mode === 'year';
+    const isMonthMode = state.mode === 'month';
+
+    if (!isYearMode && !isMonthMode) {
+      return;
+    }
+
+    // console.log('[initYear]', initYear);
+    // console.log('[currentYear]', currentYear);
+    // console.log('[years]', years);
+
+    let data = [];
+
+    if (isYearMode) {
+      const currentYear = Number((new Date()).getFullYear());
+      const initYear = currentYear - 100;
+      const years = Array(currentYear - initYear).fill().map((v, i) => i + initYear + 1).reverse();
+
+      data = years.map((year) => {
+        const date = new Date();
+        date.setFullYear(year);
+
+        return {
+          title: CalendarProcessor.getYear(date),
+          date: date,
+        };
+      });
+    } else {
+      const months = Array(12).fill().map((v, i) => i).reverse();
+
+      data = months.map((month) => {
+        const date = new Date();
+        date.setMonth(month);
+
+        return {
+          title: CalendarProcessor.getMonth(date),
+          date: date,
+        };
+      });
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={[styles.container, props.style, { marginVertical: '25%', paddingVertical: 64 }]}>
+            <SimpleList
+              data={data}
+              renderItem={this.renderItem}
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderHeader = (date) => {
+    const { props, state } = this;
+
+    // console.log('[date]', date);
+    //
+    // console.log('[year]', CalendarProcessor.getYear(new Date(date)));
+    // console.log('[month]', CalendarProcessor.getMonth(new Date(date)));
+    // console.log('[day]', CalendarProcessor.getDay(new Date(date)));
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={{ flexDirection: 'row' }}>
+            <SingleTouch
+              style={{ marginRight: 4 }}
+              onPress={() => {
+                this.setState({
+                  mode: 'month',
+                })
+              }}
+            >
+              <Text style={styles.headerText}>
+                {CalendarProcessor.getMonth(new Date(date))}
+              </Text>
+            </SingleTouch>
+            <SingleTouch
+              style={{ marginLeft: 4 }}
+              onPress={() => {
+                this.setState({
+                  mode: 'year',
+                })
+              }}
+            >
+              <Text style={styles.headerText}>
+                {CalendarProcessor.getYear(new Date(date))}
+              </Text>
+            </SingleTouch>
+          </View>
+        )}
+      </Translation>
+    );
   }
 
   renderDayComponent = (params) => {
@@ -63,7 +234,7 @@ class Calendar extends Component {
     // if (marking) {
     //   console.log('[params]', params);
     //   console.log('[date]', date);
-      // console.log('[state]', state);
+    //   console.log('[state]', state);
     //   console.log('[marking]', marking);
     // }
 
@@ -207,12 +378,8 @@ class Calendar extends Component {
     );
   };
 
-  render() {
+  renderCalendar = () => {
     const { props, state } = this;
-
-    if (props.hidden) {
-      return null;
-    }
 
     return (
       <Translation>
@@ -222,6 +389,7 @@ class Calendar extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
             theme={props.theme}
+            renderHeader={this.renderHeader}
             dayComponent={this.renderDayComponent}
             markingType="multi-period"
             // markedDates={{
@@ -334,12 +502,55 @@ class Calendar extends Component {
         )}
       </Translation>
     );
+  };
+
+  render() {
+    const { props, state } = this;
+
+    if (props.hidden) {
+      return null;
+    }
+
+    let children = this.renderCalendar();
+
+    const isYearMonthMode = state.mode === 'year' || state.mode === 'month';
+
+    if (isYearMonthMode) {
+      children = this.renderYearMonthList();
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <TouchableWithoutFeedback>
+            <View>
+              {children}
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </Translation>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.general.black,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Theme.colors.text.subtitle,
+  },
+  yearMonthText: {
+    // backgroundColor: '#0ff',
+    color: Theme.colors.general.white,
+    fontSize: 15,
+    letterSpacing: 1,
+  },
+  headerText: {
+    // backgroundColor: '#0ff',
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    letterSpacing: 1,
   },
   dayComponentContainer: {
     // backgroundColor: '#0f0',

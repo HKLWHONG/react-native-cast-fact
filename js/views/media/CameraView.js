@@ -55,6 +55,8 @@ const ic_flash_on = require('../../../assets/images/ic_flash_on/ic_flash_on.png'
 const ic_flash_off = require('../../../assets/images/ic_flash_off/ic_flash_off.png');
 const ic_camera_switch = require('../../../assets/images/ic_camera_switch/ic_camera_switch.png');
 
+export const IDENTIFIER = 'CameraView';
+
 class CameraView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -177,12 +179,12 @@ class CameraView extends BaseComponent {
   renderHeader = () => {
     const { props } = this;
 
-    let source = ic_flash_auto;
+    let source = ic_flash_off;
 
     if (props.flash === 'on') {
       source = ic_flash_on;
-    } else if (props.flash === 'off') {
-      source = ic_flash_off;
+    } else if (props.flash === 'auto') {
+      source = ic_flash_auto;
     }
 
     return (
@@ -198,7 +200,7 @@ class CameraView extends BaseComponent {
                 if (!store.getState().cameraViewReducer.flash) {
                   props.setFlash('on');
                 } else if (store.getState().cameraViewReducer.flash === 'on') {
-                  props.setFlash('off');
+                  props.setFlash('auto');
                 } else {
                   props.setFlash(undefined);
                 }

@@ -48,6 +48,8 @@ const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.p
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'SignUpView';
+
 class SignUpView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -72,7 +74,7 @@ class SignUpView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
-    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       Router.push(props, 'SignUpAccountTypeSelectionView');
     });
 

@@ -23,6 +23,8 @@ import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
 
+const ic_profile_placeholder = require('../../../assets/images/ic_profile_placeholder/ic_profile_placeholder.png');
+
 class ProfileInfoSetupView extends Component {
   constructor(props: any) {
     super(props);
@@ -56,6 +58,12 @@ class ProfileInfoSetupView extends Component {
 
     if (props.hiddenInfoContainer) {
       return;
+    }
+
+    let source = ic_profile_placeholder;
+
+    if (props.photo && props.photo.path) {
+      source = { uri: 'file://' + (props.photo && props.photo.path) };
     }
 
     let name = '';
@@ -113,7 +121,7 @@ class ProfileInfoSetupView extends Component {
           <View style={styles.infoContainer}>
             <Image
               style={styles.photo}
-              source={{ uri: 'file://' + (props.photo && props.photo.path) }}
+              source={source}
               resizeMode="contain"
             />
             <View style={[styles.textContainer, { minWidth: 150 }, nameTextContainerStyle]}>

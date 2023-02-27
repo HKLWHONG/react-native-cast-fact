@@ -48,6 +48,8 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'ProfileNameEditionView';
+
 class ProfileNameEditionView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -70,7 +72,7 @@ class ProfileNameEditionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       props.setProfileInfoSetupViewFirstnameEn('Tai Man');
       props.setProfileInfoSetupViewLastnameEn('Chan');
       props.setProfileInfoSetupViewFirstnameZh('大文');
@@ -80,7 +82,7 @@ class ProfileNameEditionView extends BaseComponent {
       Router.push(props, 'ProfileNameDisplaySelectionView');
     });
 
-    props.addSignUpStackNavigatorOnScreenAppear(this.constructor.name, () => {
+    props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
       props.setProfileInfoSetupViewDisplayFormat(undefined);
     });
 

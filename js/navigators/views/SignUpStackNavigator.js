@@ -30,6 +30,7 @@ import {
   ProfileNameEditionView,
   ProfileNameDisplaySelectionView,
   ProfileCastSheetEditionView,
+  CalendarModalView,
   ProfileCompletionView,
 } from '../../views';
 
@@ -226,6 +227,15 @@ class SignUpStackNavigator extends BaseComponent {
                 title: t('views.profile_cast_sheet_edition.header'),
               }}
             />
+            <Stack.Group
+              screenOptions={{
+                presentation: 'transparentModal',
+                headerShown: false,
+                animationEnabled: false,
+              }}
+            >
+              <Stack.Screen name="CalendarModalView" component={CalendarModalView} />
+            </Stack.Group>
             <Stack.Screen
               name="ProfileCompletionView"
               component={ProfileCompletionView}

@@ -52,6 +52,8 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 const ic_photo = require('../../../assets/images/ic_photo/ic_photo.png');
 const ic_camera = require('../../../assets/images/ic_camera/ic_camera.png');
 
+export const IDENTIFIER = 'ProfilePictureSelectionView';
+
 class ProfilePictureSelectionView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -76,13 +78,15 @@ class ProfilePictureSelectionView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
-    props.addSignUpStackNavigatorOnRightButtonPress(this.constructor.name, () => {
+    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       Router.push(props, 'ProfileNameEditionView');
     });
   };
 
   clearData = () => {
     const { props } = this;
+
+    props.setProfileInfoSetupViewPhoto(undefined);
   };
 
   renderHeader = () => {

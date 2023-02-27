@@ -48,6 +48,8 @@ import { SearchProvider, TagProvider } from '../../providers';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
+export const IDENTIFIER = 'SearchView';
+
 class SearchView extends BaseComponent {
   constructor(props) {
     super(props);

@@ -51,6 +51,8 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 
 const ic_check_gold = require('../../../assets/images/ic_check_gold/ic_check_gold.png');
 
+export const IDENTIFIER = 'ProfileCompletionView';
+
 class ProfileCompletionView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -173,7 +175,7 @@ class ProfileCompletionView extends BaseComponent {
 
               props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
 
-              Router.jumpTo(props, 'AccountStackNavigator');
+              Router.jumpTo(props, 'ProfileStackNavigator');
             }}
           />
         )}

@@ -45,6 +45,8 @@ const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.p
 
 const preview = require('../../../assets/images/preview/preview.png');
 
+export const IDENTIFIER = 'AccountChangePasswordStep2View';
+
 class AccountChangePasswordStep2View extends BaseComponent {
   constructor(props) {
     super(props);

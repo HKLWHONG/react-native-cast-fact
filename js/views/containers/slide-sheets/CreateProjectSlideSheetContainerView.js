@@ -59,6 +59,8 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 const Stack = createStackNavigator();
 
+export const IDENTIFIER = 'CreateProjectSlideSheetContainerView';
+
 class CreateProjectSlideSheetContainerView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -117,11 +119,11 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs[this.constructor.name]) {
+              if (!props.slideSheetRefs[IDENTIFIER]) {
                 return;
               }
 
-              props.slideSheetRefs[this.constructor.name].close();
+              props.slideSheetRefs[IDENTIFIER].close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -142,7 +144,7 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
                     return;
                   }
 
-                  props.addSlideSheetRef(this.constructor.name, ref);
+                  props.addSlideSheetRef(IDENTIFIER, ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);
@@ -155,7 +157,7 @@ class CreateProjectSlideSheetContainerView extends BaseComponent {
                     animationEnabled: false,
                   }}
                 >
-                  <Stack.Screen name="CalendarModal" component={CalendarModalView} />
+                  <Stack.Screen name="CalendarModalView" component={CalendarModalView} />
                 </Stack.Group>
               </SlideSheet>
             </View>

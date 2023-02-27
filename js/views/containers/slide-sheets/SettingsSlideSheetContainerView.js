@@ -57,6 +57,8 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 const Stack = createStackNavigator();
 
+export const IDENTIFIER = 'SettingsSlideSheetContainerView';
+
 class SettingsSlideSheetContainerView extends BaseComponent {
   constructor(props) {
     super(props);
@@ -115,11 +117,11 @@ class SettingsSlideSheetContainerView extends BaseComponent {
             onPress={() => {
               console.log('[onPress]');
 
-              if (!props.slideSheetRefs[this.constructor.name]) {
+              if (!props.slideSheetRefs[IDENTIFIER]) {
                 return;
               }
 
-              props.slideSheetRefs[this.constructor.name].close();
+              props.slideSheetRefs[IDENTIFIER].close();
             }}
           >
             <View style={styles.slideSheetContainer}>
@@ -136,7 +138,7 @@ class SettingsSlideSheetContainerView extends BaseComponent {
                     return;
                   }
 
-                  props.addSlideSheetRef(this.constructor.name, ref);
+                  props.addSlideSheetRef(IDENTIFIER, ref);
                 }}
                 onDismiss={() => {
                   Router.goBack(props);

@@ -124,12 +124,35 @@ class Tag extends Component {
   renderTextContainer = () => {
     const { props } = this;
 
+    let style = {};
+
+    let enabled = false;
+
+    if (
+      !props.type
+      ||
+      props.type.toLowerCase() !== 'input'.toLowerCase()
+    ) {
+      enabled = true;
+    }
+
+    let text = props.text;
+
+    if (!enabled) {
+      style = {
+        ...style,
+        width: 0,
+      };
+
+      text = undefined;
+    }
+
     return (
       <Translation>
         {(t) => (
-          <View style={styles.textContainer}>
+          <View style={[styles.textContainer, style]}>
             <Text style={styles.text}>
-              {props.text}
+              {text}
             </Text>
           </View>
         )}
@@ -159,62 +182,115 @@ class Tag extends Component {
     const { props, state } = this;
 
     let style = {};
+    let textInputStyle = {};
+
+    let enabled = false;
+
+    if (
+      props.type
+      &&
+      props.type.toLowerCase() === 'input'.toLowerCase()
+    ) {
+      enabled = true;
+    }
 
     if (props.fill) {
-      style = {
-        ...style,
+      if (enabled) {
+        style = {
+          ...style,
+          flex: 1,
+        };
+      }
+
+      textInputStyle = {
+        ...textInputStyle,
         flex: 1,
       };
+    }
+
+    let textInput = (
+      <TextInput
+        style={[styles.input, textInputStyle]}
+        textInputStyle={styles.text}
+        placeholderTextColor={Theme.colors.text.subtitle}
+        editable={!props.disabled && props.editable}
+        value={props.text}
+        placeholder={props.placeholder}
+        maxLength={props.maxLength}
+        keyboardType={props.keyboardType}
+        onChangeText={(text) => {
+          if (!props.onChangeText) {
+            return;
+          }
+
+          if (
+            text && text.length > 0
+            &&
+            props.regex && !new RegExp(props.regex).test(text)
+          ) {
+            return;
+          }
+
+          props.onChangeText({
+            ...props.info,
+            text: text,
+          })
+        }}
+        onFocus={() => {
+          if (!props.onFocus) {
+            return;
+          }
+
+          props.onFocus(props.info);
+        }}
+        onBlur={() => {
+          if (!props.onBlur) {
+            return;
+          }
+
+          props.onBlur(props.info);
+        }}
+        disableBottomLine
+        disableMessageView
+      />
+    );
+
+    let children = textInput;
+
+    if (props.disabled || props.editable === false) {
+      children = (
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ width: 0 }}>
+            {textInput}
+          </View>
+          <Text style={styles.text}>
+            {props.text}
+          </Text>
+        </View>
+      );
+    }
+
+    if (!enabled) {
+      style = {
+        ...style,
+        width: 0,
+      };
+
+      children = (
+        <TextInput
+          style={[styles.input, textInputStyle]}
+          textInputStyle={styles.text}
+          disableBottomLine
+          disableMessageView
+        />
+      );
     }
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, style]}
-              textInputStyle={styles.text}
-              placeholderTextColor={Theme.colors.text.subtitle}
-              editable={!props.disabled}
-              value={props.text}
-              placeholder={props.placeholder}
-              maxLength={props.maxLength}
-              keyboardType={props.keyboardType}
-              onChangeText={(text) => {
-                if (!props.onChangeText) {
-                  return;
-                }
-
-                if (
-                  text && text.length > 0
-                  &&
-                  props.regex && !new RegExp(props.regex).test(text)
-                ) {
-                  return;
-                }
-
-                props.onChangeText({
-                  ...props.info,
-                  text: text,
-                })
-              }}
-              onFocus={() => {
-                if (!props.onFocus) {
-                  return;
-                }
-
-                props.onFocus(props.info);
-              }}
-              onBlur={() => {
-                if (!props.onBlur) {
-                  return;
-                }
-
-                props.onBlur(props.info);
-              }}
-              disableBottomLine
-              disableMessageView
-            />
+          <View style={[styles.inputContainer, style]}>
+            {children}
             {this.renderSpaceTextIfNeeded()}
             <Text style={styles.text}>
               {props.unit}
@@ -227,16 +303,6 @@ class Tag extends Component {
 
   renderCenterContainer = () => {
     const { props } = this;
-
-    let children = this.renderTextContainer();
-
-    if (
-      props.type
-      &&
-      props.type.toLowerCase() === 'input'.toLowerCase()
-    ) {
-      children = this.renderInputContainer();
-    }
 
     let style = {};
 
@@ -251,7 +317,8 @@ class Tag extends Component {
       <Translation>
         {(t) => (
           <View style={[styles.centerContainer, style]}>
-            {children}
+            {this.renderTextContainer()}
+            {this.renderInputContainer()}
           </View>
         )}
       </Translation>
@@ -330,7 +397,6 @@ class Tag extends Component {
       style = {
         ...style,
         backgroundColor: Theme.colors.general.transparent,
-        borderWidth: 1,
         borderColor: Theme.colors.background.secondary,
       };
     }
@@ -393,19 +459,16 @@ class Tag extends Component {
       if (props.state.toLowerCase() === 'attention'.toLowerCase()) {
         style = {
           ...style,
-          borderWidth: 2,
           borderColor: Theme.colors.indicator.attention,
         };
       } else if (props.state.toLowerCase() === 'success'.toLowerCase()) {
         style = {
           ...style,
-          borderWidth: 2,
           borderColor: Theme.colors.indicator.success,
         };
       } else if (props.state.toLowerCase() === 'error'.toLowerCase()) {
         style = {
           ...style,
-          borderWidth: 2,
           borderColor: Theme.colors.indicator.error,
         };
       }
@@ -443,6 +506,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Theme.colors.general.transparent,
     margin: 4,
   },
   leftContainer: {
@@ -503,6 +568,7 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     // backgroundColor: '#0f0',
+    flexDirection: 'row',
     paddingVertical: 6,
   },
   inputContainer: {

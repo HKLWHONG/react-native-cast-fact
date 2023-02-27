@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#0ff',
     flexDirection: 'row',
-    alignItems: 'center',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Theme.colors.general.transparent,
@@ -144,6 +143,8 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f0f',
     flex: 1,
     alignItems: 'flex-end',
+    paddingTop: 10,
+    paddingBottom: 4,
   },
   centerContainer: {
     // backgroundColor: '#f00',
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     // backgroundColor: '#0ff',
+    paddingVertical: 4,
   },
   visibilityButton: {
     aspectRatio: 1,
