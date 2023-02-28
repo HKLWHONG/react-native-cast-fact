@@ -31,7 +31,7 @@ import { } from '../../providers';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_profile_placeholder = require('../../../assets/images/ic_profile_placeholder/ic_profile_placeholder.png');
 
 class ProfileInfoView extends Component {
   constructor(props: any) {
@@ -47,61 +47,41 @@ class ProfileInfoView extends Component {
       return null;
     }
 
+    let source = ic_profile_placeholder;
+
+    if (props.photo && props.photo.path) {
+      source = { uri: 'file://' + (props.photo && props.photo.path) };
+    }
+
     return (
       <Translation>
         {(t) => (
-          <View
-            style={{
-              backgroundColor: 'red',
-              flexDirection: 'row',
-              paddingHorizontal: 16,
-              paddingVertical: 32,
-            }}
-          >
+          <View style={styles.container}>
             <View
               style={{
-                backgroundColor: 'green',
+                // backgroundColor: 'green',
                 flex: 2,
                 alignItems: 'center',
               }}
             >
               <Image
-                style={styles.image}
-                source={preview}
+                style={styles.photo}
+                source={source}
                 resizeMode="contain"
               />
             </View>
             <View
               style={{
-                backgroundColor: 'cyan',
+                // backgroundColor: 'cyan',
                 flex: 3,
+                justifyContent: 'center',
               }}
             >
-              <Text style={styles.nameLabel}>
+              <Text style={styles.name}>
                 {'Nam Joohyuk'}
               </Text>
-              <Text style={styles.titleLabel}>
+              <Text style={styles.occupation}>
                 {'Actor'}
-              </Text>
-              <Button
-                style={styles.button}
-                type="small"
-                text={t('EDIT PROFILE')}
-                leftAccessorySource={preview}
-                leftAccessoryResizeMode="center"
-                onPress={() => {
-                  if (!props.onPressCalendar) {
-                    return;
-                  }
-
-                  props.onPressCalendar(params);
-                }}
-              />
-              <Text style={{}}>
-                {'Work contact'}
-              </Text>
-              <Text style={{}}>
-                {'linktr.ee/417unofiical'}
               </Text>
             </View>
           </View>
@@ -114,31 +94,33 @@ class ProfileInfoView extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#f00',
+    flexDirection: 'row',
+    padding: 16,
   },
   button: {
     alignSelf: 'flex-start',
   },
-  image: {
-    // backgroundColor: '#0f0',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+  photo: {
+    backgroundColor: Theme.colors.background.gray,
+    width: 100,
+    height: 100,
+    borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Theme.colors.borders.gray,
+    margin: 16,
   },
-  nameLabel: {
-    // backgroundColor: '#0f0',
+  name: {
+    // backgroundColor: '#00f',
     color: Theme.colors.general.white,
     fontSize: 15,
-    fontFamily: Theme.fonts.medium,
-    marginBottom: -5,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
-  titleLabel: {
-    // backgroundColor: '#00f',
+  occupation: {
     color: Theme.colors.text.subtitle,
-    fontSize: 9,
+    fontSize: 15,
     fontFamily: Theme.fonts.light,
-    letterSpacing: 1.44,
     textTransform: 'uppercase',
   },
 });

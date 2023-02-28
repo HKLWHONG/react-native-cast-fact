@@ -64,7 +64,12 @@ class ProfileCastingSheetList extends Component {
                   <Text
                     key={t.toString()}
                     style={{
-                      backgroundColor: 'green',
+                      // backgroundColor: '#f00',
+                      color: Theme.colors.general.white,
+                      fontSize: 15,
+                      fontFamily: Theme.fonts.bold,
+                      letterSpacing: 5,
+                      textTransform: 'uppercase',
                     }}
                   >
                     {content}
@@ -77,20 +82,26 @@ class ProfileCastingSheetList extends Component {
             <View
               key={i.toString()}
               style={{
-                backgroundColor: 'orange',
+                // backgroundColor: i % 2 == 0 ? '#f0f' : '#0ff',
                 flexDirection: 'row',
+                marginVertical: 4,
               }}
             >
               <View
                 style={{
-                  backgroundColor: 'red',
+                  // backgroundColor: '#f00',
                   flex: 2,
                   alignItems: 'flex-end',
+                  marginRight: 4,
                 }}
               >
                 <Text
                   style={{
-                    backgroundColor: 'cyan',
+                    // backgroundColor: '#0ff',
+                    color: Theme.colors.text.subtitle,
+                    fontSize: 15,
+                    fontFamily: Theme.fonts.light,
+                    textTransform: 'uppercase',
                   }}
                 >
                   {data.title}
@@ -98,8 +109,9 @@ class ProfileCastingSheetList extends Component {
               </View>
               <View
                 style={{
-                  backgroundColor: 'green',
+                  // backgroundColor: '#0f0',
                   flex: 3,
+                  marginLeft: 4,
                 }}
               >
                 {contents}
@@ -115,13 +127,19 @@ class ProfileCastingSheetList extends Component {
           <View style={styles.itemContainer}>
             <View
               style={{
-                backgroundColor: 'orange',
+                // backgroundColor: '#00f',
                 alignItems: 'center',
+                paddingVertical: 8,
               }}
             >
               <Text
                 style={{
-                  backgroundColor: 'yellow',
+                  // backgroundColor: '#f00',
+                  color: Theme.colors.general.white,
+                  fontSize: 15,
+                  fontFamily: Theme.fonts.bold,
+                  letterSpacing: 5,
+                  textTransform: 'uppercase',
                 }}
               >
                 {item.title}
@@ -177,7 +195,12 @@ class ProfileCastingSheetList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ff0',
+    // backgroundColor: '#ff0',
+  },
+  separator: {
+    // backgroundColor: '#f00',
+    marginTop: 8,
+    marginBottom: 4,
   },
 });
 

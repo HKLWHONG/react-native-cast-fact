@@ -30,6 +30,7 @@ import {
   Footer,
   SingleTouch,
   Image,
+  List,
 } from '../../components';
 
 import {
@@ -410,16 +411,54 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
+  renderItem = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    // console.log('[item]', item);
+    // console.log('[index]', index);
+    // console.log('[section]', section);
+    // console.log('[separators]', separators);
+
+    switch (section.index) {
+      case 0:
+        return this.renderProfileContainer(params);
+
+      case 1:
+        return this.renderCastSheetContainer(params);
+
+      default:
+        break;
+    }
+  };
+
   renderBody = () => {
     const { props } = this;
+
+    let sections = [
+      {
+        title: i18n.t(''),
+        data: [''],
+      },
+      {
+        title: i18n.t(''),
+        data: [''],
+      },
+    ];
 
     return (
       <Translation>
         {(t) => (
-          <Body style={styles.body}>
+          <Body
+            style={styles.body}
+            scrollable={false}
+          >
             {this.renderImageBackground()}
-            {this.renderProfileContainer()}
-            {this.renderCastSheetContainer()}
+            <List
+              contentContainerStyle={styles.listContentContainer}
+              sections={sections}
+              renderItem={this.renderItem}
+            />
           </Body>
         )}
       </Translation>

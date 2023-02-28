@@ -384,6 +384,10 @@ const styles = StyleSheet.create({
   body: {
     // backgroundColor: '#0f0',
   },
+  listContentContainer: {
+    paddingHorizontal: 0,
+    paddingBottom: 12,
+  },
   footer: {
     // backgroundColor: '#f00',
   },
