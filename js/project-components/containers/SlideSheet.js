@@ -427,7 +427,7 @@ SlideSheet.defaultProps = {
   renderCenterContainer: undefined,
   renderRightContainer: undefined,
   components: [],
-  snapPoints: ['95%'],
+  snapPoints: ['90%'],
   title: undefined,
   animationEnabled: false,
   customMode: false,

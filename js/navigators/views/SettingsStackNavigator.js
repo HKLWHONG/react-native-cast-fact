@@ -8,13 +8,17 @@ import { StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
 import { getHeaderTitle } from '@react-navigation/elements';
 
 import { BaseComponent } from '../../components';
 
 import { Header } from '../../project-components';
+
+import {
+  CameraStackNavigator,
+} from '../../navigators';
 
 import {
   CalendarModalView,
@@ -111,6 +115,22 @@ class SettingsStackNavigator extends BaseComponent {
                 title: t('views.profile_picture_selection.header'),
               }}
             />
+            <Stack.Group
+              screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                animationEnabled: true,
+                gestureEnabled: false,
+              }}
+            >
+              <Stack.Screen
+                name="CameraStackNavigator"
+                component={CameraStackNavigator}
+                options={{
+                  title: t(''),
+                }}
+              />
+            </Stack.Group>
             <Stack.Screen
               name="AccountChangePasswordStep1View"
               component={AccountChangePasswordStep1View}

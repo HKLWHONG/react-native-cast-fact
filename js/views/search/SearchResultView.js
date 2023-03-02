@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -446,46 +446,18 @@ class SearchResultView extends BaseComponent {
       <Translation>
         {(t) => (
           <View
-            style={{
-              // backgroundColor: '#f00',
-              backgroundColor: Theme.colors.background.primary,
-              margin: 16,
-              borderRadius: 8,
-              borderWidth: StyleSheet.hairlineWidth,
-              borderColor: Theme.colors.decorations.splitline,
-            }}
+            style={styles.editBarContainer}
           >
-            <View style={{
-              // backgroundColor: '#00f',
-              flexDirection: 'row',
-              padding: 8,
-            }}>
+            <View style={styles.editBarSubContainer}>
               <Text
-                style={{
-                  color: Theme.colors.text.subtitle,
-                  fontSize: 15,
-                  fontFamily: Theme.fonts.bold,
-                  textTransform: 'uppercase',
-                }}
+                style={styles.editBarText}
               >
                 {`${numberOfSelected} Selected`}
               </Text>
             </View>
             <Separator />
-            <View
-              style={{
-                // backgroundColor: '#f0f',
-                flexDirection: 'row',
-                padding: 8,
-              }}
-            >
-              <View
-                style={{
-                  // backgroundColor: '#0ff',
-                  flex: 1,
-                  flexDirection: 'row',
-                }}
-              >
+            <View style={styles.editBarSubContainer}>
+              <View style={styles.editBarRightSubContainer}>
                 <Button
                   style={{ marginRight: 4 }}
                   leftAccessoryImageStyle={{ marginRight: 4 }}
@@ -620,6 +592,33 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   footer: {},
+  editBarContainer: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.primary,
+    position: 'absolute',
+    width: Dimensions.get('window').width - 32,
+    bottom: 0,
+    margin: 16,
+    borderRadius: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.decorations.splitline,
+  },
+  editBarSubContainer: {
+    // backgroundColor: '#00f',
+    flexDirection: 'row',
+    padding: 8,
+  },
+  editBarText: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.bold,
+    textTransform: 'uppercase',
+  },
+  editBarRightSubContainer: {
+    // backgroundColor: '#0ff',
+    flex: 1,
+    flexDirection: 'row',
+  },
 });
 
 function mapStateToProps(state) {

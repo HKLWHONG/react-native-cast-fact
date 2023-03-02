@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, ImageBackground, View, Text } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -56,7 +56,11 @@ class ProfileInfoView extends Component {
     return (
       <Translation>
         {(t) => (
-          <View style={styles.container}>
+          <ImageBackground
+            style={styles.container}
+            source={source}
+            blurRadius={20}
+          >
             <View
               style={{
                 // backgroundColor: 'green',
@@ -84,7 +88,7 @@ class ProfileInfoView extends Component {
                 {'Actor'}
               </Text>
             </View>
-          </View>
+          </ImageBackground>
         )}
       </Translation>
     );
