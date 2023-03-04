@@ -10,7 +10,7 @@ import i18n from '../../i18n';
 
 import { fetch as sslFetch } from 'react-native-ssl-pinning';
 
-const API_LOGGING = false;
+const API_LOGGING = true;
 const API_TIMEOUT = 30000;
 
 /**
@@ -252,11 +252,16 @@ export const POST = (
       ...body,
     };
 
-    let formData = new FormData();
+    let formData = [];
 
     Object.keys(fields).forEach((key, index) => {
-      formData.append(key, fields[key] ? fields[key].toString() : '');
+      const encodedKey = encodeURIComponent(key);
+      const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+
+      formData.push(encodedKey + "=" + encodedValue);
     });
+
+    formData = formData.join("&");
 
     if (API_LOGGING) {
       console.log(

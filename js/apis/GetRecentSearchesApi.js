@@ -37,7 +37,7 @@ export const request = (
       .then((params) => {
         const { json } = params;
 
-        if (json && json.payload) {
+        if (json) {
           resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Payload not found.`);

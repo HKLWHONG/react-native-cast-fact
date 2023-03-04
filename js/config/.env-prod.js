@@ -9,7 +9,7 @@
 }
 
 const Environment = {
-  API_URL: 'https://www.kcplace.com/castfact/public/api/fn',
+  API_URL: 'https://castfact.417tech.co/api/v1',
 
   USE_DUMMY_DATA: false,
 

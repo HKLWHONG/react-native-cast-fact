@@ -24,78 +24,23 @@ import {
 } from '../storages';
 
 import {
-  GetTagApi,
-} from '../apis';
+  Constants,
+} from '../constants';
 
 const IDENTIFIER = 'TagProvider';
 
-export const prefetchTags = (props, params, options) => {
+export const prefetchTags = () => {
   return new Promise(async (resolve, reject) => {
-    let cachedTags = await TagStorage.getTags()
-      .catch((error) => {
-        console.error(error);
-      });
+    console.log(`[${IDENTIFIER}] cached-tags-found.`);
 
-    if (cachedTags) {
-      console.log(`[${IDENTIFIER}] cached-tags-found.`);
+    const tags = TagProcessor.format(Constants.TAGS);
 
-      store.dispatch(DataAction.setFindTalentSectionTags(cachedTags));
-      store.dispatch(FindTalentSectionAction.setTags(cachedTags));
+    store.dispatch(DataAction.setFindTalentSectionTags(tags));
+    store.dispatch(FindTalentSectionAction.setTags(tags));
 
-      TagProcessor.reload();
+    TagProcessor.reload();
 
-      getTags(props, params, options)
-        .then((params) => {
-          const { json } = params;
-
-          let tags = TagProcessor.format(json.payload);
-
-          TagStorage.setTags(tags)
-            .catch((error) => {
-              console.error(error);
-            });
-
-          if (JSON.stringify(cachedTags) !== JSON.stringify(tags)) {
-            console.log(`[${IDENTIFIER}] need-to-reload-tags.`);
-
-            store.dispatch(DataAction.setFindTalentSectionTags(tags));
-            store.dispatch(FindTalentSectionAction.setTags(tags));
-
-            TagProcessor.reload();
-          } else {
-            console.log(`[${IDENTIFIER}] no-need-to-reload-tags.`);
-          }
-
-          resolve(params);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    } else {
-      console.log(`[${IDENTIFIER}] no-cached-tags.`);
-
-      getTags(props, params, options)
-        .then((params) => {
-          const { json } = params;
-
-          let tags = TagProcessor.format(json.payload);
-
-          TagStorage.setTags(tags)
-            .catch((error) => {
-              console.error(error);
-            });
-
-          store.dispatch(DataAction.setFindTalentSectionTags(tags));
-          store.dispatch(FindTalentSectionAction.setTags(tags));
-
-          TagProcessor.reload();
-
-          resolve(params);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    }
+    resolve();
   });
 };
 

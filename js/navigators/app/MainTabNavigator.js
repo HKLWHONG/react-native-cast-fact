@@ -23,8 +23,8 @@ import { BaseComponent, Image } from '../../components';
 import { Theme } from '../../utils';
 
 import {
-  AuthStorage,
-} from '../../storages';
+  AuthProvider,
+} from '../../providers';
 
 import {
   ProfileStackNavigator,
@@ -318,17 +318,19 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: async (event) => {
                   event.preventDefault();
 
-                  Router.push(props, 'WelcomeSlideSheetContainerView');
+                  // Router.push(props, 'WelcomeSlideSheetContainerView');
 
-                  // AuthStorage.getToken()
-                  //   .then(() => {
-                  //     this.tabPress(params, event, { index: 1, stack: 'ProfileStackNavigator' });
-                  //   })
-                  //   .catch((error) => {
-                  //     console.error(error);
-                  //
-                  //     Router.push(props, 'WelcomeSlideSheetContainerView');
-                  //   });
+                  AuthProvider.decodeJWTToken()
+                    .then((json) => {
+                      console.log('[decoded-jwt]', json);
+
+                      this.tabPress(params, event, { index: 1, stack: 'ProfileStackNavigator' });
+                    })
+                    .catch((error) => {
+                      console.error(error);
+
+                      Router.push(props, 'WelcomeSlideSheetContainerView');
+                    });
                 },
               })}
             />

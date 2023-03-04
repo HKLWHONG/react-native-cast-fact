@@ -242,8 +242,8 @@ class LoginView extends BaseComponent {
               // }
 
               AuthProvider.login(props, {
-                email: 'user001@gmail.com', //props.credentials.loginID,
-                password: 'password', //props.credentials.password,
+                email: props.credentials.email,
+                password: props.credentials.password,
               })
                 .then(async () => {
                   // if (

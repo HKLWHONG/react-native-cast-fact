@@ -66,12 +66,12 @@ export const prefetchRecentSearches = (props, params, options) => {
         .then((params) => {
           const { json } = params;
 
-          SearchStorage.setRecentSearches(json.payload)
+          SearchStorage.setRecentSearches(json)
             .catch((error) => {
               console.error(error);
             });
 
-          if (JSON.stringify(cachedRecentSearches) !== JSON.stringify(json.payload)) {
+          if (JSON.stringify(cachedRecentSearches) !== JSON.stringify(json)) {
             console.log(`[${IDENTIFIER}] need-to-reload-recent-searches.`);
 
             RecentSearchProcessor.reload();
@@ -128,7 +128,7 @@ export const getRecentSearches = (props, params, options) => {
       .then((params) => {
         const { json } = params;
 
-        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json));
 
         resolve(params);
       })
@@ -164,12 +164,12 @@ export const addRecentSearches = async (props, params, options) => {
       .then(async (params) => {
         const { json } = params;
 
-        SearchStorage.setRecentSearches(json.payload)
+        SearchStorage.setRecentSearches(json)
           .catch((error) => {
             console.error(error);
           });
 
-        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json));
 
         RecentSearchProcessor.reload();
 
@@ -229,12 +229,12 @@ export const removeRecentSearches = async (props, params, options) => {
       .then(async (params) => {
         const { json } = params;
 
-        SearchStorage.setRecentSearches(json.payload)
+        SearchStorage.setRecentSearches(json)
           .catch((error) => {
             console.error(error);
           });
 
-        store.dispatch(DataAction.setRecentSearchesSectionTags(json.payload));
+        store.dispatch(DataAction.setRecentSearchesSectionTags(json));
 
         RecentSearchProcessor.reload();
 
@@ -267,7 +267,7 @@ export const presearch = async (props, params, options) => {
       console.error(error);
     });
 
-  if (params && params.json && params.json.payload) {
+  if (params && params.json) {
     store.dispatch(SearchResultViewAction.setSearchResultListPagingPage(page));
 
     let data = SearchProcessor.formatSearchResultListData([], params.json.payload);

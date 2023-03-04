@@ -13,7 +13,7 @@ import * as Header from './Header';
 import { store } from '../redux';
 
 const IDENTIFIER = 'LoginApi';
-const URL = Environment.API_URL + '/auth';
+const URL = Environment.API_URL + '/login/';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -37,7 +37,7 @@ export const request = (
       .then((params) => {
         const { json } = params;
 
-        if (json && json.payload && json.payload.token) {
+        if (json && json.token) {
           resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Token not found.`);

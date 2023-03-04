@@ -15,6 +15,8 @@ import {
   LoginApi,
 } from '../apis';
 
+import jwt_decode from "jwt-decode";
+
 const IDENTIFIER = 'AuthProvider';
 
 export const login = (props, params, options) => {
@@ -29,14 +31,26 @@ export const login = (props, params, options) => {
     )
       .then((params) => {
         const { json } = params;
-        
-        AuthStorage.setToken(json.payload.token)
+
+        AuthStorage.setToken(json.token)
           .then(() => {
             resolve(params);
           })
           .catch((error) => {
             reject(error);
           });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const decodeJWTToken = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    AuthStorage.getToken()
+      .then((token) => {
+        resolve(jwt_decode(token));
       })
       .catch((error) => {
         reject(error);

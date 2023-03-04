@@ -9,9 +9,9 @@ const initState = () => {
   return {
     refs: {},
     credentials: {
-      email: undefined,
+      email: 'admin@admin.com',
       emailMessage: undefined,
-      password: undefined,
+      password: 'admin',
       passwordMessage: undefined,
     },
   };

@@ -13,7 +13,7 @@ import * as Header from './Header';
 import { store } from '../redux';
 
 const IDENTIFIER = 'SearchApi';
-const URL = Environment.API_URL + '/search';
+const URL = Environment.API_URL + '/search/';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -37,7 +37,7 @@ export const request = (
       .then((params) => {
         const { json } = params;
 
-        if (json && json.payload) {
+        if (json) {
           resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Payload not found.`);
