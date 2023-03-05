@@ -47,6 +47,7 @@ const zhHK = {
     follow: 'Follow',
     followed: 'Followed',
     find_talent: 'Find Talent',
+    for: 'For',
     no_post_yet: 'No Post Yet',
     no_result: 'No Result',
     no_result_description: 'Try to refine the search criteria.',

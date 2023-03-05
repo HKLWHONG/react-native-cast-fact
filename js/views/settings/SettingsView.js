@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   SettingsViewAction,
+  DataAction,
   MainTabNavigatorAction,
 } from '../../redux';
 
@@ -33,6 +34,10 @@ import {
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
+
+import {
+  AuthProvider,
+} from '../../providers';
 
 import { Theme, Router } from '../../utils';
 
@@ -68,6 +73,8 @@ class SettingsView extends BaseComponent {
 
   clearData = () => {
     const { props } = this;
+
+    props.reset();
   };
 
   renderHeader = () => {
@@ -116,45 +123,60 @@ class SettingsView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    let sections = [
-      {
-        title: i18n.t(''),
-        data: [
-          {
-            source: preview,
-            text: i18n.t('Edit Display Name'),
-            onPress: () => {
-              Router.push(props, 'ProfileNameDisplaySelectionView');
+    let sections = [];
+
+    if (props.isLoggedIn) {
+      sections = [
+        {
+          title: i18n.t(''),
+          data: [
+            {
+              source: preview,
+              text: i18n.t('Edit Display Name'),
+              onPress: () => {
+                Router.push(props, 'ProfileNameDisplaySelectionView');
+              },
             },
-          },
-          {
-            source: {},
-            text: i18n.t('Edit Profile'),
-            onPress: () => {
-              Router.push(props, 'ProfileCastSheetEditionView');
+            {
+              source: {},
+              text: i18n.t('Edit Profile'),
+              onPress: () => {
+                Router.push(props, 'ProfileCastSheetEditionView');
+              },
             },
-          },
-          {
-            source: {},
-            text: i18n.t('Change Profile Picture'),
-            onPress: () => {
-              Router.push(props, 'ProfilePictureSelectionView');
+            {
+              source: {},
+              text: i18n.t('Change Profile Picture'),
+              onPress: () => {
+                Router.push(props, 'ProfilePictureSelectionView');
+              },
             },
-          },
-          {
-            source: {},
-            text: i18n.t('Change Password'),
-            onPress: () => {
-              Router.push(props, 'AccountChangePasswordStep1View');
+            {
+              source: {},
+              text: i18n.t('Change Password'),
+              onPress: () => {
+                Router.push(props, 'AccountChangePasswordStep1View');
+              },
             },
-          },
-          {
-            source: {},
-            text: i18n.t('Logout'),
-          },
-        ],
-      },
-    ];
+            {
+              source: {},
+              text: i18n.t('Logout'),
+              onPress: () => {
+                AuthProvider.logout()
+                  .then(() => {
+                    props.resetData();
+
+                    Router.jumpTo(props, 'SearchStackNavigator');
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              },
+            },
+          ],
+        },
+      ];
+    }
 
     return (
       <Translation>
@@ -266,11 +288,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isLoggedIn: state.dataReducer.isLoggedIn,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: (...args) => dispatch(SettingsViewAction.reset(...args)),
+    resetData: (...args) => dispatch(DataAction.reset(...args)),
     setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
   };
 }

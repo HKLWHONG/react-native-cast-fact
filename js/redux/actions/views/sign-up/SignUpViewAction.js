@@ -109,3 +109,39 @@ export const setPassword = (password) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setPasswordValidationLength = (passwordValidationLength) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_LENGTH,
+    passwordValidationLength: passwordValidationLength,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setPasswordValidationSymbol = (passwordValidationSymbol) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_SYMBOL,
+    passwordValidationSymbol: passwordValidationSymbol,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setPasswordValidationLowerCase = (passwordValidationLowerCase) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_LOWER_CASE,
+    passwordValidationLowerCase: passwordValidationLowerCase,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
+export const setPasswordValidationUpperCase = (passwordValidationUpperCase) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_UPPER_CASE,
+    passwordValidationUpperCase: passwordValidationUpperCase,
+  });
+
+  return Promise.resolve(store.getState());
+};

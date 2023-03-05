@@ -23,6 +23,12 @@ const initState = () => {
         password: undefined,
       },
     },
+    validation: {
+      length: false,
+      symbol: false,
+      lowerCase: false,
+      upperCase: false,
+    },
   };
 };
 
@@ -148,6 +154,42 @@ export default function signUpViewReducer(state = initState(), action) {
             ...state.account.credentials,
             password: action.password,
           },
+        },
+      };
+
+    case SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_LENGTH:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          length: action.passwordValidationLength,
+        },
+      };
+
+    case SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_SYMBOL:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          symbol: action.passwordValidationSymbol,
+        },
+      };
+
+    case SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_LOWER_CASE:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          lowerCase: action.passwordValidationLowerCase,
+        },
+      };
+
+    case SignUpViewActionType.ACCOUNT_PASSWORD_VALIDATION_UPPER_CASE:
+      return {
+        ...state,
+        validation: {
+          ...state.validation,
+          upperCase: action.passwordValidationUpperCase,
         },
       };
 

@@ -47,6 +47,7 @@ import {
   createProjectStep2ViewReducer,
   searchViewReducer,
   searchResultViewReducer,
+  settingsViewReducer,
   signUpViewReducer,
 } from './views';
 
@@ -90,6 +91,7 @@ const reducers = combineReducers({
   createProjectStep2ViewReducer,
   searchViewReducer,
   searchResultViewReducer,
+  settingsViewReducer,
   signUpViewReducer,
 });
 

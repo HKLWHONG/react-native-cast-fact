@@ -39,3 +39,12 @@ export const setFindTalentSectionTags = (findTalentSectionTags) => (dispatch) =>
 
   return Promise.resolve(store.getState());
 };
+
+export const setIsLoggedIn = (isLoggedIn) => (dispatch) => {
+  dispatch({
+    type: DataActionType.IS_LOGGED_IN,
+    isLoggedIn: isLoggedIn,
+  });
+
+  return Promise.resolve(store.getState());
+};

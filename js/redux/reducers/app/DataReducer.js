@@ -10,6 +10,7 @@ const initState = () => {
     dummyData: [],
     recentSearchesSectionTags: [],
     findTalentSectionTags: [],
+    isLoggedIn: false,
   };
 };
 
@@ -37,6 +38,12 @@ export default function dataReducer(state = initState(), action) {
       return {
         ...state,
         findTalentSectionTags: action.findTalentSectionTags || [],
+      };
+
+    case DataActionType.IS_LOGGED_IN:
+      return {
+        ...state,
+        isLoggedIn: action.isLoggedIn,
       };
 
     default:

@@ -14,6 +14,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  store,
   SignUpViewAction,
   SignUpStackNavigatorAction,
 } from '../../redux';
@@ -32,7 +33,6 @@ import {
   Button,
   Separator,
   TextInput,
-  Dot,
 } from '../../project-components';
 
 import i18n from '../../../i18n';
@@ -46,7 +46,8 @@ import { TestApi } from '../../apis';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_unchecked = require('../../../assets/images/ic_unchecked/ic_unchecked.png');
+const ic_checked = require('../../../assets/images/ic_checked/ic_checked.png');
 
 export const IDENTIFIER = 'SignUpView';
 
@@ -166,31 +167,55 @@ class SignUpView extends BaseComponent {
   validatePassword = () => {
     const { props } = this;
 
-    let isValid = false;
-
     if (
-      !props.account.credentials.password
-      ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.credentials.password)
-    ) {
-      props.setPasswordMessage('app.error.empty_field_message');
-
-      isValid = false;
-    } else if (
-      !AppRegex.CREDENTIALS_PASSWORD_VALIDATION_REGEX.test(
-        props.account.credentials.password,
+      store.getState().signUpViewReducer.account.credentials.password
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LENGTH_REGEX.test(
+        store.getState().signUpViewReducer.account.credentials.password,
       )
     ) {
-      props.setPasswordMessage('app.error.password_validation_message');
-
-      isValid = false;
+      props.setPasswordValidationLength(true);
     } else {
-      props.setPasswordMessage(undefined);
-
-      isValid = true;
+      props.setPasswordValidationLength(false);
     }
 
-    return isValid;
+    if (
+      store.getState().signUpViewReducer.account.credentials.password
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_SYMBOL_REGEX.test(
+        store.getState().signUpViewReducer.account.credentials.password,
+      )
+    ) {
+      console.log('[test-1]');
+      props.setPasswordValidationSymbol(true);
+    } else {
+      console.log('[test-2]');
+      props.setPasswordValidationSymbol(false);
+    }
+
+    if (
+      store.getState().signUpViewReducer.account.credentials.password
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LOWER_CASE_REGEX.test(
+        store.getState().signUpViewReducer.account.credentials.password,
+      )
+    ) {
+      props.setPasswordValidationLowerCase(true);
+    } else {
+      props.setPasswordValidationLowerCase(false);
+    }
+
+    if (
+      store.getState().signUpViewReducer.account.credentials.password
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_UPPER_CASE_REGEX.test(
+        store.getState().signUpViewReducer.account.credentials.password,
+      )
+    ) {
+      props.setPasswordValidationUpperCase(true);
+    } else {
+      props.setPasswordValidationUpperCase(false);
+    }
   };
 
   validateAll = () => {
@@ -321,6 +346,8 @@ class SignUpView extends BaseComponent {
               secureTextEntry={secureTextEntry}
               onChangeText={(text) => {
                 props.setPassword(text);
+
+                this.validatePassword();
               }}
             />
             <View style={styles.hintsContainer}>
@@ -328,7 +355,7 @@ class SignUpView extends BaseComponent {
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.length ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
@@ -338,7 +365,7 @@ class SignUpView extends BaseComponent {
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.symbol ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
@@ -350,7 +377,7 @@ class SignUpView extends BaseComponent {
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.lowerCase ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
@@ -358,7 +385,11 @@ class SignUpView extends BaseComponent {
                   </Text>
                 </View>
                 <View style={styles.hints}>
-                  <Dot style={styles.hintsDot}/>
+                  <Image
+                    style={styles.hintsImage}
+                    source={props.validation.upperCase ? ic_checked : ic_unchecked}
+                    resizeMode="center"
+                  />
                   <Text style={styles.hintsText}>
                     {t('1 upper case')}
                   </Text>
@@ -500,9 +531,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  hintsDot: {
-    marginRight: 8,
-  },
   hintsImage: {
     // backgroundColor: '#f00',
     width: 11,
@@ -527,6 +555,7 @@ function mapStateToProps(state) {
   return {
     refs: state.signUpViewReducer.refs,
     account: state.signUpViewReducer.account,
+    validation: state.signUpViewReducer.validation,
   };
 }
 
@@ -543,6 +572,10 @@ function mapDispatchToProps(dispatch) {
     setPhoneCode: (...args) => dispatch(SignUpViewAction.setPhoneCode(...args)),
     setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),
     setPassword: (...args) => dispatch(SignUpViewAction.setPassword(...args)),
+    setPasswordValidationLength: (...args) => dispatch(SignUpViewAction.setPasswordValidationLength(...args)),
+    setPasswordValidationSymbol: (...args) => dispatch(SignUpViewAction.setPasswordValidationSymbol(...args)),
+    setPasswordValidationLowerCase: (...args) => dispatch(SignUpViewAction.setPasswordValidationLowerCase(...args)),
+    setPasswordValidationUpperCase: (...args) => dispatch(SignUpViewAction.setPasswordValidationUpperCase(...args)),
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };

@@ -14,6 +14,7 @@ import {
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
+  DataAction,
 } from '../../redux';
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -318,8 +319,6 @@ class MainTabNavigator extends BaseComponent {
                 tabPress: async (event) => {
                   event.preventDefault();
 
-                  // Router.push(props, 'WelcomeSlideSheetContainerView');
-
                   AuthProvider.decodeJWTToken()
                     .then((json) => {
                       console.log('[decoded-jwt]', json);
@@ -369,6 +368,16 @@ class MainTabNavigator extends BaseComponent {
               listeners={(params) => ({
                 tabPress: (event) => {
                   this.tabPress(params, event, { index: 2, stack: 'SettingsStackNavigator' });
+
+                  AuthProvider.decodeJWTToken()
+                    .then(() => {
+                      props.setIsLoggedIn(true);
+                    })
+                    .catch((error) => {
+                      console.error(error);
+
+                      props.setIsLoggedIn(false);
+                    });
                 },
               })}
             />
@@ -468,6 +477,7 @@ function mapDispatchToProps(dispatch) {
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
+    setIsLoggedIn: (...args) => dispatch(DataAction.setIsLoggedIn(...args)),
   };
 }
 

@@ -58,26 +58,36 @@ export const decodeJWTToken = (props, params, options) => {
   });
 };
 
-// export const logout = (props, params, options) => {
-//   return new Promise((resolve, reject) => {
-//     LogoutAPI.request(props, {
-//       activityIndicatorMessage: i18n.t('providers.auth.logging_out'),
-//       ...options,
-//     })
-//       .then(async (json) => {
-//         await Common.reset(props).catch((error) => {
-//           console.error(error);
-//         });
-//
-//         resolve(json);
-//       })
-//       .catch(async (error) => {
-//         await Common.reset(props).catch((resetError) => {
-//           console.error(resetError);
-//         });
-//
-//         reject(error);
-//       })
-//       .done();
-//   });
-// };
+export const logout = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    AuthStorage.removeAll()
+    .then(() => {
+      resolve();
+    })
+    .catch((error) => {
+      reject(error);
+    });
+  });
+
+  // return new Promise((resolve, reject) => {
+  //   LogoutAPI.request(props, {
+  //     activityIndicatorMessage: i18n.t('providers.auth.logging_out'),
+  //     ...options,
+  //   })
+  //     .then(async (json) => {
+  //       await Common.reset(props).catch((error) => {
+  //         console.error(error);
+  //       });
+  //
+  //       resolve(json);
+  //     })
+  //     .catch(async (error) => {
+  //       await Common.reset(props).catch((resetError) => {
+  //         console.error(resetError);
+  //       });
+  //
+  //       reject(error);
+  //     })
+  //     .done();
+  // });
+};
