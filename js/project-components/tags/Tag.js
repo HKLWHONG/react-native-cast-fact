@@ -443,18 +443,6 @@ class Tag extends Component {
       };
     }
 
-    if (props.fill === true) {
-      style = {
-        ...style,
-        flex: 1,
-      }
-    } else if (props.fill) {
-      style = {
-        ...style,
-        width: props.fill,
-      }
-    }
-
     if (props.state) {
       if (props.state.toLowerCase() === 'attention'.toLowerCase()) {
         style = {

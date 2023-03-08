@@ -49,6 +49,10 @@ import { Theme, Router } from '../../utils';
 
 import { CalendarProcessor } from '../../processors';
 
+import {
+  AuthProvider,
+} from '../../providers';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -79,7 +83,20 @@ class ProfileCastSheetEditionView extends BaseComponent {
     const { props } = this;
 
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      Router.push(props, 'ProfileCompletionView');
+      console.log('[signUpViewAccount]', props.signUpViewAccount);
+      console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+      console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+
+      AuthProvider.register(props, {
+        email: props.signUpViewAccount.credentials.email,
+        password: props.signUpViewAccount.credentials.password,
+      })
+        .then(() => {
+          Router.push(props, 'ProfileCompletionView');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
   };
 
@@ -128,16 +145,13 @@ class ProfileCastSheetEditionView extends BaseComponent {
               index={2}
               text={t('views.profile_cast_sheet_edition.title')}
             />
-            <Text style={styles.subtitle}>
-              {t('views.profile_cast_sheet_edition.subtitle')}
-            </Text>
           </View>
         )}
       </Translation>
     );
   };
 
-  renderCastSheetInputItem = (key, list = [], multiple) => {
+  renderCastSheetInputItem = (key, list = [], single) => {
     const { props } = this;
 
     const info = props.account.info[key];
@@ -199,7 +213,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
     let inputTag = undefined;
 
-    if (multiple || tags.length === 0) {
+    if (!single || tags.length === 0) {
       inputTag = (
         <Tag
           style={styles.tag}
@@ -255,13 +269,15 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
             let state = 'attention';
 
-            let matched = false;
+            let matched = list.length > 0 ? false : true;
 
-            list.forEach((item, i) => {
-              if (item.trim().toLowerCase() === text.trim().toLowerCase()) {
-                matched = true;
-              }
-            });
+            if (!matched) {
+              list.forEach((item, i) => {
+                if (item.trim().toLowerCase() === text.trim().toLowerCase()) {
+                  matched = true;
+                }
+              });
+            }
 
             state = matched ? 'success' : 'error';
 
@@ -363,13 +379,17 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  renderCastSheetContainer = (params) => {
+  renderBasicInformationContainer = (params) => {
     const { props } = this;
+    const { item, index, section, separators } = params;
 
     return (
       <Translation>
         {(t) => (
           <View style={styles.castSheetContainer}>
+            <Text style={styles.subtitle}>
+              {section.title}
+            </Text>
             {
               this.renderCastSheetInputItem(
                 'gender',
@@ -377,34 +397,122 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   'Female',
                   'Male',
                 ],
-              )
-            }
-            {this.renderCastSheetDateItem('birthday')}
-            {
-              this.renderCastSheetInputItem(
-                'place_of_birth',
-                [
-                  'Hong Kong',
-                ],
-              )
-            }
-            {
-              this.renderCastSheetInputItem(
-                'occupation',
-                [
-                  'Youtuber',
-                ],
-              )
-            }
-            {
-              this.renderCastSheetInputItem(
-                'nationality',
-                [
-                  'Hong Kong',
-                ],
                 true,
               )
             }
+            {this.renderCastSheetDateItem('date_of_birth')}
+            {this.renderCastSheetInputItem('place_of_birth')}
+            {this.renderCastSheetInputItem('acting_year_start')}
+            {this.renderCastSheetInputItem('acting_year_end')}
+            {this.renderCastSheetInputItem('languages')}
+            {this.renderCastSheetInputItem('working_bases')}
+            {this.renderCastSheetInputItem('occupations')}
+            {this.renderCastSheetInputItem('skills')}
+            {this.renderCastSheetInputItem('alma_maters')}
+            {this.renderCastSheetInputItem('awards')}
+            {this.renderCastSheetInputItem('nationality')}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderAppearanceContainer = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetContainer}>
+            <Text style={styles.subtitle}>
+              {section.title}
+            </Text>
+            {this.renderCastSheetInputItem('height_by_cm')}
+            {this.renderCastSheetDateItem('weight_by_kg')}
+            {this.renderCastSheetInputItem('skin_color')}
+            {this.renderCastSheetInputItem('dress_size')}
+            {this.renderCastSheetInputItem('shirt_size')}
+            {this.renderCastSheetInputItem('shoe_size')}
+            {this.renderCastSheetInputItem('suit_cost_size')}
+            {this.renderCastSheetInputItem('pants_size')}
+            {this.renderCastSheetInputItem('hat_size')}
+            {this.renderCastSheetInputItem('handedness')}
+            {this.renderCastSheetInputItem('glove')}
+            {this.renderCastSheetInputItem('hair_color')}
+            {this.renderCastSheetInputItem('eye_color')}
+            {this.renderCastSheetInputItem('body_type')}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderExperienceContainer = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetContainer}>
+            <Text style={styles.subtitle}>
+              {section.title}
+            </Text>
+            {this.renderCastSheetInputItem('licenses')}
+            {this.renderCastSheetInputItem('movies')}
+            {this.renderCastSheetInputItem('tv_shows')}
+            {this.renderCastSheetInputItem('commercials')}
+            {this.renderCastSheetInputItem('music_videos')}
+            {this.renderCastSheetInputItem('stage_shows')}
+            {this.renderCastSheetInputItem('variety_shows')}
+            {this.renderCastSheetInputItem('performing_arts')}
+            {this.renderCastSheetInputItem('broadcasts')}
+            {this.renderCastSheetInputItem('modellings')}
+            {this.renderCastSheetInputItem('voiceovers')}
+            {this.renderCastSheetInputItem('onlines')}
+            {this.renderCastSheetInputItem('events')}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderContactsContainer = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetContainer}>
+            <Text style={styles.subtitle}>
+              {section.title}
+            </Text>
+            {this.renderCastSheetInputItem('address')}
+            {this.renderCastSheetInputItem('email')}
+            {this.renderCastSheetInputItem('phone')}
+            {this.renderCastSheetInputItem('agents')}
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderSocialMediaContainer = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetContainer}>
+            <Text style={styles.subtitle}>
+              {section.title}
+            </Text>
+            {this.renderCastSheetInputItem('instagram')}
+            {this.renderCastSheetInputItem('facebook')}
+            {this.renderCastSheetInputItem('youtube')}
           </View>
         )}
       </Translation>
@@ -425,7 +533,19 @@ class ProfileCastSheetEditionView extends BaseComponent {
         return this.renderProfileContainer(params);
 
       case 1:
-        return this.renderCastSheetContainer(params);
+        return this.renderBasicInformationContainer(params);
+
+      case 2:
+        return this.renderAppearanceContainer(params);
+
+      case 3:
+        return this.renderExperienceContainer(params);
+
+      case 4:
+        return this.renderContactsContainer(params);
+
+      case 5:
+        return this.renderSocialMediaContainer(params);
 
       default:
         break;
@@ -441,7 +561,23 @@ class ProfileCastSheetEditionView extends BaseComponent {
         data: [''],
       },
       {
-        title: i18n.t(''),
+        title: i18n.t('views.profile_cast_sheet_edition.basic_information'),
+        data: [''],
+      },
+      {
+        title: i18n.t('views.profile_cast_sheet_edition.appearance'),
+        data: [''],
+      },
+      {
+        title: i18n.t('views.profile_cast_sheet_edition.experience'),
+        data: [''],
+      },
+      {
+        title: i18n.t('views.profile_cast_sheet_edition.contacts'),
+        data: [''],
+      },
+      {
+        title: i18n.t('views.profile_cast_sheet_edition.social_media'),
         data: [''],
       },
     ];
@@ -477,28 +613,28 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  renderKeyboardAccessoryView = () => {
-    const { props } = this;
-
-    return (
-      <Translation>
-        {(t) => (
-          <KeyboardAccessoryView androidAdjustResize>
-            {({ isKeyboardVisible }) => {
-              return (
-                <>
-                  <Text style={{ color: '#f00', padding: 16 }}>Always visible</Text>
-                  {!isKeyboardVisible ? (
-                    <Text>Hidden when keyboard is visible</Text>
-                  ) : null}
-                </>
-              );
-            }}
-          </KeyboardAccessoryView>
-        )}
-      </Translation>
-    );
-  };
+  // renderKeyboardAccessoryView = () => {
+  //   const { props } = this;
+  //
+  //   return (
+  //     <Translation>
+  //       {(t) => (
+  //         <KeyboardAccessoryView androidAdjustResize>
+  //           {({ isKeyboardVisible }) => {
+  //             return (
+  //               <View>
+  //                 <Text style={{ color: '#f00', padding: 16 }}>Always visible</Text>
+  //                 {!isKeyboardVisible ? (
+  //                   <Text>Hidden when keyboard is visible</Text>
+  //                 ) : null}
+  //               </View>
+  //             );
+  //           }}
+  //         </KeyboardAccessoryView>
+  //       )}
+  //     </Translation>
+  //   );
+  // };
 
   render() {
     return (
@@ -552,6 +688,7 @@ const styles = StyleSheet.create({
   },
   castSheetContainer: {
     // backgroundColor: '#0f0',
+    alignItems: 'center',
     marginVertical: 16,
   },
   tag: {
@@ -565,6 +702,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     account: state.profileCastSheetEditionViewReducer.account,
+    signUpViewAccount: state.signUpViewReducer.account,
+    profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
   };
 }
 

@@ -13,6 +13,7 @@ import { AuthStorage } from '../storages';
 
 import {
   LoginApi,
+  RegisterApi,
 } from '../apis';
 
 import jwt_decode from "jwt-decode";
@@ -35,6 +36,39 @@ export const login = (props, params, options) => {
         AuthStorage.setToken(json.token)
           .then(() => {
             resolve(params);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const register = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    RegisterApi.request(
+      props,
+      {
+        email: params && params.email,
+        password: params && params.password,
+      },
+      options,
+    )
+      .then(() => {
+        login(props, params, options)
+          .then((params) => {
+            const { json } = params;
+
+            AuthStorage.setToken(json.token)
+              .then(() => {
+                resolve(params);
+              })
+              .catch((error) => {
+                reject(error);
+              });
           })
           .catch((error) => {
             reject(error);

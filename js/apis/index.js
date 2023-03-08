@@ -8,6 +8,7 @@ import * as GetFeedApi from './GetFeedApi';
 import * as GetRecentSearchesApi from './GetRecentSearchesApi';
 import * as GetTagApi from './GetTagApi';
 import * as LoginApi from './LoginApi';
+import * as RegisterApi from './RegisterApi';
 import * as RemoveRecentSearchesApi from './RemoveRecentSearchesApi';
 import * as SearchApi from './SearchApi';
 
@@ -17,6 +18,7 @@ export {
   GetRecentSearchesApi,
   GetTagApi,
   LoginApi,
+  RegisterApi,
   RemoveRecentSearchesApi,
   SearchApi,
 };

@@ -232,10 +232,10 @@ class ProfilePictureSelectionView extends BaseComponent {
           <Footer style={styles.footer}>
             <View style={styles.infoContainer}>
               <Text style={styles.for}>
-                {t('For')}
+                {t('app.for')}
               </Text>
               <Text style={styles.email}>
-                {t('kclui@gmail.com')}
+                {props.signUpViewAccount.credentials.email}
               </Text>
             </View>
           </Footer>
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-
+    signUpViewAccount: state.signUpViewReducer.account,
   };
 }
 

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -72,6 +72,20 @@ class SignUpStackNavigator extends BaseComponent {
     const { props } = this;
   };
 
+  hiddenLeftIfNeeded = (name) => {
+    const { props } = this;
+
+    const screens = [
+      'ProfileCompletionView',
+    ];
+
+    const filteredScreens = screens.filter((screen) => {
+      return screen === name;
+    });
+
+    return filteredScreens.length > 0;
+  };
+
   hiddenRightIfNeeded = (name) => {
     const { props } = this;
 
@@ -102,12 +116,23 @@ class SignUpStackNavigator extends BaseComponent {
 
                 const title = getHeaderTitle(options, route.name);
 
+                let renderLeftView = undefined
+
+                if (this.hiddenLeftIfNeeded(route.name)) {
+                  renderLeftView = () => {
+                    return (
+                      <View />
+                    );
+                  };
+                }
+
                 return (
                   <Header
                     hiddenLeft={!back}
                     hiddenRight={props.hiddenRight}
                     info={info}
                     title={title}
+                    renderLeftView={renderLeftView}
                     renderRightView={() => {
                       return (
                         <Button
