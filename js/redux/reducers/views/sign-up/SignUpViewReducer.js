@@ -19,8 +19,8 @@ const initState = () => {
         phoneNumber: undefined,
       },
       credentials: {
-        email: undefined,
-        password: undefined,
+        email: 'castfact-tester@gmail.com',
+        password: 'a123456789A!',
       },
     },
     validation: {

@@ -75,6 +75,10 @@ class SignUpView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
+    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      this.validateAll();
+    });
+
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       Router.push(props, 'SignUpAccountTypeSelectionView');
     });
@@ -94,43 +98,45 @@ class SignUpView extends BaseComponent {
     props.reset();
   };
 
-  validateName = () => {
-    const { props } = this;
-
-    let isValid = false;
-
-    if (
-      !props.account.info.name
-      ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.info.name)
-    ) {
-      props.setNameMessage('app.error.empty_field_message');
-
-      isValid = false;
-    } else {
-      props.setNameMessage(undefined);
-
-      isValid = true;
-    }
-
-    return isValid;
-  };
+  // validateName = () => {
+  //   const { props } = this;
+  //
+  //   let isValid = false;
+  //
+  //   if (
+  //     !props.account.info.name
+  //     ||
+  //     !AppRegex.EMPTY_FIELD_REGEX.test(props.account.info.name)
+  //   ) {
+  //     props.setNameMessage('app.error.empty_field_message');
+  //
+  //     isValid = false;
+  //   } else {
+  //     props.setNameMessage(undefined);
+  //
+  //     isValid = true;
+  //   }
+  //
+  //   return isValid;
+  // };
 
   validateEmail = () => {
     const { props } = this;
 
+    const { account } = store.getState().signUpViewReducer;
+
     let isValid = false;
 
     if (
-      !props.account.credentials.email
+      !account.credentials.email
       ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.credentials.email)
+      !AppRegex.EMPTY_FIELD_REGEX.test(account.credentials.email)
     ) {
-      props.setEmailMessage('app.error.empty_field_message');
+      // props.setEmailMessage('app.error.empty_field_message');
 
       isValid = false;
     } else {
-      props.setEmailMessage(undefined);
+      // props.setEmailMessage(undefined);
 
       isValid = true;
     }
@@ -141,22 +147,24 @@ class SignUpView extends BaseComponent {
   validatePhone = () => {
     const { props } = this;
 
+    const { account } = store.getState().signUpViewReducer;
+
     let isValid = false;
 
     if (
-      !props.account.info.phoneCode
+      !account.info.phoneCode
       ||
-      !props.account.info.phoneNumber
+      !account.info.phoneNumber
       ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.info.phoneCode)
+      !AppRegex.EMPTY_FIELD_REGEX.test(account.info.phoneCode)
       ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.info.phoneNumber)
+      !AppRegex.EMPTY_FIELD_REGEX.test(account.info.phoneNumber)
     ) {
-      props.setPhoneMessage('app.error.empty_field_message');
+      // props.setPhoneMessage('app.error.empty_field_message');
 
       isValid = false;
     } else {
-      props.setPhoneMessage(undefined);
+      // props.setPhoneMessage(undefined);
 
       isValid = true;
     }
@@ -167,64 +175,78 @@ class SignUpView extends BaseComponent {
   validatePassword = () => {
     const { props } = this;
 
+    const { account } = store.getState().signUpViewReducer;
+
+    let isLengthValid = false;
+    let isSymbolValid = false;
+    let isLowerCaseValid = false;
+    let isUpperCaseValid = false;
+
     if (
-      store.getState().signUpViewReducer.account.credentials.password
+      account.credentials.password
       &&
-      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LENGTH_REGEX.test(
-        store.getState().signUpViewReducer.account.credentials.password,
-      )
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LENGTH_REGEX.test(account.credentials.password)
     ) {
-      props.setPasswordValidationLength(true);
+      isLengthValid = true;
     } else {
-      props.setPasswordValidationLength(false);
+      isLengthValid = false;
     }
 
     if (
-      store.getState().signUpViewReducer.account.credentials.password
+      account.credentials.password
       &&
-      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_SYMBOL_REGEX.test(
-        store.getState().signUpViewReducer.account.credentials.password,
-      )
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_SYMBOL_REGEX.test(account.credentials.password)
     ) {
-      console.log('[test-1]');
-      props.setPasswordValidationSymbol(true);
+      isSymbolValid = true;
     } else {
-      console.log('[test-2]');
-      props.setPasswordValidationSymbol(false);
+      isSymbolValid = false;
     }
 
     if (
-      store.getState().signUpViewReducer.account.credentials.password
+      account.credentials.password
       &&
-      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LOWER_CASE_REGEX.test(
-        store.getState().signUpViewReducer.account.credentials.password,
-      )
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LOWER_CASE_REGEX.test(account.credentials.password)
     ) {
-      props.setPasswordValidationLowerCase(true);
+      isLowerCaseValid = true;
     } else {
-      props.setPasswordValidationLowerCase(false);
+      isLowerCaseValid = false;
     }
 
     if (
-      store.getState().signUpViewReducer.account.credentials.password
+      account.credentials.password
       &&
-      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_UPPER_CASE_REGEX.test(
-        store.getState().signUpViewReducer.account.credentials.password,
-      )
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_UPPER_CASE_REGEX.test(account.credentials.password)
     ) {
-      props.setPasswordValidationUpperCase(true);
+      isUpperCaseValid = true;
     } else {
-      props.setPasswordValidationUpperCase(false);
+      isUpperCaseValid = false;
     }
+
+    props.setPasswordValidationLength(isLengthValid);
+    props.setPasswordValidationSymbol(isSymbolValid);
+    props.setPasswordValidationLowerCase(isLowerCaseValid);
+    props.setPasswordValidationUpperCase(isUpperCaseValid);
+
+    return (
+      isLengthValid
+      &&
+      isSymbolValid
+      &&
+      isLowerCaseValid
+      &&
+      isUpperCaseValid
+    );
   };
 
   validateAll = () => {
-    const isValidName = this.validateName();
+    const { props } = this;
+
+    // const isValidName = this.validateName();
     const isValidEmail = this.validateEmail();
     const isValidPhone = this.validatePhone();
     const isValidPassword = this.validatePassword();
 
-    return isValidName && isValidEmail && isValidPhone && isValidPassword;
+    props.setSignUpStackNavigatorEnabledRight(isValidEmail && isValidPhone && isValidPassword);
   };
 
   renderHeader = () => {
@@ -322,6 +344,8 @@ class SignUpView extends BaseComponent {
               value={props.account.credentials.email}
               onChangeText={(text) => {
                 props.setEmail(text);
+
+                this.validateAll();
               }}
             />
             <TextInput
@@ -333,9 +357,13 @@ class SignUpView extends BaseComponent {
               keyboardTypeLeft="number-pad"
               onChangeTextLeft={(text) => {
                 props.setPhoneCode(text);
+
+                this.validateAll();
               }}
               onChangeText={(text) => {
                 props.setPhoneNumber(text);
+
+                this.validateAll();
               }}
               enableLeftInput
             />
@@ -347,7 +375,7 @@ class SignUpView extends BaseComponent {
               onChangeText={(text) => {
                 props.setPassword(text);
 
-                this.validatePassword();
+                this.validateAll();
               }}
             />
             <View style={styles.hintsContainer}>
@@ -359,7 +387,7 @@ class SignUpView extends BaseComponent {
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('12 characters length')}
+                    {`12 ${t('app.characters_length')}`}
                   </Text>
                 </View>
                 <View style={styles.hints}>
@@ -369,7 +397,7 @@ class SignUpView extends BaseComponent {
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('1 symbol')}
+                    {`1 ${t('app.symbol')}`}
                   </Text>
                 </View>
               </View>
@@ -381,7 +409,7 @@ class SignUpView extends BaseComponent {
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('1 lower case')}
+                    {`1 ${t('app.lower_case')}`}
                   </Text>
                 </View>
                 <View style={styles.hints}>
@@ -391,7 +419,7 @@ class SignUpView extends BaseComponent {
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('1 upper case')}
+                    {`1 ${t('app.upper_case')}`}
                   </Text>
                 </View>
               </View>
@@ -542,6 +570,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: Theme.fonts.light,
     letterSpacing: 1,
+    textTransform: 'lowercase',
   },
   // nextButton: {
   //   marginTop: 64,
@@ -577,6 +606,8 @@ function mapDispatchToProps(dispatch) {
     setPasswordValidationLowerCase: (...args) => dispatch(SignUpViewAction.setPasswordValidationLowerCase(...args)),
     setPasswordValidationUpperCase: (...args) => dispatch(SignUpViewAction.setPasswordValidationUpperCase(...args)),
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+    setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
+    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };
 }

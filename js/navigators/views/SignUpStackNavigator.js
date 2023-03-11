@@ -151,6 +151,7 @@ class SignUpStackNavigator extends BaseComponent {
                               }
                             }
                           }}
+                          disabled={!props.enabledRight}
                         />
                       );
                     }}
@@ -187,6 +188,7 @@ class SignUpStackNavigator extends BaseComponent {
                 console.log(`[${this.constructor.name}-state-changed-screen-name]`, state.routes[state.index].name);
 
                 props.setHiddenRight(this.hiddenRightIfNeeded(state.routes[state.index].name));
+                props.setEnabledRight(false);
 
                 if (store.getState().signUpStackNavigatorReducer.callbacks.onScreenAppearList[state.routes[state.index].name]) {
                   store.getState().signUpStackNavigatorReducer.callbacks.onScreenAppearList[state.routes[state.index].name](event);
@@ -294,6 +296,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     hiddenRight: state.signUpStackNavigatorReducer.hiddenRight,
+    enabledRight: state.signUpStackNavigatorReducer.enabledRight,
   };
 }
 
@@ -301,6 +304,7 @@ function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SignUpStackNavigatorAction.reset(...args)),
     setHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+    setEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
   };
 }

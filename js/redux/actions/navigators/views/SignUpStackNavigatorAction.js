@@ -22,6 +22,15 @@ export const setHiddenRight = (hiddenRight) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setEnabledRight = (enabledRight) => (dispatch) => {
+  dispatch({
+    type: SignUpStackNavigatorActionType.ENABLED_RIGHT,
+    enabledRight: enabledRight,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const addOnScreenAppear = (key, value) => (dispatch) => {
   dispatch({
     type: SignUpStackNavigatorActionType.ADD_ON_SCREEN_APPEAR,

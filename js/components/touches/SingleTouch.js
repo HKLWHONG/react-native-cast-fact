@@ -126,6 +126,7 @@ export default class SingleTouch extends Component {
       return null;
     }
 
+    let containerStyle = {};
     let enableSafeAreaStyle = {};
 
     if (props.enableSafeArea) {
@@ -133,6 +134,13 @@ export default class SingleTouch extends Component {
         ...enableSafeAreaStyle,
         // backgroundColor: '#0ff',
         padding: 8,
+      };
+    }
+
+    if (props.disabled) {
+      containerStyle = {
+        ...containerStyle,
+        opacity: 0.5,
       };
     }
 
@@ -144,7 +152,7 @@ export default class SingleTouch extends Component {
       return (
         <TouchableHighlight
           onLayout={props.onLayout}
-          style={[styles.container, enableSafeAreaStyle, props.style]}
+          style={[styles.container, containerStyle, enableSafeAreaStyle, props.style]}
           disabled={props.disabled}
           onPress={this.onPressCallBack}
           onPressIn={this.onPressInCallBack}
@@ -169,7 +177,7 @@ export default class SingleTouch extends Component {
       return (
         <TouchableWithoutFeedback
           onLayout={props.onLayout}
-          style={[styles.container, enableSafeAreaStyle, props.style]}
+          style={[styles.container, containerStyle, enableSafeAreaStyle, props.style]}
           disabled={props.disabled}
           onPress={this.onPressCallBack}
           onPressIn={this.onPressInCallBack}
@@ -183,7 +191,7 @@ export default class SingleTouch extends Component {
     return (
       <TouchableOpacity
         onLayout={props.onLayout}
-        style={[styles.container, enableSafeAreaStyle, props.style]}
+        style={[styles.container, containerStyle, enableSafeAreaStyle, props.style]}
         disabled={props.disabled}
         onPress={this.onPressCallBack}
         onPressIn={this.onPressInCallBack}

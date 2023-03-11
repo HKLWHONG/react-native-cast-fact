@@ -38,6 +38,10 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
+import {
+  AuthProvider,
+} from '../../providers';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -165,15 +169,26 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               resizeMode="center"
               text={t('app.viewer')}
               onPress={() => {
-                Router.dismiss(props);
+                AuthProvider.register(props, {
+                  email: props.signUpViewAccount.credentials.email,
+                  password: props.signUpViewAccount.credentials.password,
+                })
+                  .then(() => {
+                    Router.dismiss(props);
 
-                if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
-                  return;
-                }
+                    if (!props.slideSheetRefs['WelcomeSlideSheetContainerView']) {
+                      return;
+                    }
 
-                props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
+                    props.slideSheetRefs['WelcomeSlideSheetContainerView'].close();
 
-                Router.jumpTo(props, 'ProfileStackNavigator');
+                    Router.jumpTo(props, 'ProfileStackNavigator');
+                  })
+                  .catch((error) => {
+                    console.error(error);
+
+                    alert(error);
+                  });
               }}
             />
           </View>
@@ -198,101 +213,6 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
       </Translation>
     );
   };
-
-  // renderBody = () => {
-  //   const { props } = this;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <Body style={styles.body}>
-  //           <View
-  //             style={{
-  //               backgroundColor: '#f00',
-  //               alignItems: 'center',
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 36,
-  //               }}
-  //             >
-  //               {t('Hello!')}
-  //             </Text>
-  //           </View>
-  //
-  //           <View
-  //             style={{
-  //               backgroundColor: '#ff0',
-  //               alignItems: 'center',
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 17,
-  //                 textTransform: 'uppercase',
-  //               }}
-  //             >
-  //               {t('Select Your Role.')}
-  //             </Text>
-  //           </View>
-  //
-  //           <View
-  //             style={{
-  //               backgroundColor: '#ff0',
-  //               alignItems: 'center',
-  //               marginTop: 64,
-  //             }}
-  //           >
-  //             <Text
-  //               style={{
-  //                 backgroundColor: '#00f',
-  //                 color: '#fff',
-  //                 fontSize: 17,
-  //                 textTransform: 'uppercase',
-  //               }}
-  //             >
-  //               {t('Choose From')}
-  //             </Text>
-  //           </View>
-  //
-  //         {this.renderSelectionButtons()}
-  //
-  //         {
-  //           /*
-  //           <List
-  //             innerRef={(ref) => {
-  //               props.setListRef(3, props.navigation.getState().index, ref);
-  //             }}
-  //             contentContainerStyle={styles.listContentContainer}
-  //             sections={sections}
-  //             renderItem={this.renderItem}
-  //             androidRefreshControlColor={Theme.colors.general.black}
-  //             iosRefreshControlColor={Theme.colors.general.white}
-  //             refreshing={props.refreshing}
-  //             onRefresh={async (refreshing) => {
-  //               // props.setRefreshing(true);
-  //
-  //               // props.setFeedsPagingPage(0);
-  //               //
-  //               // this.loadFeeds([]);
-  //
-  //               // await FeedProvider.prefetchFeeds(props);
-  //               //
-  //               // props.setRefreshing(false);
-  //             }}
-  //           />
-  //           */
-  //         }
-  //         </Body>
-  //       )}
-  //     </Translation>
-  //   );
-  // };
 
   renderFooter = () => {
     const { props } = this;

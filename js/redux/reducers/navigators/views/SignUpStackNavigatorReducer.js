@@ -8,6 +8,7 @@ import { CommonActionType, SignUpStackNavigatorActionType } from '../../../types
 const initState = () => {
   return {
     hiddenRight: false,
+    enabledRight: false,
     callbacks: {
       onScreenAppearList: {},
       onRightButtonPressList: {},
@@ -27,6 +28,12 @@ export default function signUpStackNavigatorReducer(state = initState(), action)
       return {
         ...state,
         hiddenRight: action.hiddenRight,
+      };
+
+    case SignUpStackNavigatorActionType.ENABLED_RIGHT:
+      return {
+        ...state,
+        enabledRight: action.enabledRight,
       };
 
     case SignUpStackNavigatorActionType.ADD_ON_SCREEN_APPEAR:
