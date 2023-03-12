@@ -11,6 +11,7 @@ import {
   ImageBackground,
   View,
   Text,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -82,23 +83,28 @@ class ProfileCastSheetEditionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
+    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      props.setSignUpStackNavigatorEnabledRight(true);
+    });
+
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       console.log('[signUpViewAccount]', props.signUpViewAccount);
       console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
       console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
-      AuthProvider.register(props, {
-        email: props.signUpViewAccount.credentials.email,
-        password: props.signUpViewAccount.credentials.password,
-      })
-        .then(() => {
-          Router.push(props, 'ProfileCompletionView');
-        })
-        .catch((error) => {
-          console.error(error);
-
-          alert(error);
-        });
+      // AuthProvider.register(props, {
+      //   email: props.signUpViewAccount.credentials.email,
+      //   password: props.signUpViewAccount.credentials.password,
+      //   phoneNumber: `${props.signUpViewAccount.info.phoneCode}${props.signUpViewAccount.info.phoneNumber}`,
+      // })
+      //   .then(() => {
+      //     Router.push(props, 'ProfileCompletionView');
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //
+      //     Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+      //   });
     });
   };
 
@@ -714,6 +720,8 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
     addAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.addAccountInfo(...args)),
     deleteAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.deleteAccountInfo(...args)),
+    setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
+    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
     setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),

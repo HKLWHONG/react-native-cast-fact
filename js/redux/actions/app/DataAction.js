@@ -48,3 +48,12 @@ export const setIsLoggedIn = (isLoggedIn) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setHasProfile = (hasProfile) => (dispatch) => {
+  dispatch({
+    type: DataActionType.HAS_PROFILE,
+    hasProfile: hasProfile,
+  });
+
+  return Promise.resolve(store.getState());
+};

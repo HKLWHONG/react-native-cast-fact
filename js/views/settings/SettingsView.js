@@ -123,13 +123,19 @@ class SettingsView extends BaseComponent {
   renderBody = () => {
     const { props } = this;
 
-    let sections = [];
+    let sections = [
+      {
+        title: i18n.t(''),
+        data: [],
+      },
+    ];
 
     if (props.isLoggedIn) {
-      sections = [
-        {
-          title: i18n.t(''),
+      if (props.hasProfile) {
+        sections[0] = {
+          ...sections[0],
           data: [
+            ...sections[0].data,
             {
               source: preview,
               text: i18n.t('Edit Display Name'),
@@ -151,32 +157,85 @@ class SettingsView extends BaseComponent {
                 Router.push(props, 'ProfilePictureSelectionView');
               },
             },
-            {
-              source: {},
-              text: i18n.t('Change Password'),
-              onPress: () => {
-                Router.push(props, 'AccountChangePasswordStep1View');
-              },
-            },
-            {
-              source: {},
-              text: i18n.t('Logout'),
-              onPress: () => {
-                AuthProvider.logout()
-                  .then(() => {
-                    props.resetData();
-
-                    Router.jumpTo(props, 'SearchStackNavigator');
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
-              },
-            },
           ],
-        },
-      ];
+        };
+      }
+
+      sections[0] = {
+        ...sections[0],
+        data: [
+          ...sections[0].data,
+          {
+            source: {},
+            text: i18n.t('Change Password'),
+            onPress: () => {
+              Router.push(props, 'AccountChangePasswordStep1View');
+            },
+          },
+          {
+            source: {},
+            text: i18n.t('Logout'),
+            onPress: () => {
+              AuthProvider.logout()
+                .then(() => {
+                  props.resetData();
+
+                  Router.jumpTo(props, 'SearchStackNavigator');
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            },
+          },
+        ],
+      };
     }
+
+    /*
+    {
+      source: preview,
+      text: i18n.t('Edit Display Name'),
+      onPress: () => {
+        Router.push(props, 'ProfileNameDisplaySelectionView');
+      },
+    },
+    {
+      source: {},
+      text: i18n.t('Edit Profile'),
+      onPress: () => {
+        Router.push(props, 'ProfileCastSheetEditionView');
+      },
+    },
+    {
+      source: {},
+      text: i18n.t('Change Profile Picture'),
+      onPress: () => {
+        Router.push(props, 'ProfilePictureSelectionView');
+      },
+    },
+    {
+      source: {},
+      text: i18n.t('Change Password'),
+      onPress: () => {
+        Router.push(props, 'AccountChangePasswordStep1View');
+      },
+    },
+    {
+      source: {},
+      text: i18n.t('Logout'),
+      onPress: () => {
+        AuthProvider.logout()
+          .then(() => {
+            props.resetData();
+
+            Router.jumpTo(props, 'SearchStackNavigator');
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      },
+    },
+    */
 
     return (
       <Translation>
@@ -290,6 +349,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.dataReducer.isLoggedIn,
+    hasProfile: state.dataReducer.hasProfile,
   };
 }
 

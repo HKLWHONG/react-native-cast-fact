@@ -96,7 +96,9 @@ const zhHK = {
     no_post_yet: 'No Post Yet',
     no_result: 'No Result',
     no_result_description: 'Try to refine the search criteria.',
+    system_error: 'System Error',
     error: {
+      general_message: 'Please contact your system administrator.',
       empty_field_message: '請輸入所需資料。',
       password_validation_message: '密碼必須是由8或以上的字母及數字所組成。',
     },

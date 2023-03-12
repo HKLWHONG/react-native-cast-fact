@@ -12,8 +12,8 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
-const IDENTIFIER = 'RegisterApi';
-const URL = Environment.API_URL + '/register/';
+const IDENTIFIER = 'CreateProfileApi';
+const URL = Environment.API_URL + '/profile/';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -26,7 +26,7 @@ export const request = (
       IDENTIFIER,
       URL,
       'POST',
-      Header.getHeader(),
+      Header.getAuthHeader(),
       {},
       body,
       {
@@ -37,10 +37,10 @@ export const request = (
       .then((params) => {
         const { json } = params;
 
-        if (json) {
+        if (json && json.profile) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] JSON not found.`);
+          reject(`[${IDENTIFIER}] Profile ID not found.`);
         }
       })
       .catch((error) => {

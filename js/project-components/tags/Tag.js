@@ -557,6 +557,7 @@ const styles = StyleSheet.create({
   centerContainer: {
     // backgroundColor: '#0f0',
     flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 6,
   },
   inputContainer: {

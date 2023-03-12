@@ -15,6 +15,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  store,
   ProfileNameEditionViewAction,
   SignUpStackNavigatorAction,
   ProfileInfoSetupViewAction,
@@ -39,7 +40,7 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
+import { ProfileProcessor } from '../../processors';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -72,18 +73,20 @@ class ProfileNameEditionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      props.setProfileInfoSetupViewFirstnameEn('Tai Man');
-      props.setProfileInfoSetupViewLastnameEn('Chan');
-      props.setProfileInfoSetupViewFirstnameZh('大文');
-      props.setProfileInfoSetupViewLastnameZh('陳');
-      props.setProfileInfoSetupViewNickname('別名');
-
-      Router.push(props, 'ProfileNameDisplaySelectionView');
-    });
-
     props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
       props.setProfileInfoSetupViewDisplayFormat(undefined);
+
+      this.validateAll();
+    });
+
+    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+      // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
+      // props.setProfileInfoSetupViewLastnameEn('Chan');
+      // props.setProfileInfoSetupViewFirstnameZh('大文');
+      // props.setProfileInfoSetupViewLastnameZh('陳');
+      // props.setProfileInfoSetupViewNickname('別名');
+
+      Router.push(props, 'ProfileNameDisplaySelectionView');
     });
 
     if (
@@ -103,6 +106,19 @@ class ProfileNameEditionView extends BaseComponent {
     props.setProfileInfoSetupViewFirstnameZh(undefined);
     props.setProfileInfoSetupViewLastnameZh(undefined);
     props.setProfileInfoSetupViewNickname(undefined);
+  };
+
+  validateAll = () => {
+    const { props } = this;
+
+    const { account } = store.getState().profileInfoSetupViewReducer;
+
+    const isValid_0 = ProfileProcessor.validateNameDisplayFormat_0();
+    const isValid_1 = ProfileProcessor.validateNameDisplayFormat_1();
+    const isValid_2 = ProfileProcessor.validateNameDisplayFormat_2();
+    const isValid_3 = ProfileProcessor.validateNameDisplayFormat_3();
+
+    props.setSignUpStackNavigatorEnabledRight(isValid_0 || isValid_1 || isValid_2 || isValid_3);
   };
 
   renderHeader = () => {
@@ -168,6 +184,8 @@ class ProfileNameEditionView extends BaseComponent {
                 value={props.profileInfoSetupViewAccount.info.firstnameEn}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupViewFirstnameEn(text);
+
+                  this.validateAll();
                 }}
               />
               <TextInput
@@ -176,6 +194,8 @@ class ProfileNameEditionView extends BaseComponent {
                 value={props.profileInfoSetupViewAccount.info.lastnameEn}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupViewLastnameEn(text);
+
+                  this.validateAll();
                 }}
               />
             </View>
@@ -186,6 +206,8 @@ class ProfileNameEditionView extends BaseComponent {
                 value={props.profileInfoSetupViewAccount.info.firstnameZh}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupViewFirstnameZh(text);
+
+                  this.validateAll();
                 }}
               />
               <TextInput
@@ -194,6 +216,8 @@ class ProfileNameEditionView extends BaseComponent {
                 value={props.profileInfoSetupViewAccount.info.lastnameZh}
                 onChangeText={(text) => {
                   props.setProfileInfoSetupViewLastnameZh(text);
+
+                  this.validateAll();
                 }}
               />
             </View>
@@ -203,6 +227,8 @@ class ProfileNameEditionView extends BaseComponent {
               value={props.profileInfoSetupViewAccount.info.nickname}
               onChangeText={(text) => {
                 props.setProfileInfoSetupViewNickname(text);
+
+                this.validateAll();
               }}
             />
           </View>
@@ -307,6 +333,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addRef: (...args) => dispatch(ProfileNameEditionViewAction.addRef(...args)),
+    setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),

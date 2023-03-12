@@ -78,6 +78,10 @@ class ProfilePictureSelectionView extends BaseComponent {
 
     props.setSignUpStackNavigatorHiddenRight(false);
 
+    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      props.setSignUpStackNavigatorEnabledRight(true);
+    });
+
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       Router.push(props, 'ProfileNameEditionView');
     });
@@ -354,6 +358,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
+    setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
+    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
   };

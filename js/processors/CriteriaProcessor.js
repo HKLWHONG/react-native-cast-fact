@@ -3,8 +3,6 @@
  * @flow strict-local
  */
 
-import { Environment } from '../config';
-
 import { store } from '../redux';
 
 export const addTag = (tags, tag) => {

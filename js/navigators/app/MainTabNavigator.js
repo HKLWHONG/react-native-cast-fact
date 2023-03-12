@@ -370,13 +370,21 @@ class MainTabNavigator extends BaseComponent {
                   this.tabPress(params, event, { index: 2, stack: 'SettingsStackNavigator' });
 
                   AuthProvider.decodeJWTToken()
-                    .then(() => {
+                    .then((data) => {
+                      // console.log('[jwt-data]', data);
+
                       props.setIsLoggedIn(true);
+                      if (data.profile_id) {
+                        props.setHasProfile(true);
+                      } else {
+                        props.setHasProfile(false);
+                      }
                     })
                     .catch((error) => {
                       console.error(error);
 
                       props.setIsLoggedIn(false);
+                      props.setHasProfile(false);
                     });
                 },
               })}
@@ -478,6 +486,7 @@ function mapDispatchToProps(dispatch) {
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
     setIsLoggedIn: (...args) => dispatch(DataAction.setIsLoggedIn(...args)),
+    setHasProfile: (...args) => dispatch(DataAction.setHasProfile(...args)),
   };
 }
 

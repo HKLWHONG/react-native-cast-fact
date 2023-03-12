@@ -15,6 +15,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  store,
   ProfileNameDisplaySelectionViewAction,
   SignUpStackNavigatorAction,
   ProfileInfoSetupViewAction,
@@ -39,7 +40,7 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
+import { ProfileProcessor } from '../../processors';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -72,6 +73,10 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
+    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      this.validateAll();
+    });
+
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       Router.push(props, 'ProfileCastSheetEditionView');
     });
@@ -81,6 +86,22 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
   clearData = () => {
     const { props } = this;
+  };
+
+  validateAll = () => {
+    const { props } = this;
+
+    const { account } = store.getState().profileInfoSetupViewReducer;
+
+    if (account.info.displayFormat === 0) {
+      props.setSignUpStackNavigatorEnabledRight(ProfileProcessor.validateNameDisplayFormat_0());
+    } else if (account.info.displayFormat === 1) {
+      props.setSignUpStackNavigatorEnabledRight(ProfileProcessor.validateNameDisplayFormat_1());
+    } else if (account.info.displayFormat === 2) {
+      props.setSignUpStackNavigatorEnabledRight(ProfileProcessor.validateNameDisplayFormat_2());
+    } else if (account.info.displayFormat === 3) {
+      props.setSignUpStackNavigatorEnabledRight(ProfileProcessor.validateNameDisplayFormat_3());
+    }
   };
 
   renderHeader = () => {
@@ -144,6 +165,8 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
             style={[styles.optionContainer, style]}
             onPress={() => {
               props.setProfileInfoSetupViewDisplayFormat(0);
+
+              this.validateAll();
             }}
           >
             <View
@@ -229,6 +252,8 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
             style={[styles.optionContainer, style]}
             onPress={() => {
               props.setProfileInfoSetupViewDisplayFormat(1);
+
+              this.validateAll();
             }}
           >
             <View
@@ -314,6 +339,8 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
             style={[styles.optionContainer, style]}
             onPress={() => {
               props.setProfileInfoSetupViewDisplayFormat(2);
+
+              this.validateAll();
             }}
           >
             <View
@@ -384,6 +411,8 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
             style={[styles.optionContainer, style]}
             onPress={() => {
               props.setProfileInfoSetupViewDisplayFormat(3);
+
+              this.validateAll();
             }}
           >
             <View
@@ -534,6 +563,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
+    setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewDisplayFormat: (...args) => dispatch(ProfileInfoSetupViewAction.setDisplayFormat(...args)),
   };

@@ -352,7 +352,7 @@ class SignUpView extends BaseComponent {
               style={styles.textInput}
               label={t('views.sign_up.phone_label')}
               valueLeft={props.account.info.phoneCode}
-              value={props.account.info.phone}
+              value={props.account.info.phoneNumber}
               keyboardType="number-pad"
               keyboardTypeLeft="number-pad"
               onChangeTextLeft={(text) => {

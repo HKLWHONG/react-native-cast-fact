@@ -54,6 +54,7 @@ export const register = (props, params, options) => {
       {
         email: params && params.email,
         password: params && params.password,
+        phone_number: params && params.phoneNumber,
       },
       options,
     )

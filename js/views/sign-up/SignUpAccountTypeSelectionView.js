@@ -11,6 +11,7 @@ import {
   ImageBackground,
   View,
   Text,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -172,6 +173,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
                 AuthProvider.register(props, {
                   email: props.signUpViewAccount.credentials.email,
                   password: props.signUpViewAccount.credentials.password,
+                  phoneNumber: `${props.signUpViewAccount.info.phoneCode}${props.signUpViewAccount.info.phoneNumber}`,
                 })
                   .then(() => {
                     Router.dismiss(props);
@@ -187,7 +189,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
                   .catch((error) => {
                     console.error(error);
 
-                    alert(error);
+                    Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
                   });
               }}
             />

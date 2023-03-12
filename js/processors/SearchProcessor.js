@@ -3,8 +3,6 @@
  * @flow strict-local
  */
 
-import { Environment } from '../config';
-
 import { store, CriteriaSectionAction } from '../redux';
 
 import { CriteriaProcessor, TagProcessor } from '../processors';

@@ -16,7 +16,7 @@ const initState = () => {
         // lastnameZh: undefined,
         // nickname: undefined,
         phoneCode: '+852',
-        phoneNumber: undefined,
+        phoneNumber: '61234567',
       },
       credentials: {
         email: 'castfact-tester@gmail.com',

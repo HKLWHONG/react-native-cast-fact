@@ -9,9 +9,9 @@ const initState = () => {
   return {
     refs: {},
     credentials: {
-      email: 'admin@admin.com',
+      email: 'castfact-tester@gmail.com',
       emailMessage: undefined,
-      password: 'admin',
+      password: 'a123456789A!',
       passwordMessage: undefined,
     },
   };

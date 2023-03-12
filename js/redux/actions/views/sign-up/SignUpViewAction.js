@@ -78,8 +78,6 @@ export const setEmail = (email) => (dispatch) => {
 };
 
 export const setPhoneCode = (phoneCode) => (dispatch) => {
-  console.log('[phoneCode] ', phoneCode);
-
   if (phoneCode && !phoneCode.startsWith('+')) {
     phoneCode = '+' + phoneCode;
   }

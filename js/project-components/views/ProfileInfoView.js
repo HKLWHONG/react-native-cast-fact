@@ -61,33 +61,35 @@ class ProfileInfoView extends Component {
             source={source}
             blurRadius={20}
           >
-            <View
-              style={{
-                // backgroundColor: 'green',
-                flex: 2,
-                alignItems: 'center',
-              }}
-            >
-              <Image
-                style={styles.photo}
-                source={source}
-                resizeMode="contain"
-              />
-            </View>
-            <View
-              style={{
-                // backgroundColor: 'cyan',
-                flex: 3,
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={styles.name}>
-                {'Nam Joohyuk'}
-              </Text>
-              <Text style={styles.occupation}>
-                {'Actor'}
-              </Text>
-            </View>
+            <ImageBackground style={styles.layerContainer}>
+              <View
+                style={{
+                  // backgroundColor: 'green',
+                  flex: 2,
+                  alignItems: 'center',
+                }}
+              >
+                <Image
+                  style={styles.photo}
+                  source={source}
+                  resizeMode="contain"
+                />
+              </View>
+              <View
+                style={{
+                  // backgroundColor: 'cyan',
+                  flex: 3,
+                  justifyContent: 'center',
+                }}
+              >
+                <Text style={styles.name}>
+                  {'Nam Joohyuk'}
+                </Text>
+                <Text style={styles.occupation}>
+                  {'Actor'}
+                </Text>
+              </View>
+            </ImageBackground>
           </ImageBackground>
         )}
       </Translation>
@@ -98,6 +100,12 @@ class ProfileInfoView extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#f00',
+    flexDirection: 'row',
+  },
+  layerContainer: {
+    backgroundColor: Theme.colors.background.primary,
+    opacity: 0.9,
+    flex: 1,
     flexDirection: 'row',
     padding: 16,
   },
