@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ImageBackground,
   View,
   Text,
 } from 'react-native';
@@ -28,6 +29,7 @@ import {
   ProfileInfoView,
   SegmentedControl,
   ProfileCastingSheetList,
+  Button,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -39,7 +41,10 @@ import { Theme, Router } from '../../utils';
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-// const background = require('../../../assets/images/project_background.png');
+const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
+
+const ic_digital_cast_sheet = require('../../../assets/images/ic_digital_cast_sheet/ic_digital_cast_sheet.png');
+const ic_searchable_profile = require('../../../assets/images/ic_searchable_profile/ic_searchable_profile.png');
 
 export const IDENTIFIER = 'ProfileView';
 
@@ -90,6 +95,143 @@ class ProfileView extends BaseComponent {
       <Translation>
         {(t) => (
           <ProfileInfoView />
+        )}
+      </Translation>
+    );
+  };
+
+  renderImageBackground = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={ic_light_background}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderTitleContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>
+              {t('views.welcome.title')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderDescriptionContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.descriptionText1}>
+              {t('views.welcome.description_1')}
+            </Text>
+            <Text style={styles.descriptionText2}>
+              {t('views.welcome.description_2')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderSubtitleContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>
+              {t('views.welcome.subtitle')}
+            </Text>
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderButtonContainer = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.buttonContainer}>
+            <Button
+              style={[styles.button, { marginBottom: 4 }]}
+              textStyle={styles.buttonText}
+              leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
+              text={t('views.welcome.digital_cast_sheet')}
+              description={t('views.welcome.digital_cast_sheet_description')}
+              leftAccessorySource={ic_digital_cast_sheet}
+              leftAccessoryResizeMode="center"
+              disabled
+            />
+            <Button
+              style={[styles.button, { marginTop: 4 }]}
+              textStyle={styles.buttonText}
+              leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
+              text={t('views.welcome.searchable_profile')}
+              description={t('views.welcome.searchable_profile_description')}
+              leftAccessorySource={ic_searchable_profile}
+              leftAccessoryResizeMode="center"
+              disabled
+            />
+          </View>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCreateAccountButton = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={styles.createAccountButton}
+            text={t('app.create_account')}
+            onPress={() => {
+              // Router.push(props.slideSheetPropsList[WelcomeSlideSheetContainerView.IDENTIFIER], 'SignUpStackNavigator');
+            }}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderViewerView = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.viewer}>
+            {this.renderImageBackground()}
+            {this.renderTitleContainer()}
+            {this.renderDescriptionContainer()}
+            {this.renderSubtitleContainer()}
+            {this.renderButtonContainer()}
+            {this.renderCreateAccountButton()}
+          </View>
         )}
       </Translation>
     );
@@ -279,18 +421,31 @@ class ProfileView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    switch (section.index) {
-      case 0:
-        return this.renderProfileInfoView(params);
+    if (props.userProfile) {
+      switch (section.index) {
+        case 0:
+          return this.renderProfileInfoView(params);
 
-      case 1:
-        return this.renderSegmentedControl(params);
+        case 1:
+          return this.renderSegmentedControl(params);
 
-      case 2:
-        return this.renderProfileCastingSheetList(params);
+        case 2:
+          return this.renderProfileCastingSheetList(params);
 
-      default:
-        break;
+        default:
+          break;
+      }
+    } else {
+      switch (section.index) {
+        case 0:
+          return this.renderProfileInfoView(params);
+
+        case 1:
+          return this.renderViewerView(params);
+
+        default:
+          break;
+      }
     }
   };
 
@@ -306,11 +461,49 @@ class ProfileView extends BaseComponent {
         title: i18n.t(''),
         data: [''],
       },
-      {
-        title: i18n.t(''),
-        data: [''],
-      },
     ];
+
+    if (props.userProfile) {
+      sections = [
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+      ];
+    }
+
+    let androidRefreshControlColor = undefined;
+    let iosRefreshControlColor = undefined;
+    let refreshing = undefined;
+    let onRefresh= undefined;
+
+    if (props.userProfile) {
+      androidRefreshControlColor = Theme.colors.general.black;
+
+      iosRefreshControlColor = Theme.colors.general.white;
+      
+      refreshing = props.refreshing;
+
+      onRefresh = async (refreshing) => {
+        // props.setRefreshing(true);
+
+        // props.setFeedsPagingPage(0);
+        //
+        // this.loadFeeds([]);
+
+        // await FeedProvider.prefetchFeeds(props);
+        //
+        // props.setRefreshing(false);
+      };
+    }
 
     return (
       <Translation>
@@ -326,20 +519,10 @@ class ProfileView extends BaseComponent {
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
               renderItem={this.renderItem}
-              androidRefreshControlColor={Theme.colors.general.black}
-              iosRefreshControlColor={Theme.colors.general.white}
-              refreshing={props.refreshing}
-              onRefresh={async (refreshing) => {
-                // props.setRefreshing(true);
-
-                // props.setFeedsPagingPage(0);
-                //
-                // this.loadFeeds([]);
-
-                // await FeedProvider.prefetchFeeds(props);
-                //
-                // props.setRefreshing(false);
-              }}
+              androidRefreshControlColor={androidRefreshControlColor}
+              iosRefreshControlColor={iosRefreshControlColor}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
             />
           </Body>
         )}
@@ -384,6 +567,90 @@ const styles = StyleSheet.create({
   body: {
     // backgroundColor: '#0f0',
   },
+  viewer: {
+    // backgroundColor: '#0f0',
+    // justifyContent: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+  },
+  imageBackground: {
+    // backgroundColor: '#f00',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 230 / 393,
+  },
+  titleContainer: {
+    // backgroundColor: '#f00',
+    alignItems: 'center',
+    marginVertical: 48,
+    marginBottom: 16,
+  },
+  title: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 36,
+    fontFamily: Theme.fonts.bold,
+    letterSpacing: 8,
+    textTransform: 'uppercase',
+  },
+  descriptionContainer: {
+    // backgroundColor: '#ff0',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  descriptionText1: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 17,
+    fontFamily: Theme.fonts.medium,
+    letterSpacing: 1,
+  },
+  descriptionText2: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.text.subtitle,
+    fontSize: 13,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 1,
+    textAlign: 'center',
+    marginHorizontal: 80,
+  },
+  subtitleContainer: {
+    // backgroundColor: '#0ff',
+    alignItems: 'center',
+    marginTop: 32,
+    marginBottom: 8,
+  },
+  subtitle: {
+    // backgroundColor: '#00f',
+    color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.light,
+    letterSpacing: 0,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    marginHorizontal: 64,
+  },
+  buttonContainer: {
+    // backgroundColor: '#f00',
+    marginTop: 8,
+    marginBottom: 32,
+  },
+  button: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.general.transparent,
+  },
+  buttonText: {
+    // color: Theme.colors.general.white,
+    fontSize: 15,
+    fontFamily: Theme.fonts.medium,
+  },
+  buttonLeftAccessoryImage: {
+    flex: 1,
+    aspectRatio: 1,
+  },
+  createAccountButton: {
+    marginTop: 16,
+  },
   listContentContainer: {
     paddingHorizontal: 0,
     paddingBottom: 12,
@@ -394,7 +661,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    userProfile: state.dataReducer.userProfile,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

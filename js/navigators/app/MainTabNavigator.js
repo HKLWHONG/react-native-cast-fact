@@ -375,16 +375,16 @@ class MainTabNavigator extends BaseComponent {
 
                       props.setIsLoggedIn(true);
                       if (data.profile_id) {
-                        props.setHasProfile(true);
+                        // props.setHasProfile(true);
                       } else {
-                        props.setHasProfile(false);
+                        props.setUserProfile(undefined);
                       }
                     })
                     .catch((error) => {
                       console.error(error);
 
                       props.setIsLoggedIn(false);
-                      props.setHasProfile(false);
+                      props.setUserProfile(undefined);
                     });
                 },
               })}
@@ -486,7 +486,7 @@ function mapDispatchToProps(dispatch) {
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
     setIsLoggedIn: (...args) => dispatch(DataAction.setIsLoggedIn(...args)),
-    setHasProfile: (...args) => dispatch(DataAction.setHasProfile(...args)),
+    setUserProfile: (...args) => dispatch(DataAction.setUserProfile(...args)),
   };
 }
 

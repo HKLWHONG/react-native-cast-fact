@@ -131,7 +131,7 @@ class SettingsView extends BaseComponent {
     ];
 
     if (props.isLoggedIn) {
-      if (props.hasProfile) {
+      if (props.userProfile) {
         sections[0] = {
           ...sections[0],
           data: [
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.dataReducer.isLoggedIn,
-    hasProfile: state.dataReducer.hasProfile,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 

@@ -53,6 +53,57 @@ class ProfileInfoView extends Component {
       source = { uri: 'file://' + (props.photo && props.photo.path) };
     }
 
+    let name = undefined;
+
+    // const firstnameEn = props.account.info.firstnameEn || '';
+    // const lastnameEn = props.account.info.lastnameEn || '';
+    // const firstnameZh = props.account.info.firstnameZh || '';
+    // const lastnameZh = props.account.info.lastnameZh || '';
+    // const nickname = props.account.info.nickname || '';
+    //
+    // if (props.account.info.displayFormat === 0) {
+    //   name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+    // } else if (props.account.info.displayFormat === 1) {
+    //   name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+    // } else if (props.account.info.displayFormat === 2) {
+    //   name = `${nickname} ${lastnameZh}${firstnameZh}`.trim();
+    // } else if (props.account.info.displayFormat === 3) {
+    //   name = `${nickname}`.trim();
+    // }
+    //
+    // if (name.length === 0) {
+    //   name = undefined;
+    // }
+
+    let nameTextContainerStyle = {};
+
+    if (name) {
+      nameTextContainerStyle = {
+        ...nameTextContainerStyle,
+        backgroundColor: Theme.colors.general.transparent,
+      }
+    }
+
+    let occupation = undefined;
+
+    // let occupation = (
+    //   props.profileCastSheetEditionViewAccount.info.occupation
+    //   &&
+    //   props.profileCastSheetEditionViewAccount.info.occupation.text
+    // );
+
+    let occupationTextContainerStyle = {};
+
+    if (occupation) {
+      occupationTextContainerStyle = {
+        ...occupationTextContainerStyle,
+        backgroundColor: Theme.colors.general.transparent,
+      }
+    }
+
+    console.log('[profile-info-setup-section-name]', name);
+    console.log('[profile-info-setup-section-occupation]', occupation);
+
     return (
       <Translation>
         {(t) => (
@@ -80,14 +131,19 @@ class ProfileInfoView extends Component {
                   // backgroundColor: 'cyan',
                   flex: 3,
                   justifyContent: 'center',
+                  alignItems: 'flex-start',
                 }}
               >
-                <Text style={styles.name}>
-                  {'Nam Joohyuk'}
-                </Text>
-                <Text style={styles.occupation}>
-                  {'Actor'}
-                </Text>
+                <View style={[styles.textContainer, { minWidth: 100 }, nameTextContainerStyle]}>
+                  <Text style={styles.name}>
+                    {` ${name || ' '} `}
+                  </Text>
+                </View>
+                <View style={[styles.textContainer, { minWidth: 150 }, occupationTextContainerStyle]}>
+                  <Text style={styles.occupation}>
+                    {` ${occupation || ' '} `}
+                  </Text>
+                </View>
               </View>
             </ImageBackground>
           </ImageBackground>
@@ -121,6 +177,12 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.borders.gray,
     margin: 16,
   },
+  textContainer: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.gray,
+    borderRadius: 4,
+    marginVertical: 4,
+  },
   name: {
     // backgroundColor: '#00f',
     color: Theme.colors.general.white,
@@ -151,7 +213,9 @@ ProfileInfoView.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-
+    // account: state.profileInfoSetupViewReducer.account,
+    // profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 

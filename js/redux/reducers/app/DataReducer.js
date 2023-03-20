@@ -11,7 +11,7 @@ const initState = () => {
     recentSearchesSectionTags: [],
     findTalentSectionTags: [],
     isLoggedIn: false,
-    hasProfile: false,
+    userProfile: undefined,
   };
 };
 
@@ -47,10 +47,10 @@ export default function dataReducer(state = initState(), action) {
         isLoggedIn: action.isLoggedIn,
       };
 
-    case DataActionType.HAS_PROFILE:
+    case DataActionType.USER_PROFILE:
       return {
         ...state,
-        hasProfile: action.hasProfile,
+        userProfile: action.userProfile,
       };
 
     default:
