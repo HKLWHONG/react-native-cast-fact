@@ -370,11 +370,11 @@ class MainTabNavigator extends BaseComponent {
                   this.tabPress(params, event, { index: 2, stack: 'SettingsStackNavigator' });
 
                   AuthProvider.decodeJWTToken()
-                    .then((data) => {
-                      // console.log('[jwt-data]', data);
+                    .then((jwtToken) => {
+                      // console.log('[jwt-token]', jwtToken);
 
                       props.setIsLoggedIn(true);
-                      if (data.profile_id) {
+                      if (jwtToken.profile_id) {
                         // props.setHasProfile(true);
                       } else {
                         props.setUserProfile(undefined);

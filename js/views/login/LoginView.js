@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  Alert,
   View,
   Text,
 } from 'react-native';
@@ -278,6 +279,14 @@ class LoginView extends BaseComponent {
                 })
                 .catch((error) => {
                   console.error(error);
+
+                  Alert.alert(
+                    i18n.t('app.system_error'),
+                    i18n.t('app.error.general_message'),
+                    [{
+                      text: i18n.t('app.ok').toUpperCase(),
+                    }],
+                  );
 
                   // props.hideActivityIndicator({
                   //   holder: ActivityIndicatorHolders.LOGIN,

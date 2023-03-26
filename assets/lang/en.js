@@ -11,6 +11,7 @@ const en = {
     login: 'Login',
     forgotPassword: 'Forgot Password',
     create_account: 'Create Account',
+    upgrade_account: 'Upgrade to Artistes',
     sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
@@ -118,7 +119,6 @@ const en = {
       digital_cast_sheet_description: 'Digital profile for you.',
       searchable_profile: 'Sarchable Profile',
       searchable_profile_description: 'Discoverable for all.',
-      create_account: 'Create Account',
       login_hint: 'Existing user?',
       redeem_text_1: 'or ',
       redeem: 'Redeem',
@@ -129,7 +129,6 @@ const en = {
       email_label: 'Email',
       password_label: 'Password',
       create_account_hint: 'New user?',
-      create_account: 'Create Account',
     },
     sign_up: {
       header: '',
@@ -189,6 +188,12 @@ const en = {
     },
     profile: {
       header: 'Profile',
+      description_1: 'Viewer Account',
+      description_2: 'Upgrade to Artistes account to enjoy additional features.',
+      digital_cast_sheet: 'Digital Cast Sheet',
+      digital_cast_sheet_description: 'Digital profile for you.',
+      searchable_profile: 'Sarchable Profile',
+      searchable_profile_description: 'Discoverable for all.',
     },
     profile_picture_selection: {
       header: 'Profile',

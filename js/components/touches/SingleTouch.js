@@ -137,7 +137,7 @@ export default class SingleTouch extends Component {
       };
     }
 
-    if (props.disabled) {
+    if (props.disabled && !props.feedbackDisabled) {
       containerStyle = {
         ...containerStyle,
         opacity: 0.5,
@@ -223,6 +223,7 @@ SingleTouch.propTypes = {
   onPressIn: PropTypes.func,
   onPressOut: PropTypes.func,
   disabled: PropTypes.bool,
+  feedbackDisabled: PropTypes.bool,
   duration: PropTypes.number,
   onTimeout: PropTypes.func,
   activeOpacity: PropTypes.number,
@@ -244,6 +245,7 @@ SingleTouch.defaultProps = {
   onPressIn: undefined,
   onPressOut: undefined,
   disabled: false,
+  feedbackDisabled: false,
   duration: 500,
   onTimeout: undefined,
   activeOpacity: 0.7,

@@ -346,7 +346,7 @@ class LoginView extends BaseComponent {
                   {t('views.login.create_account_hint')}
                 </Text>
                 <Text style={styles.createAccount}>
-                  {t('views.login.create_account')}
+                  {t('app.create_account')}
                 </Text>
               </View>
             </SingleTouch>

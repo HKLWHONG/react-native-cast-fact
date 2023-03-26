@@ -36,8 +36,6 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-// import { TestApi } from '../../apis';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -123,7 +121,7 @@ class ProfileView extends BaseComponent {
         {(t) => (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
-              {t('views.welcome.title')}
+              {t('')}
             </Text>
           </View>
         )}
@@ -139,26 +137,10 @@ class ProfileView extends BaseComponent {
         {(t) => (
           <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText1}>
-              {t('views.welcome.description_1')}
+              {t('views.profile.description_1')}
             </Text>
             <Text style={styles.descriptionText2}>
-              {t('views.welcome.description_2')}
-            </Text>
-          </View>
-        )}
-      </Translation>
-    );
-  };
-
-  renderSubtitleContainer = () => {
-    const { props } = this;
-
-    return (
-      <Translation>
-        {(t) => (
-          <View style={styles.subtitleContainer}>
-            <Text style={styles.subtitle}>
-              {t('views.welcome.subtitle')}
+              {t('views.profile.description_2')}
             </Text>
           </View>
         )}
@@ -178,7 +160,7 @@ class ProfileView extends BaseComponent {
               textStyle={styles.buttonText}
               leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
               text={t('views.welcome.digital_cast_sheet')}
-              description={t('views.welcome.digital_cast_sheet_description')}
+              description={t('views.profile.digital_cast_sheet_description')}
               leftAccessorySource={ic_digital_cast_sheet}
               leftAccessoryResizeMode="center"
               disabled
@@ -188,7 +170,7 @@ class ProfileView extends BaseComponent {
               textStyle={styles.buttonText}
               leftAccessoryImageStyle={styles.buttonLeftAccessoryImage}
               text={t('views.welcome.searchable_profile')}
-              description={t('views.welcome.searchable_profile_description')}
+              description={t('views.profile.searchable_profile_description')}
               leftAccessorySource={ic_searchable_profile}
               leftAccessoryResizeMode="center"
               disabled
@@ -199,17 +181,17 @@ class ProfileView extends BaseComponent {
     );
   };
 
-  renderCreateAccountButton = () => {
+  renderUpgradeAccountButton = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
           <Button
-            style={styles.createAccountButton}
-            text={t('app.create_account')}
+            style={styles.upgradeAccountButton}
+            text={t('app.upgrade_account')}
             onPress={() => {
-              // Router.push(props.slideSheetPropsList[WelcomeSlideSheetContainerView.IDENTIFIER], 'SignUpStackNavigator');
+              Router.push(props, 'SignUpStackNavigator', 'ProfilePictureSelectionView');
             }}
           />
         )}
@@ -228,9 +210,8 @@ class ProfileView extends BaseComponent {
             {this.renderImageBackground()}
             {this.renderTitleContainer()}
             {this.renderDescriptionContainer()}
-            {this.renderSubtitleContainer()}
             {this.renderButtonContainer()}
-            {this.renderCreateAccountButton()}
+            {this.renderUpgradeAccountButton()}
           </View>
         )}
       </Translation>
@@ -489,7 +470,7 @@ class ProfileView extends BaseComponent {
       androidRefreshControlColor = Theme.colors.general.black;
 
       iosRefreshControlColor = Theme.colors.general.white;
-      
+
       refreshing = props.refreshing;
 
       onRefresh = async (refreshing) => {
@@ -614,22 +595,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 80,
   },
-  subtitleContainer: {
-    // backgroundColor: '#0ff',
-    alignItems: 'center',
-    marginTop: 32,
-    marginBottom: 8,
-  },
-  subtitle: {
-    // backgroundColor: '#00f',
-    color: Theme.colors.general.white,
-    fontSize: 15,
-    fontFamily: Theme.fonts.light,
-    letterSpacing: 0,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    marginHorizontal: 64,
-  },
   buttonContainer: {
     // backgroundColor: '#f00',
     marginTop: 8,
@@ -648,7 +613,7 @@ const styles = StyleSheet.create({
     flex: 1,
     aspectRatio: 1,
   },
-  createAccountButton: {
+  upgradeAccountButton: {
     marginTop: 16,
   },
   listContentContainer: {

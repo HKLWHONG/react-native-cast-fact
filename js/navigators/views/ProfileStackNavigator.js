@@ -20,6 +20,10 @@ import {
   ProfileView,
 } from '../../views';
 
+import {
+  SignUpStackNavigator,
+} from '../../navigators';
+
 import { Translation } from 'react-i18next';
 
 const ic_header_2 = require('../../../assets/images/ic_header_2/ic_header_2.png');
@@ -72,6 +76,15 @@ class ProfileStackNavigator extends BaseComponent {
                 title: t('views.profile.header'),
               }}
             />
+            <Stack.Group
+              screenOptions={{
+                presentation: 'transparentModal',
+                headerShown: false,
+                animationEnabled: false,
+              }}
+            >
+              <Stack.Screen name="SignUpStackNavigator" component={SignUpStackNavigator} />
+            </Stack.Group>
           </Stack.Navigator>
         )}
       </Translation>

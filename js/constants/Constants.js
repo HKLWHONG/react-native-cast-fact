@@ -3,11 +3,18 @@
  * @flow strict-local
  */
 
+export const HEIGHT = 'Height';
+export const WEIGHT = 'Weight';
+export const AGE = 'Age';
+export const EYES_COLOR = 'Eyes Color';
+export const HAIR_COLOR = 'Hair Color';
+export const SKIN_COLOR = 'Skin Color';
+
 export const TAGS =
 [
     {
         "rightAccessoryType": "plus",
-        "label": "Height",
+        "label": HEIGHT,
         "data": [
             {
                 "id": 1,
@@ -65,7 +72,7 @@ export const TAGS =
     },
     {
         "rightAccessoryType": "plus",
-        "label": "Weight",
+        "label": WEIGHT,
         "data": [
             {
                 "id": 3,
@@ -123,7 +130,7 @@ export const TAGS =
     },
     {
         "rightAccessoryType": "plus",
-        "label": "Age",
+        "label": AGE,
         "data": [
             {
                 "id": 5,
@@ -155,7 +162,7 @@ export const TAGS =
     },
     {
         "rightAccessoryType": null,
-        "label": "Languages",
+        "label": "Language",
         "data": [],
     },
     {
@@ -170,17 +177,17 @@ export const TAGS =
     },
     {
         "rightAccessoryType": null,
-        "label": "Eye Color",
+        "label": EYES_COLOR,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Hair Color",
+        "label": HAIR_COLOR,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Skin Color",
+        "label": SKIN_COLOR,
         "data": [],
     },
     {
@@ -194,3 +201,13 @@ export const TAGS =
         "data": [],
     }
 ];
+
+export const TAGS_SUFFIX_MAPPING = {
+  [EYES_COLOR.toLowerCase()]: 'eye',
+  [HAIR_COLOR.toLowerCase()]: 'hair',
+  [SKIN_COLOR.toLowerCase()]: 'skin',
+};
+
+export const TAGS_COLOR_MAPPING = {
+  'black': '#000000',
+};

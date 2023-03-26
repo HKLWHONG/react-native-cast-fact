@@ -11,6 +11,7 @@ const zhHK = {
     login: '登入',
     forgotPassword: '忘記密碼',
     create_account: 'Create Account',
+    upgrade_account: 'Upgrade to Artistes',
     sign_up: 'Sign Up',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
@@ -118,7 +119,6 @@ const zhHK = {
       digital_cast_sheet_description: 'Digital profile for you.',
       searchable_profile: 'Sarchable Profile',
       searchable_profile_description: 'Discoverable for all.',
-      create_account: 'Create Account',
       login_hint: 'Existing user?',
       redeem_text_1: 'or ',
       redeem: 'Redeem',
@@ -129,7 +129,6 @@ const zhHK = {
       email_label: '電郵地址',
       password_label: '密碼',
       create_account_hint: 'New user?',
-      create_account: 'Create Account',
     },
     sign_up: {
       header: '',
@@ -188,6 +187,12 @@ const zhHK = {
     },
     profile: {
       header: 'Profile',
+      description_1: 'Viewer Account',
+      description_2: 'Upgrade to Artistes account to enjoy additional features.',
+      digital_cast_sheet: 'Digital Cast Sheet',
+      digital_cast_sheet_description: 'Digital profile for you.',
+      searchable_profile: 'Sarchable Profile',
+      searchable_profile_description: 'Discoverable for all.',
     },
     profile_picture_selection: {
       header: 'Profile',

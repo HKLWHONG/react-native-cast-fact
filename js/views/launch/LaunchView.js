@@ -72,7 +72,7 @@ class LaunchView extends BaseComponent {
     props.selectTab(0);
 
     Promise.all([
-      TagProvider.prefetchTags(),
+      TagProvider.prefetchTags(props),
     ])
       .then(() => {
         Router.route(props, 'DrawerNavigator');

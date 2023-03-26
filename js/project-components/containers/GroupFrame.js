@@ -217,6 +217,7 @@ class GroupFrame extends Component {
 
               props.onPress(props.info);
             }}
+            feedbackDisabled
           >
             <View style={styles.contentContainer}>
               {props.children}

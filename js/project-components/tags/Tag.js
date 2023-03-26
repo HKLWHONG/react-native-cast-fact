@@ -476,6 +476,7 @@ class Tag extends Component {
 
               props.onPress(props.info)
             }}
+            feedbackDisabled
           >
             {this.renderLeftContainer()}
             {this.renderCenterContainer()}
