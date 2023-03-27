@@ -35,7 +35,56 @@ const IDENTIFIER = 'TagProvider';
 
 export const prefetchTags = (props, params, options) => {
   return new Promise(async (resolve, reject) => {
+    let cachedTags = await TagStorage.getTags()
+      .catch((error) => {
+        console.error(error);
+      });
 
+    if (cachedTags) {
+      console.log(`[${IDENTIFIER}] cached-tags-found.`);
+
+      store.dispatch(DataAction.setFindTalentSectionTags(cachedTags));
+      store.dispatch(FindTalentSectionAction.setTags(cachedTags));
+
+      TagProcessor.reload();
+
+      getTags(props, params, options)
+        .then((tags) => {
+          if (JSON.stringify(cachedTags) !== JSON.stringify(tags)) {
+            console.log(`[${IDENTIFIER}] need-to-reload-tags.`);
+
+            store.dispatch(FindTalentSectionAction.setTags(tags));
+
+            TagProcessor.reload();
+          } else {
+            console.log(`[${IDENTIFIER}] no-need-to-reload-tags.`);
+          }
+
+          resolve(tags);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    } else {
+      console.log(`[${IDENTIFIER}] no-cached-tags.`);
+
+      getTags(props, params, options)
+        .then((tags) => {
+          store.dispatch(FindTalentSectionAction.setTags(tags));
+
+          TagProcessor.reload();
+
+          resolve(tags);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    }
+  });
+};
+
+export const getTags = (props, params, options) => {
+  return new Promise((resolve, reject) => {
     ListTagByCategoryApi.request(
       props,
       params,
@@ -89,12 +138,14 @@ export const prefetchTags = (props, params, options) => {
 
         console.log('[tags]', JSON.stringify(tags));
 
+        TagStorage.setTags(tags)
+          .catch((error) => {
+            console.error(error);
+          });
+
         store.dispatch(DataAction.setFindTalentSectionTags(tags));
-        store.dispatch(FindTalentSectionAction.setTags(tags));
 
-        TagProcessor.reload();
-
-        resolve(params);
+        resolve(tags);
       })
       .catch((error) => {
         reject(error);

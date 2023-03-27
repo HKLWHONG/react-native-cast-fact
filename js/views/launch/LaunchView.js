@@ -76,6 +76,11 @@ class LaunchView extends BaseComponent {
     ])
       .then(() => {
         Router.route(props, 'DrawerNavigator');
+      })
+      .catch((error) => {
+        console.error(error);
+
+        Router.route(props, 'DrawerNavigator');
       });
 
     //
