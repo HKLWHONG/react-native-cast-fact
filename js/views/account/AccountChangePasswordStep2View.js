@@ -8,12 +8,14 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  Alert,
   View,
   Text,
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
+  store,
   AccountChangePasswordStep2ViewAction,
 } from '../../redux';
 
@@ -34,16 +36,21 @@ import {
   Dot,
 } from '../../project-components';
 
+import { Theme, Router } from '../../utils';
+
+import {
+  AuthProvider,
+} from '../../providers';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 import { AppRegex } from '../../regex';
 
-import { Theme, Router } from '../../utils';
-
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_unchecked = require('../../../assets/images/ic_unchecked/ic_unchecked.png');
+const ic_checked = require('../../../assets/images/ic_checked/ic_checked.png');
 
 export const IDENTIFIER = 'AccountChangePasswordStep2View';
 
@@ -69,6 +76,8 @@ class AccountChangePasswordStep2View extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
+    this.validateAll();
+
     if (
       props.refs['NewPasswordTextField']
       &&
@@ -81,47 +90,97 @@ class AccountChangePasswordStep2View extends BaseComponent {
   clearData = () => {
     const { props } = this;
 
-    // props.reset();
+    props.reset();
   };
 
   validatePassword = () => {
     const { props } = this;
 
-    let isValid = false;
+    const { account } = store.getState().accountChangePasswordStep2ViewReducer;
+
+    let isLengthValid = false;
+    let isSymbolValid = false;
+    let isLowerCaseValid = false;
+    let isUpperCaseValid = false;
 
     if (
-      !props.account.credentials.password
-      ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.credentials.password)
+      account.credentials.newPassword
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LENGTH_REGEX.test(account.credentials.newPassword)
     ) {
-      // props.setPasswordMessage('app.error.empty_field_message');
-
-      isValid = false;
-    } else if (
-      !AppRegex.CREDENTIALS_PASSWORD_VALIDATION_REGEX.test(
-        props.account.credentials.password,
-      )
-    ) {
-      // props.setPasswordMessage('app.error.password_validation_message');
-
-      isValid = false;
+      isLengthValid = true;
     } else {
-      // props.setPasswordMessage(undefined);
-
-      isValid = true;
+      isLengthValid = false;
     }
 
-    return isValid;
+    if (
+      account.credentials.newPassword
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_SYMBOL_REGEX.test(account.credentials.newPassword)
+    ) {
+      isSymbolValid = true;
+    } else {
+      isSymbolValid = false;
+    }
+
+    if (
+      account.credentials.newPassword
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_LOWER_CASE_REGEX.test(account.credentials.newPassword)
+    ) {
+      isLowerCaseValid = true;
+    } else {
+      isLowerCaseValid = false;
+    }
+
+    if (
+      account.credentials.newPassword
+      &&
+      AppRegex.CREDENTIALS_PASSWORD_VALIDATION_UPPER_CASE_REGEX.test(account.credentials.newPassword)
+    ) {
+      isUpperCaseValid = true;
+    } else {
+      isUpperCaseValid = false;
+    }
+
+    props.setPasswordValidationLength(isLengthValid);
+    props.setPasswordValidationSymbol(isSymbolValid);
+    props.setPasswordValidationLowerCase(isLowerCaseValid);
+    props.setPasswordValidationUpperCase(isUpperCaseValid);
+
+    return (
+      isLengthValid
+      &&
+      isSymbolValid
+      &&
+      isLowerCaseValid
+      &&
+      isUpperCaseValid
+    );
   };
 
-  // validateAll = () => {
-  //   const isValidName = this.validateName();
-  //   const isValidEmail = this.validateEmail();
-  //   const isValidPhone = this.validatePhone();
-  //   const isValidPassword = this.validatePassword();
-  //
-  //   return isValidName && isValidEmail && isValidPhone && isValidPassword;
-  // };
+  validateConfirmation = () => {
+    const { props } = this;
+
+    const { account } = store.getState().accountChangePasswordStep2ViewReducer;
+
+    return (
+      account.credentials.newPassword
+      &&
+      account.credentials.newPassword.length > 0
+      &&
+      account.credentials.newPassword === account.credentials.confirmation
+    );
+  }
+
+  validateAll = () => {
+    const { props } = this;
+
+    const isValidPassword = this.validatePassword();
+    const isValidConfirmation = this.validateConfirmation();
+
+    return isValidPassword && isValidConfirmation;
+  };
 
   renderHeader = () => {
     const { props } = this;
@@ -197,6 +256,8 @@ class AccountChangePasswordStep2View extends BaseComponent {
               secureTextEntry={secureTextEntry}
               onChangeText={(text) => {
                 props.setNewPassword(text);
+
+                this.validateAll();
               }}
             />
             <TextInput
@@ -206,6 +267,8 @@ class AccountChangePasswordStep2View extends BaseComponent {
               secureTextEntry={secureTextEntry}
               onChangeText={(text) => {
                 props.setConfirmation(text);
+
+                this.validateAll();
               }}
             />
             <View style={styles.hintsContainer}>
@@ -213,21 +276,21 @@ class AccountChangePasswordStep2View extends BaseComponent {
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.length ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('12 characters length')}
+                    {`12 ${t('app.characters_length')}`}
                   </Text>
                 </View>
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.symbol ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('1 symbol')}
+                    {`1 ${t('app.symbol')}`}
                   </Text>
                 </View>
               </View>
@@ -235,17 +298,21 @@ class AccountChangePasswordStep2View extends BaseComponent {
                 <View style={styles.hints}>
                   <Image
                     style={styles.hintsImage}
-                    source={preview}
+                    source={props.validation.lowerCase ? ic_checked : ic_unchecked}
                     resizeMode="center"
                   />
                   <Text style={styles.hintsText}>
-                    {t('1 lower case')}
+                    {`1 ${t('app.lower_case')}`}
                   </Text>
                 </View>
                 <View style={styles.hints}>
-                  <Dot style={styles.hintsDot}/>
+                  <Image
+                    style={styles.hintsImage}
+                    source={props.validation.upperCase ? ic_checked : ic_unchecked}
+                    resizeMode="center"
+                  />
                   <Text style={styles.hintsText}>
-                    {t('1 upper case')}
+                    {`1 ${t('app.upper_case')}`}
                   </Text>
                 </View>
               </View>
@@ -259,6 +326,9 @@ class AccountChangePasswordStep2View extends BaseComponent {
   renderChangeButton = () => {
     const { props } = this;
 
+    const { credentials } = props.account;
+    const { length, symbol, lowerCase, upperCase } = props.validation;
+
     return (
       <Translation>
         {(t) => (
@@ -266,26 +336,42 @@ class AccountChangePasswordStep2View extends BaseComponent {
             style={styles.changeButton}
             text={t('app.change')}
             onPress={() => {
-              // Router.push(props, 'SignUpAccountTypeSelectionView');
+              const password = store.getState().accountChangePasswordStep1ViewReducer.account.credentials.password;
+              const newPassword = store.getState().accountChangePasswordStep2ViewReducer.account.credentials.newPassword;
 
-              // console.log('[account] ', props.account);
+              console.log('[password] ', password);
+              console.log('[new-password] ', newPassword);
 
-              // if (!this.validateAll()) {
-              //   return;
-              // }
+              AuthProvider.changePassword(props, {
+                password: password,
+                newPassword: newPassword,
+              })
+                .then(() => {
+                  Router.popToTop(props);
+                })
+                .catch((error) => {
+                  console.error(error);
 
-              // TestApi.request(
-              //   props,
-              //   {},
-              //   {},
-              // )
-              //   .then(({ json }) => {
-                  // Router.goBack(props);
-              //   })
-              //   .catch((error) => {
-              //     reject(error);
-              //   });
+                  Alert.alert(
+                    i18n.t('app.system_error'),
+                    i18n.t('app.error.general_message'),
+                    [{
+                      text: i18n.t('app.ok').toUpperCase(),
+                    }],
+                  );
+                });
             }}
+            disabled={
+              !(length && symbol && lowerCase && upperCase)
+              ||
+              !(
+                credentials.newPassword
+                &&
+                credentials.newPassword.length > 0
+                &&
+                credentials.newPassword === credentials.confirmation
+              )
+            }
           />
         )}
       </Translation>
@@ -421,6 +507,7 @@ function mapStateToProps(state) {
   return {
     refs: state.accountChangePasswordStep2ViewReducer.refs,
     account: state.accountChangePasswordStep2ViewReducer.account,
+    validation: state.accountChangePasswordStep2ViewReducer.validation,
   };
 }
 
@@ -430,6 +517,10 @@ function mapDispatchToProps(dispatch) {
     addRef: (...args) => dispatch(AccountChangePasswordStep2ViewAction.addRef(...args)),
     setNewPassword: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setNewPassword(...args)),
     setConfirmation: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setConfirmation(...args)),
+    setPasswordValidationLength: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setPasswordValidationLength(...args)),
+    setPasswordValidationSymbol: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setPasswordValidationSymbol(...args)),
+    setPasswordValidationLowerCase: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setPasswordValidationLowerCase(...args)),
+    setPasswordValidationUpperCase: (...args) => dispatch(AccountChangePasswordStep2ViewAction.setPasswordValidationUpperCase(...args)),
   };
 }
 

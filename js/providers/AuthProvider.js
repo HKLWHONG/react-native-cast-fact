@@ -14,6 +14,7 @@ import { AuthStorage } from '../storages';
 import {
   LoginApi,
   RegisterApi,
+  ChangePasswordApi,
 } from '../apis';
 
 import jwt_decode from "jwt-decode";
@@ -125,4 +126,25 @@ export const logout = (props, params, options) => {
   //     })
   //     .done();
   // });
+};
+
+export const changePassword = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    ChangePasswordApi.request(
+      props,
+      {
+        current_password: params && params.password,
+        new_password: params && params.newPassword,
+      },
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };

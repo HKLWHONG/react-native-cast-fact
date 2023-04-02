@@ -364,7 +364,6 @@ export const POST = (
   });
 };
 
-// TODO: To be implemented.
 export const PUT = (
   identifier: string,
   url: string,
@@ -373,8 +372,130 @@ export const PUT = (
   body?: PropTypes.object.isRequired,
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    resolve();
+  return new Promise((resolve, reject) => {    
+    header = {
+      'Cache-Control': 'no-cache',
+      ...header,
+    };
+
+    if (query) {
+      url = appendQueryToUrl(url, query);
+    }
+
+    const fields = {
+      ...getBasicInfo(),
+      ...body,
+    };
+
+    let formData = [];
+
+    Object.keys(fields).forEach((key, index) => {
+      const encodedKey = encodeURIComponent(key);
+      const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+
+      formData.push(encodedKey + "=" + encodedValue);
+    });
+
+    formData = formData.join("&");
+
+    if (API_LOGGING) {
+      console.log(
+        '[' + identifier + '] ==================== PUT REQUEST ====================\n[URL] ' + url,
+      );
+
+      console.log('[Header]', header);
+      console.log('[Body]', formData);
+    }
+
+    const useFetch = options && options.useFetch;
+
+    const fetchImpl = useFetch ? fetch : sslFetch;
+
+    return fetchImpl(url, {
+      method: 'PUT',
+      timeoutInterval: API_TIMEOUT,
+      headers: header,
+      body: formData,
+      disableAllSecurity: !options || !options.certs || !options.certs.length,
+      sslPinning: {
+        certs: options && options.certs,
+      },
+    })
+      .then((response) => {
+        const contentType = useFetch
+          ? response.headers.get('Content-Type')
+          : response.headers['Content-Type'];
+
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+          response
+            .json()
+            .then((json) => {
+              if (API_LOGGING) {
+                console.log(
+                  '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
+                  {
+                    status: response.status,
+                    body: json,
+                  },
+                );
+              }
+
+              resolve({
+                response: response,
+                data: json,
+              });
+            })
+            .catch((error) => {
+              if (API_LOGGING) {
+                console.log(
+                  '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
+                  error,
+                );
+              }
+
+              reject(error);
+            });
+        } else {
+          response
+            .blob()
+            .then((blob) => {
+              if (API_LOGGING) {
+                console.log(
+                  '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
+                  blob,
+                );
+              }
+
+              resolve({
+                response: response,
+                data: blob,
+              });
+            })
+            .catch((error) => {
+              if (API_LOGGING) {
+                console.log(
+                  '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
+                  error,
+                );
+              }
+
+              reject(error);
+            });
+        }
+      })
+      .catch((error) => {
+        if (API_LOGGING) {
+          console.log(
+            '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
+            error,
+          );
+        }
+
+        reject({
+          code: 500,
+          message: error,
+        });
+      });
   });
 };
 

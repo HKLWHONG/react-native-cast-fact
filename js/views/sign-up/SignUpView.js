@@ -35,14 +35,12 @@ import {
   TextInput,
 } from '../../project-components';
 
-import i18n from '../../../i18n';
-import { Translation } from 'react-i18next';
-
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import { TestApi } from '../../apis';
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
 

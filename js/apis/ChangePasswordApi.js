@@ -12,6 +12,8 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
+import { AuthProvider } from '../providers';
+
 const IDENTIFIER = 'ChangePasswordApi';
 const URL = Environment.API_URL + '/user/{id}/change_password/';
 
@@ -31,7 +33,7 @@ export const request = (
       IDENTIFIER,
       URL.replace('{id}', jwtToken.user_id),
       'PUT',
-      Header.getAuthHeader(),
+      await Header.getAuthHeader(),
       {},
       body,
       {
@@ -40,9 +42,9 @@ export const request = (
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response, json } = params;
 
-        if (json) {
+        if (response.status === 200) {
           resolve(params);
         } else {
           reject(`[${IDENTIFIER}] JSON not found.`);

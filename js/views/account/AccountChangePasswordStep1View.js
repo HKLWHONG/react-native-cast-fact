@@ -34,18 +34,14 @@ import {
   Dot,
 } from '../../project-components';
 
-import i18n from '../../../i18n';
-import { Translation } from 'react-i18next';
-
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import { TestApi } from '../../apis';
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
-
-const preview = require('../../../assets/images/preview/preview.png');
 
 export const IDENTIFIER = 'AccountChangePasswordStep1View';
 
@@ -83,47 +79,8 @@ class AccountChangePasswordStep1View extends BaseComponent {
   clearData = () => {
     const { props } = this;
 
-    // props.reset();
+    props.reset();
   };
-
-  validatePassword = () => {
-    const { props } = this;
-
-    let isValid = false;
-
-    if (
-      !props.account.credentials.password
-      ||
-      !AppRegex.EMPTY_FIELD_REGEX.test(props.account.credentials.password)
-    ) {
-      // props.setPasswordMessage('app.error.empty_field_message');
-
-      isValid = false;
-    } else if (
-      !AppRegex.CREDENTIALS_PASSWORD_VALIDATION_REGEX.test(
-        props.account.credentials.password,
-      )
-    ) {
-      // props.setPasswordMessage('app.error.password_validation_message');
-
-      isValid = false;
-    } else {
-      // props.setPasswordMessage(undefined);
-
-      isValid = true;
-    }
-
-    return isValid;
-  };
-
-  // validateAll = () => {
-  //   const isValidName = this.validateName();
-  //   const isValidEmail = this.validateEmail();
-  //   const isValidPhone = this.validatePhone();
-  //   const isValidPassword = this.validatePassword();
-  //
-  //   return isValidName && isValidEmail && isValidPhone && isValidPassword;
-  // };
 
   renderHeader = () => {
     const { props } = this;
@@ -182,48 +139,6 @@ class AccountChangePasswordStep1View extends BaseComponent {
                 props.setPassword(text);
               }}
             />
-            <View style={styles.hintsContainer}>
-              <View style={styles.hintsSubContainer}>
-                <View style={styles.hints}>
-                  <Image
-                    style={styles.hintsImage}
-                    source={preview}
-                    resizeMode="center"
-                  />
-                  <Text style={styles.hintsText}>
-                    {t('12 characters length')}
-                  </Text>
-                </View>
-                <View style={styles.hints}>
-                  <Image
-                    style={styles.hintsImage}
-                    source={preview}
-                    resizeMode="center"
-                  />
-                  <Text style={styles.hintsText}>
-                    {t('1 symbol')}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.hintsSubContainer}>
-                <View style={styles.hints}>
-                  <Image
-                    style={styles.hintsImage}
-                    source={preview}
-                    resizeMode="center"
-                  />
-                  <Text style={styles.hintsText}>
-                    {t('1 lower case')}
-                  </Text>
-                </View>
-                <View style={styles.hints}>
-                  <Dot style={styles.hintsDot}/>
-                  <Text style={styles.hintsText}>
-                    {t('1 upper case')}
-                  </Text>
-                </View>
-              </View>
-            </View>
           </View>
         )}
       </Translation>
@@ -248,6 +163,8 @@ class AccountChangePasswordStep1View extends BaseComponent {
 
   renderNextButton = () => {
     const { props } = this;
+
+    const { credentials } = props.account;
 
     return (
       <Translation>
@@ -276,6 +193,7 @@ class AccountChangePasswordStep1View extends BaseComponent {
               //     reject(error);
               //   });
             }}
+            disabled={!(credentials.password && credentials.password.length > 0)}
           />
         )}
       </Translation>
@@ -353,32 +271,6 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     marginBottom: 8,
-  },
-  hintsContainer: {
-    // backgroundColor: '#0ff',
-  },
-  hintsSubContainer: {
-    flexDirection: 'row',
-  },
-  hints: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  hintsDot: {
-    marginRight: 8,
-  },
-  hintsImage: {
-    // backgroundColor: '#f00',
-    width: 11,
-    height: 11,
-    marginRight: 8,
-  },
-  hintsText: {
-    color: Theme.colors.text.subtitle,
-    fontSize: 13,
-    fontFamily: Theme.fonts.light,
-    letterSpacing: 1,
   },
   description: {
     // backgroundColor: '#f00',
