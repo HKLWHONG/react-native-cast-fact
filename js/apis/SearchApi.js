@@ -20,17 +20,18 @@ export const request = (
   body?: PropTypes.object.isRequired,
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     Request.request(
       props,
       IDENTIFIER,
       URL,
       'POST',
-      await Header.getAuthHeader(),
+      Header.getHeader('json'),
       {},
       body,
       {
         ...options,
+        useJson: true,
         useFetch: true,
       },
     )

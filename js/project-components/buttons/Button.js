@@ -301,6 +301,7 @@ class Button extends Component {
       <Translation>
         {(t) => (
           <SingleTouch
+            {...props}
             onLayout={props.onLayout}
             style={[styles.container, containerStyle, props.style]}
             disabled={props.disabled}

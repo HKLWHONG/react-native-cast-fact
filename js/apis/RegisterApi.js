@@ -35,12 +35,18 @@ export const request = (
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response, json } = params;
 
-        if (json) {
+        if (response.status === 200) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] JSON not found.`);
+          let error = undefined;
+
+          if (json.email && json.email.length > 0 ) {
+            error = json.email[0]
+          }
+
+          reject(error);
         }
       })
       .catch((error) => {

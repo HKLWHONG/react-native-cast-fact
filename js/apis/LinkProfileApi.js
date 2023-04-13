@@ -12,8 +12,10 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
-const IDENTIFIER = 'CreateProfileApi';
-const URL = Environment.API_URL + '/profile/';
+import { AuthProvider } from '../providers';
+
+const IDENTIFIER = 'LinkProfileApi';
+const URL = Environment.API_URL + '/user/{id}/link_profile/';
 
 export const request = (
   props: PropTypes.object.isRequired,
@@ -21,27 +23,31 @@ export const request = (
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
   return new Promise(async (resolve, reject) => {
+    const jwtToken = await AuthProvider.decodeJWTToken()
+      .catch((error) => {
+        reject(error);
+      });
+
     Request.request(
       props,
       IDENTIFIER,
-      URL,
+      URL.replace('{id}', jwtToken.user_id),
       'POST',
-      await Header.getAuthHeader('json'),
+      await Header.getAuthHeader(),
       {},
       body,
       {
         ...options,
-        useJson: true,
         useFetch: true,
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response, json } = params;
 
-        if (json && json.length > 0 && json[0].profile) {
+        if (response.status === 200) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] Profile ID not found.`);
+          reject(`[${IDENTIFIER}] JSON not found.`);
         }
       })
       .catch((error) => {

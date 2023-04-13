@@ -15,7 +15,6 @@ import {
 import { connect } from 'react-redux';
 import {
   SettingsViewAction,
-  DataAction,
   MainTabNavigatorAction,
 } from '../../redux';
 
@@ -178,8 +177,6 @@ class SettingsView extends BaseComponent {
             onPress: () => {
               AuthProvider.logout()
                 .then(() => {
-                  props.resetData();
-
                   Router.jumpTo(props, 'SearchStackNavigator');
                 })
                 .catch((error) => {
@@ -356,7 +353,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(SettingsViewAction.reset(...args)),
-    resetData: (...args) => dispatch(DataAction.reset(...args)),
     setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
   };
 }

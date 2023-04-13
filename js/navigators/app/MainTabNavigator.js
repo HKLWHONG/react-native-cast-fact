@@ -374,6 +374,7 @@ class MainTabNavigator extends BaseComponent {
                       // console.log('[jwt-token]', jwtToken);
 
                       props.setIsLoggedIn(true);
+
                       if (jwtToken.profile_id) {
                         // props.setHasProfile(true);
                       } else {

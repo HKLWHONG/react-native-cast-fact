@@ -44,7 +44,7 @@ class ProfileCastingSheetList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    console.log('[item]', item.data.length);
+    // console.log('[item]', item.data.length);
 
     let children = (
       Array(item.data.length)

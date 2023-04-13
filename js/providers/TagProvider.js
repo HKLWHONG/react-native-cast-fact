@@ -105,6 +105,8 @@ export const getTags = (props, params, options) => {
           }
 
           json.forEach((item) => {
+            // console.log('[tag-item]', item);
+
             if (tag.label.toLowerCase() !== item.category_name.toLowerCase()) {
               return;
             }

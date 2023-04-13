@@ -247,21 +247,42 @@ export const POST = (
       url = appendQueryToUrl(url, query);
     }
 
-    const fields = {
-      ...getBasicInfo(),
-      ...body,
-    };
+    const useJson = options && options.useJson;
+    const useFile = options && options.useFile;
 
-    let formData = [];
+    let data = [];
 
-    Object.keys(fields).forEach((key, index) => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+    if (useJson) {
+      data = (body && body.json) || [];
 
-      formData.push(encodedKey + "=" + encodedValue);
-    });
+      data = JSON.stringify(data);
+    } else if (useFile) {
+      data = new FormData();
 
-    formData = formData.join("&");
+      if (body && body.file) {
+        const { file } = body;
+
+        if (file.type && file.type.toLowerCase().startsWith('image')) {
+          data.append(file.key, { uri: file.uri , type: file.type });
+          data.append('Content-Type', file.type);
+        }
+      }
+    }
+    else {
+      const fields = {
+        ...getBasicInfo(),
+        ...body,
+      };
+
+      Object.keys(fields).forEach((key, index) => {
+        const encodedKey = encodeURIComponent(key);
+        const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+
+        data.push(encodedKey + "=" + encodedValue);
+      });
+
+      data = data.join("&");
+    }
 
     if (API_LOGGING) {
       console.log(
@@ -269,7 +290,7 @@ export const POST = (
       );
 
       console.log('[Header]', header);
-      console.log('[Body]', formData);
+      console.log('[Body]', data);
     }
 
     const useFetch = options && options.useFetch;
@@ -280,7 +301,7 @@ export const POST = (
       method: 'POST',
       timeoutInterval: API_TIMEOUT,
       headers: header,
-      body: formData,
+      body: data,
       disableAllSecurity: !options || !options.certs || !options.certs.length,
       sslPinning: {
         certs: options && options.certs,
@@ -372,7 +393,7 @@ export const PUT = (
   body?: PropTypes.object.isRequired,
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {    
+  return new Promise((resolve, reject) => {
     header = {
       'Cache-Control': 'no-cache',
       ...header,

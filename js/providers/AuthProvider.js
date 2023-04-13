@@ -5,15 +5,17 @@
 
 import i18n from '../../i18n';
 
-import { store, AppAction } from '../redux';
+import { store, AppAction, DataAction } from '../redux';
 
 import { Common } from '../utils';
 
-import { AuthStorage } from '../storages';
+import { AuthStorage, UserStorage } from '../storages';
 
 import {
   LoginApi,
   RegisterApi,
+  GetUserApi,
+  GetProfileApi,
   ChangePasswordApi,
 } from '../apis';
 
@@ -34,13 +36,69 @@ export const login = (props, params, options) => {
       .then((params) => {
         const { json } = params;
 
+        const profileId = json.profile_id;
+
         AuthStorage.setToken(json.token)
           .then(() => {
-            resolve(params);
+            store.dispatch(DataAction.setIsLoggedIn(true));
+
+            GetUserApi.request(
+              props,
+              {},
+              options,
+            )
+              .then((params) => {
+                const { json } = params;
+
+                store.dispatch(DataAction.setUserData(json));
+
+                if (profileId) {
+                  UserStorage.setProfileId(profileId)
+                    .then(() => {
+                      getProfile(props, {}, options)
+                        .then((params) => {
+                          const { json } = params;
+
+                          store.dispatch(DataAction.setUserProfile(json));
+
+                          resolve(params);
+                        })
+                        .catch((error) => {
+                          reject(error);
+                        });
+                    })
+                    .catch((error) => {
+                      reject(error);
+                    });
+                } else {
+                  resolve(params);
+                }
+              })
+              .catch((error) => {
+                reject(error);
+              });
           })
           .catch((error) => {
             reject(error);
           });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getProfile = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    GetProfileApi.request(
+      props,
+      {},
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
+        resolve(params);
       })
       .catch((error) => {
         reject(error);
@@ -62,15 +120,7 @@ export const register = (props, params, options) => {
       .then(() => {
         login(props, params, options)
           .then((params) => {
-            const { json } = params;
-
-            AuthStorage.setToken(json.token)
-              .then(() => {
-                resolve(params);
-              })
-              .catch((error) => {
-                reject(error);
-              });
+            resolve(params);
           })
           .catch((error) => {
             reject(error);
@@ -98,6 +148,8 @@ export const logout = (props, params, options) => {
   return new Promise((resolve, reject) => {
     AuthStorage.removeAll()
     .then(() => {
+      store.dispatch(DataAction.reset());
+
       resolve();
     })
     .catch((error) => {

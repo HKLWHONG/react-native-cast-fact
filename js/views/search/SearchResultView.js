@@ -86,9 +86,9 @@ class SearchResultView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    // console.log('[searched]', props.searched);
-    // console.log('[results]', props.results);
-    // console.log('[searchResultListData]', props.searchResultListData);
+    console.log('[searched]', props.searched);
+    console.log('[results]', props.results);
+    console.log('[searchResultListData]', props.searchResultListData);
 
     props.addSearchStackNavigatorOnRightViewRender(IDENTIFIER, this.renderSearchStackNavigatorRightView);
 
@@ -156,10 +156,10 @@ class SearchResultView extends BaseComponent {
         props.setSearchResultListPagingLoading(false);
         // props.setRefreshing(false);
 
-        if (json.payload.length > 0) {
+        if (json.length > 0) {
           props.setSearchResultListPagingPage(page);
 
-          props.setSearchResultListData(SearchProcessor.formatSearchResultListData(data || props.searchResultListData, json.payload));
+          props.setSearchResultListData(SearchProcessor.formatSearchResultListData(data || props.searchResultListData, json));
         }
       })
       .catch((error) => {
@@ -171,61 +171,61 @@ class SearchResultView extends BaseComponent {
       });
   };
 
-  search = () => {
-    const { props } = this;
-
-    let criteriaTags = store.getState().criteriaSectionReducer.tags;
-
-    // console.log('[criteriaTags', criteriaTags);
-
-    if (profiles.length === 0) {
-      return;
-    }
-
-    let data = [];
-
-    profiles[0].data.forEach((profile) => {
-      let matched = false;
-
-      // console.log('[profile.tags]', profile.tags);
-      if (criteriaTags.length === 0) {
-        matched = true;
-      }
-
-      profile.tags.forEach((tag) => {
-        if (matched) {
-          return;
-        }
-
-        let matchedCriteriaTags = criteriaTags[0].data.filter((criteriaTag) => {
-          return tag.text && criteriaTag.text && tag.text.toLowerCase() === criteriaTag.text.toLowerCase();
-        });
-
-        if (matchedCriteriaTags.length === 0) {
-          return;
-        }
-
-        matched = true;
-      });
-
-      if (!matched) {
-        return;
-      }
-
-      data.push({ profile: profile });
-    });
-
-    data = data.map((item, index) => {
-      return {
-        ...item,
-        resultId: (props.searchResultListData.length + index).toString(),
-      }
-    })
-
-    console.log('[result.found]', data.length);
-
-    props.setSearchResultListData(data);
-  };
+  // search = () => {
+  //   const { props } = this;
+  //
+  //   let criteriaTags = store.getState().criteriaSectionReducer.tags;
+  //
+  //   // console.log('[criteriaTags', criteriaTags);
+  //
+  //   if (profiles.length === 0) {
+  //     return;
+  //   }
+  //
+  //   let data = [];
+  //
+  //   profiles[0].data.forEach((profile) => {
+  //     let matched = false;
+  //
+  //     // console.log('[profile.tags]', profile.tags);
+  //     if (criteriaTags.length === 0) {
+  //       matched = true;
+  //     }
+  //
+  //     profile.tags.forEach((tag) => {
+  //       if (matched) {
+  //         return;
+  //       }
+  //
+  //       let matchedCriteriaTags = criteriaTags[0].data.filter((criteriaTag) => {
+  //         return tag.text && criteriaTag.text && tag.text.toLowerCase() === criteriaTag.text.toLowerCase();
+  //       });
+  //
+  //       if (matchedCriteriaTags.length === 0) {
+  //         return;
+  //       }
+  //
+  //       matched = true;
+  //     });
+  //
+  //     if (!matched) {
+  //       return;
+  //     }
+  //
+  //     data.push({ profile: profile });
+  //   });
+  //
+  //   data = data.map((item, index) => {
+  //     return {
+  //       ...item,
+  //       resultId: (props.searchResultListData.length + index).toString(),
+  //     }
+  //   })
+  //
+  //   console.log('[result.found]', data.length);
+  //
+  //   props.setSearchResultListData(data);
+  // };
 
   renderHeader = () => {
     const { props } = this;
@@ -262,7 +262,7 @@ class SearchResultView extends BaseComponent {
 
     console.log('[onEndReached]');
 
-    this.loadMoreData();
+    // this.loadMoreData();
   };
 
   renderSearchResultListSection = (params) => {

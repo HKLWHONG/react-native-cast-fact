@@ -158,7 +158,19 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
               resizeMode="center"
               text={t('app.artisit')}
               onPress={() => {
-                Router.push(props, 'ProfilePictureSelectionView');
+                AuthProvider.register(props, {
+                  email: props.signUpViewAccount.credentials.email,
+                  password: props.signUpViewAccount.credentials.password,
+                  phoneNumber: `${props.signUpViewAccount.info.phoneCode}${props.signUpViewAccount.info.phoneNumber}`,
+                })
+                  .then(() => {
+                    Router.push(props, 'ProfilePictureSelectionView');
+                  })
+                  .catch((error) => {
+                    console.error(error);
+
+                    Alert.alert(i18n.t('app.system_error'), error || i18n.t('app.error.general_message'));
+                  });
               }}
             />
             <Button
@@ -189,7 +201,7 @@ class SignUpAccountTypeSelectionView extends BaseComponent {
                   .catch((error) => {
                     console.error(error);
 
-                    Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+                    Alert.alert(i18n.t('app.system_error'), error || i18n.t('app.error.general_message'));
                   });
               }}
             />

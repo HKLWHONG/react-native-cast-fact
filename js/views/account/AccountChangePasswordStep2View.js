@@ -221,7 +221,7 @@ class AccountChangePasswordStep2View extends BaseComponent {
               {t('views.account_change_password_step2.subtitle')}
             </Text>
             <Text style={styles.email}>
-              {t('kclui@gmail.com')}
+              {props.userData && props.userData.email}
             </Text>
           </View>
         )}
@@ -508,6 +508,7 @@ function mapStateToProps(state) {
     refs: state.accountChangePasswordStep2ViewReducer.refs,
     account: state.accountChangePasswordStep2ViewReducer.account,
     validation: state.accountChangePasswordStep2ViewReducer.validation,
+    userData: state.dataReducer.userData,
   };
 }
 

@@ -49,6 +49,15 @@ export const setIsLoggedIn = (isLoggedIn) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setUserData = (userData) => (dispatch) => {
+  dispatch({
+    type: DataActionType.USER_DATA,
+    userData: userData,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setUserProfile = (userProfile) => (dispatch) => {
   dispatch({
     type: DataActionType.USER_PROFILE,

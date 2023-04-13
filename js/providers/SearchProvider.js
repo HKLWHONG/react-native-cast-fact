@@ -270,7 +270,7 @@ export const presearch = async (props, params, options) => {
   if (params && params.json) {
     store.dispatch(SearchResultViewAction.setSearchResultListPagingPage(page));
 
-    let data = SearchProcessor.formatSearchResultListData([], params.json.payload);
+    let data = SearchProcessor.formatSearchResultListData([], params.json);
 
     store.dispatch(SearchResultViewAction.setSearchResultListData(data));
   }
@@ -290,7 +290,43 @@ export const search = (props, params, options) => {
     //   SearchProcessor.reload();
     // }
 
-    let tags = SearchProcessor.formatTags(store.getState().criteriaSectionReducer.tags);
+    let tags = store.getState().criteriaSectionReducer.tags.map((groupFrame) => {
+      let data = [];
+
+      groupFrame.data.forEach((tag) => {
+        // console.log('[tag]', tag.text);
+
+        if (tag.text && tag.text.startsWith('~')) {
+          const floatingValue = 5;
+
+          const baseTagText = tag.text.replaceAll('~', '').replaceAll((tag.suffix || ''), '').trim();
+          const fromTagText = parseInt(baseTagText) - floatingValue;
+          const toTagText = parseInt(baseTagText) + floatingValue;
+
+          for (let i = fromTagText; i <= toTagText; i += 1) {
+            data = [
+              ...data,
+              {
+                ...tag,
+                text: `${i} ${(tag.suffix || '').trim()}`
+              },
+            ];
+          }
+        } else {
+          data = [
+            ...data,
+            tag,
+          ];
+        }
+      });
+
+      return {
+        ...groupFrame,
+        data: data,
+      };
+    });
+
+    tags = SearchProcessor.formatTags(tags);
 
     // if (params && params.prefetch) {
     //   tags = SearchProcessor.formatTags(SearchProcessor.getCriteriaTags());
@@ -303,60 +339,68 @@ export const search = (props, params, options) => {
     let searchApiParams = undefined;
     let searchApiError = undefined;
 
-    if (
-      (!options || !options.disableAddRecentSearches)
-      &&
-      (!params || !params.prefetch)
-      &&
-      tags.length > 0
-    ) {
-      numberOfTasks += 1;
+    // if (
+    //   (!options || !options.disableAddRecentSearches)
+    //   &&
+    //   (!params || !params.prefetch)
+    //   &&
+    //   tags.length > 0
+    // ) {
+    //   numberOfTasks += 1;
+    //
+    //   addRecentSearches(props, { tags: tags })
+    //     .then((params) => {
+    //       numberOfFinsihedTasks += 1;
+    //
+    //       if (numberOfTasks === numberOfFinsihedTasks) {
+    //         if (searchApiParams) {
+    //           resolve(searchApiParams);
+    //         } else {
+    //           reject(searchApiError);
+    //         }
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //
+    //       numberOfFinsihedTasks += 1;
+    //
+    //       if (numberOfTasks === numberOfFinsihedTasks) {
+    //         if (searchApiParams) {
+    //           resolve(searchApiParams);
+    //         } else {
+    //           reject(searchApiError);
+    //         }
+    //       }
+    //     });
+    // }
 
-      addRecentSearches(props, { tags: tags })
-        .then((params) => {
-          numberOfFinsihedTasks += 1;
-
-          if (numberOfTasks === numberOfFinsihedTasks) {
-            if (searchApiParams) {
-              resolve(searchApiParams);
-            } else {
-              reject(searchApiError);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-
-          numberOfFinsihedTasks += 1;
-
-          if (numberOfTasks === numberOfFinsihedTasks) {
-            if (searchApiParams) {
-              resolve(searchApiParams);
-            } else {
-              reject(searchApiError);
-            }
-          }
-        });
-    }
+    tags = tags.map((tag) => {
+      return tag.text;
+    });
 
     numberOfTasks += 1;
+
+    // console.log('[tags]', JSON.stringify(tags));
 
     SearchApi.request(
       props,
       {
-        tags: JSON.stringify(tags),
-        page: params && params.page,
-        length: params && params.length,
-        prefetch: params && params.prefetch,
+        // tags: JSON.stringify(tags),
+        // page: params && params.page,
+        // length: params && params.length,
+        // prefetch: params && params.prefetch,
+
+        json: tags,
       },
       options,
     )
       .then((params) => {
         const { json } = params;
 
-        store.dispatch(CriteriaSectionAction.setLengthOfResults(json.payload.length));
+        store.dispatch(CriteriaSectionAction.setLengthOfResults(json.length));
 
-        store.dispatch(SearchResultViewAction.setResults(json.payload));
+        store.dispatch(SearchResultViewAction.setResults(json));
 
         store.dispatch(SearchResultViewAction.setSearched(true));
 

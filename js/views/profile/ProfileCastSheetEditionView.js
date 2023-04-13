@@ -52,7 +52,12 @@ import { CalendarProcessor } from '../../processors';
 
 import {
   AuthProvider,
+  UserProvider,
 } from '../../providers';
+
+import {
+  Constants,
+} from '../../constants';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -80,6 +85,122 @@ class ProfileCastSheetEditionView extends BaseComponent {
     this.clearData();
   }
 
+  fetchProperty = (key) => {
+    const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
+
+    if (info) {
+      if (info.text && info.text.length > 0) {
+        if (
+          key === Constants.CAST_SHEET_KEY_DATE_OF_BIRTH
+          ||
+          key == Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH
+        ) {
+          return CalendarProcessor.toApiDateString(info.text);
+        }
+
+        return info.text;
+      } else if (info.tags && info.tags.length > 0) {
+        return info.tags[0].text;
+      }
+    }
+
+    return '';
+  };
+
+  fetchProperties = (key) => {
+    const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
+
+    let tags = (info && info.tags) || [];
+
+    if (info && info.text && info.text.length > 0) {
+      tags = [
+        ...tags,
+        {
+          text: info.text,
+        }
+      ];
+    }
+
+    return tags.map((tag) => {
+      let property = {};
+
+      if (key === Constants.CAST_SHEET_KEY_ALMA_MATERS) {
+        property = {
+          "school_name": "Hong Kong Baptist University College of International Education",
+          "major": "Creative Communication",
+        };
+      } else if (key === Constants.CAST_SHEET_KEY_AWARDS) {
+        property = {
+          "year": "",
+          "award_ceremony_name": "",
+          "award_name": "",
+          "winner": "",
+        };
+      } else if (
+        key === Constants.CAST_SHEET_KEY_MOVIES
+        ||
+        key === Constants.CAST_SHEET_KEY_TV_SHOWS
+        ||
+        key === Constants.CAST_SHEET_KEY_COMMERCIALS
+        ||
+        key === Constants.CAST_SHEET_KEY_VARIETY_SHOWS
+        ||
+        key === Constants.CAST_SHEET_KEY_PERFORMING_ARTS
+        ||
+        key === Constants.CAST_SHEET_KEY_BROADCASTS
+        ||
+        key === Constants.CAST_SHEET_KEY_MODELLINGS
+        ||
+        key === Constants.CAST_SHEET_KEY_VOICEOVERS
+        ||
+        key === Constants.CAST_SHEET_KEY_ONLINES
+        ||
+        key === Constants.CAST_SHEET_KEY_EVENTS
+      ) {
+        property = {
+          "year": "",
+          "name": "",
+          "role_title": "",
+          "role_name": "",
+        };
+
+        if (
+          key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
+          ||
+          key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
+        ) {
+          property = {
+            ...property,
+            "singer": "",
+          };
+        }
+      } else if (
+        key === Constants.CAST_SHEET_KEY_CONTACTS
+        ||
+        key === Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS
+      ) {
+        property = {
+          "type": "Phone",
+          "category": "Tester001",
+          "text": "61234321",
+        };
+      } else if (key === Constants.CAST_SHEET_KEY_CONTACTS_AGENTS) {
+        property = {
+          "name": "Tester-Agent",
+          "phone": "",
+          "email": "",
+          "agent_status": "",
+        }
+      } else {
+        property = {
+          text: tag.text,
+        };
+      }
+
+      return property;
+    });
+  };
+
   initialize = () => {
     const { props } = this;
 
@@ -90,22 +211,261 @@ class ProfileCastSheetEditionView extends BaseComponent {
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
       console.log('[signUpViewAccount]', props.signUpViewAccount);
       console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+      console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
       console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
-      // AuthProvider.register(props, {
-      //   email: props.signUpViewAccount.credentials.email,
-      //   password: props.signUpViewAccount.credentials.password,
-      //   phoneNumber: `${props.signUpViewAccount.info.phoneCode}${props.signUpViewAccount.info.phoneNumber}`,
-      // })
-      //   .then(() => {
-      //     Router.push(props, 'ProfileCompletionView');
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //
-      //     Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
-      //   });
+      UserProvider.createAndLinkProfile(
+        props,
+        [
+            {
+                firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+                lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+                firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+                lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+                nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+                name_display_format: props.profileInfoSetupViewAccount.info.displayFormat,
+                [Constants.CAST_SHEET_KEY_GENDER]: this.fetchProperty(Constants.CAST_SHEET_KEY_GENDER),
+                [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
+                [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
+                [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: this.fetchProperty(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
+                [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: this.fetchProperty(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
+                [Constants.CAST_SHEET_KEY_HEIGHT]: this.fetchProperty(Constants.CAST_SHEET_KEY_HEIGHT),
+                [Constants.CAST_SHEET_KEY_WEIGHT]: this.fetchProperty(Constants.CAST_SHEET_KEY_WEIGHT),
+                [Constants.CAST_SHEET_KEY_SKIN_COLOR]: this.fetchProperty(Constants.CAST_SHEET_KEY_SKIN_COLOR),
+                [Constants.CAST_SHEET_KEY_DRESS_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_DRESS_SIZE),
+                [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
+                [Constants.CAST_SHEET_KEY_SHOE_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SHOE_SIZE),
+                [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
+                [Constants.CAST_SHEET_KEY_PANTS_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_PANTS_SIZE),
+                [Constants.CAST_SHEET_KEY_HAT_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_HAT_SIZE),
+                [Constants.CAST_SHEET_KEY_HANDEDNESS]: this.fetchProperty(Constants.CAST_SHEET_KEY_HANDEDNESS),
+                [Constants.CAST_SHEET_KEY_GLOVE]: this.fetchProperty(Constants.CAST_SHEET_KEY_GLOVE),
+                [Constants.CAST_SHEET_KEY_HAIR_COLORS]: this.fetchProperties(Constants.CAST_SHEET_KEY_HAIR_COLORS),
+                [Constants.CAST_SHEET_KEY_EYES_COLORS]: this.fetchProperties(Constants.CAST_SHEET_KEY_EYES_COLORS),
+                [Constants.CAST_SHEET_KEY_BODY_TYPES]: this.fetchProperties(Constants.CAST_SHEET_KEY_BODY_TYPES),
+                [Constants.CAST_SHEET_KEY_OCCUPATIONS]: this.fetchProperties(Constants.CAST_SHEET_KEY_OCCUPATIONS),
+                [Constants.CAST_SHEET_KEY_SKILLS]: this.fetchProperties(Constants.CAST_SHEET_KEY_SKILLS),
+                [Constants.CAST_SHEET_KEY_LANGUAGES]: this.fetchProperties(Constants.CAST_SHEET_KEY_LANGUAGES),
+                [Constants.CAST_SHEET_KEY_WORKING_BASES]: this.fetchProperties(Constants.CAST_SHEET_KEY_WORKING_BASES),
+                [Constants.CAST_SHEET_KEY_ALMA_MATERS]: [
+                    // {
+                    //     "school_name": "Buddhist Chung Wah Kornhill Primary School",
+                    //     "major": ""
+                    // },
+                    // {
+                    //     "school_name": "Chong Gene Hang College",
+                    //     "major": ""
+                    // },
+                    // {
+                    //     "school_name": "Hong Kong Baptist University College of International Education",
+                    //     "major": "Creative Communication"
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_AWARDS]: [
+                    // {
+                    //     "year": "",
+                    //     "award_ceremony_name": "",
+                    //     "award_name": "",
+                    //     "winner": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_NATIONALITIES]: this.fetchProperties(Constants.CAST_SHEET_KEY_NATIONALITIES),
+                [Constants.CAST_SHEET_KEY_LICENSES]: this.fetchProperties(Constants.CAST_SHEET_KEY_LICENSES),
+                [Constants.CAST_SHEET_KEY_MOVIES]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_TV_SHOWS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_COMMERCIALS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "singer": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "singer": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // },
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "singer": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_BROADCASTS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_MODELLINGS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_VOICEOVERS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_ONLINES]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_EVENTS]: [
+                    // {
+                    //     "year": "",
+                    //     "name": "",
+                    //     "role_title": "",
+                    //     "role_name": ""
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_CONTACTS]: [
+                    // {
+                    //     "type": "Phone",
+                    //     "category": "Tester001",
+                    //     "text": "61234321"
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]: [
+                    // {
+                    //     "type": "Instagram",
+                    //     "category": "",
+                    //     "text": "castfact-tester-ig"
+                    // },
+                    // {
+                    //     "type": "Facebook",
+                    //     "category": "",
+                    //     "text": "castfact-tester-fb"
+                    // },
+                    // {
+                    //     "type": "YouTube",
+                    //     "category": "",
+                    //     "text": "castfact-tester-yb"
+                    // }
+                ],
+                [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: [
+                    // {
+                    //     "name": "Tester-Agent",
+                    //     "phone": "",
+                    //     "email": "",
+                    //     "agent_status": ""
+                    // }
+                ],
+            }
+        ],
+      )
+        .then(() => {
+          if (
+            store.getState().profileInfoSetupViewReducer.photo
+            &&
+            store.getState().profileInfoSetupViewReducer.photo.path
+            &&
+            store.getState().profileInfoSetupViewReducer.photo.mime
+          ) {
+            UserProvider.uploadProfileImage(
+              props,
+              {
+                key: 'image',
+                uri: 'file://' + store.getState().profileInfoSetupViewReducer.photo.path,
+                type: store.getState().profileInfoSetupViewReducer.photo.mime,
+              },
+            )
+              .then((params) => {
+                this.login();
+              })
+              .catch((error) => {
+                console.error(error);
+
+                Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+              });
+          } else {
+            this.login();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+
+          Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+        });
     });
+  };
+
+  login = () => {
+    AuthProvider.login(props, {
+      email: props.signUpViewAccount.credentials.email,
+      password: props.signUpViewAccount.credentials.password,
+    })
+      .then(async () => {
+        Router.push(props, 'ProfileCompletionView');
+      })
+      .catch((error) => {
+        console.error(error);
+
+        Alert.alert(
+          i18n.t('app.system_error'),
+          i18n.t('app.error.general_message'),
+          [{
+            text: i18n.t('app.ok').toUpperCase(),
+          }],
+        );
+      });
   };
 
   clearData = () => {
@@ -159,10 +519,11 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  renderCastSheetInputItem = (key, list = [], single) => {
+  renderCastSheetInputItem = (key, multiple) => {
     const { props } = this;
 
     const info = props.account.info[key];
+    const list = Constants.CAST_SHEET_WHITE_LIST[key] || [];
 
     let tags = [];
     let text = undefined;
@@ -221,7 +582,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
     let inputTag = undefined;
 
-    if (!single || tags.length === 0) {
+    if (multiple || tags.length === 0) {
       inputTag = (
         <Tag
           style={styles.tag}
@@ -398,27 +759,18 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {
-              this.renderCastSheetInputItem(
-                'gender',
-                [
-                  'Female',
-                  'Male',
-                ],
-                true,
-              )
-            }
-            {this.renderCastSheetDateItem('date_of_birth')}
-            {this.renderCastSheetInputItem('place_of_birth')}
-            {this.renderCastSheetInputItem('acting_year_start')}
-            {this.renderCastSheetInputItem('acting_year_end')}
-            {this.renderCastSheetInputItem('languages')}
-            {this.renderCastSheetInputItem('working_bases')}
-            {this.renderCastSheetInputItem('occupations')}
-            {this.renderCastSheetInputItem('skills')}
-            {this.renderCastSheetInputItem('alma_maters')}
-            {this.renderCastSheetInputItem('awards')}
-            {this.renderCastSheetInputItem('nationality')}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_GENDER)}
+            {this.renderCastSheetDateItem(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ACTING_YEAR_START)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ACTING_YEAR_END)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_LANGUAGES, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_WORKING_BASES, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_OCCUPATIONS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SKILLS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ALMA_MATERS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_AWARDS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_NATIONALITIES, true)}
           </View>
         )}
       </Translation>
@@ -436,20 +788,20 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem('height_by_cm')}
-            {this.renderCastSheetDateItem('weight_by_kg')}
-            {this.renderCastSheetInputItem('skin_color')}
-            {this.renderCastSheetInputItem('dress_size')}
-            {this.renderCastSheetInputItem('shirt_size')}
-            {this.renderCastSheetInputItem('shoe_size')}
-            {this.renderCastSheetInputItem('suit_cost_size')}
-            {this.renderCastSheetInputItem('pants_size')}
-            {this.renderCastSheetInputItem('hat_size')}
-            {this.renderCastSheetInputItem('handedness')}
-            {this.renderCastSheetInputItem('glove')}
-            {this.renderCastSheetInputItem('hair_color')}
-            {this.renderCastSheetInputItem('eye_color')}
-            {this.renderCastSheetInputItem('body_type')}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_HEIGHT)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_WEIGHT)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SKIN_COLOR)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_DRESS_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SHIRT_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SHOE_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_PANTS_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_HAT_SIZE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_HANDEDNESS)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_GLOVE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_HAIR_COLORS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_EYES_COLORS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_BODY_TYPES, true)}
           </View>
         )}
       </Translation>
@@ -467,19 +819,19 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem('licenses')}
-            {this.renderCastSheetInputItem('movies')}
-            {this.renderCastSheetInputItem('tv_shows')}
-            {this.renderCastSheetInputItem('commercials')}
-            {this.renderCastSheetInputItem('music_videos')}
-            {this.renderCastSheetInputItem('stage_shows')}
-            {this.renderCastSheetInputItem('variety_shows')}
-            {this.renderCastSheetInputItem('performing_arts')}
-            {this.renderCastSheetInputItem('broadcasts')}
-            {this.renderCastSheetInputItem('modellings')}
-            {this.renderCastSheetInputItem('voiceovers')}
-            {this.renderCastSheetInputItem('onlines')}
-            {this.renderCastSheetInputItem('events')}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_LICENSES, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MOVIES, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_TV_SHOWS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_COMMERCIALS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MUSIC_VIDEOS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_STAGE_SHOWS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_VARIETY_SHOWS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_PERFORMING_ARTS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_BROADCASTS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MODELLINGS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_VOICEOVERS, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ONLINES, true)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_EVENTS, true)}
           </View>
         )}
       </Translation>
@@ -497,10 +849,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem('address')}
-            {this.renderCastSheetInputItem('email')}
-            {this.renderCastSheetInputItem('phone')}
-            {this.renderCastSheetInputItem('agents')}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_EMAIL)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_PHONE)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_AGENTS)}
           </View>
         )}
       </Translation>
@@ -518,9 +870,9 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem('instagram')}
-            {this.renderCastSheetInputItem('facebook')}
-            {this.renderCastSheetInputItem('youtube')}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_INSTAGRAM)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_FACEBOOK)}
+            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_YOUTUBE)}
           </View>
         )}
       </Translation>
@@ -712,6 +1064,7 @@ function mapStateToProps(state) {
     account: state.profileCastSheetEditionViewReducer.account,
     signUpViewAccount: state.signUpViewReducer.account,
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
+    profileInfoSetupViewPhoto: state.profileInfoSetupViewReducer.photo,
   };
 }
 

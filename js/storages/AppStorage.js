@@ -5,6 +5,8 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const LOGGING = false;
+
 const IDENTIFIER = '@app';
 
 export const identifiers = {

@@ -79,6 +79,8 @@ class SearchResultList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
+    // console.log('[item]', item);
+
     return (
       <Translation>
         {(t) => (
@@ -86,7 +88,7 @@ class SearchResultList extends Component {
             {this.renderProfileImageIfNeeded(params)}
             <View style={styles.profileInfoContainer}>
               <Text style={styles.nameLabel}>
-                {UserProcessor.toName(item && item.profile)}
+                {UserProcessor.toName(item)}
               </Text>
               <Text style={styles.titleLabel}>
                 {item && item.profile && item.profile.title}
@@ -107,6 +109,7 @@ class SearchResultList extends Component {
                 props.onPressSelection(params);
               }}
               disabled={!props.searchStackNavigatorRightViewEditModeEnabled}
+              feedbackDisabled
             />
           </View>
         )}
@@ -298,7 +301,7 @@ class SearchResultList extends Component {
           <View style={styles.infoContainer}>
             <View style={styles.textContainer}>
               <Text style={styles.name}>
-                {UserProcessor.toName(item && item.profile)}
+                {UserProcessor.toName(item)}
               </Text>
             </View>
             <View style={styles.textContainer}>
@@ -378,6 +381,7 @@ class SearchResultList extends Component {
               props.onPressSelection(params);
             }}
             disabled={disabled}
+            feedbackDisabled
           >
             {topChildren}
             {centerChildren}
