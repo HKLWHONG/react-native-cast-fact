@@ -3,11 +3,11 @@
  * @flow strict-local
  */
 
-import { store, SegmentedControlActionType } from '../../../../redux';
+import { store, ProfileViewActionType } from '../../../../redux';
 
 export const reset = () => (dispatch) => {
   dispatch({
-    type: SegmentedControlActionType.RESET,
+    type: ProfileViewActionType.RESET,
   });
 
   return Promise.resolve(store.getState());
@@ -15,7 +15,7 @@ export const reset = () => (dispatch) => {
 
 export const setIndex = (index) => (dispatch) => {
   dispatch({
-    type: SegmentedControlActionType.INDEX,
+    type: ProfileViewActionType.INDEX,
     index: index,
   });
 

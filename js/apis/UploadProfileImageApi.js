@@ -14,6 +14,8 @@ import { store } from '../redux';
 
 import { AuthProvider } from '../providers';
 
+import { UserStorage } from '../storages';
+
 const IDENTIFIER = 'UploadProfileImageApi';
 const URL = Environment.API_URL + '/profile/{id}/update_image/';
 
@@ -23,7 +25,7 @@ export const request = (
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
   return new Promise(async (resolve, reject) => {
-    const jwtToken = await AuthProvider.decodeJWTToken()
+    const profileId = await UserStorage.getProfileId()
       .catch((error) => {
         reject(error);
       });
@@ -31,7 +33,7 @@ export const request = (
     Request.request(
       props,
       IDENTIFIER,
-      URL.replace('{id}', jwtToken.user_id),
+      URL.replace('{id}', profileId),
       'POST',
       await Header.getAuthHeader('file'),
       {},

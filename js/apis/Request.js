@@ -4,12 +4,17 @@
  */
 
 import { PropTypes } from 'react';
+import {
+  Alert,
+} from 'react-native';
 
 import { Environment } from '../config';
 
 import * as Api from '../utils/Api';
 
 import { store } from '../redux';
+
+import { AuthProvider } from '../providers';
 
 import i18n from '../../i18n';
 
@@ -45,10 +50,36 @@ export const request = (
           if (contentType && contentType.indexOf('application/json') !== -1) {
             const json = data;
 
-            if (json) {
+            if (response.status === 403) {
+              let message = 'The http status is 403.';
+
+              if (json.messages && json.messages.length > 0 && json.messages[0].message) {
+                message = json.messages[0].message;
+              }
+
+              Alert.alert(
+                i18n.t('app.system_error'),
+                i18n.t(message),
+                [{
+                  text: i18n.t('app.ok').toUpperCase(),
+                  onPress: () => {
+                    AuthProvider.logout()
+                      .then(() => {
+                        Router.jumpTo(props, 'SearchStackNavigator');
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                      });
+                  },
+                }],
+
+              );
+
+              reject(message);
+            } else if (json) {
               resolve({ response: response, json: json });
             } else {
-              reject(message);
+              reject('The json is empty.');
             }
           } else {
             const blob = data;

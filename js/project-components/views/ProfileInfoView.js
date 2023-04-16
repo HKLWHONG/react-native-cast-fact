@@ -25,7 +25,7 @@ import {
 
 import { Theme } from '../../utils';
 
-import { } from '../../processors';
+import { UserProcessor } from '../../processors';
 
 import { } from '../../providers';
 
@@ -53,27 +53,7 @@ class ProfileInfoView extends Component {
       source = { uri: 'file://' + (props.photo && props.photo.path) };
     }
 
-    let name = undefined;
-
-    // const firstnameEn = props.account.info.firstnameEn || '';
-    // const lastnameEn = props.account.info.lastnameEn || '';
-    // const firstnameZh = props.account.info.firstnameZh || '';
-    // const lastnameZh = props.account.info.lastnameZh || '';
-    // const nickname = props.account.info.nickname || '';
-    //
-    // if (props.account.info.displayFormat === 0) {
-    //   name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
-    // } else if (props.account.info.displayFormat === 1) {
-    //   name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
-    // } else if (props.account.info.displayFormat === 2) {
-    //   name = `${nickname} ${lastnameZh}${firstnameZh}`.trim();
-    // } else if (props.account.info.displayFormat === 3) {
-    //   name = `${nickname}`.trim();
-    // }
-    //
-    // if (name.length === 0) {
-    //   name = undefined;
-    // }
+    let name = UserProcessor.toName(props.profile);
 
     let nameTextContainerStyle = {};
 
@@ -84,13 +64,7 @@ class ProfileInfoView extends Component {
       }
     }
 
-    let occupation = undefined;
-
-    // let occupation = (
-    //   props.profileCastSheetEditionViewAccount.info.occupation
-    //   &&
-    //   props.profileCastSheetEditionViewAccount.info.occupation.text
-    // );
+    let occupation = UserProcessor.toOccupation(props.profile);
 
     let occupationTextContainerStyle = {};
 
@@ -101,8 +75,8 @@ class ProfileInfoView extends Component {
       }
     }
 
-    console.log('[profile-info-setup-section-name]', name);
-    console.log('[profile-info-setup-section-occupation]', occupation);
+    console.log('[profile-info-section-name]', name);
+    console.log('[profile-info-section-occupation]', occupation);
 
     return (
       <Translation>
@@ -203,19 +177,21 @@ ProfileInfoView.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  profile: PropTypes.object,
 };
 
 ProfileInfoView.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
+  profile: undefined,
 };
 
 function mapStateToProps(state) {
   return {
     // account: state.profileInfoSetupViewReducer.account,
     // profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
-    userProfile: state.dataReducer.userProfile,
+    // userProfile: state.dataReducer.userProfile,
   };
 }
 

@@ -143,6 +143,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
         ||
         key === Constants.CAST_SHEET_KEY_COMMERCIALS
         ||
+        key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
+        ||
+        key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
+        ||
         key === Constants.CAST_SHEET_KEY_VARIETY_SHOWS
         ||
         key === Constants.CAST_SHEET_KEY_PERFORMING_ARTS
@@ -164,16 +168,16 @@ class ProfileCastSheetEditionView extends BaseComponent {
           "role_name": "",
         };
 
-        if (
-          key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
-          ||
-          key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
-        ) {
-          property = {
-            ...property,
-            "singer": "",
-          };
-        }
+        // if (
+        //   key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
+        //   ||
+        //   key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
+        // ) {
+        //   property = {
+        //     ...property,
+        //     "singer": "",
+        //   };
+        // }
       } else if (
         key === Constants.CAST_SHEET_KEY_CONTACTS
         ||
@@ -921,23 +925,23 @@ class ProfileCastSheetEditionView extends BaseComponent {
         data: [''],
       },
       {
-        title: i18n.t('views.profile_cast_sheet_edition.basic_information'),
+        title: i18n.t('app.basic_information'),
         data: [''],
       },
       {
-        title: i18n.t('views.profile_cast_sheet_edition.appearance'),
+        title: i18n.t('app.appearance'),
         data: [''],
       },
       {
-        title: i18n.t('views.profile_cast_sheet_edition.experience'),
+        title: i18n.t('app.experience'),
         data: [''],
       },
       {
-        title: i18n.t('views.profile_cast_sheet_edition.contacts'),
+        title: i18n.t('app.contacts'),
         data: [''],
       },
       {
-        title: i18n.t('views.profile_cast_sheet_edition.social_media'),
+        title: i18n.t('app.social_media'),
         data: [''],
       },
     ];

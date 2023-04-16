@@ -46,6 +46,10 @@ import { SearchProcessor, TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
+import {
+  Constants,
+} from '../../constants';
+
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNPrint from 'react-native-print';
 // import Pdf from 'react-native-pdf';
@@ -105,8 +109,8 @@ class SearchResultView extends BaseComponent {
     console.log('[RNHTMLtoPDF]', RNHTMLtoPDF);
 
     let options = {
-      html: '<h1>PDF TEST</h1>',
-      fileName: 'test',
+      html: Constants.PDF_HTML,
+      fileName: 'castfact_castsheet',
       directory: 'Documents',
     };
 

@@ -66,55 +66,90 @@ class SegmentedControl extends Component {
           >
           <SingleTouch
             style={styles.button}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(0);
+            }}
           >
             <View style={styles.imageContainer}>
               <Image
                 style={styles.image}
-                source={ic_info_unselected}
+                source={props.index === 0 ? ic_info_selected : ic_info_unselected}
                 resizeMode="contain"
               />
             </View>
           </SingleTouch>
           <SingleTouch
             style={styles.button}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(1);
+            }}
           >
             <View style={styles.imageContainer}>
               <Image
                 style={styles.image}
-                source={ic_appearance_unselected}
+                source={props.index === 1 ? ic_appearance_selected : ic_appearance_unselected}
                 resizeMode="contain"
               />
             </View>
           </SingleTouch>
           <SingleTouch
             style={styles.button}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(2);
+            }}
           >
             <View style={styles.imageContainer}>
               <Image
                 style={styles.image}
-                source={ic_experience_unselected}
+                source={props.index === 2 ? ic_experience_selected : ic_experience_unselected}
                 resizeMode="contain"
               />
             </View>
           </SingleTouch>
           <SingleTouch
             style={styles.button}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(3);
+            }}
           >
             <View style={styles.imageContainer}>
               <Image
                 style={styles.image}
-                source={ic_contacts_unselected}
+                source={props.index === 3 ? ic_contacts_selected : ic_contacts_unselected}
                 resizeMode="contain"
               />
             </View>
           </SingleTouch>
           <SingleTouch
             style={styles.button}
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+
+              props.onPress(4);
+            }}
           >
             <View style={styles.imageContainer}>
               <Image
                 style={styles.image}
-                source={ic_social_media_unselected}
+                source={props.index === 4 ? ic_social_media_selected : ic_social_media_unselected}
                 resizeMode="contain"
               />
             </View>
@@ -166,12 +201,16 @@ SegmentedControl.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  index: PropTypes.number,
+  onPress: PropTypes.func,
 };
 
 SegmentedControl.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
+  index: 0,
+  onPress: undefined,
 };
 
 function mapStateToProps(state) {

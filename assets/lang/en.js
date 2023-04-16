@@ -35,6 +35,11 @@ const en = {
     firstname_zh: '中文名字',
     lastname_zh: '中文姓氏',
     nickname: 'Nickname',
+    basic_information: 'Basic Information',
+    appearance: 'Appearance',
+    experience: 'Experience',
+    contacts: 'Contacts',
+    social_media: 'Social Media',
     gender: 'Gender',
     date_of_birth: 'Date of Birth',
     place_of_birth: 'Place of Birth',
@@ -211,11 +216,6 @@ const en = {
     profile_cast_sheet_edition: {
       header: 'Profile',
       title: 'Cast Sheet',
-      basic_information: 'Basic Information',
-      appearance: 'Appearance',
-      experience: 'Experience',
-      contacts: 'Contacts',
-      social_media: 'Social Media',
     },
     profile_completion: {
       header: 'Profile',

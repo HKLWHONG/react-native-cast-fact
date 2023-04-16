@@ -34,3 +34,17 @@ export const toName = (profile) => {
 
   return name;
 };
+
+export const toOccupation = (profile) => {
+  let occupation = '';
+
+  if (profile.occupations && profile.occupations.length > 0) {
+     occupation = (profile.occupations[0].text || '').trim();
+  }
+
+  if (occupation.length === 0) {
+    occupation = undefined;
+  }
+
+  return occupation;
+};

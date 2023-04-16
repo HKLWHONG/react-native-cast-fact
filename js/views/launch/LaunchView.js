@@ -37,6 +37,7 @@ import {
   TagProvider,
   SearchProvider,
   FeedProvider,
+  UserProvider,
 } from '../../providers';
 
 import i18n from '../../../i18n';
@@ -73,6 +74,7 @@ class LaunchView extends BaseComponent {
 
     Promise.all([
       TagProvider.prefetchTags(props),
+      UserProvider.getProfile(props),
     ])
       .then(() => {
         Router.route(props, 'DrawerNavigator');
@@ -82,8 +84,6 @@ class LaunchView extends BaseComponent {
 
         Router.route(props, 'DrawerNavigator');
       });
-
-    //
 
     // AuthStorage.getToken()
     //   .then(async () => {

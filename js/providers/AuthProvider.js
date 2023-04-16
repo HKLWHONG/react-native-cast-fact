@@ -9,13 +9,14 @@ import { store, AppAction, DataAction } from '../redux';
 
 import { Common } from '../utils';
 
+import { UserProvider } from '../providers';
+
 import { AuthStorage, UserStorage } from '../storages';
 
 import {
   LoginApi,
   RegisterApi,
   GetUserApi,
-  GetProfileApi,
   ChangePasswordApi,
 } from '../apis';
 
@@ -55,7 +56,7 @@ export const login = (props, params, options) => {
                 if (profileId) {
                   UserStorage.setProfileId(profileId)
                     .then(() => {
-                      getProfile(props, {}, options)
+                      UserProvider.getProfile(props, {}, options)
                         .then((params) => {
                           const { json } = params;
 
@@ -81,24 +82,6 @@ export const login = (props, params, options) => {
           .catch((error) => {
             reject(error);
           });
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
-export const getProfile = (props, params, options) => {
-  return new Promise((resolve, reject) => {
-    GetProfileApi.request(
-      props,
-      {},
-      options,
-    )
-      .then((params) => {
-        const { json } = params;
-
-        resolve(params);
       })
       .catch((error) => {
         reject(error);

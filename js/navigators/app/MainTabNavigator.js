@@ -375,11 +375,11 @@ class MainTabNavigator extends BaseComponent {
 
                       props.setIsLoggedIn(true);
 
-                      if (jwtToken.profile_id) {
-                        // props.setHasProfile(true);
-                      } else {
-                        props.setUserProfile(undefined);
-                      }
+                      // if (jwtToken.profile_id) {
+                      //   // props.setHasProfile(true);
+                      // } else {
+                      //   props.setUserProfile(undefined);
+                      // }
                     })
                     .catch((error) => {
                       console.error(error);

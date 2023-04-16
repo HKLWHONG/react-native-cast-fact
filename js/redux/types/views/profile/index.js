@@ -7,10 +7,12 @@ import * as ProfileCastSheetEditionViewActionType from './ProfileCastSheetEditio
 import * as ProfileNameDisplaySelectionViewActionType from './ProfileNameDisplaySelectionViewActionType';
 import * as ProfileNameEditionViewActionType from './ProfileNameEditionViewActionType';
 import * as ProfilePictureSelectionViewActionType from './ProfilePictureSelectionViewActionType';
+import * as ProfileViewActionType from './ProfileViewActionType';
 
 export {
   ProfileCastSheetEditionViewActionType,
   ProfileNameDisplaySelectionViewActionType,
   ProfileNameEditionViewActionType,
   ProfilePictureSelectionViewActionType,
+  ProfileViewActionType,
 };
