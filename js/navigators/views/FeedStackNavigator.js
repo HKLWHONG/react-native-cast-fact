@@ -33,6 +33,7 @@ import { TagProcessor } from '../../processors';
 
 import { SearchProvider } from '../../providers';
 
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();

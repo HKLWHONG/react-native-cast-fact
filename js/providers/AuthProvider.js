@@ -3,8 +3,6 @@
  * @flow strict-local
  */
 
-import i18n from '../../i18n';
-
 import { store, AppAction, DataAction } from '../redux';
 
 import { Common } from '../utils';
@@ -21,6 +19,8 @@ import {
 } from '../apis';
 
 import jwt_decode from "jwt-decode";
+
+import i18n from '../../i18n';
 
 const IDENTIFIER = 'AuthProvider';
 

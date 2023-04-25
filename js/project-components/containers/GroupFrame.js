@@ -22,6 +22,8 @@ import { Translation } from 'react-i18next';
 const ic_xmark = require('../../../assets/images/ic_xmark/ic_xmark.png');
 const ic_checkmark = require('../../../assets/images/ic_checkmark/ic_checkmark.png');
 const ic_plus = require('../../../assets/images/ic_plus/ic_plus.png');
+const ic_eye_on = require('../../../assets/images/ic_eye_on/ic_eye_on.png');
+const ic_eye_off = require('../../../assets/images/ic_eye_off/ic_eye_off.png');
 
 class GroupFrame extends Component {
   constructor(props: any) {
@@ -151,6 +153,49 @@ class GroupFrame extends Component {
     );
   };
 
+  renderEyeButton = () => {
+    const { props } = this;
+
+    let style = {};
+
+    let disabled = props.disabled || props.rightAccessoryDisabled;
+
+    if (
+      disabled
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={[styles.visibilityButton, style]}
+            buttonStyle={styles.checkAccessoryButton}
+            imageStyle={styles.checkAccessoryButtonImage}
+            type="small"
+            source={props.visible ? ic_eye_on : ic_eye_off}
+            resizeMode="center"
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory({
+                ...props.info,
+                visible: props.visible,
+              });
+            }}
+            disabled={disabled}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderRightContainer = () => {
     const { props } = this;
 
@@ -167,6 +212,8 @@ class GroupFrame extends Component {
         children = this.renderCheckButton();
       } else if (props.rightAccessoryType.toLowerCase() === 'plus'.toLowerCase()) {
         children = this.renderPlusButton();
+      } else if (props.rightAccessoryType.toLowerCase() === 'eye'.toLowerCase()) {
+        children = this.renderEyeButton();
       }
     }
 
@@ -219,7 +266,7 @@ class GroupFrame extends Component {
             }}
             feedbackDisabled
           >
-            <View style={styles.contentContainer}>
+            <View style={[styles.contentContainer, props.contentContainerStyle]}>
               {props.children}
             </View>
             {this.renderRightContainer()}
@@ -237,6 +284,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     borderColor: Theme.colors.background.secondary,
+    padding: 4,
   },
   contentContainer: {
     // backgroundColor: '#ff0',
@@ -245,13 +293,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     borderTopLeftRadius: 14,
     borderBottomLeftRadius: 14,
-    padding: 4,
   },
   rightContainer: {
     // backgroundColor: '#0ff',
     justifyContent: 'center',
     borderTopRightRadius: 14,
     borderBottomRightRadius: 14,
+    paddingHorizontal: 4,
   },
   emptyRightAccessoryContainer: {
     // backgroundColor: '#f0f',
@@ -292,6 +340,11 @@ const styles = StyleSheet.create({
     width: 21,
     height: 21,
   },
+  visibilityButton: {
+    aspectRatio: 1,
+    borderWidth: 1,
+    borderColor: Theme.colors.background.gray,
+  },
 });
 
 GroupFrame.propTypes = {
@@ -302,12 +355,14 @@ GroupFrame.propTypes = {
     PropTypes.node,
   ]),
   style: ViewPropTypes.style,
+  contentContainerStyle: ViewPropTypes.style,
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
   disabledWithoutFeedback: PropTypes.bool,
   rightAccessoryDisabled: PropTypes.bool,
   rightAccessoryType: PropTypes.string,
   checked: PropTypes.bool,
+  visible: PropTypes.bool,
   onPress: PropTypes.func,
   onPressRightAccessory: PropTypes.func,
 };
@@ -317,12 +372,14 @@ GroupFrame.defaultProps = {
   onLayout: undefined,
   children: undefined,
   style: undefined,
+  contentContainerStyle: undefined,
   hidden: false,
   disabled: false,
   disabledWithoutFeedback: false,
   rightAccessoryDisabled: false,
   rightAccessoryType: undefined,
   checked: false,
+  visible: true,
   onPress: undefined,
   onPressRightAccessory: undefined,
 };

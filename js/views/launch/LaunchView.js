@@ -34,6 +34,7 @@ import {
 } from '../../storages';
 
 import {
+  AuthProvider,
   TagProvider,
   SearchProvider,
   FeedProvider,
@@ -66,16 +67,29 @@ class LaunchView extends BaseComponent {
     this.clearData();
   }
 
-  initialize = () => {
+  initialize = async () => {
     const { props } = this;
 
     props.selectDrawer(0);
     props.selectTab(0);
 
-    Promise.all([
-      TagProvider.prefetchTags(props),
-      UserProvider.getProfile(props),
-    ])
+    const jwtToken = await AuthProvider.decodeJWTToken()
+      .catch((error) => {
+        console.error(error);
+      });
+
+    let tasks = [
+      TagProvider.prefetchTags(props)
+    ];
+
+    if (jwtToken) {
+      tasks = [
+        ...tasks,
+        UserProvider.getProfile(props),
+      ];
+    }
+
+    Promise.all(tasks)
       .then(() => {
         Router.route(props, 'DrawerNavigator');
       })

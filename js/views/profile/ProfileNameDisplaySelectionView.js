@@ -81,7 +81,17 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
       Router.push(props, 'ProfileCastSheetEditionView');
     });
 
-    props.setProfileInfoSetupViewDisplayFormat(0);
+    if (props.userProfile) {
+      let nameDisplayFormat = 0;
+
+      if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
+        nameDisplayFormat = parseInt(profile.name_display_format);
+      }
+
+      props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat) ;
+    } else {
+      props.setProfileInfoSetupViewDisplayFormat(0);
+    }
   };
 
   clearData = () => {
@@ -558,6 +568,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 

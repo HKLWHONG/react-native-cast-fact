@@ -20,9 +20,10 @@ import { Theme, Router } from '../../utils';
 
 import { ProjectView } from '../../views';
 
-import { Translation } from 'react-i18next';
-
 import ContextMenu from "react-native-context-menu-view";
+
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 

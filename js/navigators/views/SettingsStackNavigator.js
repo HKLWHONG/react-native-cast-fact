@@ -33,6 +33,7 @@ import {
   AccountChangePasswordStep2View,
 } from '../../views';
 
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const ic_header_3 = require('../../../assets/images/ic_header_3/ic_header_3.png');

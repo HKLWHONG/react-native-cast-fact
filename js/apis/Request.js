@@ -16,6 +16,8 @@ import { store } from '../redux';
 
 import { AuthProvider } from '../providers';
 
+import { Router } from '../utils';
+
 import i18n from '../../i18n';
 
 export const request = (

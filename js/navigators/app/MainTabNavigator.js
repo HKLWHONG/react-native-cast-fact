@@ -35,11 +35,14 @@ import {
   SettingsStackNavigator,
 } from '../../navigators';
 
-import { Translation } from 'react-i18next';
-
 import { Router } from '../../utils';
 
 import { TagProcessor } from '../../processors';
+
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
+
+const Tab = createMaterialBottomTabNavigator();
 
 const ic_tab_bar_light = require('../../../assets/images/ic_tab_bar_light/ic_tab_bar_light.png');
 const ic_tab_bar_search = require('../../../assets/images/ic_tab_bar_search/ic_tab_bar_search.png');
@@ -52,8 +55,6 @@ const ic_tab_bar_profile = require('../../../assets/images/ic_tab_bar_profile/ic
 const ic_tab_bar_profile_focused = require('../../../assets/images/ic_tab_bar_profile_focused/ic_tab_bar_profile_focused.png');
 const ic_tab_bar_settings = require('../../../assets/images/ic_tab_bar_settings/ic_tab_bar_settings.png');
 const ic_tab_bar_settings_focused = require('../../../assets/images/ic_tab_bar_settings_focused/ic_tab_bar_settings_focused.png');
-
-const Tab = createMaterialBottomTabNavigator();
 
 class MainTabNavigator extends BaseComponent {
   constructor(props) {

@@ -8,6 +8,7 @@ const en = {
   app: {
     loading: 'Loading',
     cancel: 'Cancel',
+    delete: 'Delete',
     login: 'Login',
     forgotPassword: 'Forgot Password',
     create_account: 'Create Account',

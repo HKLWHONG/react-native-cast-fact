@@ -18,6 +18,7 @@ import { Header } from '../../project-components';
 
 import { LoginView } from '../../views';
 
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const Stack = createStackNavigator();

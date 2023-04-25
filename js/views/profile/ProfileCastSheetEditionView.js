@@ -40,6 +40,7 @@ import {
   TextInput,
   Tag,
   Button,
+  GroupFrame,
 } from '../../project-components';
 
 import { KeyboardAccessoryView } from 'react-native-keyboard-accessory'
@@ -48,7 +49,7 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import { CalendarProcessor } from '../../processors';
+import { CalendarProcessor, ProfileProcessor } from '../../processors';
 
 import {
   AuthProvider,
@@ -63,6 +64,8 @@ import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const ic_light_background = require('../../../assets/images/ic_light_background/ic_light_background.png');
+
+const ic_plus = require('../../../assets/images/ic_plus/ic_plus.png');
 
 export const IDENTIFIER = 'ProfileCastSheetEditionView';
 
@@ -227,7 +230,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
                 lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
                 nickname: props.profileInfoSetupViewAccount.info.nickname || '',
-                name_display_format: props.profileInfoSetupViewAccount.info.displayFormat,
+                name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
                 [Constants.CAST_SHEET_KEY_GENDER]: this.fetchProperty(Constants.CAST_SHEET_KEY_GENDER),
                 [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
                 [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
@@ -554,9 +557,9 @@ class ProfileCastSheetEditionView extends BaseComponent {
               key={i.toString()}
               info={info}
               style={styles.tag}
+              maxWidth={'85%'}
               text={text}
               rightAccessoryType="delete"
-              fill
               onPressRightAccessory={(info) => {
                 const { tagId } = info;
 
@@ -590,11 +593,11 @@ class ProfileCastSheetEditionView extends BaseComponent {
       inputTag = (
         <Tag
           style={styles.tag}
+          maxWidth={'85%'}
           type="input"
           state={state}
           text={text}
           rightAccessoryType="delete"
-          fill
           onFocus={() => {
             props.addAccountInfo(key, {
               ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
@@ -661,7 +664,11 @@ class ProfileCastSheetEditionView extends BaseComponent {
             });
           }}
           onPressRightAccessory={() => {
-            props.deleteAccountInfo(key);
+            props.addAccountInfo(key, {
+              ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+              text: undefined,
+              state: undefined,
+            });
           }}
         />
       );
@@ -742,11 +749,489 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 style={styles.tag}
                 type="input"
                 text={text}
-                fill
+                rightAccessoryType="delete"
                 editable={false}
+                onPressRightAccessory={() => {
+                  props.addAccountInfo(key, {
+                    ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                    text: undefined,
+                    state: undefined,
+                  });
+                }}
               />
             </SingleTouch>
           </CastSheetItem>
+        )}
+      </Translation>
+    );
+  };
+
+  renderCastSheetMultipleInputItem = (key, propertyList = [], multiple) => {
+    const { props } = this;
+
+    const groupFrames = ProfileProcessor.fetchGroupFrames(key).filter((groupFrame) => {
+      console.log('[groupFrame.groupFrameId]', groupFrame.groupFrameId);
+      return (
+        groupFrame.groupFrameId !== 'input'
+        &&
+        !groupFrame.groupFrameId.startsWith('deleted')
+      );
+    });
+
+    // const list = Constants.CAST_SHEET_WHITE_LIST[key] || [];
+
+    const children = (
+      Array(groupFrames.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          const groupFrame = groupFrames[i];
+
+          const groupFrameId = groupFrame.groupFrameId;
+
+          let visible = undefined;
+
+          if (groupFrame) {
+            visible = groupFrame.visible;
+          }
+
+          const propertyChildren = (
+            Array(propertyList.length)
+              .fill()
+              .map((_, t) => t)
+              .map((t) => {
+                const propertyName = propertyList[t];
+
+                let tag = ProfileProcessor.fetchTag(key, groupFrameId, propertyName);
+
+                let text = undefined;
+                let state = undefined;
+
+                if (tag) {
+                  text = tag.text;
+                  state = tag.state;
+                }
+
+                return (
+                  <View
+                    key={t.toString()}
+                    style={styles.castSheetMultipleInputItemPropertyContainer}
+                  >
+                    <View style={styles.castSheetMultipleInputItemPropertyNameContainer}>
+                      <Text style={styles.castSheetMultipleInputItemPropertyNameText}>
+                        {propertyName}
+                      </Text>
+                    </View>
+                    <View style={styles.castSheetMultipleInputItemPropertyTagContainer}>
+                      <Tag
+                        info={{
+                          groupFrameId: groupFrameId,
+                          tagKey: propertyName,
+                        }}
+                        style={styles.tag}
+                        maxWidth={'70%'}
+                        type="input"
+                        state={state}
+                        text={text}
+                        rightAccessoryType="delete"
+                        onFocus={(params) => {
+                          const { groupFrameId, tagKey } = params;
+
+                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                          tag = {
+                            ...tag,
+                            state: 'attention',
+                          };
+
+                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                          props.addAccountInfo(key, {
+                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                            groupFrames: groupFrames,
+                          });
+                        }}
+                        onBlur={(params) => {
+                          const { groupFrameId, tagKey } = params;
+
+                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                          tag = {
+                            ...tag,
+                            state: undefined,
+                          };
+
+                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                          props.addAccountInfo(key, {
+                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                            groupFrames: groupFrames,
+                          });
+                        }}
+                        onChangeText={(params) => {
+                          const { groupFrameId, tagKey, text } = params;
+
+                          let state = 'attention';
+
+                          let matched = true; //list.length > 0 ? false : true;
+
+                          if (!matched) {
+                            list.forEach((item, i) => {
+                              if (item.trim().toLowerCase() === text.trim().toLowerCase()) {
+                                matched = true;
+                              }
+                            });
+                          }
+
+                          state = matched ? 'success' : 'error';
+
+                          // console.log('[test-params]', JSON.stringify(params));
+                          // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
+
+                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                          tag = {
+                            ...tag,
+                            text: text,
+                            state: state,
+                          };
+
+                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                          props.addAccountInfo(key, {
+                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                            groupFrames: groupFrames,
+                          });
+                        }}
+                        onPressRightAccessory={(params) => {
+                          const { groupFrameId, tagKey } = params;
+
+                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                          tag = {
+                            ...tag,
+                            text: undefined,
+                            state: undefined,
+                          };
+
+                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                          props.addAccountInfo(key, {
+                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                            groupFrames: groupFrames,
+                          });
+                        }}
+                      />
+                    </View>
+                  </View>
+                );
+              })
+          );
+
+          return (
+            <GroupFrame
+              key={i.toString()}
+              info={{
+                groupFrameId: groupFrameId,
+              }}
+              style={{
+                // backgroundColor: '#0f0',
+                marginVertical: 8,
+              }}
+              contentContainerStyle={{
+                // backgroundColor: '#0ff',
+                // borderRadius: 16,
+                // borderWidth: 1,
+                // borderColor: Theme.colors.general.transparent,
+                // padding: 8,
+                // marginVertical: 8,
+                alignItems: 'center',
+              }}
+              rightAccessoryType="eye"
+              visible={visible}
+              onPress={(info) => {
+                const { groupFrameId } = info;
+
+                Alert.alert(
+                  i18n.t('app.delete'),
+                  i18n.t(''),
+                  [
+                    {
+                      text: i18n.t('app.cancel').toUpperCase(),
+                    },
+                    {
+                      text: i18n.t('app.ok').toUpperCase(),
+                      onPress: () => {
+                        const groupFrames = ProfileProcessor.deleteGroupFrame(key, groupFrameId);
+
+                        props.addAccountInfo(key, {
+                          ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                          groupFrames: groupFrames,
+                        });
+                      },
+                    },
+                  ],
+                );
+              }}
+              onPressRightAccessory={(info) => {
+                const { groupFrameId, visible } = info;
+
+                // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
+
+                let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+
+                groupFrame = {
+                  ...groupFrame,
+                  visible: !visible,
+                };
+
+                const groupFrames = ProfileProcessor.updateGroupFrame(key, groupFrame);
+
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  groupFrames: groupFrames,
+                });
+              }}
+            >
+              {propertyChildren}
+            </GroupFrame>
+          );
+        })
+    );
+
+    const groupFrameId = 'input';
+
+    const groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+
+    // let visible = undefined;
+    //
+    // if (groupFrame) {
+    //   visible = groupFrame.visible;
+    // }
+
+    const propertyChildren = (
+      Array(propertyList.length)
+        .fill()
+        .map((_, t) => t)
+        .map((t) => {
+          const propertyName = propertyList[t];
+
+          let tag = ProfileProcessor.fetchTag(key, groupFrameId, propertyName);
+
+          let text = undefined;
+          let state = undefined;
+
+          if (tag) {
+            text = tag.text;
+            state = tag.state;
+          }
+
+          return (
+            <View
+              key={t.toString()}
+              style={styles.castSheetMultipleInputItemPropertyContainer}
+            >
+              <View style={styles.castSheetMultipleInputItemPropertyNameContainer}>
+                <Text style={styles.castSheetMultipleInputItemPropertyNameText}>
+                  {propertyName}
+                </Text>
+              </View>
+              <View style={styles.castSheetMultipleInputItemPropertyTagContainer}>
+                <Tag
+                  info={{
+                    groupFrameId: groupFrameId,
+                    tagKey: propertyName,
+                  }}
+                  style={styles.tag}
+                  maxWidth={'70%'}
+                  type="input"
+                  state={state}
+                  text={text}
+                  rightAccessoryType="delete"
+                  onFocus={(params) => {
+                    const { groupFrameId, tagKey } = params;
+
+                    let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                    tag = {
+                      ...tag,
+                      state: 'attention',
+                    };
+
+                    const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                    props.addAccountInfo(key, {
+                      ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                      groupFrames: groupFrames,
+                    });
+                  }}
+                  onBlur={(params) => {
+                    const { groupFrameId, tagKey } = params;
+
+                    let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                    tag = {
+                      ...tag,
+                      state: undefined,
+                    };
+
+                    const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                    props.addAccountInfo(key, {
+                      ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                      groupFrames: groupFrames,
+                    });
+                  }}
+                  onChangeText={(params) => {
+                    const { groupFrameId, tagKey, text } = params;
+
+                    let state = 'attention';
+
+                    let matched = true; //list.length > 0 ? false : true;
+
+                    if (!matched) {
+                      list.forEach((item, i) => {
+                        if (item.trim().toLowerCase() === text.trim().toLowerCase()) {
+                          matched = true;
+                        }
+                      });
+                    }
+
+                    state = matched ? 'success' : 'error';
+
+                    // console.log('[test-params]', JSON.stringify(params));
+                    // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
+
+                    let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                    tag = {
+                      ...tag,
+                      text: text,
+                      state: state,
+                    };
+
+                    const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                    props.addAccountInfo(key, {
+                      ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                      groupFrames: groupFrames,
+                    });
+                  }}
+                  onPressRightAccessory={(params) => {
+                    const { groupFrameId, tagKey } = params;
+
+                    let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
+
+                    tag = {
+                      ...tag,
+                      text: undefined,
+                      state: undefined,
+                    };
+
+                    const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
+
+                    props.addAccountInfo(key, {
+                      ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                      groupFrames: groupFrames,
+                    });
+                  }}
+                />
+              </View>
+            </View>
+          );
+        })
+    );
+
+    const inputGroupFrame = (
+      <GroupFrame
+        info={{
+          groupFrameId: groupFrameId,
+        }}
+        style={{
+          // backgroundColor: '#0f0',
+          marginVertical: 8,
+        }}
+        contentContainerStyle={{
+          // backgroundColor: '#0ff',
+          // borderRadius: 16,
+          // borderWidth: 1,
+          // borderColor: Theme.colors.general.transparent,
+          // padding: 8,
+          // marginVertical: 8,
+          alignItems: 'center',
+        }}
+        // rightAccessoryType="eye"
+        // visible={visible}
+        // onPressRightAccessory={(info) => {
+        //   const { groupFrameId, visible } = info;
+        //
+        //   // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
+        //
+        //   let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+        //
+        //   groupFrame = {
+        //     ...groupFrame,
+        //     visible: !visible,
+        //   };
+        //
+        //   const groupFrames = ProfileProcessor.updateGroupFrame(key, groupFrame);
+        //
+        //   props.addAccountInfo(key, {
+        //     ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+        //     groupFrames: groupFrames,
+        //   });
+        // }}
+      >
+        {propertyChildren}
+      </GroupFrame>
+    );
+
+    return (
+      <Translation>
+        {(t) => (
+          <View style={styles.castSheetMultipleInputItemContainer}>
+            <Text style={styles.castSheetMultipleInputItemTitle}>
+              {t(`app.${key}`)}
+            </Text>
+            {children}
+            {inputGroupFrame}
+            <Button
+              style={{
+                backgroundColor: Theme.colors.general.transparent,
+                flexDirection: 'row',
+                borderRadius: 14,
+                borderWidth: 1,
+                borderColor: Theme.colors.background.secondary,
+                marginVertical: 16,
+                padding: 4,
+              }}
+              // buttonStyle={styles.checkAccessoryButton}
+              // imageStyle={styles.checkAccessoryButtonImage}
+              type="small"
+              source={ic_plus}
+              resizeMode="center"
+              onPress={() => {
+                console.log('[test-info-1]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
+
+                // let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+                //
+                // groupFrame = {
+                //   ...groupFrame,
+                //   groupFrameId: ProfileProcessor.fetchGroupFrames(key).length,
+                // };
+
+                const groupFrames = ProfileProcessor.addGroupFrame(key);
+
+                console.log('[test-info-2]', JSON.stringify(groupFrames));
+
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  groupFrames: groupFrames,
+                });
+              }}
+              // disabled={disabled}
+            />
+          </View>
         )}
       </Translation>
     );
@@ -773,7 +1258,18 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_OCCUPATIONS, true)}
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SKILLS, true)}
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ALMA_MATERS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_AWARDS, true)}
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_AWARDS,
+                [
+                  'Year',
+                  'Award Ceremony Name',
+                  'Award Name',
+                  'Winner',
+                ],
+                true,
+              )
+            }
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_NATIONALITIES, true)}
           </View>
         )}
@@ -1049,11 +1545,48 @@ const styles = StyleSheet.create({
     letterSpacing: 1.7,
     textTransform: 'uppercase',
     marginVertical: 16,
+    alignSelf: 'center',
   },
   castSheetContainer: {
     // backgroundColor: '#0f0',
-    alignItems: 'center',
+    // alignItems: 'center',
     marginVertical: 16,
+  },
+  castSheetMultipleInputItemContainer: {
+    // backgroundColor: '#0ff',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Theme.colors.general.transparent,
+    padding: 8,
+    marginVertical: 8,
+  },
+  castSheetMultipleInputItemTitle: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.regular,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
+  },
+  castSheetMultipleInputItemPropertyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  castSheetMultipleInputItemPropertyNameContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+  },
+  castSheetMultipleInputItemPropertyNameText: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.regular,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
+    textAlign: 'right',
+  },
+  castSheetMultipleInputItemPropertyTagContainer: {
+    // backgroundColor: '#0ff',
+    flex: 1,
+    alignItems: 'flex-start',
   },
   tag: {
     backgroundColor: Theme.colors.background.secondary,

@@ -7,7 +7,8 @@ const zhHK = {
   },
   app: {
     loading: '加載中',
-    cancel: 'Cancel',
+    cancel: '取消',
+    delete: '刪除',
     login: '登入',
     forgotPassword: '忘記密碼',
     create_account: 'Create Account',

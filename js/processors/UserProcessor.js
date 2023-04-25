@@ -12,7 +12,7 @@ export const toName = (profile) => {
 
   let nameDisplayFormat = 0;
 
-  if (profile.name_display_format && profile.name_display_format.length > 0) {
+  if (profile && profile.name_display_format && profile.name_display_format.length > 0) {
     nameDisplayFormat = parseInt(profile.name_display_format);
   }
 
@@ -38,7 +38,7 @@ export const toName = (profile) => {
 export const toOccupation = (profile) => {
   let occupation = '';
 
-  if (profile.occupations && profile.occupations.length > 0) {
+  if (profile && profile.occupations && profile.occupations.length > 0) {
      occupation = (profile.occupations[0].text || '').trim();
   }
 

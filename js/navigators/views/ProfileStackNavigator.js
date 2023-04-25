@@ -24,11 +24,12 @@ import {
   SignUpStackNavigator,
 } from '../../navigators';
 
+import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
-const ic_header_2 = require('../../../assets/images/ic_header_2/ic_header_2.png');
-
 const Stack = createStackNavigator();
+
+const ic_header_2 = require('../../../assets/images/ic_header_2/ic_header_2.png');
 
 class ProfileStackNavigator extends BaseComponent {
   constructor(props) {

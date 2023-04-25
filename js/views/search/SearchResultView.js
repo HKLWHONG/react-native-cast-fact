@@ -44,7 +44,7 @@ import { Theme, Router } from '../../utils';
 
 import { SearchProcessor, TagProcessor } from '../../processors';
 
-import { SearchProvider } from '../../providers';
+import { SearchProvider, UserProvider } from '../../providers';
 
 import {
   Constants,
@@ -109,7 +109,7 @@ class SearchResultView extends BaseComponent {
     console.log('[RNHTMLtoPDF]', RNHTMLtoPDF);
 
     let options = {
-      html: Constants.PDF_HTML,
+      html: UserProvider.generateHttpProfile(),
       fileName: 'castfact_castsheet',
       directory: 'Documents',
     };

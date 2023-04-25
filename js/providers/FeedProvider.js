@@ -3,8 +3,6 @@
  * @flow strict-local
  */
 
-import i18n from '../../i18n';
-
 import {
   store,
   AppAction,
@@ -26,6 +24,8 @@ import {
 import {
   GetFeedApi,
 } from '../apis';
+
+import i18n from '../../i18n';
 
 const IDENTIFIER = 'FeedProvider';
 

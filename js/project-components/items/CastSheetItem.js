@@ -15,14 +15,12 @@ import { } from '../../components';
 
 import {
   Button,
+  GroupFrame,
 } from '../../project-components';
 
 import { Theme } from '../../utils';
 
 import { Translation } from 'react-i18next';
-
-const ic_eye_on = require('../../../assets/images/ic_eye_on/ic_eye_on.png');
-const ic_eye_off = require('../../../assets/images/ic_eye_off/ic_eye_off.png');
 
 class CastSheetItem extends Component {
   constructor(props: any) {
@@ -31,29 +29,23 @@ class CastSheetItem extends Component {
     this.state = {};
   }
 
-  renderLeftContainer() {
+  renderTopContainer = () => {
     const { props } = this;
 
     return (
       <Translation>
         {(t) => (
-          <View style={styles.leftContainer}>
-            <Text style={{
-              color: Theme.colors.text.subtitle,
-              fontSize: 15,
-              fontFamily: Theme.fonts.regular,
-              letterSpacing: 1.7,
-              textTransform: 'uppercase',
-            }}>
+          <View style={styles.topContainer}>
+            <Text style={styles.title}>
               {props.text}
             </Text>
           </View>
         )}
       </Translation>
     );
-  }
+  };
 
-  renderCenterContainer() {
+  renderBottomContainer = () => {
     const { props } = this;
 
     let children = (
@@ -67,43 +59,28 @@ class CastSheetItem extends Component {
     return (
       <Translation>
         {(t) => (
-          <View style={styles.centerContainer}>
+          <GroupFrame
+            style={styles.bottomContainer}
+            contentContainerStyle={styles.bottomContentContainer}
+            rightAccessoryType="eye"
+            visible={props.visible}
+            onPressRightAccessory={(info) => {
+              if (!props.onPressVisibilityButton) {
+                return;
+              }
+
+              props.onPressVisibilityButton({
+                ...info,
+                visible: props.visible,
+              });
+            }}
+          >
             {children}
-          </View>
+          </GroupFrame>
         )}
       </Translation>
     );
-  }
-
-  renderRightContainer() {
-    const { props } = this;
-
-    const source = props.visible ? ic_eye_on : ic_eye_off;
-
-    return (
-      <Translation>
-        {(t) => (
-          <View style={styles.rightContainer}>
-            <Button
-              style={styles.visibilityButton}
-              type="small"
-              source={source}
-              resizeMode="center"
-              onPress={() => {
-                if (!props.onPressVisibilityButton) {
-                  return;
-                }
-
-                props.onPressVisibilityButton({
-                  visible: props.visible,
-                });
-              }}
-            />
-          </View>
-        )}
-      </Translation>
-    );
-  }
+  };
 
   render() {
     const { props } = this;
@@ -119,9 +96,8 @@ class CastSheetItem extends Component {
             onLayout={props.onLayout}
             style={[styles.container, props.style]}
           >
-            {this.renderLeftContainer()}
-            {this.renderCenterContainer()}
-            {this.renderRightContainer()}
+            {this.renderTopContainer()}
+            {this.renderBottomContainer()}
           </View>
         )}
       </Translation>
@@ -132,33 +108,33 @@ class CastSheetItem extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#0ff',
-    flexDirection: 'row',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Theme.colors.general.transparent,
     padding: 8,
     marginVertical: 8,
   },
-  leftContainer: {
+  topContainer: {
     // backgroundColor: '#f0f',
-    flex: 1,
-    alignItems: 'flex-end',
-    paddingTop: 10,
-    paddingBottom: 4,
+    // flex: 1,
+    // alignItems: 'flex-end',
+    // paddingTop: 10,
+    // paddingBottom: 4,
   },
-  centerContainer: {
-    // backgroundColor: '#f00',
-    flex: 1,
-    paddingHorizontal: 8,
+  title: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.regular,
+    letterSpacing: 1.7,
+    textTransform: 'uppercase',
   },
-  rightContainer: {
-    // backgroundColor: '#0ff',
-    paddingVertical: 4,
+  bottomContainer: {
+    // backgroundColor: '#0f0',
+    marginVertical: 8,
   },
-  visibilityButton: {
-    aspectRatio: 1,
-    borderWidth: 1,
-    borderColor: Theme.colors.background.gray,
+  bottomContentContainer: {
+    // backgroundColor: '#00f',
+    // alignItems: 'center',
   },
 });
 

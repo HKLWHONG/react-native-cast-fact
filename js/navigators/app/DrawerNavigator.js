@@ -22,9 +22,6 @@ import {
   SignUpStackNavigator,
 } from '../../navigators';
 
-import i18n from '../../../i18n';
-import { Translation } from 'react-i18next';
-
 import { Router } from '../../utils';
 
 import {
@@ -32,6 +29,9 @@ import {
   SettingsSlideSheetContainerView,
   WelcomeSlideSheetContainerView,
 } from '../../views';
+
+import i18n from '../../../i18n';
+import { Translation } from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

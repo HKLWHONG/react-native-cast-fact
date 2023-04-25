@@ -191,6 +191,16 @@ class Tag extends Component {
       &&
       props.type.toLowerCase() === 'input'.toLowerCase()
     ) {
+      style = {
+        ...textInputStyle,
+        minWidth: 30,
+      };
+
+      textInputStyle = {
+        ...textInputStyle,
+        minWidth: 30,
+      };
+
       enabled = true;
     }
 
@@ -208,13 +218,19 @@ class Tag extends Component {
       };
     }
 
+    let value = props.text;
+
+    if (props.disabled || !props.editable) {
+      value = undefined;
+    }
+
     let textInput = (
       <TextInput
         style={[styles.input, textInputStyle]}
         textInputStyle={styles.text}
         placeholderTextColor={Theme.colors.text.subtitle}
         editable={!props.disabled && props.editable}
-        value={props.text}
+        value={value}
         placeholder={props.placeholder}
         maxLength={props.maxLength}
         keyboardType={props.keyboardType}
@@ -257,7 +273,7 @@ class Tag extends Component {
 
     let children = textInput;
 
-    if (props.disabled || props.editable === false) {
+    if (props.disabled || !props.editable) {
       children = (
         <View style={{ flexDirection: 'row' }}>
           <View style={{ width: 0 }}>
@@ -306,6 +322,13 @@ class Tag extends Component {
 
     let style = {};
 
+    if (props.maxWidth) {
+      style = {
+        ...style,
+        maxWidth: props.maxWidth,
+      };
+    }
+
     if (props.fill) {
       style = {
         ...style,
@@ -352,6 +375,29 @@ class Tag extends Component {
     );
   };
 
+  renderPlaceholderButton = () => {
+    const { props } = this;
+
+    return (
+      <Translation>
+        {(t) => (
+          <SingleTouch
+            style={styles.rightAccessoryButton}
+            onPress={() => {
+              if (!props.onPressRightAccessory) {
+                return;
+              }
+
+              props.onPressRightAccessory(props.info);
+            }}
+          >
+            <View style={styles.rightAccessoryButtonImage} />
+          </SingleTouch>
+        )}
+      </Translation>
+    );
+  };
+
   renderRightContainer = () => {
     const { props } = this;
 
@@ -365,6 +411,14 @@ class Tag extends Component {
       props.rightAccessoryType.toLowerCase() === 'delete'.toLowerCase()
     ) {
       children = this.renderDeleteButton();
+    } else if (
+      props.rightAccessoryType
+      &&
+      props.rightAccessoryType.toLowerCase() === 'placeholder'.toLowerCase()
+      &&
+      (!props.text || !props.text.length === 0)
+    ) {
+      children = this.renderPlaceholderButton();
     }
 
     return (
@@ -386,6 +440,13 @@ class Tag extends Component {
     }
 
     let style = {};
+
+    if (props.fill) {
+      style = {
+        ...style,
+        flex: 1,
+      };
+    }
 
     if (
       (props.type && props.type.toLowerCase() === 'input'.toLowerCase())
@@ -493,7 +554,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0f0',
     backgroundColor: Theme.colors.background.secondary,
     flexDirection: 'row',
-    alignSelf: 'center',
+    justifyContent: 'space-between',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Theme.colors.general.transparent,
@@ -616,9 +677,14 @@ Tag.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   dotStyle: ViewPropTypes.style,
+  maxWidth: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   hidden: PropTypes.bool,
   disabled: PropTypes.bool,
   disabledWithoutFeedback: PropTypes.bool,
+  editable: PropTypes.bool,
   type: PropTypes.string,
   text: PropTypes.string,
   placeholder: PropTypes.string,
@@ -652,9 +718,11 @@ Tag.defaultProps = {
   onLayout: undefined,
   style: undefined,
   dotStyle: undefined,
+  maxWidth: undefined,
   hidden: false,
   disabled: false,
   disabledWithoutFeedback: false,
+  editable: true,
   type: undefined,
   text: undefined,
   placeholder: undefined,
