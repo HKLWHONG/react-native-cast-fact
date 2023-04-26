@@ -21,6 +21,12 @@ import {
 
 import { Theme } from '../../utils';
 
+import { UserProcessor, ProfileProcessor } from '../../processors';
+
+import {
+  Constants,
+} from '../../constants';
+
 import { Translation } from 'react-i18next';
 
 const ic_profile_placeholder = require('../../../assets/images/ic_profile_placeholder/ic_profile_placeholder.png');
@@ -36,6 +42,10 @@ class ProfileInfoSetupView extends Component {
     const { props } = this;
 
     if (props.hiddenViewIndicator) {
+      return;
+    }
+
+    if (props.userProfile) {
       return;
     }
 
@@ -61,34 +71,48 @@ class ProfileInfoSetupView extends Component {
     }
 
     let source = ic_profile_placeholder;
-
-    if (props.photo && props.photo.path) {
-      source = { uri: 'file://' + (props.photo && props.photo.path) };
-    }
-
-    let name = '';
-
-    const firstnameEn = props.account.info.firstnameEn || '';
-    const lastnameEn = props.account.info.lastnameEn || '';
-    const firstnameZh = props.account.info.firstnameZh || '';
-    const lastnameZh = props.account.info.lastnameZh || '';
-    const nickname = props.account.info.nickname || '';
-
-    if (props.account.info.displayFormat === 0) {
-      name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
-    } else if (props.account.info.displayFormat === 1) {
-      name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
-    } else if (props.account.info.displayFormat === 2) {
-      name = `${nickname} ${lastnameZh}${firstnameZh}`.trim();
-    } else if (props.account.info.displayFormat === 3) {
-      name = `${nickname}`.trim();
-    }
-
-    if (name.length === 0) {
-      name = undefined;
-    }
+    let name = undefined;
+    let occupation = undefined;
 
     let nameTextContainerStyle = {};
+    let occupationTextContainerStyle = {};
+
+    if (props.userProfile) {
+      name = UserProcessor.toName(props.userProfile, props.account.info.displayFormat);
+      occupation = UserProcessor.toOccupation(props.userProfile);
+    } else {
+      if (props.photo && props.photo.path) {
+        source = { uri: 'file://' + (props.photo && props.photo.path) };
+      }
+
+      const firstnameEn = props.account.info.firstnameEn || '';
+      const lastnameEn = props.account.info.lastnameEn || '';
+      const firstnameZh = props.account.info.firstnameZh || '';
+      const lastnameZh = props.account.info.lastnameZh || '';
+      const nickname = props.account.info.nickname || '';
+
+      if (props.account.info.displayFormat === 0) {
+        name = `${nickname} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+      } else if (props.account.info.displayFormat === 1) {
+        name = `${firstnameEn} ${lastnameEn} ${lastnameZh}${firstnameZh}`.trim();
+      } else if (props.account.info.displayFormat === 2) {
+        name = `${nickname} ${lastnameZh}${firstnameZh}`.trim();
+      } else if (props.account.info.displayFormat === 3) {
+        name = `${nickname}`.trim();
+      }
+
+      if (name && name.length === 0) {
+        name = undefined;
+      }
+
+      occupation = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS);
+
+      if (occupation && occupation.length > 0) {
+        occupation = occupation[0].text;
+      } else {
+        occupation = undefined;
+      }
+    }
 
     if (name) {
       nameTextContainerStyle = {
@@ -96,14 +120,6 @@ class ProfileInfoSetupView extends Component {
         backgroundColor: Theme.colors.general.transparent,
       }
     }
-
-    const occupation = (
-      props.profileCastSheetEditionViewAccount.info.occupation
-      &&
-      props.profileCastSheetEditionViewAccount.info.occupation.text
-    );
-
-    let occupationTextContainerStyle = {};
 
     if (occupation) {
       occupationTextContainerStyle = {
@@ -213,8 +229,6 @@ ProfileInfoSetupView.propTypes = {
   hiddenViewIndicator: PropTypes.bool,
   hiddenInfoContainer: PropTypes.bool,
   index: PropTypes.number,
-  text: PropTypes.string,
-  occupation: PropTypes.string,
 };
 
 ProfileInfoSetupView.defaultProps = {
@@ -224,8 +238,6 @@ ProfileInfoSetupView.defaultProps = {
   hiddenViewIndicator: false,
   hiddenInfoContainer: false,
   index: 0,
-  text: undefined,
-  occupation: undefined,
 };
 
 function mapStateToProps(state) {
@@ -234,6 +246,7 @@ function mapStateToProps(state) {
     photo: state.profileInfoSetupViewReducer.photo,
     account: state.profileInfoSetupViewReducer.account,
     profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 

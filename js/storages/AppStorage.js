@@ -75,7 +75,6 @@ export const removeAll = () => {
       })
       .catch((error) => {
         reject(error);
-      })
-      .done();
+      });
   });
 };

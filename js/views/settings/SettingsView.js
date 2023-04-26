@@ -40,6 +40,8 @@ import {
 
 import { Theme, Router } from '../../utils';
 
+import { Constants } from '../../constants';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -268,7 +270,7 @@ class SettingsView extends BaseComponent {
               {t('system.version_name')}
             </Text>
             <Text style={styles.footerDescription}>
-              {t('v1.0.0')}
+              {Constants.VERSION}
             </Text>
           </Footer>
         )}

@@ -129,15 +129,18 @@ export const decodeJWTToken = (props, params, options) => {
 
 export const logout = (props, params, options) => {
   return new Promise((resolve, reject) => {
-    AuthStorage.removeAll()
-    .then(() => {
-      store.dispatch(DataAction.reset());
+    Promise.all([
+      AuthStorage.removeAll(),
+      UserStorage.removeAll(),
+    ])
+      .then(() => {
+        store.dispatch(DataAction.reset());
 
-      resolve();
-    })
-    .catch((error) => {
-      reject(error);
-    });
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 
   // return new Promise((resolve, reject) => {

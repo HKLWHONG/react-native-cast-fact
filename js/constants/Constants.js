@@ -3,6 +3,8 @@
  * @flow strict-local
  */
 
+export const VERSION = 'v1.0.0';
+
 export const HEIGHT = 'Height';
 export const WEIGHT = 'Weight';
 export const AGE = 'Age';
@@ -11,7 +13,7 @@ export const HAIR_COLOR = 'Hair Color';
 export const SKIN_COLOR = 'Skin Color';
 
 // Properties
-export const CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME = 'school_name';
+export const CAST_SHEET_PROPERTY_KEY_SCHOOL = 'school';
 export const CAST_SHEET_PROPERTY_KEY_MAJOR = 'major';
 export const CAST_SHEET_PROPERTY_KEY_YEAR = 'year';
 export const CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME = 'award_ceremony_name';

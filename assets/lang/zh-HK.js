@@ -51,7 +51,7 @@ const zhHK = {
     occupations: 'Occupations',
     skills: 'Skills',
     alma_maters: 'Alma Maters',
-    school_name: 'School Name',
+    school: 'School',
     major: 'major',
     awards: 'Awards',
     year: 'Year',

@@ -137,7 +137,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
                   Constants.CAST_SHEET_KEY_ALMA_MATERS,
                   [
-                    Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
                     Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
                   ],
                 ),
@@ -401,6 +401,8 @@ class ProfileCastSheetEditionView extends BaseComponent {
   };
 
   login = () => {
+    const { props } = this;
+
     AuthProvider.login(props, {
       email: props.signUpViewAccount.credentials.email,
       password: props.signUpViewAccount.credentials.password,
@@ -997,7 +999,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
               this.renderCastSheetMultipleInputItem(
                 Constants.CAST_SHEET_KEY_ALMA_MATERS,
                 [
-                  Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
                   Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
                 ],
               )
@@ -1406,7 +1408,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   const alma_maters = ProfileProcessor.fetchApiMultipleField(
                     Constants.CAST_SHEET_KEY_ALMA_MATERS,
                     [
-                      Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
                       Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
                     ],
                   );
