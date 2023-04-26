@@ -88,126 +88,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
     this.clearData();
   }
 
-  fetchProperty = (key) => {
-    const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
-
-    if (info) {
-      if (info.text && info.text.length > 0) {
-        if (
-          key === Constants.CAST_SHEET_KEY_DATE_OF_BIRTH
-          ||
-          key == Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH
-        ) {
-          return CalendarProcessor.toApiDateString(info.text);
-        }
-
-        return info.text;
-      } else if (info.tags && info.tags.length > 0) {
-        return info.tags[0].text;
-      }
-    }
-
-    return '';
-  };
-
-  fetchProperties = (key) => {
-    const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
-
-    let tags = (info && info.tags) || [];
-
-    if (info && info.text && info.text.length > 0) {
-      tags = [
-        ...tags,
-        {
-          text: info.text,
-        }
-      ];
-    }
-
-    return tags.map((tag) => {
-      let property = {};
-
-      if (key === Constants.CAST_SHEET_KEY_ALMA_MATERS) {
-        property = {
-          "school_name": "Hong Kong Baptist University College of International Education",
-          "major": "Creative Communication",
-        };
-      } else if (key === Constants.CAST_SHEET_KEY_AWARDS) {
-        property = {
-          "year": "",
-          "award_ceremony_name": "",
-          "award_name": "",
-          "winner": "",
-        };
-      } else if (
-        key === Constants.CAST_SHEET_KEY_MOVIES
-        ||
-        key === Constants.CAST_SHEET_KEY_TV_SHOWS
-        ||
-        key === Constants.CAST_SHEET_KEY_COMMERCIALS
-        ||
-        key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
-        ||
-        key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
-        ||
-        key === Constants.CAST_SHEET_KEY_VARIETY_SHOWS
-        ||
-        key === Constants.CAST_SHEET_KEY_PERFORMING_ARTS
-        ||
-        key === Constants.CAST_SHEET_KEY_BROADCASTS
-        ||
-        key === Constants.CAST_SHEET_KEY_MODELLINGS
-        ||
-        key === Constants.CAST_SHEET_KEY_VOICEOVERS
-        ||
-        key === Constants.CAST_SHEET_KEY_ONLINES
-        ||
-        key === Constants.CAST_SHEET_KEY_EVENTS
-      ) {
-        property = {
-          "year": "",
-          "name": "",
-          "role_title": "",
-          "role_name": "",
-        };
-
-        // if (
-        //   key === Constants.CAST_SHEET_KEY_MUSIC_VIDEOS
-        //   ||
-        //   key === Constants.CAST_SHEET_KEY_STAGE_SHOWS
-        // ) {
-        //   property = {
-        //     ...property,
-        //     "singer": "",
-        //   };
-        // }
-      } else if (
-        key === Constants.CAST_SHEET_KEY_CONTACTS
-        ||
-        key === Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS
-      ) {
-        property = {
-          "type": "Phone",
-          "category": "Tester001",
-          "text": "61234321",
-        };
-      } else if (key === Constants.CAST_SHEET_KEY_CONTACTS_AGENTS) {
-        property = {
-          "name": "Tester-Agent",
-          "phone": "",
-          "email": "",
-          "agent_status": "",
-        }
-      } else {
-        property = {
-          text: tag.text,
-        };
-      }
-
-      return property;
-    });
-  };
-
   initialize = () => {
     const { props } = this;
 
@@ -231,190 +111,250 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
                 nickname: props.profileInfoSetupViewAccount.info.nickname || '',
                 name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
-                [Constants.CAST_SHEET_KEY_GENDER]: this.fetchProperty(Constants.CAST_SHEET_KEY_GENDER),
-                [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
-                [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: this.fetchProperty(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
-                [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: this.fetchProperty(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
-                [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: this.fetchProperty(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
-                [Constants.CAST_SHEET_KEY_HEIGHT]: this.fetchProperty(Constants.CAST_SHEET_KEY_HEIGHT),
-                [Constants.CAST_SHEET_KEY_WEIGHT]: this.fetchProperty(Constants.CAST_SHEET_KEY_WEIGHT),
-                [Constants.CAST_SHEET_KEY_SKIN_COLOR]: this.fetchProperty(Constants.CAST_SHEET_KEY_SKIN_COLOR),
-                [Constants.CAST_SHEET_KEY_DRESS_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_DRESS_SIZE),
-                [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
-                [Constants.CAST_SHEET_KEY_SHOE_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SHOE_SIZE),
-                [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
-                [Constants.CAST_SHEET_KEY_PANTS_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_PANTS_SIZE),
-                [Constants.CAST_SHEET_KEY_HAT_SIZE]: this.fetchProperty(Constants.CAST_SHEET_KEY_HAT_SIZE),
-                [Constants.CAST_SHEET_KEY_HANDEDNESS]: this.fetchProperty(Constants.CAST_SHEET_KEY_HANDEDNESS),
-                [Constants.CAST_SHEET_KEY_GLOVE]: this.fetchProperty(Constants.CAST_SHEET_KEY_GLOVE),
-                [Constants.CAST_SHEET_KEY_HAIR_COLORS]: this.fetchProperties(Constants.CAST_SHEET_KEY_HAIR_COLORS),
-                [Constants.CAST_SHEET_KEY_EYES_COLORS]: this.fetchProperties(Constants.CAST_SHEET_KEY_EYES_COLORS),
-                [Constants.CAST_SHEET_KEY_BODY_TYPES]: this.fetchProperties(Constants.CAST_SHEET_KEY_BODY_TYPES),
-                [Constants.CAST_SHEET_KEY_OCCUPATIONS]: this.fetchProperties(Constants.CAST_SHEET_KEY_OCCUPATIONS),
-                [Constants.CAST_SHEET_KEY_SKILLS]: this.fetchProperties(Constants.CAST_SHEET_KEY_SKILLS),
-                [Constants.CAST_SHEET_KEY_LANGUAGES]: this.fetchProperties(Constants.CAST_SHEET_KEY_LANGUAGES),
-                [Constants.CAST_SHEET_KEY_WORKING_BASES]: this.fetchProperties(Constants.CAST_SHEET_KEY_WORKING_BASES),
-                [Constants.CAST_SHEET_KEY_ALMA_MATERS]: [
-                    // {
-                    //     "school_name": "Buddhist Chung Wah Kornhill Primary School",
-                    //     "major": ""
-                    // },
-                    // {
-                    //     "school_name": "Chong Gene Hang College",
-                    //     "major": ""
-                    // },
-                    // {
-                    //     "school_name": "Hong Kong Baptist University College of International Education",
-                    //     "major": "Creative Communication"
-                    // }
+                [Constants.CAST_SHEET_KEY_GENDER]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER),
+                [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
+                [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
+                [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
+                [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
+                [Constants.CAST_SHEET_KEY_HEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HEIGHT),
+                [Constants.CAST_SHEET_KEY_WEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_WEIGHT),
+                [Constants.CAST_SHEET_KEY_SKIN_COLOR]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SKIN_COLOR),
+                [Constants.CAST_SHEET_KEY_DRESS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DRESS_SIZE),
+                [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
+                [Constants.CAST_SHEET_KEY_SHOE_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHOE_SIZE),
+                [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
+                [Constants.CAST_SHEET_KEY_PANTS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PANTS_SIZE),
+                [Constants.CAST_SHEET_KEY_HAT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HAT_SIZE),
+                [Constants.CAST_SHEET_KEY_HANDEDNESS]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HANDEDNESS),
+                [Constants.CAST_SHEET_KEY_GLOVE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GLOVE),
+                [Constants.CAST_SHEET_KEY_HAIR_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS),
+                [Constants.CAST_SHEET_KEY_EYES_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_EYES_COLORS),
+                [Constants.CAST_SHEET_KEY_BODY_TYPES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_BODY_TYPES),
+                [Constants.CAST_SHEET_KEY_OCCUPATIONS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS),
+                [Constants.CAST_SHEET_KEY_SKILLS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_SKILLS),
+                [Constants.CAST_SHEET_KEY_LANGUAGES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LANGUAGES),
+                [Constants.CAST_SHEET_KEY_WORKING_BASES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_WORKING_BASES),
+                [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_ALMA_MATERS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_AWARDS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_AWARDS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_NATIONALITIES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_NATIONALITIES),
+                [Constants.CAST_SHEET_KEY_LICENSES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LICENSES),
+                [Constants.CAST_SHEET_KEY_MOVIES]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_MOVIES,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_TV_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_TV_SHOWS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_COMMERCIALS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_COMMERCIALS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_STAGE_SHOWS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_BROADCASTS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_BROADCASTS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_MODELLINGS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_MODELLINGS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_VOICEOVERS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_VOICEOVERS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_ONLINES]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_ONLINES,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_EVENTS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_EVENTS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                  ],
+                ),
+                [Constants.CAST_SHEET_KEY_CONTACTS]:
+                [
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Address',
+                      };
+                    }),
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Email',
+                      };
+                    }),
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Phone',
+                      };
+                    }),
                 ],
-                [Constants.CAST_SHEET_KEY_AWARDS]: [
-                    // {
-                    //     "year": "",
-                    //     "award_ceremony_name": "",
-                    //     "award_name": "",
-                    //     "winner": ""
-                    // }
+                [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]:
+                [
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Instagram',
+                      };
+                  }),
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Facebook',
+                      };
+                  }),
+                  ...ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'YouTube',
+                      };
+                  }),
                 ],
-                [Constants.CAST_SHEET_KEY_NATIONALITIES]: this.fetchProperties(Constants.CAST_SHEET_KEY_NATIONALITIES),
-                [Constants.CAST_SHEET_KEY_LICENSES]: this.fetchProperties(Constants.CAST_SHEET_KEY_LICENSES),
-                [Constants.CAST_SHEET_KEY_MOVIES]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_TV_SHOWS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_COMMERCIALS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "singer": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "singer": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // },
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "singer": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_BROADCASTS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_MODELLINGS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_VOICEOVERS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_ONLINES]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_EVENTS]: [
-                    // {
-                    //     "year": "",
-                    //     "name": "",
-                    //     "role_title": "",
-                    //     "role_name": ""
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_CONTACTS]: [
-                    // {
-                    //     "type": "Phone",
-                    //     "category": "Tester001",
-                    //     "text": "61234321"
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]: [
-                    // {
-                    //     "type": "Instagram",
-                    //     "category": "",
-                    //     "text": "castfact-tester-ig"
-                    // },
-                    // {
-                    //     "type": "Facebook",
-                    //     "category": "",
-                    //     "text": "castfact-tester-fb"
-                    // },
-                    // {
-                    //     "type": "YouTube",
-                    //     "category": "",
-                    //     "text": "castfact-tester-yb"
-                    // }
-                ],
-                [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: [
-                    // {
-                    //     "name": "Tester-Agent",
-                    //     "phone": "",
-                    //     "email": "",
-                    //     "agent_status": ""
-                    // }
-                ],
+                [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: ProfileProcessor.fetchApiMultipleField(
+                  Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                  [
+                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                    Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+                    Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+                    Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+                  ],
+                ),
             }
         ],
       )
@@ -454,6 +394,12 @@ class ProfileCastSheetEditionView extends BaseComponent {
     });
   };
 
+  clearData = () => {
+    const { props } = this;
+
+    props.reset();
+  };
+
   login = () => {
     AuthProvider.login(props, {
       email: props.signUpViewAccount.credentials.email,
@@ -473,12 +419,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
           }],
         );
       });
-  };
-
-  clearData = () => {
-    const { props } = this;
-
-    props.reset();
   };
 
   renderHeader = () => {
@@ -604,9 +544,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
               state: 'attention',
             });
           }}
-          onBlur={(params) => {
-            console.log('[params]', params);
-
+          onBlur={() => {
             let tags = (
               (
                 store.getState().profileCastSheetEditionViewReducer.account.info[key]
@@ -766,257 +704,17 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  renderCastSheetMultipleInputItem = (key, propertyList = [], multiple) => {
+  renderPropertyChildren = (key, propertyList = [], groupFrameId) => {
     const { props } = this;
 
-    const groupFrames = ProfileProcessor.fetchGroupFrames(key).filter((groupFrame) => {
-      console.log('[groupFrame.groupFrameId]', groupFrame.groupFrameId);
-      return (
-        groupFrame.groupFrameId !== 'input'
-        &&
-        !groupFrame.groupFrameId.startsWith('deleted')
-      );
-    });
-
-    // const list = Constants.CAST_SHEET_WHITE_LIST[key] || [];
-
-    const children = (
-      Array(groupFrames.length)
-        .fill()
-        .map((_, i) => i)
-        .map((i) => {
-          const groupFrame = groupFrames[i];
-
-          const groupFrameId = groupFrame.groupFrameId;
-
-          let visible = undefined;
-
-          if (groupFrame) {
-            visible = groupFrame.visible;
-          }
-
-          const propertyChildren = (
-            Array(propertyList.length)
-              .fill()
-              .map((_, t) => t)
-              .map((t) => {
-                const propertyName = propertyList[t];
-
-                let tag = ProfileProcessor.fetchTag(key, groupFrameId, propertyName);
-
-                let text = undefined;
-                let state = undefined;
-
-                if (tag) {
-                  text = tag.text;
-                  state = tag.state;
-                }
-
-                return (
-                  <View
-                    key={t.toString()}
-                    style={styles.castSheetMultipleInputItemPropertyContainer}
-                  >
-                    <View style={styles.castSheetMultipleInputItemPropertyNameContainer}>
-                      <Text style={styles.castSheetMultipleInputItemPropertyNameText}>
-                        {propertyName}
-                      </Text>
-                    </View>
-                    <View style={styles.castSheetMultipleInputItemPropertyTagContainer}>
-                      <Tag
-                        info={{
-                          groupFrameId: groupFrameId,
-                          tagKey: propertyName,
-                        }}
-                        style={styles.tag}
-                        maxWidth={'70%'}
-                        type="input"
-                        state={state}
-                        text={text}
-                        rightAccessoryType="delete"
-                        onFocus={(params) => {
-                          const { groupFrameId, tagKey } = params;
-
-                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
-
-                          tag = {
-                            ...tag,
-                            state: 'attention',
-                          };
-
-                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
-
-                          props.addAccountInfo(key, {
-                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                            groupFrames: groupFrames,
-                          });
-                        }}
-                        onBlur={(params) => {
-                          const { groupFrameId, tagKey } = params;
-
-                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
-
-                          tag = {
-                            ...tag,
-                            state: undefined,
-                          };
-
-                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
-
-                          props.addAccountInfo(key, {
-                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                            groupFrames: groupFrames,
-                          });
-                        }}
-                        onChangeText={(params) => {
-                          const { groupFrameId, tagKey, text } = params;
-
-                          let state = 'attention';
-
-                          let matched = true; //list.length > 0 ? false : true;
-
-                          if (!matched) {
-                            list.forEach((item, i) => {
-                              if (item.trim().toLowerCase() === text.trim().toLowerCase()) {
-                                matched = true;
-                              }
-                            });
-                          }
-
-                          state = matched ? 'success' : 'error';
-
-                          // console.log('[test-params]', JSON.stringify(params));
-                          // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
-
-                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
-
-                          tag = {
-                            ...tag,
-                            text: text,
-                            state: state,
-                          };
-
-                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
-
-                          props.addAccountInfo(key, {
-                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                            groupFrames: groupFrames,
-                          });
-                        }}
-                        onPressRightAccessory={(params) => {
-                          const { groupFrameId, tagKey } = params;
-
-                          let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
-
-                          tag = {
-                            ...tag,
-                            text: undefined,
-                            state: undefined,
-                          };
-
-                          const groupFrames = ProfileProcessor.updateTag(key, groupFrameId, tag);
-
-                          props.addAccountInfo(key, {
-                            ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                            groupFrames: groupFrames,
-                          });
-                        }}
-                      />
-                    </View>
-                  </View>
-                );
-              })
-          );
-
-          return (
-            <GroupFrame
-              key={i.toString()}
-              info={{
-                groupFrameId: groupFrameId,
-              }}
-              style={{
-                // backgroundColor: '#0f0',
-                marginVertical: 8,
-              }}
-              contentContainerStyle={{
-                // backgroundColor: '#0ff',
-                // borderRadius: 16,
-                // borderWidth: 1,
-                // borderColor: Theme.colors.general.transparent,
-                // padding: 8,
-                // marginVertical: 8,
-                alignItems: 'center',
-              }}
-              rightAccessoryType="eye"
-              visible={visible}
-              onPress={(info) => {
-                const { groupFrameId } = info;
-
-                Alert.alert(
-                  i18n.t('app.delete'),
-                  i18n.t(''),
-                  [
-                    {
-                      text: i18n.t('app.cancel').toUpperCase(),
-                    },
-                    {
-                      text: i18n.t('app.ok').toUpperCase(),
-                      onPress: () => {
-                        const groupFrames = ProfileProcessor.deleteGroupFrame(key, groupFrameId);
-
-                        props.addAccountInfo(key, {
-                          ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                          groupFrames: groupFrames,
-                        });
-                      },
-                    },
-                  ],
-                );
-              }}
-              onPressRightAccessory={(info) => {
-                const { groupFrameId, visible } = info;
-
-                // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
-
-                let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
-
-                groupFrame = {
-                  ...groupFrame,
-                  visible: !visible,
-                };
-
-                const groupFrames = ProfileProcessor.updateGroupFrame(key, groupFrame);
-
-                props.addAccountInfo(key, {
-                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                  groupFrames: groupFrames,
-                });
-              }}
-            >
-              {propertyChildren}
-            </GroupFrame>
-          );
-        })
-    );
-
-    const groupFrameId = 'input';
-
-    const groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
-
-    // let visible = undefined;
-    //
-    // if (groupFrame) {
-    //   visible = groupFrame.visible;
-    // }
-
-    const propertyChildren = (
+    return (
       Array(propertyList.length)
         .fill()
         .map((_, t) => t)
         .map((t) => {
-          const propertyName = propertyList[t];
+          const propertyKey = propertyList[t];
 
-          let tag = ProfileProcessor.fetchTag(key, groupFrameId, propertyName);
+          let tag = ProfileProcessor.fetchTag(key, groupFrameId, propertyKey);
 
           let text = undefined;
           let state = undefined;
@@ -1031,16 +729,16 @@ class ProfileCastSheetEditionView extends BaseComponent {
               key={t.toString()}
               style={styles.castSheetMultipleInputItemPropertyContainer}
             >
-              <View style={styles.castSheetMultipleInputItemPropertyNameContainer}>
-                <Text style={styles.castSheetMultipleInputItemPropertyNameText}>
-                  {propertyName}
+              <View style={styles.castSheetMultipleInputItempropertyKeyContainer}>
+                <Text style={styles.castSheetMultipleInputItempropertyKeyText}>
+                  {i18n.t(`app.${propertyKey}`)}
                 </Text>
               </View>
               <View style={styles.castSheetMultipleInputItemPropertyTagContainer}>
                 <Tag
                   info={{
                     groupFrameId: groupFrameId,
-                    tagKey: propertyName,
+                    tagKey: propertyKey,
                   }}
                   style={styles.tag}
                   maxWidth={'70%'}
@@ -1099,9 +797,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
                     state = matched ? 'success' : 'error';
 
-                    // console.log('[test-params]', JSON.stringify(params));
-                    // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
-
                     let tag = ProfileProcessor.fetchTag(key, groupFrameId, tagKey);
 
                     tag = {
@@ -1141,46 +836,109 @@ class ProfileCastSheetEditionView extends BaseComponent {
           );
         })
     );
+  };
+
+  renderCastSheetMultipleInputItem = (key, propertyList = []) => {
+    const { props } = this;
+
+    const groupFrames = ProfileProcessor.fetchGroupFrames(key).filter((groupFrame) => {
+      return (
+        groupFrame.groupFrameId !== 'input'
+        &&
+        !groupFrame.groupFrameId.startsWith('deleted')
+      );
+    });
+
+    // const list = Constants.CAST_SHEET_WHITE_LIST[key] || [];
+
+    const children = (
+      Array(groupFrames.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          const groupFrame = groupFrames[i];
+
+          const groupFrameId = groupFrame.groupFrameId;
+
+          let visible = undefined;
+
+          if (groupFrame) {
+            visible = groupFrame.visible;
+          }
+
+          const propertyChildren = this.renderPropertyChildren(key, propertyList, groupFrameId);
+
+          return (
+            <GroupFrame
+              key={i.toString()}
+              info={{
+                groupFrameId: groupFrameId,
+              }}
+              style={styles.castSheetMultipleInputItemGroupFrame}
+              contentContainerStyle={styles.castSheetMultipleInputItemGroupFrameContentContainer}
+              rightAccessoryType="eye"
+              visible={visible}
+              onPress={(info) => {
+                const { groupFrameId } = info;
+
+                Alert.alert(
+                  i18n.t('app.delete'),
+                  i18n.t(''),
+                  [
+                    {
+                      text: i18n.t('app.cancel').toUpperCase(),
+                    },
+                    {
+                      text: i18n.t('app.ok').toUpperCase(),
+                      onPress: () => {
+                        const groupFrames = ProfileProcessor.deleteGroupFrame(key, groupFrameId);
+
+                        props.addAccountInfo(key, {
+                          ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                          groupFrames: groupFrames,
+                        });
+                      },
+                    },
+                  ],
+                );
+              }}
+              onPressRightAccessory={(info) => {
+                const { groupFrameId, visible } = info;
+
+                let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+
+                groupFrame = {
+                  ...groupFrame,
+                  visible: !visible,
+                };
+
+                const groupFrames = ProfileProcessor.updateGroupFrame(key, groupFrame);
+
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  groupFrames: groupFrames,
+                });
+              }}
+            >
+              {propertyChildren}
+            </GroupFrame>
+          );
+        })
+    );
+
+    const groupFrameId = 'input';
+
+    const groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
+
+    const propertyChildren = this.renderPropertyChildren(key, propertyList, groupFrameId);
 
     const inputGroupFrame = (
       <GroupFrame
         info={{
           groupFrameId: groupFrameId,
         }}
-        style={{
-          // backgroundColor: '#0f0',
-          marginVertical: 8,
-        }}
-        contentContainerStyle={{
-          // backgroundColor: '#0ff',
-          // borderRadius: 16,
-          // borderWidth: 1,
-          // borderColor: Theme.colors.general.transparent,
-          // padding: 8,
-          // marginVertical: 8,
-          alignItems: 'center',
-        }}
-        // rightAccessoryType="eye"
-        // visible={visible}
-        // onPressRightAccessory={(info) => {
-        //   const { groupFrameId, visible } = info;
-        //
-        //   // console.log('[test-info]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
-        //
-        //   let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
-        //
-        //   groupFrame = {
-        //     ...groupFrame,
-        //     visible: !visible,
-        //   };
-        //
-        //   const groupFrames = ProfileProcessor.updateGroupFrame(key, groupFrame);
-        //
-        //   props.addAccountInfo(key, {
-        //     ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-        //     groupFrames: groupFrames,
-        //   });
-        // }}
+        style={styles.castSheetMultipleInputItemGroupFrame}
+        contentContainerStyle={styles.castSheetMultipleInputItemGroupFrameContentContainer}
       >
         {propertyChildren}
       </GroupFrame>
@@ -1196,40 +954,18 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {children}
             {inputGroupFrame}
             <Button
-              style={{
-                backgroundColor: Theme.colors.general.transparent,
-                flexDirection: 'row',
-                borderRadius: 14,
-                borderWidth: 1,
-                borderColor: Theme.colors.background.secondary,
-                marginVertical: 16,
-                padding: 4,
-              }}
-              // buttonStyle={styles.checkAccessoryButton}
-              // imageStyle={styles.checkAccessoryButtonImage}
+              style={styles.castSheetMultipleInputItemAddButton}
               type="small"
               source={ic_plus}
               resizeMode="center"
               onPress={() => {
-                console.log('[test-info-1]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account.info[key]));
-
-                // let groupFrame = ProfileProcessor.fetchGroupFrame(key, groupFrameId);
-                //
-                // groupFrame = {
-                //   ...groupFrame,
-                //   groupFrameId: ProfileProcessor.fetchGroupFrames(key).length,
-                // };
-
                 const groupFrames = ProfileProcessor.addGroupFrame(key);
-
-                console.log('[test-info-2]', JSON.stringify(groupFrames));
 
                 props.addAccountInfo(key, {
                   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
                   groupFrames: groupFrames,
                 });
               }}
-              // disabled={disabled}
             />
           </View>
         )}
@@ -1257,17 +993,24 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_WORKING_BASES, true)}
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_OCCUPATIONS, true)}
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SKILLS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ALMA_MATERS, true)}
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_ALMA_MATERS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+                ],
+              )
+            }
             {
               this.renderCastSheetMultipleInputItem(
                 Constants.CAST_SHEET_KEY_AWARDS,
                 [
-                  'Year',
-                  'Award Ceremony Name',
-                  'Award Name',
-                  'Winner',
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
                 ],
-                true,
               )
             }
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_NATIONALITIES, true)}
@@ -1320,18 +1063,140 @@ class ProfileCastSheetEditionView extends BaseComponent {
               {section.title}
             </Text>
             {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_LICENSES, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MOVIES, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_TV_SHOWS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_COMMERCIALS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MUSIC_VIDEOS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_STAGE_SHOWS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_VARIETY_SHOWS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_PERFORMING_ARTS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_BROADCASTS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_MODELLINGS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_VOICEOVERS, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_ONLINES, true)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_EVENTS, true)}
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_MOVIES,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_TV_SHOWS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_COMMERCIALS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_STAGE_SHOWS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_BROADCASTS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_MODELLINGS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_VOICEOVERS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_ONLINES,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_EVENTS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                ],
+              )
+            }
           </View>
         )}
       </Translation>
@@ -1349,10 +1214,44 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_EMAIL)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_PHONE)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_CONTACTS_AGENTS)}
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+                  Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+                  Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+                ],
+              )
+            }
           </View>
         )}
       </Translation>
@@ -1370,9 +1269,33 @@ class ProfileCastSheetEditionView extends BaseComponent {
             <Text style={styles.subtitle}>
               {section.title}
             </Text>
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_INSTAGRAM)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_FACEBOOK)}
-            {this.renderCastSheetInputItem(Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_YOUTUBE)}
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
+            {
+              this.renderCastSheetMultipleInputItem(
+                Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
+                [
+                  Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                ],
+              )
+            }
           </View>
         )}
       </Translation>
@@ -1467,7 +1390,112 @@ class ProfileCastSheetEditionView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <Footer style={styles.footer} />
+          <Footer style={styles.footer}>
+            {
+              /*
+              <Button
+                text={'Check Result'}
+                onPress={() => {
+                  // const { info } = store.getState().profileCastSheetEditionViewReducer.account;
+                  //
+                  // console.log('[info]', JSON.stringify(info));
+
+                  const gender = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER);
+                  const dateOfBirth = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH);
+                  const hairColors = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS);
+                  const alma_maters = ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_ALMA_MATERS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+                    ],
+                  );
+
+                  // const address = {
+                  //     type: 'Address',
+                  //     category: '',
+                  //     text: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS),
+                  // };
+
+                  const address = ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                    ],
+                  )
+                    .map((item) => {
+                      return {
+                        ...item,
+                        type: 'Address',
+                      };
+                    });
+
+                  const contacts =
+                  [
+                      ...ProfileProcessor.fetchApiMultipleField(
+                        Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                        [
+                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                        ],
+                      )
+                        .map((item) => {
+                          return {
+                            ...item,
+                            type: 'Address',
+                          };
+                        }),
+                      ...ProfileProcessor.fetchApiMultipleField(
+                        Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                        [
+                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                        ],
+                      )
+                        .map((item) => {
+                          return {
+                            ...item,
+                            type: 'Email',
+                          };
+                        }),
+                      ...ProfileProcessor.fetchApiMultipleField(
+                        Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                        [
+                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                        ],
+                      )
+                        .map((item) => {
+                          return {
+                            ...item,
+                            type: 'Phone',
+                          };
+                        }),
+                  ];
+
+                  const agents = ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+                      Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+                    ],
+                  );
+
+                  console.log('[gender]', gender);
+                  console.log('[dateOfBirth]', dateOfBirth);
+                  console.log('[hairColors]', hairColors);
+                  console.log('[alma_maters]', alma_maters);
+                  console.log('[address]', address);
+                  console.log('[contacts]', contacts);
+                  console.log('[agents]', agents);
+                }}
+              />
+              */
+            }
+          </Footer>
         )}
       </Translation>
     );
@@ -1571,11 +1599,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  castSheetMultipleInputItemPropertyNameContainer: {
+  castSheetMultipleInputItempropertyKeyContainer: {
     flex: 1,
     marginHorizontal: 8,
   },
-  castSheetMultipleInputItemPropertyNameText: {
+  castSheetMultipleInputItempropertyKeyText: {
     color: Theme.colors.text.subtitle,
     fontSize: 15,
     fontFamily: Theme.fonts.regular,
@@ -1587,6 +1615,21 @@ const styles = StyleSheet.create({
     // backgroundColor: '#0ff',
     flex: 1,
     alignItems: 'flex-start',
+  },
+  castSheetMultipleInputItemGroupFrame: {
+    marginVertical: 8,
+  },
+  castSheetMultipleInputItemGroupFrameContentContainer: {
+    alignItems: 'center',
+  },
+  castSheetMultipleInputItemAddButton: {
+    backgroundColor: Theme.colors.general.transparent,
+    flexDirection: 'row',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: Theme.colors.background.secondary,
+    marginVertical: 16,
+    padding: 4,
   },
   tag: {
     backgroundColor: Theme.colors.background.secondary,

@@ -10,6 +10,23 @@ export const EYES_COLOR = 'Eyes Color';
 export const HAIR_COLOR = 'Hair Color';
 export const SKIN_COLOR = 'Skin Color';
 
+// Properties
+export const CAST_SHEET_PROPERTY_KEY_SCHOOL_NAME = 'school_name';
+export const CAST_SHEET_PROPERTY_KEY_MAJOR = 'major';
+export const CAST_SHEET_PROPERTY_KEY_YEAR = 'year';
+export const CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME = 'award_ceremony_name';
+export const CAST_SHEET_PROPERTY_KEY_AWARD_NAME = 'award_name';
+export const CAST_SHEET_PROPERTY_KEY_WINNER = 'winner';
+export const CAST_SHEET_PROPERTY_KEY_NAME = 'name';
+export const CAST_SHEET_PROPERTY_KEY_SINGER = 'singer';
+export const CAST_SHEET_PROPERTY_KEY_ROLE_TITLE = 'role_title';
+export const CAST_SHEET_PROPERTY_KEY_ROLE_NAME = 'role_name';
+export const CAST_SHEET_PROPERTY_KEY_PHONE = 'phone';
+export const CAST_SHEET_PROPERTY_KEY_EMAIL = 'email';
+export const CAST_SHEET_PROPERTY_KEY_CATEGORY = 'category';
+export const CAST_SHEET_PROPERTY_KEY_TEXT = 'text';
+export const CAST_SHEET_PROPERTY_KEY_AGENT_STATUS = 'agent_status';
+
 // Basic Information
 export const CAST_SHEET_KEY_GENDER = 'gender';
 export const CAST_SHEET_KEY_DATE_OF_BIRTH = 'date_of_birth';
@@ -64,9 +81,9 @@ export const CAST_SHEET_KEY_CONTACTS_AGENTS = 'agents';
 
 // Social Media
 export const CAST_SHEET_KEY_SOCIAL_MEDIAS = 'social_medias';
-export const CAST_SHEET_KEY_SOCIAL_MEDIA_INSTAGRAM = 'instagram';
-export const CAST_SHEET_KEY_SOCIAL_MEDIA_FACEBOOK = 'facebook';
-export const CAST_SHEET_KEY_SOCIAL_MEDIA_YOUTUBE = 'youtube';
+export const CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM = 'instagram';
+export const CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK = 'facebook';
+export const CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE = 'youtube';
 
 export const TAGS =
 [

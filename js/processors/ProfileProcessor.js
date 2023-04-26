@@ -7,6 +7,10 @@ import { store } from '../redux';
 
 import { AppRegex } from '../regex';
 
+import { Constants } from '../constants';
+
+import { CalendarProcessor } from '../processors';
+
 export const validateNameDisplayFormat_0 = () => {
   const { account } = store.getState().profileInfoSetupViewReducer;
 
@@ -240,7 +244,7 @@ export const updateTag = (key, groupFrameId, newTag) => {
     if (groupFrame.groupFrameId !== groupFrameId) {
       return groupFrame;
     }
-    
+
     const data = groupFrame.data.map((tag) => {
       if (tag.key !== newTag.key) {
         return tag;
@@ -257,3 +261,83 @@ export const updateTag = (key, groupFrameId, newTag) => {
 
   return groupFrames;
 }
+
+export const fetchApiField = (key) => {
+  const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
+
+  if (info) {
+    if (info.text && info.text.length > 0) {
+      if (
+        key === Constants.CAST_SHEET_KEY_DATE_OF_BIRTH
+        ||
+        key == Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH
+      ) {
+        return CalendarProcessor.toApiDateString(info.text);
+      }
+
+      return info.text;
+    } else if (info.tags && info.tags.length > 0) {
+      return info.tags[0].text;
+    }
+  }
+
+  return '';
+};
+
+export const fetchApiFields = (key) => {
+  const info = store.getState().profileCastSheetEditionViewReducer.account.info[key];
+
+  let tags = (info && info.tags) || [];
+
+  if (info && info.text && info.text.length > 0) {
+    tags = [
+      ...tags,
+      {
+        text: info.text,
+      }
+    ];
+  }
+
+  return tags.map((tag) => {
+    return {
+      text: tag.text,
+    };
+  });
+};
+
+export const fetchApiMultipleField = (key, propertyList = []) => {
+  const { info } = store.getState().profileCastSheetEditionViewReducer.account;
+
+  return info[key].groupFrames
+    .filter((groupFrame) => {
+      return (
+        groupFrame.groupFrameId !== 'input'
+        &&
+        !groupFrame.groupFrameId.startsWith('deleted')
+      );
+    })
+    .map((groupFrame) => {
+      let field = {};
+
+      propertyList.forEach((propertyKey) => {
+        field = {
+          ...field,
+          [propertyKey]: fetchTagValue(propertyKey, groupFrame),
+        };
+      });
+
+      return field;
+    });
+};
+
+export const fetchTagValue = (key, groupFrame) => {
+  let value = groupFrame.data
+    .filter((tag) => {
+      return tag.key === key;
+    })
+    .map((tag) => {
+      return tag.text || '';
+    });
+
+  return value.length > 0 ? value[0] : '';
+};

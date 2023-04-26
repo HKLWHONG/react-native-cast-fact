@@ -422,30 +422,30 @@ class ProfileView extends BaseComponent {
               title: i18n.t('app.social_media'),
               data: [
                 {
-                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_INSTAGRAM}`),
+                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM}`),
                   data: props.userProfile[Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_INSTAGRAM.toLowerCase();
+                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_FACEBOOK}`),
+                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK}`),
                   data: props.userProfile[Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_FACEBOOK.toLowerCase();
+                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_YOUTUBE}`),
+                  title: i18n.t(`app.${Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE}`),
                   data: props.userProfile[Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIA_YOUTUBE.toLowerCase();
+                      return item.type && item.type.toLowerCase() === Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
