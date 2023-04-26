@@ -48,14 +48,15 @@ class ProfileInfoView extends Component {
     }
 
     let source = ic_profile_placeholder;
+    let name = UserProcessor.toName(props.profile);
+    let occupation = UserProcessor.toOccupation(props.profile);
+
+    let nameTextContainerStyle = {};
+    let occupationTextContainerStyle = {};
 
     if (props.photo && props.photo.path) {
       source = { uri: 'file://' + (props.photo && props.photo.path) };
     }
-
-    let name = UserProcessor.toName(props.profile);
-
-    let nameTextContainerStyle = {};
 
     if (name) {
       nameTextContainerStyle = {
@@ -63,10 +64,6 @@ class ProfileInfoView extends Component {
         backgroundColor: Theme.colors.general.transparent,
       }
     }
-
-    let occupation = UserProcessor.toOccupation(props.profile);
-
-    let occupationTextContainerStyle = {};
 
     if (occupation) {
       occupationTextContainerStyle = {
