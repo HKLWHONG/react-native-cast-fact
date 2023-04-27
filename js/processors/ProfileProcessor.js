@@ -11,6 +11,8 @@ import { Constants } from '../constants';
 
 import { CalendarProcessor } from '../processors';
 
+import i18n from '../../i18n';
+
 export const validateNameDisplayFormat_0 = () => {
   const { account } = store.getState().profileInfoSetupViewReducer;
 
@@ -341,3 +343,23 @@ export const fetchTagValue = (key, groupFrame) => {
 
   return value.length > 0 ? value[0] : '';
 };
+
+export const fetchTagSuggessionList = (key) => {
+  let label = Constants.TAGS_CAST_SHEET_KEY_MAPPING[key];
+
+  if (!label) {
+    label = i18n.t(`app.${key}`, { lng: 'en' });
+  }
+
+  let list = store.getState().findTalentSectionReducer.tags.filter((tags) => {
+      return tags.label.toLowerCase() === label.toLowerCase();
+  });
+
+  if (list.length > 0) {
+    list = list[0].data.map((tag) => {
+      return tag.text;
+    });
+  }
+
+  return list;
+}

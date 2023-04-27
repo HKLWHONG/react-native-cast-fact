@@ -7,7 +7,7 @@ import { CommonActionType, ProfileInfoSetupViewActionType } from '../../../types
 
 const initState = () => {
   return {
-    numberOfIndicators: 3,
+    numberOfIndicators: 0,
     photo: undefined,
     account: {
       info: {

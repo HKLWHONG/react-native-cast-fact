@@ -112,6 +112,7 @@ const en = {
     symbol: 'Symbol',
     lower_case: 'Lower Case',
     upper_case: 'Upper Case',
+    suggested: 'Suggested',
     no_post_yet: 'No Post Yet',
     no_result: 'No Result',
     no_result_description: 'Try to refine the search criteria.',

@@ -226,6 +226,13 @@ class Tag extends Component {
 
     let textInput = (
       <TextInput
+        innerRef={(ref) => {
+          if (!ref) {
+            return;
+          }
+
+          this.state.textInputRef = ref;
+        }}
         style={[styles.input, textInputStyle]}
         textInputStyle={styles.text}
         placeholderTextColor={Theme.colors.text.subtitle}
@@ -249,6 +256,7 @@ class Tag extends Component {
 
           props.onChangeText({
             ...props.info,
+            textInputRef: this.state.textInputRef,
             text: text,
           })
         }}
@@ -257,14 +265,20 @@ class Tag extends Component {
             return;
           }
 
-          props.onFocus(props.info);
+          props.onFocus({
+            ...props.info,
+            textInputRef: this.state.textInputRef,
+          });
         }}
         onBlur={() => {
           if (!props.onBlur) {
             return;
           }
 
-          props.onBlur(props.info);
+          props.onBlur({
+            ...props.info,
+            textInputRef: this.state.textInputRef,
+          });
         }}
         disableBottomLine
         disableMessageView

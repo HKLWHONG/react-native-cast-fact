@@ -29,6 +29,7 @@ import {
 
 import {
   SettingsView,
+  ProfileNameEditionView,
   ProfileNameDisplaySelectionView,
   ProfileCastSheetEditionView,
   CalendarModalView,
@@ -158,6 +159,13 @@ class SettingsStackNavigator extends BaseComponent {
               component={SettingsView}
               options={{
                 title: t('views.settings.header'),
+              }}
+            />
+            <Stack.Screen
+              name="ProfileNameEditionView"
+              component={ProfileNameEditionView}
+              options={{
+                title: t('views.profile_name_display_selection.header'),
               }}
             />
             <Stack.Screen

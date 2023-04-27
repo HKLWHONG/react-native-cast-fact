@@ -279,6 +279,11 @@ export const TAGS =
     }
 ];
 
+export const TAGS_CAST_SHEET_KEY_MAPPING = {
+  [CAST_SHEET_KEY_EYES_COLORS]: EYES_COLOR,
+  [CAST_SHEET_KEY_HAIR_COLORS]: HAIR_COLOR,
+};
+
 export const TAGS_SUFFIX_MAPPING = {
   [EYES_COLOR.toLowerCase()]: 'eye',
   [HAIR_COLOR.toLowerCase()]: 'hair',
@@ -287,13 +292,6 @@ export const TAGS_SUFFIX_MAPPING = {
 
 export const TAGS_COLOR_MAPPING = {
   'black': '#000000',
-};
-
-export const CAST_SHEET_WHITE_LIST = {
-  [CAST_SHEET_KEY_GENDER]: [
-    'Female',
-    'Male',
-  ],
 };
 
 export const PDF_HTML = `<!DOCTYPE html>

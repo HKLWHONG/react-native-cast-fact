@@ -10,6 +10,7 @@ const initState = () => {
     account: {
       info: {},
     },
+    focusedTag: undefined,
   };
 };
 
@@ -56,6 +57,12 @@ export default function profileCastSheetEditionViewReducer(state = initState(), 
             ...state.account.info,
           },
         },
+      };
+
+    case ProfileCastSheetEditionViewActionType.FOCUSED_TAG:
+      return {
+        ...state,
+        focusedTag: action.focusedTag,
       };
 
     default:

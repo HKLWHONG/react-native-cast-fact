@@ -75,20 +75,21 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
-      props.addSettingsStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         this.validateAll();
       });
 
       props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
         console.log('call api...');
+
         // Router.push(props, 'ProfileCastSheetEditionView');
       });
 
-      props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
-      props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
-      props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
-      props.setProfileInfoSetupViewLastnameZh(props.userProfile.lastname_zh);
-      props.setProfileInfoSetupViewNickname(props.userProfile.nickname);
+      // props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
+      // props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
+      // props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
+      // props.setProfileInfoSetupViewLastnameZh(props.userProfile.lastname_zh);
+      // props.setProfileInfoSetupViewNickname(props.userProfile.nickname);
 
       let nameDisplayFormat = 0;
 
@@ -98,7 +99,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat) ;
     } else {
-      props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
+      props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         this.validateAll();
       });
 
@@ -166,12 +167,13 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
   renderProfileContainer = () => {
     const { props } = this;
 
+    const index = props.userProfile ? 1 : 2;
+
     return (
       <Translation>
         {(t) => (
           <ProfileInfoSetupView
-            hiddenViewIndicator={props.userProfile !== undefined}
-            index={1}
+            index={index}
             text={t('views.profile_name_display_selection.title')}
           />
         )}
@@ -597,10 +599,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
+    addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
-    addSettingsStackNavigatorOnScreenAppearList: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
+    addSettingsStackNavigatorOnScreenAppear: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
     setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
     addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),

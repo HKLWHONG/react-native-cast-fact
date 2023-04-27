@@ -31,3 +31,12 @@ export const deleteAccountInfo = (key) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setFocusedTag = (focusedTag) => (dispatch) => {
+  dispatch({
+    type: ProfileCastSheetEditionViewActionType.FOCUSED_TAG,
+    focusedTag: focusedTag,
+  });
+
+  return Promise.resolve(store.getState());
+};

@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import {
   ProfilePictureSelectionViewAction,
   SignUpStackNavigatorAction,
+  SettingsStackNavigatorAction,
   ProfileInfoSetupViewAction,
 } from '../../redux';
 
@@ -76,15 +77,45 @@ class ProfilePictureSelectionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.setSignUpStackNavigatorHiddenRight(false);
+    if (props.userProfile) {
+      props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
+      props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
+      props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
+      props.setProfileInfoSetupViewLastnameZh(props.userProfile.lastname_zh);
+      props.setProfileInfoSetupViewNickname(props.userProfile.nickname);
 
-    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
-      props.setSignUpStackNavigatorEnabledRight(true);
-    });
+      let nameDisplayFormat = 0;
 
-    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      Router.push(props, 'ProfileNameEditionView');
-    });
+      if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
+        nameDisplayFormat = parseInt(profile.name_display_format);
+      }
+
+      props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
+
+      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setSignUpStackNavigatorEnabledRight(true);
+      });
+
+      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        console.log('call api...');
+
+        // Router.push(props, 'ProfileNameEditionView');
+      });
+
+      props.setProfileInfoSetupViewNumberOfIndicators(0);
+    } else {
+      props.setSignUpStackNavigatorHiddenRight(false);
+
+      props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setSignUpStackNavigatorEnabledRight(true);
+      });
+
+      props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        Router.push(props, 'ProfileNameEditionView');
+      });
+
+      props.setProfileInfoSetupViewNumberOfIndicators(3);
+    }
   };
 
   clearData = () => {
@@ -352,6 +383,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     signUpViewAccount: state.signUpViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 
@@ -359,9 +391,19 @@ function mapDispatchToProps(dispatch) {
   return {
     setSignUpStackNavigatorHiddenRight: (...args) => dispatch(SignUpStackNavigatorAction.setHiddenRight(...args)),
     setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
-    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
+    addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    addSettingsStackNavigatorOnScreenAppear: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
+    setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
+    addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
+    setProfileInfoSetupViewNumberOfIndicators: (...args) => dispatch(ProfileInfoSetupViewAction.setNumberOfIndicators(...args)),
     setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
+    setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),
+    setProfileInfoSetupViewLastnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameEn(...args)),
+    setProfileInfoSetupViewFirstnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameZh(...args)),
+    setProfileInfoSetupViewLastnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameZh(...args)),
+    setProfileInfoSetupViewNickname: (...args) => dispatch(ProfileInfoSetupViewAction.setNickname(...args)),
+    setProfileInfoSetupViewDisplayFormat: (...args) => dispatch(ProfileInfoSetupViewAction.setDisplayFormat(...args)),
   };
 }
 

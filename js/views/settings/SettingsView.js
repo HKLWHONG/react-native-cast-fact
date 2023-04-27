@@ -141,7 +141,7 @@ class SettingsView extends BaseComponent {
               source: preview,
               text: i18n.t('Edit Display Name'),
               onPress: () => {
-                Router.push(props, 'ProfileNameDisplaySelectionView');
+                Router.push(props, 'ProfileNameEditionView');
               },
             },
             {

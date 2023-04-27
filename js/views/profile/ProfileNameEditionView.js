@@ -18,6 +18,7 @@ import {
   store,
   ProfileNameEditionViewAction,
   SignUpStackNavigatorAction,
+  SettingsStackNavigatorAction,
   ProfileInfoSetupViewAction,
 } from '../../redux';
 
@@ -73,21 +74,55 @@ class ProfileNameEditionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-      props.setProfileInfoSetupViewDisplayFormat(undefined);
+    if (props.userProfile) {
+      props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
+      props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
+      props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
+      props.setProfileInfoSetupViewLastnameZh(props.userProfile.lastname_zh);
+      props.setProfileInfoSetupViewNickname(props.userProfile.nickname);
 
-      this.validateAll();
-    });
+      let nameDisplayFormat = 0;
 
-    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
-      // props.setProfileInfoSetupViewLastnameEn('Chan');
-      // props.setProfileInfoSetupViewFirstnameZh('大文');
-      // props.setProfileInfoSetupViewLastnameZh('陳');
-      // props.setProfileInfoSetupViewNickname('別名');
+      if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
+        nameDisplayFormat = parseInt(profile.name_display_format);
+      }
 
-      Router.push(props, 'ProfileNameDisplaySelectionView');
-    });
+      props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
+
+      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setProfileInfoSetupViewDisplayFormat(undefined);
+
+        this.validateAll();
+      });
+
+      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
+        // props.setProfileInfoSetupViewLastnameEn('Chan');
+        // props.setProfileInfoSetupViewFirstnameZh('大文');
+        // props.setProfileInfoSetupViewLastnameZh('陳');
+        // props.setProfileInfoSetupViewNickname('別名');
+
+        Router.push(props, 'ProfileNameDisplaySelectionView');
+      });
+
+      props.setProfileInfoSetupViewNumberOfIndicators(2);
+    } else {
+      props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setProfileInfoSetupViewDisplayFormat(undefined);
+
+        this.validateAll();
+      });
+
+      props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
+        // props.setProfileInfoSetupViewLastnameEn('Chan');
+        // props.setProfileInfoSetupViewFirstnameZh('大文');
+        // props.setProfileInfoSetupViewLastnameZh('陳');
+        // props.setProfileInfoSetupViewNickname('別名');
+
+        Router.push(props, 'ProfileNameDisplaySelectionView');
+      });
+    }
 
     if (
       props.refs['FirstnameTextField']
@@ -113,12 +148,18 @@ class ProfileNameEditionView extends BaseComponent {
 
     const { account } = store.getState().profileInfoSetupViewReducer;
 
+    const setStackNavigatorEnabledRight = props.userProfile
+      ?
+      props.setSettingsStackNavigatorEnabledRight
+      :
+      props.setSignUpStackNavigatorEnabledRight;
+
     const isValid_0 = ProfileProcessor.validateNameDisplayFormat_0();
     const isValid_1 = ProfileProcessor.validateNameDisplayFormat_1();
     const isValid_2 = ProfileProcessor.validateNameDisplayFormat_2();
     const isValid_3 = ProfileProcessor.validateNameDisplayFormat_3();
 
-    props.setSignUpStackNavigatorEnabledRight(isValid_0 || isValid_1 || isValid_2 || isValid_3);
+    setStackNavigatorEnabledRight(isValid_0 || isValid_1 || isValid_2 || isValid_3);
   };
 
   renderHeader = () => {
@@ -151,11 +192,13 @@ class ProfileNameEditionView extends BaseComponent {
   renderProfileContainer = () => {
     const { props } = this;
 
+    const index = props.userProfile ? 0 : 1;
+
     return (
       <Translation>
         {(t) => (
           <ProfileInfoSetupView
-            index={1}
+            index={index}
             text={t('views.profile_name_edition.title')}
           />
         )}
@@ -327,6 +370,7 @@ function mapStateToProps(state) {
   return {
     refs: state.profileNameEditionViewReducer.refs,
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 
@@ -336,6 +380,11 @@ function mapDispatchToProps(dispatch) {
     setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    addSettingsStackNavigatorOnScreenAppear: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
+    setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
+    addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
+    setProfileInfoSetupViewNumberOfIndicators: (...args) => dispatch(ProfileInfoSetupViewAction.setNumberOfIndicators(...args)),
+    setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
     setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),
     setProfileInfoSetupViewLastnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameEn(...args)),
     setProfileInfoSetupViewFirstnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameZh(...args)),

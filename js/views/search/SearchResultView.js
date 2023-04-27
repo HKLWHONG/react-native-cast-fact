@@ -435,7 +435,7 @@ class SearchResultView extends BaseComponent {
     );
   };
 
-  renderEditBar = () => {
+  renderBar = () => {
     const { props } = this;
 
     if (!props.searchStackNavigatorRightViewEditModeEnabled) {
@@ -449,19 +449,17 @@ class SearchResultView extends BaseComponent {
     return (
       <Translation>
         {(t) => (
-          <View
-            style={styles.editBarContainer}
-          >
-            <View style={styles.editBarSubContainer}>
+          <View style={styles.barContainer}>
+            <View style={styles.barSubContainer}>
               <Text
-                style={styles.editBarText}
+                style={styles.barText}
               >
                 {`${numberOfSelected} Selected`}
               </Text>
             </View>
             <Separator />
-            <View style={styles.editBarSubContainer}>
-              <View style={styles.editBarRightSubContainer}>
+            <View style={styles.barSubContainer}>
+              <View style={styles.barRightSubContainer}>
                 <Button
                   style={{ marginRight: 4 }}
                   leftAccessoryImageStyle={{ marginRight: 4 }}
@@ -524,7 +522,7 @@ class SearchResultView extends BaseComponent {
       <Translation>
         {(t) => (
           <Footer style={styles.footer}>
-            {this.renderEditBar()}
+            {this.renderBar()}
           </Footer>
         )}
       </Translation>
@@ -596,7 +594,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   footer: {},
-  editBarContainer: {
+  barContainer: {
     // backgroundColor: '#f00',
     backgroundColor: Theme.colors.background.primary,
     position: 'absolute',
@@ -607,18 +605,18 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Theme.colors.decorations.splitline,
   },
-  editBarSubContainer: {
+  barSubContainer: {
     // backgroundColor: '#00f',
     flexDirection: 'row',
     padding: 8,
   },
-  editBarText: {
+  barText: {
     color: Theme.colors.text.subtitle,
     fontSize: 15,
     fontFamily: Theme.fonts.bold,
     textTransform: 'uppercase',
   },
-  editBarRightSubContainer: {
+  barRightSubContainer: {
     // backgroundColor: '#0ff',
     flex: 1,
     flexDirection: 'row',

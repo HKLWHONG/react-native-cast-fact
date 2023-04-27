@@ -19,6 +19,7 @@ import {
   store,
   ProfileCastSheetEditionViewAction,
   SignUpStackNavigatorAction,
+  SettingsStackNavigatorAction,
   ProfileInfoSetupViewAction,
   CalendarModalViewAction,
 } from '../../redux';
@@ -41,6 +42,7 @@ import {
   Tag,
   Button,
   GroupFrame,
+  Separator,
 } from '../../project-components';
 
 import { KeyboardAccessoryView } from 'react-native-keyboard-accessory'
@@ -91,307 +93,613 @@ class ProfileCastSheetEditionView extends BaseComponent {
   initialize = () => {
     const { props } = this;
 
-    props.addSignUpStackNavigatorOnScreenAppearList(IDENTIFIER, () => {
-      props.setSignUpStackNavigatorEnabledRight(true);
-    });
+    if (props.userProfile) {
+      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setSettingsStackNavigatorEnabledRight(true);
+      });
 
-    props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      console.log('[signUpViewAccount]', props.signUpViewAccount);
-      console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
-      console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
-      console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        console.log('[signUpViewAccount]', props.signUpViewAccount);
+        console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+        console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+        console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
-      UserProvider.createAndLinkProfile(
-        props,
-        [
-            {
-                firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
-                lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
-                firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
-                lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
-                nickname: props.profileInfoSetupViewAccount.info.nickname || '',
-                name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
-                [Constants.CAST_SHEET_KEY_GENDER]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER),
-                [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
-                [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
-                [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
-                [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
-                [Constants.CAST_SHEET_KEY_HEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HEIGHT),
-                [Constants.CAST_SHEET_KEY_WEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_WEIGHT),
-                [Constants.CAST_SHEET_KEY_SKIN_COLOR]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SKIN_COLOR),
-                [Constants.CAST_SHEET_KEY_DRESS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DRESS_SIZE),
-                [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
-                [Constants.CAST_SHEET_KEY_SHOE_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHOE_SIZE),
-                [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
-                [Constants.CAST_SHEET_KEY_PANTS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PANTS_SIZE),
-                [Constants.CAST_SHEET_KEY_HAT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HAT_SIZE),
-                [Constants.CAST_SHEET_KEY_HANDEDNESS]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HANDEDNESS),
-                [Constants.CAST_SHEET_KEY_GLOVE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GLOVE),
-                [Constants.CAST_SHEET_KEY_HAIR_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS),
-                [Constants.CAST_SHEET_KEY_EYES_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_EYES_COLORS),
-                [Constants.CAST_SHEET_KEY_BODY_TYPES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_BODY_TYPES),
-                [Constants.CAST_SHEET_KEY_OCCUPATIONS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS),
-                [Constants.CAST_SHEET_KEY_SKILLS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_SKILLS),
-                [Constants.CAST_SHEET_KEY_LANGUAGES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LANGUAGES),
-                [Constants.CAST_SHEET_KEY_WORKING_BASES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_WORKING_BASES),
-                [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_ALMA_MATERS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
-                    Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_AWARDS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_AWARDS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_NATIONALITIES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_NATIONALITIES),
-                [Constants.CAST_SHEET_KEY_LICENSES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LICENSES),
-                [Constants.CAST_SHEET_KEY_MOVIES]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_MOVIES,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_TV_SHOWS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_TV_SHOWS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_COMMERCIALS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_COMMERCIALS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_STAGE_SHOWS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_BROADCASTS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_BROADCASTS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_MODELLINGS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_MODELLINGS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_VOICEOVERS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_VOICEOVERS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_ONLINES]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_ONLINES,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_EVENTS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_EVENTS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
-                  ],
-                ),
-                [Constants.CAST_SHEET_KEY_CONTACTS]:
-                [
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Address',
-                      };
-                    }),
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Email',
-                      };
-                    }),
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Phone',
-                      };
-                    }),
-                ],
-                [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]:
-                [
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Instagram',
-                      };
-                  }),
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Facebook',
-                      };
-                  }),
-                  ...ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'YouTube',
-                      };
-                  }),
-                ],
-                [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: ProfileProcessor.fetchApiMultipleField(
-                  Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
-                  [
-                    Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                    Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
-                    Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
-                    Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
-                  ],
-                ),
-            }
-        ],
-      )
-        .then(() => {
-          if (
-            store.getState().profileInfoSetupViewReducer.photo
-            &&
-            store.getState().profileInfoSetupViewReducer.photo.path
-            &&
-            store.getState().profileInfoSetupViewReducer.photo.mime
-          ) {
-            UserProvider.uploadProfileImage(
-              props,
+        console.log('call api...');
+
+      //   UserProvider.createAndLinkProfile(
+      //     props,
+      //     [
+      //         {
+      //             firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+      //             lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+      //             firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+      //             lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+      //             nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+      //             name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
+      //             [Constants.CAST_SHEET_KEY_GENDER]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER),
+      //             [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
+      //             [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
+      //             [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
+      //             [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
+      //             [Constants.CAST_SHEET_KEY_HEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HEIGHT),
+      //             [Constants.CAST_SHEET_KEY_WEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_WEIGHT),
+      //             [Constants.CAST_SHEET_KEY_SKIN_COLOR]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SKIN_COLOR),
+      //             [Constants.CAST_SHEET_KEY_DRESS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DRESS_SIZE),
+      //             [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
+      //             [Constants.CAST_SHEET_KEY_SHOE_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHOE_SIZE),
+      //             [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
+      //             [Constants.CAST_SHEET_KEY_PANTS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PANTS_SIZE),
+      //             [Constants.CAST_SHEET_KEY_HAT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HAT_SIZE),
+      //             [Constants.CAST_SHEET_KEY_HANDEDNESS]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HANDEDNESS),
+      //             [Constants.CAST_SHEET_KEY_GLOVE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GLOVE),
+      //             [Constants.CAST_SHEET_KEY_HAIR_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS),
+      //             [Constants.CAST_SHEET_KEY_EYES_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_EYES_COLORS),
+      //             [Constants.CAST_SHEET_KEY_BODY_TYPES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_BODY_TYPES),
+      //             [Constants.CAST_SHEET_KEY_OCCUPATIONS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS),
+      //             [Constants.CAST_SHEET_KEY_SKILLS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_SKILLS),
+      //             [Constants.CAST_SHEET_KEY_LANGUAGES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LANGUAGES),
+      //             [Constants.CAST_SHEET_KEY_WORKING_BASES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_WORKING_BASES),
+      //             [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_ALMA_MATERS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_AWARDS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_AWARDS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_NATIONALITIES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_NATIONALITIES),
+      //             [Constants.CAST_SHEET_KEY_LICENSES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LICENSES),
+      //             [Constants.CAST_SHEET_KEY_MOVIES]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_MOVIES,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_TV_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_TV_SHOWS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_COMMERCIALS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_COMMERCIALS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_STAGE_SHOWS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_BROADCASTS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_BROADCASTS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_MODELLINGS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_MODELLINGS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_VOICEOVERS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_VOICEOVERS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_ONLINES]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_ONLINES,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_EVENTS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_EVENTS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+      //               ],
+      //             ),
+      //             [Constants.CAST_SHEET_KEY_CONTACTS]:
+      //             [
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'Address',
+      //                   };
+      //                 }),
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'Email',
+      //                   };
+      //                 }),
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'Phone',
+      //                   };
+      //                 }),
+      //             ],
+      //             [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]:
+      //             [
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'Instagram',
+      //                   };
+      //               }),
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'Facebook',
+      //                   };
+      //               }),
+      //               ...ProfileProcessor.fetchApiMultipleField(
+      //                 Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
+      //                 [
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+      //                   Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+      //                 ],
+      //               )
+      //                 .map((item) => {
+      //                   return {
+      //                     ...item,
+      //                     type: 'YouTube',
+      //                   };
+      //               }),
+      //             ],
+      //             [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: ProfileProcessor.fetchApiMultipleField(
+      //               Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+      //               [
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+      //                 Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+      //               ],
+      //             ),
+      //         }
+      //     ],
+      //   )
+      //     .then(() => {
+      //       if (
+      //         store.getState().profileInfoSetupViewReducer.photo
+      //         &&
+      //         store.getState().profileInfoSetupViewReducer.photo.path
+      //         &&
+      //         store.getState().profileInfoSetupViewReducer.photo.mime
+      //       ) {
+      //         UserProvider.uploadProfileImage(
+      //           props,
+      //           {
+      //             key: 'image',
+      //             uri: 'file://' + store.getState().profileInfoSetupViewReducer.photo.path,
+      //             type: store.getState().profileInfoSetupViewReducer.photo.mime,
+      //           },
+      //         )
+      //           .then((params) => {
+      //             this.login();
+      //           })
+      //           .catch((error) => {
+      //             console.error(error);
+      //
+      //             Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+      //           });
+      //       } else {
+      //         this.login();
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.error(error);
+      //
+      //       Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+      //     });
+      });
+    } else {
+      props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+        props.setSignUpStackNavigatorEnabledRight(true);
+      });
+
+      props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        console.log('[signUpViewAccount]', props.signUpViewAccount);
+        console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+        console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+        console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+
+        UserProvider.createAndLinkProfile(
+          props,
+          [
               {
-                key: 'image',
-                uri: 'file://' + store.getState().profileInfoSetupViewReducer.photo.path,
-                type: store.getState().profileInfoSetupViewReducer.photo.mime,
-              },
-            )
-              .then((params) => {
-                this.login();
-              })
-              .catch((error) => {
-                console.error(error);
+                  firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+                  lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+                  firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+                  lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+                  nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+                  name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
+                  [Constants.CAST_SHEET_KEY_GENDER]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER),
+                  [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
+                  [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
+                  [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
+                  [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
+                  [Constants.CAST_SHEET_KEY_HEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HEIGHT),
+                  [Constants.CAST_SHEET_KEY_WEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_WEIGHT),
+                  [Constants.CAST_SHEET_KEY_SKIN_COLOR]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SKIN_COLOR),
+                  [Constants.CAST_SHEET_KEY_DRESS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DRESS_SIZE),
+                  [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
+                  [Constants.CAST_SHEET_KEY_SHOE_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHOE_SIZE),
+                  [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
+                  [Constants.CAST_SHEET_KEY_PANTS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PANTS_SIZE),
+                  [Constants.CAST_SHEET_KEY_HAT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HAT_SIZE),
+                  [Constants.CAST_SHEET_KEY_HANDEDNESS]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HANDEDNESS),
+                  [Constants.CAST_SHEET_KEY_GLOVE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GLOVE),
+                  [Constants.CAST_SHEET_KEY_HAIR_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS),
+                  [Constants.CAST_SHEET_KEY_EYES_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_EYES_COLORS),
+                  [Constants.CAST_SHEET_KEY_BODY_TYPES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_BODY_TYPES),
+                  [Constants.CAST_SHEET_KEY_OCCUPATIONS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS),
+                  [Constants.CAST_SHEET_KEY_SKILLS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_SKILLS),
+                  [Constants.CAST_SHEET_KEY_LANGUAGES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LANGUAGES),
+                  [Constants.CAST_SHEET_KEY_WORKING_BASES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_WORKING_BASES),
+                  [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_ALMA_MATERS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
+                      Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_AWARDS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_AWARDS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_NATIONALITIES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_NATIONALITIES),
+                  [Constants.CAST_SHEET_KEY_LICENSES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LICENSES),
+                  [Constants.CAST_SHEET_KEY_MOVIES]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_MOVIES,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_TV_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_TV_SHOWS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_COMMERCIALS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_COMMERCIALS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_STAGE_SHOWS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_BROADCASTS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_BROADCASTS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_MODELLINGS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_MODELLINGS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_VOICEOVERS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_VOICEOVERS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_ONLINES]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_ONLINES,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_EVENTS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_EVENTS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+                    ],
+                  ),
+                  [Constants.CAST_SHEET_KEY_CONTACTS]:
+                  [
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'Address',
+                        };
+                      }),
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'Email',
+                        };
+                      }),
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'Phone',
+                        };
+                      }),
+                  ],
+                  [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]:
+                  [
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'Instagram',
+                        };
+                    }),
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'Facebook',
+                        };
+                    }),
+                    ...ProfileProcessor.fetchApiMultipleField(
+                      Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
+                      [
+                        Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                        Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                      ],
+                    )
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: 'YouTube',
+                        };
+                    }),
+                  ],
+                  [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: ProfileProcessor.fetchApiMultipleField(
+                    Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                    [
+                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                      Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+                      Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+                      Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+                    ],
+                  ),
+              }
+          ],
+        )
+          .then(() => {
+            if (
+              store.getState().profileInfoSetupViewReducer.photo
+              &&
+              store.getState().profileInfoSetupViewReducer.photo.path
+              &&
+              store.getState().profileInfoSetupViewReducer.photo.mime
+            ) {
+              UserProvider.uploadProfileImage(
+                props,
+                {
+                  key: 'image',
+                  uri: 'file://' + store.getState().profileInfoSetupViewReducer.photo.path,
+                  type: store.getState().profileInfoSetupViewReducer.photo.mime,
+                },
+              )
+                .then((params) => {
+                  this.login();
+                })
+                .catch((error) => {
+                  console.error(error);
 
-                Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
-              });
-          } else {
-            this.login();
-          }
-        })
-        .catch((error) => {
-          console.error(error);
+                  Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+                });
+            } else {
+              this.login();
+            }
+          })
+          .catch((error) => {
+            console.error(error);
 
-          Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
-        });
-    });
+            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+          });
+      });
+    }
   };
 
   clearData = () => {
@@ -472,7 +780,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
     const { props } = this;
 
     const info = props.account.info[key];
-    const list = Constants.CAST_SHEET_WHITE_LIST[key] || [];
+    const list = ProfileProcessor.fetchTagSuggessionList(key);
 
     let tags = [];
     let text = undefined;
@@ -540,13 +848,22 @@ class ProfileCastSheetEditionView extends BaseComponent {
           state={state}
           text={text}
           rightAccessoryType="delete"
-          onFocus={() => {
+          onFocus={(info) => {
+            const { textInputRef } = info;
+
+            props.setFocusedTag({
+              key: key,
+              textInputRef: textInputRef,
+            });
+
             props.addAccountInfo(key, {
               ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
               state: 'attention',
             });
           }}
           onBlur={() => {
+            props.setFocusedTag(undefined);
+
             let tags = (
               (
                 store.getState().profileCastSheetEditionViewReducer.account.info[key]
@@ -1398,101 +1715,95 @@ class ProfileCastSheetEditionView extends BaseComponent {
               <Button
                 text={'Check Result'}
                 onPress={() => {
-                  // const { info } = store.getState().profileCastSheetEditionViewReducer.account;
+                  const { props } = this;
+                  // const gender = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER);
+                  // const dateOfBirth = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH);
+                  // const hairColors = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS);
+                  // const alma_maters = ProfileProcessor.fetchApiMultipleField(
+                  //   Constants.CAST_SHEET_KEY_ALMA_MATERS,
+                  //   [
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+                  //   ],
+                  // );
                   //
-                  // console.log('[info]', JSON.stringify(info));
+                  // const address = ProfileProcessor.fetchApiMultipleField(
+                  //   Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                  //   [
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                  //   ],
+                  // )
+                  //   .map((item) => {
+                  //     return {
+                  //       ...item,
+                  //       type: 'Address',
+                  //     };
+                  //   });
+                  //
+                  // const contacts =
+                  // [
+                  //     ...ProfileProcessor.fetchApiMultipleField(
+                  //       Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                  //       [
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                  //       ],
+                  //     )
+                  //       .map((item) => {
+                  //         return {
+                  //           ...item,
+                  //           type: 'Address',
+                  //         };
+                  //       }),
+                  //     ...ProfileProcessor.fetchApiMultipleField(
+                  //       Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                  //       [
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                  //       ],
+                  //     )
+                  //       .map((item) => {
+                  //         return {
+                  //           ...item,
+                  //           type: 'Email',
+                  //         };
+                  //       }),
+                  //     ...ProfileProcessor.fetchApiMultipleField(
+                  //       Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                  //       [
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+                  //         Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+                  //       ],
+                  //     )
+                  //       .map((item) => {
+                  //         return {
+                  //           ...item,
+                  //           type: 'Phone',
+                  //         };
+                  //       }),
+                  // ];
+                  //
+                  // const agents = ProfileProcessor.fetchApiMultipleField(
+                  //   Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                  //   [
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+                  //     Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+                  //   ],
+                  // );
+                  //
+                  // console.log('[gender]', gender);
+                  // console.log('[dateOfBirth]', dateOfBirth);
+                  // console.log('[hairColors]', hairColors);
+                  // console.log('[alma_maters]', alma_maters);
+                  // console.log('[address]', address);
+                  // console.log('[contacts]', contacts);
+                  // console.log('[agents]', agents);
 
-                  const gender = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER);
-                  const dateOfBirth = ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH);
-                  const hairColors = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS);
-                  const alma_maters = ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_ALMA_MATERS,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
-                      Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
-                    ],
-                  );
-
-                  // const address = {
-                  //     type: 'Address',
-                  //     category: '',
-                  //     text: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS),
-                  // };
-
-                  const address = ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                      Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                    ],
-                  )
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: 'Address',
-                      };
-                    });
-
-                  const contacts =
-                  [
-                      ...ProfileProcessor.fetchApiMultipleField(
-                        Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
-                        [
-                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                        ],
-                      )
-                        .map((item) => {
-                          return {
-                            ...item,
-                            type: 'Address',
-                          };
-                        }),
-                      ...ProfileProcessor.fetchApiMultipleField(
-                        Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
-                        [
-                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                        ],
-                      )
-                        .map((item) => {
-                          return {
-                            ...item,
-                            type: 'Email',
-                          };
-                        }),
-                      ...ProfileProcessor.fetchApiMultipleField(
-                        Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
-                        [
-                          Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
-                          Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
-                        ],
-                      )
-                        .map((item) => {
-                          return {
-                            ...item,
-                            type: 'Phone',
-                          };
-                        }),
-                  ];
-
-                  const agents = ProfileProcessor.fetchApiMultipleField(
-                    Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
-                    [
-                      Constants.CAST_SHEET_PROPERTY_KEY_NAME,
-                      Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
-                      Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
-                      Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
-                    ],
-                  );
-
-                  console.log('[gender]', gender);
-                  console.log('[dateOfBirth]', dateOfBirth);
-                  console.log('[hairColors]', hairColors);
-                  console.log('[alma_maters]', alma_maters);
-                  console.log('[address]', address);
-                  console.log('[contacts]', contacts);
-                  console.log('[agents]', agents);
+                  // let gender = ProfileProcessor.fetchTagSuggessionList(Constants.CAST_SHEET_KEY_GENDER);
+                  // console.log('[gender]', JSON.stringify(gender));
                 }}
               />
               */
@@ -1503,28 +1814,105 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
-  // renderKeyboardAccessoryView = () => {
-  //   const { props } = this;
-  //
-  //   return (
-  //     <Translation>
-  //       {(t) => (
-  //         <KeyboardAccessoryView androidAdjustResize>
-  //           {({ isKeyboardVisible }) => {
-  //             return (
-  //               <View>
-  //                 <Text style={{ color: '#f00', padding: 16 }}>Always visible</Text>
-  //                 {!isKeyboardVisible ? (
-  //                   <Text>Hidden when keyboard is visible</Text>
-  //                 ) : null}
-  //               </View>
-  //             );
-  //           }}
-  //         </KeyboardAccessoryView>
-  //       )}
-  //     </Translation>
-  //   );
-  // };
+  renderKeyboardAccessoryView = () => {
+    const { props } = this;
+
+    if (!props.focusedTag) {
+      return;
+    }
+
+    const { key, textInputRef } = props.focusedTag;
+
+    const list = ProfileProcessor.fetchTagSuggessionList(key);
+
+    let children = (
+      Array(list.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          const text = list[i];
+
+          return (
+            <Tag
+              key={i.toString()}
+              style={styles.tag}
+              text={text}
+              onPress={() => {
+                props.setFocusedTag(undefined);
+
+                if (textInputRef.isFocused()) {
+                  textInputRef.blur();
+                }
+
+                let tags = (
+                  (
+                    store.getState().profileCastSheetEditionViewReducer.account.info[key]
+                    &&
+                    store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
+                  )
+                  ||
+                  []
+                );
+
+                if (text && text.length > 0) {
+                  tags = [
+                    ...tags,
+                    {
+                      text: text.trim(),
+                    },
+                  ];
+                }
+
+                tags = tags.map((tag, index) => {
+                  return {
+                    ...tag,
+                    tagId: index.toString(),
+                  };
+                })
+
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  tags: tags,
+                  text: undefined,
+                  state: undefined,
+                });
+              }}
+            />
+          );
+        })
+    );
+
+    return (
+      <Translation>
+        {(t) => (
+          <KeyboardAccessoryView
+            style={styles.keyboardAccessoryView}
+            androidAdjustResize
+          >
+            {({ isKeyboardVisible }) => {
+              return (
+                <View style={styles.barContainer}>
+                  <View style={styles.barSubContainer}>
+                    <Text
+                      style={styles.barText}
+                    >
+                      {t('app.suggested')}
+                    </Text>
+                  </View>
+                  <Separator />
+                  <View style={styles.barSubContainer}>
+                    <View style={styles.barRightSubContainer}>
+                    {children}
+                    </View>
+                  </View>
+                </View>
+              );
+            }}
+          </KeyboardAccessoryView>
+        )}
+      </Translation>
+    );
+  };
 
   render() {
     return (
@@ -1534,7 +1922,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
             {this.renderHeader()}
             {this.renderBody()}
             {this.renderFooter()}
-          {/* this.renderKeyboardAccessoryView() */}
+            {this.renderKeyboardAccessoryView()}
           </Root>
         )}
       </Translation>
@@ -1639,14 +2027,43 @@ const styles = StyleSheet.create({
   footer: {
     // backgroundColor: '#f00',
   },
+  keyboardAccessoryView: {
+    backgroundColor: Theme.colors.general.transparent,
+  },
+  barContainer: {
+    // backgroundColor: '#f00',
+    backgroundColor: Theme.colors.background.primary,
+    marginHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Theme.colors.decorations.splitline,
+  },
+  barSubContainer: {
+    // backgroundColor: '#00f',
+    flexDirection: 'row',
+    padding: 8,
+  },
+  barText: {
+    color: Theme.colors.text.subtitle,
+    fontSize: 15,
+    fontFamily: Theme.fonts.bold,
+    textTransform: 'uppercase',
+  },
+  barRightSubContainer: {
+    // backgroundColor: '#0ff',
+    flex: 1,
+    flexDirection: 'row',
+  },
 });
 
 function mapStateToProps(state) {
   return {
     account: state.profileCastSheetEditionViewReducer.account,
+    focusedTag: state.profileCastSheetEditionViewReducer.focusedTag,
     signUpViewAccount: state.signUpViewReducer.account,
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
     profileInfoSetupViewPhoto: state.profileInfoSetupViewReducer.photo,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 
@@ -1655,9 +2072,13 @@ function mapDispatchToProps(dispatch) {
     reset: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
     addAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.addAccountInfo(...args)),
     deleteAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.deleteAccountInfo(...args)),
+    setFocusedTag: (...args) => dispatch(ProfileCastSheetEditionViewAction.setFocusedTag(...args)),
     setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
-    addSignUpStackNavigatorOnScreenAppearList: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
+    addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
     addSignUpStackNavigatorOnRightButtonPress: (...args) => dispatch(SignUpStackNavigatorAction.addOnRightButtonPress(...args)),
+    addSettingsStackNavigatorOnScreenAppear: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
+    setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
+    addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
     setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
     setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
   };
