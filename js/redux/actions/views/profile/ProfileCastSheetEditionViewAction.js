@@ -13,6 +13,15 @@ export const reset = () => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setAccountInfo = (info) => (dispatch) => {
+  dispatch({
+    type: ProfileCastSheetEditionViewActionType.SET_ACCOUNT_INFO,
+    info: info,
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const addAccountInfo = (key, value) => (dispatch) => {
   dispatch({
     type: ProfileCastSheetEditionViewActionType.ADD_ACCOUNT_INFO,

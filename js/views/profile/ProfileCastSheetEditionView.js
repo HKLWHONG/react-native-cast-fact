@@ -33,6 +33,7 @@ import {
   SingleTouch,
   Image,
   List,
+  SimpleList,
 } from '../../components';
 
 import {
@@ -94,6 +95,103 @@ class ProfileCastSheetEditionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
+      console.log('[userProfile]', JSON.stringify(props.userProfile));
+
+      let key = Constants.CAST_SHEET_KEY_OCCUPATIONS;
+
+      let tags = props.userProfile[key].map((tag, index) => {
+        return {
+          tadId: index.toString(),
+          text: tag.text,
+        };
+      });
+
+      let info = store.getState().profileCastSheetEditionViewReducer.account.info;
+
+      info = {
+        ...info,
+        [key]: {
+          ...info[key],
+          tags: tags,
+          text: undefined,
+          state: undefined,
+        },
+      };
+
+      // props.addAccountInfo(key, {
+      //   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+      //   tags: tags,
+      //   text: undefined,
+      //   state: undefined,
+      // });
+
+
+      key = Constants.CAST_SHEET_KEY_DATE_OF_BIRTH;
+
+      info = {
+        ...info,
+        [key]: {
+          ...info[key],
+          text: CalendarProcessor.formatDate(new Date(props.userProfile[key])),
+        },
+      };
+
+      // props.addAccountInfo(key, {
+      //   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+      //   text: CalendarProcessor.formatDate(new Date(props.userProfile[key])),
+      // });
+
+      key = Constants.CAST_SHEET_KEY_ALMA_MATERS;
+
+      // let groupFrames = ProfileProcessor.fetchGroupFrames(key);
+
+      tags = props.userProfile[key].map((tag, index) => {
+        // props.userProfile[key]
+
+        return Object.keys(tag).map((item) => {
+          return {
+            key: item,
+            text: tag[item],
+          }
+        });
+      });
+
+      const groupFrames = tags.map((tag, index) => {
+        // console.log('[tag]', tag);
+
+        const data = tag.map((property) => {
+          return {
+            key: property.key,
+            text: property.text,
+          };
+        });
+
+        return {
+          groupFrameId: index.toString(),
+          data: data,
+        };
+      });
+
+      // console.log('[tags]', JSON.stringify(tags));
+      // console.log('[groupFrames]', JSON.stringify(groupFrames));
+
+      info = {
+        ...info,
+        [key]: {
+          ...info[key],
+          groupFrames: groupFrames,
+        },
+      };
+
+      // console.log('[info]', JSON.stringify(info));
+
+      // props.addAccountInfo(key, {
+      //   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+      //   groupFrames: groupFrames,
+      // });
+
+      props.setAccountInfo(info);
+
       props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         props.setSettingsStackNavigatorEnabledRight(true);
       });
@@ -105,6 +203,261 @@ class ProfileCastSheetEditionView extends BaseComponent {
         console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
         console.log('call api...');
+
+        // const data = [
+        //     {
+        //         firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+        //         lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+        //         firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+        //         lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+        //         nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+        //         name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
+        //         [Constants.CAST_SHEET_KEY_GENDER]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GENDER),
+        //         [Constants.CAST_SHEET_KEY_DATE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DATE_OF_BIRTH),
+        //         [Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH),
+        //         [Constants.CAST_SHEET_KEY_ACTING_YEAR_START]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_START),
+        //         [Constants.CAST_SHEET_KEY_ACTING_YEAR_END]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_ACTING_YEAR_END),
+        //         [Constants.CAST_SHEET_KEY_HEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HEIGHT),
+        //         [Constants.CAST_SHEET_KEY_WEIGHT]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_WEIGHT),
+        //         [Constants.CAST_SHEET_KEY_SKIN_COLOR]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SKIN_COLOR),
+        //         [Constants.CAST_SHEET_KEY_DRESS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_DRESS_SIZE),
+        //         [Constants.CAST_SHEET_KEY_SHIRT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHIRT_SIZE),
+        //         [Constants.CAST_SHEET_KEY_SHOE_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SHOE_SIZE),
+        //         [Constants.CAST_SHEET_KEY_SUIT_COST_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_SUIT_COST_SIZE),
+        //         [Constants.CAST_SHEET_KEY_PANTS_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_PANTS_SIZE),
+        //         [Constants.CAST_SHEET_KEY_HAT_SIZE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HAT_SIZE),
+        //         [Constants.CAST_SHEET_KEY_HANDEDNESS]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_HANDEDNESS),
+        //         [Constants.CAST_SHEET_KEY_GLOVE]: ProfileProcessor.fetchApiField(Constants.CAST_SHEET_KEY_GLOVE),
+        //         [Constants.CAST_SHEET_KEY_HAIR_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_HAIR_COLORS),
+        //         [Constants.CAST_SHEET_KEY_EYES_COLORS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_EYES_COLORS),
+        //         [Constants.CAST_SHEET_KEY_BODY_TYPES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_BODY_TYPES),
+        //         [Constants.CAST_SHEET_KEY_OCCUPATIONS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS),
+        //         [Constants.CAST_SHEET_KEY_SKILLS]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_SKILLS),
+        //         [Constants.CAST_SHEET_KEY_LANGUAGES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LANGUAGES),
+        //         [Constants.CAST_SHEET_KEY_WORKING_BASES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_WORKING_BASES),
+        //         [Constants.CAST_SHEET_KEY_ALMA_MATERS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_ALMA_MATERS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_SCHOOL,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_MAJOR,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_AWARDS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_AWARDS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_AWARD_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_WINNER,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_NATIONALITIES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_NATIONALITIES),
+        //         [Constants.CAST_SHEET_KEY_LICENSES]: ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_LICENSES),
+        //         [Constants.CAST_SHEET_KEY_MOVIES]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_MOVIES,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_TV_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_TV_SHOWS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_COMMERCIALS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_COMMERCIALS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_MUSIC_VIDEOS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_MUSIC_VIDEOS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_STAGE_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_STAGE_SHOWS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_SINGER,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_VARIETY_SHOWS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_VARIETY_SHOWS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_PERFORMING_ARTS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_PERFORMING_ARTS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_BROADCASTS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_BROADCASTS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_MODELLINGS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_MODELLINGS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_VOICEOVERS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_VOICEOVERS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_ONLINES]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_ONLINES,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_EVENTS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_EVENTS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_YEAR,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_TITLE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_ROLE_NAME,
+        //           ],
+        //         ),
+        //         [Constants.CAST_SHEET_KEY_CONTACTS]:
+        //         [
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'Address',
+        //               };
+        //             }),
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'Email',
+        //               };
+        //             }),
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_CONTACTS_PHONE,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'Phone',
+        //               };
+        //             }),
+        //         ],
+        //         [Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS]:
+        //         [
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'Instagram',
+        //               };
+        //           }),
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'Facebook',
+        //               };
+        //           }),
+        //           ...ProfileProcessor.fetchApiMultipleField(
+        //             Constants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
+        //             [
+        //               Constants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
+        //               Constants.CAST_SHEET_PROPERTY_KEY_TEXT,
+        //             ],
+        //           )
+        //             .map((item) => {
+        //               return {
+        //                 ...item,
+        //                 type: 'YouTube',
+        //               };
+        //           }),
+        //         ],
+        //         [Constants.CAST_SHEET_KEY_CONTACTS_AGENTS]: ProfileProcessor.fetchApiMultipleField(
+        //           Constants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+        //           [
+        //             Constants.CAST_SHEET_PROPERTY_KEY_NAME,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_PHONE,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_EMAIL,
+        //             Constants.CAST_SHEET_PROPERTY_KEY_AGENT_STATUS,
+        //           ],
+        //         ),
+        //     }
+        // ];
 
       //   UserProvider.createAndLinkProfile(
       //     props,
@@ -1666,22 +2019,22 @@ class ProfileCastSheetEditionView extends BaseComponent {
         title: i18n.t('app.basic_information'),
         data: [''],
       },
-      {
-        title: i18n.t('app.appearance'),
-        data: [''],
-      },
-      {
-        title: i18n.t('app.experience'),
-        data: [''],
-      },
-      {
-        title: i18n.t('app.contacts'),
-        data: [''],
-      },
-      {
-        title: i18n.t('app.social_media'),
-        data: [''],
-      },
+      // {
+      //   title: i18n.t('app.appearance'),
+      //   data: [''],
+      // },
+      // {
+      //   title: i18n.t('app.experience'),
+      //   data: [''],
+      // },
+      // {
+      //   title: i18n.t('app.contacts'),
+      //   data: [''],
+      // },
+      // {
+      //   title: i18n.t('app.social_media'),
+      //   data: [''],
+      // },
     ];
 
     return (
@@ -1814,73 +2167,83 @@ class ProfileCastSheetEditionView extends BaseComponent {
     );
   };
 
+  renderItemOfKeyboardAccessoryView = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    const { key, textInputRef } = props.focusedTag;
+
+    const { text } = item;
+
+    return (
+      <Translation>
+        {(t) => (
+          <Tag
+            key={index.toString()}
+            style={styles.tag}
+            text={text}
+            onPress={() => {
+              props.setFocusedTag(undefined);
+
+              if (textInputRef.isFocused()) {
+                textInputRef.blur();
+              }
+
+              let tags = (
+                (
+                  store.getState().profileCastSheetEditionViewReducer.account.info[key]
+                  &&
+                  store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
+                )
+                ||
+                []
+              );
+
+              if (text && text.length > 0) {
+                tags = [
+                  ...tags,
+                  {
+                    text: text.trim(),
+                  },
+                ];
+              }
+
+              tags = tags.map((tag, index) => {
+                return {
+                  ...tag,
+                  tagId: index.toString(),
+                };
+              })
+
+              props.addAccountInfo(key, {
+                ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                tags: tags,
+                text: undefined,
+                state: undefined,
+              });
+            }}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderKeyboardAccessoryView = () => {
     const { props } = this;
+
+    console.log('[props.focusedTag]', props.focusedTag);
 
     if (!props.focusedTag) {
       return;
     }
 
-    const { key, textInputRef } = props.focusedTag;
+    const { key } = props.focusedTag;
 
-    const list = ProfileProcessor.fetchTagSuggessionList(key);
-
-    let children = (
-      Array(list.length)
-        .fill()
-        .map((_, i) => i)
-        .map((i) => {
-          const text = list[i];
-
-          return (
-            <Tag
-              key={i.toString()}
-              style={styles.tag}
-              text={text}
-              onPress={() => {
-                props.setFocusedTag(undefined);
-
-                if (textInputRef.isFocused()) {
-                  textInputRef.blur();
-                }
-
-                let tags = (
-                  (
-                    store.getState().profileCastSheetEditionViewReducer.account.info[key]
-                    &&
-                    store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
-                  )
-                  ||
-                  []
-                );
-
-                if (text && text.length > 0) {
-                  tags = [
-                    ...tags,
-                    {
-                      text: text.trim(),
-                    },
-                  ];
-                }
-
-                tags = tags.map((tag, index) => {
-                  return {
-                    ...tag,
-                    tagId: index.toString(),
-                  };
-                })
-
-                props.addAccountInfo(key, {
-                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                  tags: tags,
-                  text: undefined,
-                  state: undefined,
-                });
-              }}
-            />
-          );
-        })
-    );
+    const data = ProfileProcessor.fetchTagSuggessionList(key).map((text) => {
+      return {
+        text: text,
+      };
+    });
 
     return (
       <Translation>
@@ -1901,9 +2264,13 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   </View>
                   <Separator />
                   <View style={styles.barSubContainer}>
-                    <View style={styles.barRightSubContainer}>
-                    {children}
-                    </View>
+                    <SimpleList
+                      data={data}
+                      renderItem={this.renderItemOfKeyboardAccessoryView}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      keyboardAwareDisabled
+                    />
                   </View>
                 </View>
               );
@@ -2049,11 +2416,6 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.bold,
     textTransform: 'uppercase',
   },
-  barRightSubContainer: {
-    // backgroundColor: '#0ff',
-    flex: 1,
-    flexDirection: 'row',
-  },
 });
 
 function mapStateToProps(state) {
@@ -2070,6 +2432,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reset: (...args) => dispatch(ProfileCastSheetEditionViewAction.reset(...args)),
+    setAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.setAccountInfo(...args)),
     addAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.addAccountInfo(...args)),
     deleteAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.deleteAccountInfo(...args)),
     setFocusedTag: (...args) => dispatch(ProfileCastSheetEditionViewAction.setFocusedTag(...args)),

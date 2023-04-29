@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, RefreshControl, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, SectionList, RefreshControl, TouchableWithoutFeedback } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -97,6 +97,35 @@ export default class List extends Component {
       }
     }
 
+    if (props.keyboardAwareDisabled) {
+      return (
+        <NativeViewGestureHandler disallowInterruption>
+          <SectionList
+            {...props}
+            onLayout={props.onLayout}
+            style={[styles.container, props.style]}
+            contentContainerStyle={[
+              styles.contentContainer,
+              props.contentContainerStyle,
+            ]}
+            keyExtractor={this.keyExtractor}
+            sections={sections}
+            renderSectionHeader={this.renderSectionHeader}
+            renderItem={this.renderItem}
+            keyboardShouldPersistTaps={'handled'}
+            onEndReachedThreshold={0.5}
+            onEndReached={props.onEndReached}
+            refreshControl={this.refreshControl()}
+            onRefresh={props.onRefresh}
+            refreshing={props.refreshing}
+            bounces={props.bounces}
+            stickySectionHeadersEnabled={props.stickySectionHeadersEnabled}
+            horizontal={props.horizontal}
+          />
+        </NativeViewGestureHandler>
+      );
+    }
+
     return (
       <NativeViewGestureHandler disallowInterruption>
         <KeyboardAwareSectionList
@@ -111,6 +140,7 @@ export default class List extends Component {
           sections={sections}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}
+          keyboardShouldPersistTaps={'handled'}
           onEndReachedThreshold={0.5}
           onEndReached={props.onEndReached}
           refreshControl={this.refreshControl()}
@@ -151,6 +181,7 @@ List.propTypes = {
   bounces: PropTypes.bool,
   stickySectionHeadersEnabled: PropTypes.bool,
   horizontal: PropTypes.bool,
+  keyboardAwareDisabled: PropTypes.bool,
 };
 
 List.defaultProps = {
@@ -169,4 +200,5 @@ List.defaultProps = {
   bounces: true,
   stickySectionHeadersEnabled: false,
   horizontal: false,
+  keyboardAwareDisabled: false,
 };

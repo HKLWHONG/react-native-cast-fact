@@ -65,7 +65,7 @@ class ProfileList extends Component {
       <Translation>
         {(t) => (
           <SingleTouch
-            key={index}
+            key={index.toString()}
             style={styles.itemContainer}
             onPress={() => {
               if (props.onPressItem) {

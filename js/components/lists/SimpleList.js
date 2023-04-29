@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, RefreshControl, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl, TouchableWithoutFeedback } from 'react-native';
 
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
@@ -70,6 +70,32 @@ export default class SimpleList extends Component {
       return null;
     }
 
+    if (props.keyboardAwareDisabled) {
+      return (
+        <NativeViewGestureHandler disallowInterruption>
+          <FlatList
+            {...props}
+            onLayout={props.onLayout}
+            style={[styles.container, props.style]}
+            contentContainerStyle={[
+              styles.contentContainer,
+              props.contentContainerStyle,
+            ]}
+            keyExtractor={this.keyExtractor}
+            renderItem={this.renderItem}
+            keyboardShouldPersistTaps={'handled'}
+            onEndReachedThreshold={0.5}
+            onEndReached={props.onEndReached}
+            refreshControl={this.refreshControl()}
+            onRefresh={props.onRefresh}
+            refreshing={props.refreshing}
+            bounces={props.bounces}
+            horizontal={props.horizontal}
+          />
+        </NativeViewGestureHandler>
+      );
+    }
+
     return (
       <NativeViewGestureHandler disallowInterruption>
         <KeyboardAwareFlatList
@@ -118,6 +144,7 @@ SimpleList.propTypes = {
   refreshing: PropTypes.bool,
   bounces: PropTypes.bool,
   horizontal: PropTypes.bool,
+  keyboardAwareDisabled: PropTypes.bool,
 };
 
 SimpleList.defaultProps = {
@@ -133,4 +160,5 @@ SimpleList.defaultProps = {
   refreshing: false,
   bounces: true,
   horizontal: false,
+  keyboardAwareDisabled: false,
 };

@@ -22,6 +22,15 @@ export default function profileCastSheetEditionViewReducer(state = initState(), 
     case ProfileCastSheetEditionViewActionType.RESET:
       return initState();
 
+    case ProfileCastSheetEditionViewActionType.SET_ACCOUNT_INFO:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          info: action.info,
+        },
+      };
+
     case ProfileCastSheetEditionViewActionType.ADD_ACCOUNT_INFO:
       if (!action.key) {
         return state;

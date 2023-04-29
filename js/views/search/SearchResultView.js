@@ -459,7 +459,7 @@ class SearchResultView extends BaseComponent {
             </View>
             <Separator />
             <View style={styles.barSubContainer}>
-              <View style={styles.barRightSubContainer}>
+              <View style={styles.barLeftSubContainer}>
                 <Button
                   style={{ marginRight: 4 }}
                   leftAccessoryImageStyle={{ marginRight: 4 }}
@@ -616,7 +616,7 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.bold,
     textTransform: 'uppercase',
   },
-  barRightSubContainer: {
+  barLeftSubContainer: {
     // backgroundColor: '#0ff',
     flex: 1,
     flexDirection: 'row',
