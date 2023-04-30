@@ -206,7 +206,7 @@ export const addGroupFrame = (key) => {
   });
 
   return groupFrames;
-}
+};
 
 export const updateGroupFrame = (key, newGroupFrame) => {
   let groupFrames = fetchGroupFrames(key);
@@ -220,7 +220,7 @@ export const updateGroupFrame = (key, newGroupFrame) => {
   });
 
   return groupFrames;
-}
+};
 
 export const deleteGroupFrame = (key, groupFrameId) => {
   let groupFrames = fetchGroupFrames(key);
@@ -237,7 +237,7 @@ export const deleteGroupFrame = (key, groupFrameId) => {
   });
 
   return groupFrames;
-}
+};
 
 export const updateTag = (key, groupFrameId, newTag) => {
   let groupFrames = fetchGroupFrames(key);
@@ -362,4 +362,32 @@ export const fetchTagSuggessionList = (key) => {
   }
 
   return list;
-}
+};
+
+export const addTag = (text, state) => {
+  let tags = (
+    (
+      store.getState().profileCastSheetEditionViewReducer.account.info[key]
+      &&
+      store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
+    )
+    ||
+    []
+  );
+
+  if (text && text.length > 0 && (state === undefined || state === 'success')) {
+    tags = [
+      ...tags,
+      {
+        text: text.trim(),
+      },
+    ];
+  }
+
+  return tags.map((tag, index) => {
+    return {
+      ...tag,
+      tagId: index.toString(),
+    };
+  });
+};

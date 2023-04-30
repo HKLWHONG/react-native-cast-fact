@@ -91,32 +91,88 @@ class ProfileCastSheetEditionView extends BaseComponent {
     this.clearData();
   }
 
+  fetchProfileField = (info, key) => {
+    const { props } = this;
+
+    if (!props.userProfile) {
+      return;
+    }
+
+    let tags =  {
+        tagId: '0',
+        text: props.userProfile[key],
+    };
+
+    return {
+      ...info,
+      [key]: {
+        ...info[key],
+        tags: tags,
+        text: undefined,
+        state: undefined,
+      },
+    };
+  };
+
+  fetchProfileFields = (info, key) => {
+    const { props } = this;
+
+    if (!props.userProfile) {
+      return;
+    }
+
+    let tags = props.userProfile[key].map((tag, index) => {
+      return {
+        tagId: index.toString(),
+        text: tag.text,
+      };
+    });
+
+    return {
+      ...info,
+      [key]: {
+        ...info[key],
+        tags: tags,
+        text: undefined,
+        state: undefined,
+      },
+    };
+  };
+
+  // fetchProfileFields = (key) => {
+  //
+  // }
+
   initialize = () => {
     const { props } = this;
 
     if (props.userProfile) {
       console.log('[userProfile]', JSON.stringify(props.userProfile));
 
-      let key = Constants.CAST_SHEET_KEY_OCCUPATIONS;
-
-      let tags = props.userProfile[key].map((tag, index) => {
-        return {
-          tadId: index.toString(),
-          text: tag.text,
-        };
-      });
+      // let key = Constants.CAST_SHEET_KEY_OCCUPATIONS;
+      //
+      // let tags = props.userProfile[key].map((tag, index) => {
+      //   return {
+      //     tagId: index.toString(),
+      //     text: tag.text,
+      //   };
+      // });
 
       let info = store.getState().profileCastSheetEditionViewReducer.account.info;
 
-      info = {
-        ...info,
-        [key]: {
-          ...info[key],
-          tags: tags,
-          text: undefined,
-          state: undefined,
-        },
-      };
+      info = this.fetchProfileFields(info, Constants.CAST_SHEET_KEY_OCCUPATIONS);
+
+      // info = this.fetchProfileField(info, Constants.CAST_SHEET_KEY_DATE_OF_BIRTH);
+
+      // info = {
+      //   ...info,
+      //   [key]: {
+      //     ...info[key],
+      //     tags: tags,
+      //     text: undefined,
+      //     state: undefined,
+      //   },
+      // };
 
       // props.addAccountInfo(key, {
       //   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
@@ -126,15 +182,15 @@ class ProfileCastSheetEditionView extends BaseComponent {
       // });
 
 
-      key = Constants.CAST_SHEET_KEY_DATE_OF_BIRTH;
-
-      info = {
-        ...info,
-        [key]: {
-          ...info[key],
-          text: CalendarProcessor.formatDate(new Date(props.userProfile[key])),
-        },
-      };
+      // key = Constants.CAST_SHEET_KEY_DATE_OF_BIRTH;
+      //
+      // info = {
+      //   ...info,
+      //   [key]: {
+      //     ...info[key],
+      //     text: CalendarProcessor.formatDate(new Date(props.userProfile[key])),
+      //   },
+      // };
 
       // props.addAccountInfo(key, {
       //   ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
@@ -1217,35 +1273,9 @@ class ProfileCastSheetEditionView extends BaseComponent {
           onBlur={() => {
             props.setFocusedTag(undefined);
 
-            let tags = (
-              (
-                store.getState().profileCastSheetEditionViewReducer.account.info[key]
-                &&
-                store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
-              )
-              ||
-              []
-            );
-
-            if (text && text.length > 0 && state === 'success') {
-              tags = [
-                ...tags,
-                {
-                  text: text.trim(),
-                },
-              ];
-            }
-
-            tags = tags.map((tag, index) => {
-              return {
-                ...tag,
-                tagId: index.toString(),
-              };
-            })
-
             props.addAccountInfo(key, {
               ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-              tags: tags,
+              tags: ProfileProcessor.addTag(text, state),
               text: undefined,
               state: undefined,
             });
@@ -1312,13 +1342,82 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
     const info = props.account.info[key];
 
+    let tags = [{
+      tagId: '0',
+    }];
     let text = undefined;
     let visible = undefined;
 
     if (info) {
+      tags = (info.tags && info.tags.length > 0) ? info.tags : tags;
       text = info.text;
       visible = info.visible;
     }
+
+    let children = (
+      Array(tags.length)
+        .fill()
+        .map((_, i) => i)
+        .map((i) => {
+          const info = tags[i];
+          const { text } = info;
+
+          return (
+            <Tag
+              key={i.toString()}
+              info={info}
+              style={styles.tag}
+              type="input"
+              text={text}
+              rightAccessoryType="delete"
+              editable={false}
+              pressable
+              onPress={() => {
+                let initialDate = CalendarProcessor.toDateString(CalendarProcessor.formatDate(new Date()));
+
+                if (text) {
+                  initialDate = CalendarProcessor.toDateString(text);
+                }
+
+                props.setCalendarModalViewInitialDate(initialDate);
+
+                props.setCalendarModalViewOnDayPress((date) => {
+                  const text = CalendarProcessor.formatDate(new Date(date.dateString));
+
+                  props.addAccountInfo(key, {
+                    ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                    tags: ProfileProcessor.addTag(text),
+                  });
+                });
+
+                Router.push(props, 'CalendarModalView');
+              }}
+              onPressRightAccessory={(info) => {
+                const { tagId } = info;
+
+                let tags = (
+                  (
+                    store.getState().profileCastSheetEditionViewReducer.account.info[key]
+                    &&
+                    store.getState().profileCastSheetEditionViewReducer.account.info[key].tags
+                  )
+                  ||
+                  []
+                );
+
+                tags = tags.filter((tag) => {
+                  return tag.tagId !== tagId;
+                })
+
+                props.addAccountInfo(key, {
+                  ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
+                  tags: tags,
+                });
+              }}
+            />
+          );
+        })
+    );
 
     return (
       <Translation>
@@ -1335,41 +1434,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
               });
             }}
           >
-            <SingleTouch
-              onPress={() => {
-                let initialDate = CalendarProcessor.toDateString(CalendarProcessor.formatDate(new Date()));
-
-                if (text) {
-                  initialDate = CalendarProcessor.toDateString(text);
-                }
-
-                props.setCalendarModalViewInitialDate(initialDate);
-
-                props.setCalendarModalViewOnDayPress((date) => {
-                  props.addAccountInfo(key, {
-                    ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                    text: CalendarProcessor.formatDate(new Date(date.dateString)),
-                  });
-                });
-
-                Router.push(props, 'CalendarModalView');
-              }}
-            >
-              <Tag
-                style={styles.tag}
-                type="input"
-                text={text}
-                rightAccessoryType="delete"
-                editable={false}
-                onPressRightAccessory={() => {
-                  props.addAccountInfo(key, {
-                    ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                    text: undefined,
-                    state: undefined,
-                  });
-                }}
-              />
-            </SingleTouch>
+            {children}
           </CastSheetItem>
         )}
       </Translation>

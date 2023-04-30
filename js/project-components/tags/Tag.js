@@ -503,7 +503,7 @@ class Tag extends Component {
       editable = !props.disabled;
     }
 
-    disabled = props.disabled || editable;
+    disabled = props.disabled || (editable && !props.pressable);
 
     if (
       disabled
@@ -535,6 +535,36 @@ class Tag extends Component {
           borderColor: Theme.colors.indicator.error,
         };
       }
+    }
+
+    if (props.pressable) {
+      return (
+        <Translation>
+          {(t) => (
+            <View
+              onLayout={props.onLayout}
+              style={[styles.container, style, props.style]}
+            >
+              <SingleTouch
+                style={styles.subContainer}
+                disabled={disabled}
+                onPress={() => {
+                  if (!props.onPress) {
+                    return;
+                  }
+
+                  props.onPress(props.info)
+                }}
+                feedbackDisabled
+              >
+                {this.renderLeftContainer()}
+                {this.renderCenterContainer()}
+              </SingleTouch>
+              {this.renderRightContainer()}
+            </View>
+          )}
+        </Translation>
+      );
     }
 
     return (
@@ -573,6 +603,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Theme.colors.general.transparent,
     margin: 4,
+  },
+  subContainer: {
+    // backgroundColor: '#00f',
+    flexDirection: 'row',
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   leftContainer: {
     // backgroundColor: '#ff0',
@@ -699,6 +735,7 @@ Tag.propTypes = {
   disabled: PropTypes.bool,
   disabledWithoutFeedback: PropTypes.bool,
   editable: PropTypes.bool,
+  pressable: PropTypes.bool,
   type: PropTypes.string,
   text: PropTypes.string,
   placeholder: PropTypes.string,
@@ -737,6 +774,7 @@ Tag.defaultProps = {
   disabled: false,
   disabledWithoutFeedback: false,
   editable: true,
+  pressable: false,
   type: undefined,
   text: undefined,
   placeholder: undefined,
