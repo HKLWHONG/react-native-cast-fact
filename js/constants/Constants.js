@@ -3,6 +3,8 @@
  * @flow strict-local
  */
 
+import * as CastSheetConstants from './CastSheetConstants';
+
 export const VERSION = 'v1.0.0';
 
 export const HEIGHT = 'Height';
@@ -11,81 +13,6 @@ export const AGE = 'Age';
 export const EYES_COLOR = 'Eyes Color';
 export const HAIR_COLOR = 'Hair Color';
 export const SKIN_COLOR = 'Skin Color';
-
-// Properties
-export const CAST_SHEET_PROPERTY_KEY_SCHOOL = 'school';
-export const CAST_SHEET_PROPERTY_KEY_MAJOR = 'major';
-export const CAST_SHEET_PROPERTY_KEY_YEAR = 'year';
-export const CAST_SHEET_PROPERTY_KEY_AWARD_CEREMONY_NAME = 'award_ceremony_name';
-export const CAST_SHEET_PROPERTY_KEY_AWARD_NAME = 'award_name';
-export const CAST_SHEET_PROPERTY_KEY_WINNER = 'winner';
-export const CAST_SHEET_PROPERTY_KEY_NAME = 'name';
-export const CAST_SHEET_PROPERTY_KEY_SINGER = 'singer';
-export const CAST_SHEET_PROPERTY_KEY_ROLE_TITLE = 'role_title';
-export const CAST_SHEET_PROPERTY_KEY_ROLE_NAME = 'role_name';
-export const CAST_SHEET_PROPERTY_KEY_PHONE = 'phone';
-export const CAST_SHEET_PROPERTY_KEY_EMAIL = 'email';
-export const CAST_SHEET_PROPERTY_KEY_CATEGORY = 'category';
-export const CAST_SHEET_PROPERTY_KEY_TEXT = 'text';
-export const CAST_SHEET_PROPERTY_KEY_AGENT_STATUS = 'agent_status';
-
-// Basic Information
-export const CAST_SHEET_KEY_GENDER = 'gender';
-export const CAST_SHEET_KEY_DATE_OF_BIRTH = 'date_of_birth';
-export const CAST_SHEET_KEY_PLACE_OF_BIRTH = 'place_of_birth';
-export const CAST_SHEET_KEY_ACTING_YEAR_START = 'acting_year_start';
-export const CAST_SHEET_KEY_ACTING_YEAR_END = 'acting_year_end';
-export const CAST_SHEET_KEY_LANGUAGES = 'languages';
-export const CAST_SHEET_KEY_WORKING_BASES = 'working_bases';
-export const CAST_SHEET_KEY_OCCUPATIONS = 'occupations';
-export const CAST_SHEET_KEY_SKILLS = 'skills';
-export const CAST_SHEET_KEY_ALMA_MATERS = 'alma_maters';
-export const CAST_SHEET_KEY_AWARDS = 'awards';
-export const CAST_SHEET_KEY_NATIONALITIES = 'nationalities';
-
-// Appearance
-export const CAST_SHEET_KEY_HEIGHT = 'height';
-export const CAST_SHEET_KEY_WEIGHT = 'weight';
-export const CAST_SHEET_KEY_SKIN_COLOR = 'skin_color';
-export const CAST_SHEET_KEY_DRESS_SIZE = 'dress_size';
-export const CAST_SHEET_KEY_SHIRT_SIZE = 'shirt_size';
-export const CAST_SHEET_KEY_SHOE_SIZE = 'shoe_size';
-export const CAST_SHEET_KEY_SUIT_COST_SIZE = 'suit_cost_size';
-export const CAST_SHEET_KEY_PANTS_SIZE = 'pants_size';
-export const CAST_SHEET_KEY_HAT_SIZE = 'hat_size';
-export const CAST_SHEET_KEY_HANDEDNESS = 'handedness';
-export const CAST_SHEET_KEY_GLOVE = 'glove';
-export const CAST_SHEET_KEY_HAIR_COLORS = 'hair_colors';
-export const CAST_SHEET_KEY_EYES_COLORS = 'eyes_colors';
-export const CAST_SHEET_KEY_BODY_TYPES = 'body_types';
-
-// Experience
-export const CAST_SHEET_KEY_LICENSES = 'licenses';
-export const CAST_SHEET_KEY_MOVIES = 'movies';
-export const CAST_SHEET_KEY_TV_SHOWS = 'tv_shows';
-export const CAST_SHEET_KEY_COMMERCIALS = 'commercials';
-export const CAST_SHEET_KEY_MUSIC_VIDEOS = 'music_videos';
-export const CAST_SHEET_KEY_STAGE_SHOWS = 'stage_shows';
-export const CAST_SHEET_KEY_VARIETY_SHOWS = 'variety_shows';
-export const CAST_SHEET_KEY_PERFORMING_ARTS = 'performing_arts';
-export const CAST_SHEET_KEY_BROADCASTS = 'broadcasts';
-export const CAST_SHEET_KEY_MODELLINGS = 'modellings';
-export const CAST_SHEET_KEY_VOICEOVERS = 'voiceovers';
-export const CAST_SHEET_KEY_ONLINES = 'onlines';
-export const CAST_SHEET_KEY_EVENTS = 'events';
-
-// Contacts
-export const CAST_SHEET_KEY_CONTACTS = 'contacts';
-export const CAST_SHEET_KEY_CONTACTS_ADDRESS = 'address';
-export const CAST_SHEET_KEY_CONTACTS_EMAIL = 'email';
-export const CAST_SHEET_KEY_CONTACTS_PHONE = 'phone';
-export const CAST_SHEET_KEY_CONTACTS_AGENTS = 'agents';
-
-// Social Media
-export const CAST_SHEET_KEY_SOCIAL_MEDIAS = 'social_medias';
-export const CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM = 'instagram';
-export const CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK = 'facebook';
-export const CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE = 'youtube';
 
 export const TAGS =
 [
@@ -280,8 +207,8 @@ export const TAGS =
 ];
 
 export const TAGS_CAST_SHEET_KEY_MAPPING = {
-  [CAST_SHEET_KEY_EYES_COLORS]: EYES_COLOR,
-  [CAST_SHEET_KEY_HAIR_COLORS]: HAIR_COLOR,
+  [CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS]: EYES_COLOR,
+  [CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS]: HAIR_COLOR,
 };
 
 export const TAGS_SUFFIX_MAPPING = {

@@ -126,6 +126,10 @@ export const validateNameDisplayFormat_3 = () => {
 };
 
 export const fetchGroupFrames = (key) => {
+  if (!store.getState().profileCastSheetEditionViewReducer.account.info) {
+    store.getState().profileCastSheetEditionViewReducer.account.info = {};
+  }
+
   const { info } = store.getState().profileCastSheetEditionViewReducer.account;
 
   if (!info[key] || !info[key].groupFrames) {
@@ -269,14 +273,6 @@ export const fetchApiField = (key) => {
 
   if (info) {
     if (info.text && info.text.length > 0) {
-      if (
-        key === Constants.CAST_SHEET_KEY_DATE_OF_BIRTH
-        ||
-        key == Constants.CAST_SHEET_KEY_PLACE_OF_BIRTH
-      ) {
-        return CalendarProcessor.toApiDateString(info.text);
-      }
-
       return info.text;
     } else if (info.tags && info.tags.length > 0) {
       return info.tags[0].text;
@@ -309,6 +305,10 @@ export const fetchApiFields = (key) => {
 
 export const fetchApiMultipleField = (key, propertyList = []) => {
   const { info } = store.getState().profileCastSheetEditionViewReducer.account;
+
+  if (!info || !info[key] || !info[key].groupFrames) {
+    return [];
+  }
 
   return info[key].groupFrames
     .filter((groupFrame) => {
