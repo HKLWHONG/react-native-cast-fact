@@ -66,3 +66,12 @@ export const setUserProfile = (userProfile) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setUserProfileImage = (userProfileImage) => (dispatch) => {
+  dispatch({
+    type: DataActionType.USER_PROFILE_IMAGE,
+    userProfileImage: userProfileImage,
+  });
+
+  return Promise.resolve(store.getState());
+};

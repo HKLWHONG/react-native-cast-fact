@@ -384,7 +384,7 @@ function mapDispatchToProps(dispatch) {
     setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
     addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewNumberOfIndicators: (...args) => dispatch(ProfileInfoSetupViewAction.setNumberOfIndicators(...args)),
-    setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
+    setProfileInfoSetupViewSource: (...args) => dispatch(ProfileInfoSetupViewAction.setSource(...args)),
     setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),
     setProfileInfoSetupViewLastnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameEn(...args)),
     setProfileInfoSetupViewFirstnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameZh(...args)),

@@ -90,93 +90,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
     this.clearData();
   }
 
-  fetchProfileField = (info, key) => {
-    const { props } = this;
-
-    if (!props.userProfile || !props.userProfile[key]) {
-      return info;
-    }
-
-    let tags =  [{
-        tagId: '0',
-        text: props.userProfile[key],
-    }];
-
-    return {
-      ...info,
-      [key]: {
-        ...info[key],
-        tags: tags,
-        text: undefined,
-        state: undefined,
-      },
-    };
-  };
-
-  fetchProfileFields = (info, key) => {
-    const { props } = this;
-
-    if (!props.userProfile || !props.userProfile[key]) {
-      return info;
-    }
-
-    let tags = props.userProfile[key].map((tag, index) => {
-      return {
-        tagId: index.toString(),
-        text: tag.text,
-      };
-    });
-
-    return {
-      ...info,
-      [key]: {
-        ...info[key],
-        tags: tags,
-        text: undefined,
-        state: undefined,
-      },
-    };
-  };
-
-  fetchProfileMultipleField = (info, key) => {
-    const { props } = this;
-
-    if (!props.userProfile || !props.userProfile[key]) {
-      return info;
-    }
-
-    tags = props.userProfile[key].map((tag, index) => {
-      return Object.keys(tag).map((item) => {
-        return {
-          key: item,
-          text: tag[item],
-        }
-      });
-    });
-
-    const groupFrames = tags.map((tag, index) => {
-      const data = tag.map((property) => {
-        return {
-          key: property.key,
-          text: property.text,
-        };
-      });
-
-      return {
-        groupFrameId: index.toString(),
-        data: data,
-      };
-    });
-
-    return {
-      ...info,
-      [key]: {
-        ...info[key],
-        groupFrames: groupFrames,
-      },
-    };
-  };
-
   initialize = () => {
     const { props } = this;
 
@@ -311,18 +224,20 @@ class ProfileCastSheetEditionView extends BaseComponent {
         )
           .then(() => {
             if (
-              store.getState().profileInfoSetupViewReducer.photo
+              store.getState().profileInfoSetupViewReducer.source
               &&
-              store.getState().profileInfoSetupViewReducer.photo.path
+              store.getState().profileInfoSetupViewReducer.source.photo
               &&
-              store.getState().profileInfoSetupViewReducer.photo.mime
+              store.getState().profileInfoSetupViewReducer.source.photo.path
+              &&
+              store.getState().profileInfoSetupViewReducer.source.photo.mime
             ) {
               UserProvider.uploadProfileImage(
                 props,
                 {
                   key: 'image',
-                  uri: 'file://' + store.getState().profileInfoSetupViewReducer.photo.path,
-                  type: store.getState().profileInfoSetupViewReducer.photo.mime,
+                  uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
+                  type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
                 },
               )
                 .then((params) => {
@@ -373,6 +288,93 @@ class ProfileCastSheetEditionView extends BaseComponent {
           }],
         );
       });
+  };
+
+  fetchProfileField = (info, key) => {
+    const { props } = this;
+
+    if (!props.userProfile || !props.userProfile[key]) {
+      return info;
+    }
+
+    let tags =  [{
+        tagId: '0',
+        text: props.userProfile[key],
+    }];
+
+    return {
+      ...info,
+      [key]: {
+        ...info[key],
+        tags: tags,
+        text: undefined,
+        state: undefined,
+      },
+    };
+  };
+
+  fetchProfileFields = (info, key) => {
+    const { props } = this;
+
+    if (!props.userProfile || !props.userProfile[key]) {
+      return info;
+    }
+
+    let tags = props.userProfile[key].map((tag, index) => {
+      return {
+        tagId: index.toString(),
+        text: tag.text,
+      };
+    });
+
+    return {
+      ...info,
+      [key]: {
+        ...info[key],
+        tags: tags,
+        text: undefined,
+        state: undefined,
+      },
+    };
+  };
+
+  fetchProfileMultipleField = (info, key) => {
+    const { props } = this;
+
+    if (!props.userProfile || !props.userProfile[key]) {
+      return info;
+    }
+
+    tags = props.userProfile[key].map((tag, index) => {
+      return Object.keys(tag).map((item) => {
+        return {
+          key: item,
+          text: tag[item],
+        }
+      });
+    });
+
+    const groupFrames = tags.map((tag, index) => {
+      const data = tag.map((property) => {
+        return {
+          key: property.key,
+          text: property.text,
+        };
+      });
+
+      return {
+        groupFrameId: index.toString(),
+        data: data,
+      };
+    });
+
+    return {
+      ...info,
+      [key]: {
+        ...info[key],
+        groupFrames: groupFrames,
+      },
+    };
   };
 
   renderHeader = () => {

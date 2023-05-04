@@ -8,7 +8,7 @@ import { CommonActionType, ProfileInfoSetupViewActionType } from '../../../types
 const initState = () => {
   return {
     numberOfIndicators: 0,
-    photo: undefined,
+    source: undefined,
     account: {
       info: {
         firstnameEn: undefined,
@@ -36,10 +36,10 @@ export default function profileInfoSetupViewReducer(state = initState(), action)
         numberOfIndicators: action.numberOfIndicators,
       };
 
-    case ProfileInfoSetupViewActionType.PHOTO:
+    case ProfileInfoSetupViewActionType.SOURCE:
       return {
         ...state,
-        photo: action.photo,
+        source: action.source,
       };
 
     case ProfileInfoSetupViewActionType.ACCOUNT_FIRSTNAME_EN:

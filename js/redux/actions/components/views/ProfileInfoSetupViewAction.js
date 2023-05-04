@@ -22,10 +22,10 @@ export const setNumberOfIndicators = (numberOfIndicators) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
-export const setPhoto = (photo) => (dispatch) => {
+export const setSource = (source) => (dispatch) => {
   dispatch({
-    type: ProfileInfoSetupViewActionType.PHOTO,
-    photo: photo,
+    type: ProfileInfoSetupViewActionType.SOURCE,
+    source: source,
   });
 
   return Promise.resolve(store.getState());

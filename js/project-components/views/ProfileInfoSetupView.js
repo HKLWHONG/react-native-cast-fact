@@ -66,16 +66,12 @@ class ProfileInfoSetupView extends Component {
       return;
     }
 
-    let source = ic_profile_placeholder;
+    let source = props.source || ic_profile_placeholder;
     let name = undefined;
     let occupation = undefined;
 
     let nameTextContainerStyle = {};
     let occupationTextContainerStyle = {};
-
-    if (props.photo && props.photo.path) {
-      source = { uri: 'file://' + (props.photo && props.photo.path) };
-    }
 
     const firstnameEn = props.account.info.firstnameEn || '';
     const lastnameEn = props.account.info.lastnameEn || '';
@@ -97,10 +93,16 @@ class ProfileInfoSetupView extends Component {
       name = undefined;
     }
 
-    occupation = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS);
+    if (props.userProfile) {
+      occupation = UserProcessor.toOccupation(props.userProfile);
+    } else {
+      occupation = ProfileProcessor.fetchApiFields(Constants.CAST_SHEET_KEY_OCCUPATIONS);
+    }
 
     if (occupation && occupation.length > 0) {
-      occupation = occupation[0].text;
+      if (!props.userProfile) {
+        occupation = occupation[0].text;
+      }
     } else {
       occupation = undefined;
     }
@@ -234,9 +236,10 @@ ProfileInfoSetupView.defaultProps = {
 function mapStateToProps(state) {
   return {
     numberOfIndicators: state.profileInfoSetupViewReducer.numberOfIndicators,
-    photo: state.profileInfoSetupViewReducer.photo,
+    source: state.profileInfoSetupViewReducer.source,
     account: state.profileInfoSetupViewReducer.account,
     profileCastSheetEditionViewAccount: state.profileCastSheetEditionViewReducer.account,
+    userProfile: state.dataReducer.userProfile,
   };
 }
 

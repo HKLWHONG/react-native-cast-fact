@@ -371,11 +371,14 @@ class CameraView extends BaseComponent {
 
                 console.log('[croppedPhoto]', croppedPhoto);
 
-                if (croppedPhoto) {
-                  props.setProfileInfoSetupViewPhoto(croppedPhoto);
-
-                  Router.goBack(props);
+                if (croppedPhoto && croppedPhoto.path) {
+                  props.setProfileInfoSetupViewSource({
+                    uri: 'file://' + croppedPhoto.path,
+                    photo: croppedPhoto,
+                  });
                 }
+
+                Router.goBack(props);
               }}
             >
               <View style={styles.takePhotoButtonContainer}>
@@ -583,7 +586,7 @@ function mapDispatchToProps(dispatch) {
     setDevice: (...args) => dispatch(CameraViewAction.setDevice(...args)),
     setFormat: (...args) => dispatch(CameraViewAction.setFormat(...args)),
     setFlash: (...args) => dispatch(CameraViewAction.setFlash(...args)),
-    setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
+    setProfileInfoSetupViewSource: (...args) => dispatch(ProfileInfoSetupViewAction.setSource(...args)),
   };
 }
 

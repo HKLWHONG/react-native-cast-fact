@@ -262,8 +262,12 @@ export const POST = (
       if (body && body.file) {
         const { file } = body;
 
-        if (file.type && file.type.toLowerCase().startsWith('image')) {
-          data.append(file.key, { uri: file.uri , type: file.type });
+        if (file.key && file.key.length > 0 && file.type && file.type.toLowerCase().startsWith('image')) {
+          data.append(file.key, {
+            name: file.name || file.key,
+            uri: file.uri ,
+            type: file.type,
+          });
           data.append('Content-Type', file.type);
         }
       }

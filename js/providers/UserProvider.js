@@ -10,10 +10,15 @@ import {
 } from '../constants';
 
 import {
+  Converter,
+} from '../utils';
+
+import {
   CreateProfileApi,
   GetProfileApi,
   LinkProfileApi,
   UploadProfileImageApi,
+  GetProfileImageApi,
 } from '../apis';
 
 import { UserStorage } from '../storages';
@@ -74,7 +79,15 @@ export const uploadProfileImage = (props, params, options) => {
       .then((params) => {
         const { json } = params;
 
-        resolve(params);
+        getProfileImage(props, {}, options)
+          .then(() => {
+            resolve(params);
+          })
+          .catch((error) => {
+            console.error(error);
+
+            resolve(params);
+          });
       })
       .catch((error) => {
         reject(error);
@@ -94,7 +107,41 @@ export const getProfile = (props, params, options) => {
 
         store.dispatch(DataAction.setUserProfile(json));
 
-        resolve(params);
+        getProfileImage(props, {}, options)
+          .then(() => {
+            resolve(params);
+          })
+          .catch((error) => {
+            console.error(error);
+
+            resolve(params);
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getProfileImage = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    GetProfileImageApi.request(
+      props,
+      {},
+      options,
+    )
+      .then((params) => {
+        const { data } = params;
+
+        Converter.blobToBase64Data(data)
+          .then((base64Data) => {
+            store.dispatch(DataAction.setUserProfileImage({ uri: base64Data }));
+
+            resolve(params);
+          })
+          .catch((error) => {
+            reject(error);
+          });
       })
       .catch((error) => {
         reject(error);

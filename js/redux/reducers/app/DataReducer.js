@@ -13,6 +13,7 @@ const initState = () => {
     isLoggedIn: false,
     userData: undefined,
     userProfile: undefined,
+    userProfileImage: undefined,
   };
 };
 
@@ -58,6 +59,12 @@ export default function dataReducer(state = initState(), action) {
       return {
         ...state,
         userProfile: action.userProfile,
+      };
+
+    case DataActionType.USER_PROFILE_IMAGE:
+      return {
+        ...state,
+        userProfileImage: action.userProfileImage,
       };
 
     default:

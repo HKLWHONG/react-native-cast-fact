@@ -8,6 +8,7 @@ import * as ChangePasswordApi from './ChangePasswordApi';
 import * as CreateProfileApi from './CreateProfileApi';
 import * as GetFeedApi from './GetFeedApi';
 import * as GetProfileApi from './GetProfileApi';
+import * as GetProfileImageApi from './GetProfileImageApi';
 import * as GetRecentSearchesApi from './GetRecentSearchesApi';
 import * as GetTagApi from './GetTagApi';
 import * as GetUserApi from './GetUserApi';
@@ -25,6 +26,7 @@ export {
   CreateProfileApi,
   GetFeedApi,
   GetProfileApi,
+  GetProfileImageApi,
   GetRecentSearchesApi,
   GetTagApi,
   GetUserApi,

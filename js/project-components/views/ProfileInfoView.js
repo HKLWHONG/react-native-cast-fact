@@ -47,16 +47,12 @@ class ProfileInfoView extends Component {
       return null;
     }
 
-    let source = ic_profile_placeholder;
+    let source = props.source || ic_profile_placeholder;
     let name = UserProcessor.toName(props.profile);
     let occupation = UserProcessor.toOccupation(props.profile);
 
     let nameTextContainerStyle = {};
     let occupationTextContainerStyle = {};
-
-    if (props.photo && props.photo.path) {
-      source = { uri: 'file://' + (props.photo && props.photo.path) };
-    }
 
     if (name) {
       nameTextContainerStyle = {
@@ -174,6 +170,11 @@ ProfileInfoView.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
+  source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
   profile: PropTypes.object,
 };
 
@@ -181,6 +182,7 @@ ProfileInfoView.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
+  source: undefined,
   profile: undefined,
 };
 

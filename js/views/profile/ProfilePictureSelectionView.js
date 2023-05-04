@@ -16,6 +16,7 @@ import {
 
 import { connect } from 'react-redux';
 import {
+  store,
   ProfilePictureSelectionViewAction,
   SignUpStackNavigatorAction,
   SettingsStackNavigatorAction,
@@ -40,6 +41,10 @@ import {
 import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
+
+import {
+  UserProvider,
+} from '../../providers';
 
 import { Camera } from 'react-native-vision-camera';
 
@@ -78,6 +83,7 @@ class ProfilePictureSelectionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
+      props.setProfileInfoSetupViewSource(props.userProfileImage);
       props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
       props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
       props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
@@ -93,13 +99,36 @@ class ProfilePictureSelectionView extends BaseComponent {
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
 
       props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-        props.setSignUpStackNavigatorEnabledRight(true);
+        props.setSettingsStackNavigatorEnabledRight(true);
       });
 
       props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-        console.log('call api...');
+        if (
+          store.getState().profileInfoSetupViewReducer.source
+          &&
+          store.getState().profileInfoSetupViewReducer.source.photo
+          &&
+          store.getState().profileInfoSetupViewReducer.source.photo.path
+          &&
+          store.getState().profileInfoSetupViewReducer.source.photo.mime
+        ) {
+          UserProvider.uploadProfileImage(
+            props,
+            {
+              key: 'image',
+              uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
+              type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
+            },
+          )
+            .then((params) => {
+              Router.goBack(props);
+            })
+            .catch((error) => {
+              console.error(error);
 
-        // Router.push(props, 'ProfileNameEditionView');
+              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+            });
+        }
       });
 
       props.setProfileInfoSetupViewNumberOfIndicators(0);
@@ -121,7 +150,7 @@ class ProfilePictureSelectionView extends BaseComponent {
   clearData = () => {
     const { props } = this;
 
-    props.setProfileInfoSetupViewPhoto(undefined);
+    props.setProfileInfoSetupViewSource(undefined);
   };
 
   renderHeader = () => {
@@ -160,6 +189,7 @@ class ProfilePictureSelectionView extends BaseComponent {
           <ProfileInfoSetupView
             index={0}
             text={t('views.profile_picture_selection.title')}
+            source={props.userProfileImage}
           />
         )}
       </Translation>
@@ -230,8 +260,11 @@ class ProfilePictureSelectionView extends BaseComponent {
                     }
                   });
 
-                if (photo) {
-                  props.setProfileInfoSetupViewPhoto(photo);
+                if (photo && photo.path) {
+                  props.setProfileInfoSetupViewSource({
+                    uri: 'file://' + photo.path,
+                    photo: photo,
+                  });
                 }
               }}
             />
@@ -383,6 +416,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     signUpViewAccount: state.signUpViewReducer.account,
+    userProfileImage: state.dataReducer.userProfileImage,
     userProfile: state.dataReducer.userProfile,
   };
 }
@@ -397,7 +431,7 @@ function mapDispatchToProps(dispatch) {
     setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
     addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
     setProfileInfoSetupViewNumberOfIndicators: (...args) => dispatch(ProfileInfoSetupViewAction.setNumberOfIndicators(...args)),
-    setProfileInfoSetupViewPhoto: (...args) => dispatch(ProfileInfoSetupViewAction.setPhoto(...args)),
+    setProfileInfoSetupViewSource: (...args) => dispatch(ProfileInfoSetupViewAction.setSource(...args)),
     setProfileInfoSetupViewFirstnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameEn(...args)),
     setProfileInfoSetupViewLastnameEn: (...args) => dispatch(ProfileInfoSetupViewAction.setLastnameEn(...args)),
     setProfileInfoSetupViewFirstnameZh: (...args) => dispatch(ProfileInfoSetupViewAction.setFirstnameZh(...args)),
