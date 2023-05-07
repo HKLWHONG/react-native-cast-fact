@@ -364,7 +364,7 @@ export const fetchTagSuggessionList = (key) => {
   return list;
 };
 
-export const addTag = (text, state) => {
+export const addTag = (key, text, state) => {
   let tags = (
     (
       store.getState().profileCastSheetEditionViewReducer.account.info[key]

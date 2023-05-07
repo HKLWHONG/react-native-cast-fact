@@ -516,7 +516,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
             props.addAccountInfo(key, {
               ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-              tags: ProfileProcessor.addTag(text, state),
+              tags: ProfileProcessor.addTag(key, text, state),
               text: undefined,
               state: undefined,
             });
@@ -631,7 +631,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 props.setCalendarModalViewOnDayPress((date) => {
                   props.addAccountInfo(key, {
                     ...store.getState().profileCastSheetEditionViewReducer.account.info[key],
-                    tags: ProfileProcessor.addTag(date.dateString),
+                    tags: ProfileProcessor.addTag(key, date.dateString),
                   });
                 });
 
