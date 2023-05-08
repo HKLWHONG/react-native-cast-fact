@@ -245,6 +245,13 @@ class SettingsView extends BaseComponent {
           >
           {
             <List
+              innerRef={(ref) => {
+                if (!ref) {
+                  return;
+                }
+
+                props.setListRef(2, props.navigation.getState().index, ref);
+              }}
               contentContainerStyle={styles.listContentContainer}
               sections={sections}
               renderItem={this.renderItem}

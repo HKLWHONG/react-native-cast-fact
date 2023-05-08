@@ -26,7 +26,7 @@ import {
   FeedView,
   SearchView,
   SearchResultView,
-  ProfileView,
+  SearchResultProfileView,
 } from '../../views';
 
 import { TagProcessor } from '../../processors';
@@ -161,8 +161,8 @@ class SearchStackNavigator extends BaseComponent {
               }}
             />
             <Stack.Screen
-              name="ProfileView"
-              component={ProfileView}
+              name="SearchResultProfileView"
+              component={SearchResultProfileView}
               options={{
                 title: t('views.profile.header'),
               }}

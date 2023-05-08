@@ -3,10 +3,12 @@
  * @flow strict-local
  */
 
-import searchViewReducer from './SearchViewReducer';
+import searchResultProfileViewReducer from './SearchResultProfileViewReducer';
 import searchResultViewReducer from './SearchResultViewReducer';
+import searchViewReducer from './SearchViewReducer';
 
 export {
-  searchViewReducer,
+  searchResultProfileViewReducer,
   searchResultViewReducer,
+  searchViewReducer,
 };

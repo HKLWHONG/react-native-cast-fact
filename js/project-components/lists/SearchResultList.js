@@ -54,22 +54,13 @@ class SearchResultList extends Component {
     return (
       <Translation>
         {(t) => (
-          <SingleTouch
-            onPress={() => {
-              if (!props.onPressProfile) {
-                return;
-              }
-
-              props.onPressProfile(params);
-            }}
-            disabled
-          >
+          <View>
             <Image
               style={styles.listAvatarImage}
               source={source}
               resizeMode={"contain"}
             />
-          </SingleTouch>
+          </View>
         )}
       </Translation>
     );
@@ -85,15 +76,26 @@ class SearchResultList extends Component {
       <Translation>
         {(t) => (
           <View style={styles.listTopContainer}>
-            {this.renderProfileImageIfNeeded(params)}
-            <View style={styles.profileInfoContainer}>
-              <Text style={styles.nameLabel}>
-                {UserProcessor.toName(item)}
-              </Text>
-              <Text style={styles.titleLabel}>
-                {item && item.profile && item.profile.title}
-              </Text>
-            </View>
+            <SingleTouch
+              style={styles.listTopContainerButton}
+              onPress={() => {
+                if (!props.onPressProfile) {
+                  return;
+                }
+
+                props.onPressProfile(params);
+              }}
+            >
+              {this.renderProfileImageIfNeeded(params)}
+              <View style={styles.profileInfoContainer}>
+                <Text style={styles.nameLabel}>
+                  {UserProcessor.toName(item)}
+                </Text>
+                <Text style={styles.titleLabel}>
+                  {item && item.profile && item.profile.title}
+                </Text>
+              </View>
+            </SingleTouch>
             <Button
               style={styles.selectionButtonContainer}
               buttonStyle={styles.selectionButton}
@@ -365,7 +367,7 @@ class SearchResultList extends Component {
       topChildren = this.renderGridTopContainer(params);
       centerChildren = this.renderGridCenterContainer(params);
 
-      disabled = !props.searchStackNavigatorRightViewEditModeEnabled;
+      disabled = false;
     }
 
     return (
@@ -374,11 +376,19 @@ class SearchResultList extends Component {
           <SingleTouch
             style={[styles.itemContainer, style]}
             onPress={() => {
-              if (!props.onPressSelection) {
-                return;
-              }
+              if (props.searchStackNavigatorRightViewEditModeEnabled) {
+                if (!props.onPressSelection) {
+                  return;
+                }
 
-              props.onPressSelection(params);
+                props.onPressSelection(params);
+              } else {
+                if (!props.onPressProfile) {
+                  return;
+                }
+
+                props.onPressProfile(params);
+              }
             }}
             disabled={disabled}
             feedbackDisabled
@@ -480,7 +490,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   listTopContainer: {
+    // backgroundColor: '#ff0',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listTopContainerButton: {
     // backgroundColor: '#f00',
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,

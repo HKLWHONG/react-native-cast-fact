@@ -1,0 +1,11 @@
+/**
+ * @format
+ * @flow strict-local
+ */
+
+export const RESET = '@SEARCH_RESULT_PROFILE_VIEW_RESET';
+
+export const USER_PROFILE = '@SEARCH_RESULT_PROFILE_VIEW_USER_PROFILE';
+export const USER_PROFILE_IMAGE = '@SEARCH_RESULT_PROFILE_VIEW_USER_PROFILE_IMAGE';
+
+export const INDEX = '@SEARCH_RESULT_PROFILE_VIEW_INDEX';

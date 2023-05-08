@@ -3,10 +3,12 @@
  * @flow strict-local
  */
 
-import * as SearchViewAction from './SearchViewAction';
+import * as SearchResultProfileViewAction from './SearchResultProfileViewAction';
 import * as SearchResultViewAction from './SearchResultViewAction';
+import * as SearchViewAction from './SearchViewAction';
 
 export {
-  SearchViewAction,
+  SearchResultProfileViewAction,
   SearchResultViewAction,
+  SearchViewAction,
 };

@@ -19,7 +19,7 @@ const config = {
 };
 
 export const route = (props, stack, name) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.dispatch) {
     return;
   }
 
@@ -91,7 +91,7 @@ export const route = (props, stack, name) => {
 };
 
 export const jumpTo = (props, stack, name, params) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.jumpTo) {
     return;
   }
 
@@ -104,7 +104,7 @@ export const jumpTo = (props, stack, name, params) => {
 };
 
 export const push = (props, stack, name, params) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.navigate) {
     return;
   }
 
@@ -127,7 +127,7 @@ export const push = (props, stack, name, params) => {
 };
 
 export const popToTop = (props) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.popToTop) {
     return;
   }
 
@@ -135,7 +135,7 @@ export const popToTop = (props) => {
 };
 
 export const goBack = (props) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.goBack) {
     return;
   }
 
@@ -143,7 +143,7 @@ export const goBack = (props) => {
 };
 
 export const dismiss = (props) => {
-  if (!props || !props.navigation) {
+  if (!props || !props.navigation || !props.navigation.canGoBack) {
     return;
   }
 

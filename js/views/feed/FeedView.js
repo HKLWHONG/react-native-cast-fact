@@ -341,8 +341,9 @@ class FeedView extends BaseComponent {
     props.updateFeed(feedId, { numberOfLines: length });
   };
 
-  onPressProfile = ({ item, index, separators }) => {
+  onPressProfile = (params) => {
     const { props } = this;
+    const { item, index, separators } = params;
 
     console.log('[onPressProfile]');
 

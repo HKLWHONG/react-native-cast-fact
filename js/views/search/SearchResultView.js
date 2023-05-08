@@ -16,6 +16,7 @@ import {
   CriteriaSectionAction,
   RecentSearchesSectionAction,
   FindTalentSectionAction,
+  SearchResultProfileViewAction,
 } from '../../redux';
 
 import {
@@ -34,7 +35,6 @@ import {
   Separator,
   Section,
   CriteriaSection,
-  ProfileList,
   SearchResultList,
   GroupFrame,
   Tag,
@@ -261,6 +261,30 @@ class SearchResultView extends BaseComponent {
     );
   };
 
+  onPressProfile = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    props.setSearchResultProfileViewUserProfile(item);
+    props.setSearchResultProfileViewUserProfileImage(undefined);
+
+    Router.push(props, 'SearchResultProfileView');
+  };
+
+  onPressSelection = (params) => {
+    const { props } = this;
+    const { item, index, separators } = params;
+
+    // console.log("[on-press-selection-item]", item);
+    // console.log("[on-press-selection-item-profile]", profile);
+    // console.log("[on-press-selection-item-posts]", posts);
+    console.log("[on-press-selection-item-selected]", item.selected);
+
+    props.updateSearchResultListData(item.resultId, {
+      selected: !item.selected,
+    });
+  };
+
   onEndReached = () => {
     const { props } = this;
 
@@ -284,16 +308,8 @@ class SearchResultView extends BaseComponent {
             <SearchResultList
               type={props.searchStackNavigatorRightViewSearchResultListType}
               data={props.searchResultListData}
-              onPressSelection={({ item, index, separators }) => {
-                // console.log("[on-press-selection-item]", item);
-                // console.log("[on-press-selection-item-profile]", profile);
-                // console.log("[on-press-selection-item-posts]", posts);
-                console.log("[on-press-selection-item-selected]", item.selected);
-
-                props.updateSearchResultListData(item.resultId, {
-                  selected: !item.selected,
-                });
-              }}
+              onPressProfile={this.onPressProfile}
+              onPressSelection={this.onPressSelection}
               onEndReached={this.onEndReached}
             />
           </Section>
@@ -648,6 +664,8 @@ function mapDispatchToProps(dispatch) {
     resetCriteria: (...args) => dispatch(CriteriaSectionAction.reset(...args)),
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
+    setSearchResultProfileViewUserProfile: (...args) => dispatch(SearchResultProfileViewAction.setUserProfile(...args)),
+    setSearchResultProfileViewUserProfileImage: (...args) => dispatch(SearchResultProfileViewAction.setUserProfileImage(...args)),
   };
 }
 

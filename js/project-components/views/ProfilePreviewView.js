@@ -3,7 +3,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Platform,
@@ -13,8 +14,10 @@ import {
   Text,
 } from 'react-native';
 
+import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+
 import { connect } from 'react-redux';
-import { ProfileViewAction, MainTabNavigatorAction } from '../../redux';
+import { ProfilePreviewViewAction, MainTabNavigatorAction } from '../../redux';
 
 import {
   BaseComponent,
@@ -30,7 +33,6 @@ import {
   SegmentedControl,
   ProfileCastingSheetList,
   Button,
-  ProfilePreviewView,
 } from '../../project-components';
 
 import { AppRegex } from '../../regex';
@@ -49,44 +51,22 @@ const ic_light_background = require('../../../assets/images/ic_light_background/
 const ic_digital_cast_sheet = require('../../../assets/images/ic_digital_cast_sheet/ic_digital_cast_sheet.png');
 const ic_searchable_profile = require('../../../assets/images/ic_searchable_profile/ic_searchable_profile.png');
 
-export const IDENTIFIER = 'ProfileView';
-
-class ProfileView extends BaseComponent {
+class ProfilePreviewView extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
   }
-
-  componentDidMount() {
-    super.componentDidMount();
-
-    const { props } = this;
-
-    this.initialize();
-  }
-
-  componentWillUnmount() {
-    super.componentWillUnmount();
-
-    this.clearData();
-  }
-
-  initialize = () => {
-    const { props } = this;
-  };
-
-  clearData = () => {
-    const { props } = this;
-  };
 
   fetchData = () => {
     const { props } = this;
 
     console.log('[index]', props.index);
-    console.log('[userProfile]', props.userProfile);
+    console.log('[profile]', props.profile);
 
     let data = [];
 
-    if (props.userProfile) {
+    if (props.profile) {
       switch (props.index) {
         case 0:
         {
@@ -97,72 +77,72 @@ class ProfileView extends BaseComponent {
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_GENDER}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_GENDER],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_GENDER],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_DATE_OF_BIRTH}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_DATE_OF_BIRTH],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_DATE_OF_BIRTH],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_PLACE_OF_BIRTH}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_PLACE_OF_BIRTH],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_PLACE_OF_BIRTH],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_START}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_START],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_START],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_END}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_END],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_ACTING_YEAR_END],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_LANGUAGES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_LANGUAGES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_LANGUAGES].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_WORKING_BASES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_WORKING_BASES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_WORKING_BASES].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_OCCUPATIONS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_OCCUPATIONS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_OCCUPATIONS].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SKILLS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SKILLS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SKILLS].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_ALMA_MATERS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_ALMA_MATERS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_ALMA_MATERS].map((item) => {
                     return `${item.school}, ${item.major}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_AWARDS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_AWARDS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_AWARDS].map((item) => {
                     return `${item.year}, ${item.award_ceremony_name}, ${item.award_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_NATIONALITIES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_NATIONALITIES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_NATIONALITIES].map((item) => {
                     return item.text;
                   }),
                 },
@@ -181,90 +161,90 @@ class ProfileView extends BaseComponent {
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_HEIGHT}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_HEIGHT],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_HEIGHT],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_WEIGHT}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_WEIGHT],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_WEIGHT],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SKIN_COLOR}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SKIN_COLOR],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_SKIN_COLOR],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_DRESS_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_DRESS_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_DRESS_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SHIRT_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SHIRT_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_SHIRT_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SHOE_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SHOE_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_SHOE_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SUIT_COST_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SUIT_COST_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_SUIT_COST_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_PANTS_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_PANTS_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_PANTS_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_HAT_SIZE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_HAT_SIZE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_HAT_SIZE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_HANDEDNESS}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_HANDEDNESS],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_HANDEDNESS],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_GLOVE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_GLOVE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_GLOVE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_GLOVE}`),
                   data: [
-                    props.userProfile[CastSheetConstants.CAST_SHEET_KEY_GLOVE],
+                    props.profile[CastSheetConstants.CAST_SHEET_KEY_GLOVE],
                   ],
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_BODY_TYPES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_BODY_TYPES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_BODY_TYPES].map((item) => {
                     return item.text;
                   }),
                 },
@@ -282,79 +262,79 @@ class ProfileView extends BaseComponent {
               data: [
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_LICENSES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_LICENSES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_LICENSES].map((item) => {
                     return item.text;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_MOVIES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_MOVIES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_MOVIES].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_TV_SHOWS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_TV_SHOWS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_TV_SHOWS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_COMMERCIALS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_COMMERCIALS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_COMMERCIALS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_MUSIC_VIDEOS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_MUSIC_VIDEOS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_MUSIC_VIDEOS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_STAGE_SHOWS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_STAGE_SHOWS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_STAGE_SHOWS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_VARIETY_SHOWS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_VARIETY_SHOWS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_VARIETY_SHOWS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_PERFORMING_ARTS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_PERFORMING_ARTS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_PERFORMING_ARTS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_BROADCASTS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_BROADCASTS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_BROADCASTS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_MODELLINGS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_MODELLINGS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_MODELLINGS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_VOICEOVERS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_VOICEOVERS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_VOICEOVERS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_ONLINES}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_ONLINES].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_ONLINES].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_EVENTS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_EVENTS].map((item) => {
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_EVENTS].map((item) => {
                     return `${item.year}, ${item.name}, ${item.role_title}, ${item.role_name}`;
                   }),
                 },
@@ -372,7 +352,7 @@ class ProfileView extends BaseComponent {
               data: [
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS.toLowerCase();
                     })
@@ -382,7 +362,7 @@ class ProfileView extends BaseComponent {
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_EMAIL}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_EMAIL.toLowerCase();
                     })
@@ -392,7 +372,7 @@ class ProfileView extends BaseComponent {
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_PHONE}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_PHONE.toLowerCase();
                     })
@@ -402,7 +382,7 @@ class ProfileView extends BaseComponent {
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_AGENTS}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_AGENTS.toLowerCase();
                     })
@@ -424,7 +404,7 @@ class ProfileView extends BaseComponent {
               data: [
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM.toLowerCase();
                     })
@@ -434,7 +414,7 @@ class ProfileView extends BaseComponent {
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK.toLowerCase();
                     })
@@ -444,7 +424,7 @@ class ProfileView extends BaseComponent {
                 },
                 {
                   title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE}`),
-                  data: props.userProfile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
                       return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE.toLowerCase();
                     })
@@ -486,8 +466,8 @@ class ProfileView extends BaseComponent {
       <Translation>
         {(t) => (
           <ProfileInfoView
-            source={props.userProfileImage}
-            profile={props.userProfile}
+            source={props.source}
+            profile={props.profile}
           />
         )}
       </Translation>
@@ -595,7 +575,7 @@ class ProfileView extends BaseComponent {
     );
   };
 
-  renderViewerSection = (params) => {
+  renderViewerView = (params) => {
     const { props } = this;
     const { item, index, section, separators } = params;
 
@@ -614,6 +594,43 @@ class ProfileView extends BaseComponent {
     );
   };
 
+  renderSegmentedControl = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <SegmentedControl
+            index={props.index}
+            onPress={props.onPress}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderProfileCastingSheetList = (params) => {
+    const { props } = this;
+    const { item, index, section, separators } = params;
+
+    return (
+      <Translation>
+        {(t) => (
+          <ProfileCastingSheetList
+            data={this.fetchData()}
+            onPressCalendar={this.onPressCalendar}
+            onPressFollow={this.onPressFollow}
+            onPressLike={this.onPressLike}
+            onPressBookmark={this.onPressBookmark}
+            onPressViewMoreText={this.onPressViewMoreText}
+            onEndReached={this.onEndReached}
+          />
+        )}
+      </Translation>
+    );
+  };
+
   renderItem = (params) => {
     const { props } = this;
     const { item, index, section, separators } = params;
@@ -623,81 +640,60 @@ class ProfileView extends BaseComponent {
         return this.renderProfileInfoView(params);
 
       case 1:
-        return this.renderViewerSection(params);
+        return this.renderSegmentedControl(params);
+
+      case 2:
+        return this.renderProfileCastingSheetList(params);
 
       default:
         break;
     }
   };
 
-  renderProfilePreviewView = () => {
-    const { props } = this;
-
-    return (
-      <Translation>
-        {(t) => (
-          <ProfilePreviewView
-            innerRef={(ref) => {
-              if (!ref) {
-                return;
-              }
-
-              props.setListRef(1, props.navigation.getState().index, ref);
-            }}
-            index={props.index}
-            source={props.userProfileImage}
-            profile={props.userProfile}
-            onPress={(index) => {
-              props.setIndex(index);
-            }}
-          />
-        )}
-      </Translation>
-    );
-  };
-
-  renderViewerView = () => {
-    const { props } = this;
-
-    let sections = [
-      {
-        title: i18n.t(''),
-        data: [''],
-      },
-      {
-        title: i18n.t(''),
-        data: [''],
-      },
-    ];
-
-    return (
-      <Translation>
-        {(t) => (
-          <List
-            innerRef={(ref) => {
-              if (!ref) {
-                return;
-              }
-
-              props.setListRef(1, props.navigation.getState().index, ref);
-            }}
-            contentContainerStyle={styles.listContentContainer}
-            sections={sections}
-            renderItem={this.renderItem}
-          />
-        )}
-      </Translation>
-    );
-  };
-
   renderBody = () => {
     const { props } = this;
 
-    const children = props.userProfile
-      ?
-      this.renderProfilePreviewView()
-      :
-      this.renderViewerView();
+    let sections = [];
+
+    let androidRefreshControlColor = undefined;
+    let iosRefreshControlColor = undefined;
+    let refreshing = undefined;
+    let onRefresh= undefined;
+
+    if (props.profile) {
+      sections = [
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+        {
+          title: i18n.t(''),
+          data: [''],
+        },
+      ];
+
+      androidRefreshControlColor = Theme.colors.general.black;
+
+      iosRefreshControlColor = Theme.colors.general.white;
+
+      refreshing = props.refreshing;
+
+      onRefresh = async (refreshing) => {
+        // props.setRefreshing(true);
+
+        // props.setFeedsPagingPage(0);
+        //
+        // this.loadFeeds([]);
+
+        // await FeedProvider.prefetchFeeds(props);
+        //
+        // props.setRefreshing(false);
+      };
+    }
 
     return (
       <Translation>
@@ -706,7 +702,16 @@ class ProfileView extends BaseComponent {
             style={styles.body}
             scrollable={false}
           >
-            {children}
+            <List
+              innerRef={props.innerRef}
+              contentContainerStyle={styles.listContentContainer}
+              sections={sections}
+              renderItem={this.renderItem}
+              androidRefreshControlColor={androidRefreshControlColor}
+              iosRefreshControlColor={iosRefreshControlColor}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           </Body>
         )}
       </Translation>
@@ -726,6 +731,12 @@ class ProfileView extends BaseComponent {
   };
 
   render() {
+    const { props } = this;
+
+    if (props.hidden) {
+      return null;
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -749,6 +760,10 @@ const styles = StyleSheet.create({
   },
   body: {
     // backgroundColor: '#0f0',
+  },
+  listContentContainer: {
+    paddingHorizontal: 0,
+    paddingBottom: 12,
   },
   viewer: {
     // backgroundColor: '#0f0',
@@ -818,28 +833,45 @@ const styles = StyleSheet.create({
   upgradeAccountButton: {
     marginTop: 16,
   },
-  listContentContainer: {
-    paddingHorizontal: 0,
-    paddingBottom: 12,
-  },
   footer: {
     // backgroundColor: '#f00',
   },
 });
 
+ProfilePreviewView.propTypes = {
+  onLayout: PropTypes.func,
+  style: ViewPropTypes.style,
+  hidden: PropTypes.bool,
+  innerRef: PropTypes.func,
+  index: PropTypes.number,
+  source: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+    PropTypes.number,
+  ]),
+  profile: PropTypes.object,
+  onPress: PropTypes.func,
+};
+
+ProfilePreviewView.defaultProps = {
+  onLayout: undefined,
+  style: undefined,
+  hidden: false,
+  innerRef: undefined,
+  index: undefined,
+  source: undefined,
+  profile: undefined,
+  onPress: undefined,
+};
+
 function mapStateToProps(state) {
-  return {
-    index: state.profileViewReducer.index,
-    userProfileImage: state.dataReducer.userProfileImage,
-    userProfile: state.dataReducer.userProfile,
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setIndex: (...args) => dispatch(ProfileViewAction.setIndex(...args)),
-    setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
+    reset: (...args) => dispatch(ProfilePreviewViewAction.reset(...args)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePreviewView);

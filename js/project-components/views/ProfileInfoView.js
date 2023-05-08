@@ -75,7 +75,8 @@ class ProfileInfoView extends Component {
       <Translation>
         {(t) => (
           <ImageBackground
-            style={styles.container}
+            onLayout={props.onLayout}
+            style={[styles.container, props.style]}
             source={source}
             blurRadius={20}
           >
