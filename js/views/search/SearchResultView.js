@@ -108,8 +108,14 @@ class SearchResultView extends BaseComponent {
   createPDF = async () => {
     console.log('[RNHTMLtoPDF]', RNHTMLtoPDF);
 
+    const profiles = store.getState().searchResultViewReducer.searchResultListData.filter((item) => {
+      return item.selected;
+    });
+
+    console.log('[profiles]', JSON.stringify(profiles));
+
     let options = {
-      html: UserProvider.generateHttpProfile(),
+      html: UserProvider.generateHtmlProfiles(profiles),
       fileName: 'castfact_castsheet',
       directory: 'Documents',
     };
