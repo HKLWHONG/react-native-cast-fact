@@ -122,7 +122,7 @@ class SearchResultView extends BaseComponent {
 
     let file = await RNHTMLtoPDF.convert(options)
     // console.log(file.filePath);
-    alert(file.filePath);
+    // alert(file.filePath);
 
     await RNPrint.print({ filePath: file.filePath })
   };

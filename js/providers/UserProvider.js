@@ -14,6 +14,11 @@ import {
 } from '../utils';
 
 import {
+  UserProcessor,
+  StringProcessor,
+} from '../processors';
+
+import {
   CreateProfileApi,
   GetProfileApi,
   LinkProfileApi,
@@ -527,9 +532,7 @@ export const generateHtmlCategoryContent = (name, profile) => {
     info = info[0];
 
     info.keys.forEach((key) => {
-      if (key === CastSheetConstants.CAST_SHEET_KEY_AWARDS) {
-        return;
-      }
+      let bypassed = false;
 
       const tags = profile[key.name];
 
@@ -540,21 +543,24 @@ export const generateHtmlCategoryContent = (name, profile) => {
           let value = '';
 
           tags.forEach((tag) => {
-            let text = '';
+            let texts = [];
 
-            key.properties.forEach((property, i) => {
+            key.properties.forEach((property) => {
+              if (property === CastSheetConstants.CAST_SHEET_PROPERTY_KEY_YEAR) {
+                bypassed = true;
+              }
+
               if (!tag[property] || tag[property].length === 0) {
                 return;
               }
 
-              text += `${tag[property]},`;
+              texts = [
+                ...texts,
+                tag[property],
+              ];
             });
 
-            if (text.endsWith(',')) {
-              text = text.substring(0, text.lastIndexOf(','));
-            }
-
-            value += `<div class="value-content">${text}</div>`;
+            value += `<div class="value-content">${texts.join(', ')}</div>`;
           });
 
           categoryContent = categoryContent.replace('{value}', value);
@@ -571,9 +577,326 @@ export const generateHtmlCategoryContent = (name, profile) => {
         categoryContent = categoryContent.replace('{value}', `<div class="value-content">${tags}</div>`);
       }
 
+      if (bypassed) {
+        return;
+      }
+
       content += categoryContent;
     });
   }
+
+  return content;
+};
+
+export const generateHtmlAwardsContent = (profile) => {
+  const name = CastSheetConstants.CAST_SHEET_KEY_AWARDS;
+
+  let content = `
+  <div class="text-catagory-title">
+      <div class="text-catagory-title-icon">
+          <img
+              src="images/personal_awards.svg"
+              alt="Awards"
+              width="32px"
+              height="32px"
+          />
+      </div>
+      <div class="text-catagory-title-content">
+          ${i18n.t(`app.${name}`)}
+      </div>
+      {value}
+  </div>
+  `;
+
+  let value = '';
+
+  let key = undefined;
+
+  CastSheetConstants.CAST_SHEET_INFO.forEach((info) => {
+    info.keys.forEach((item) => {
+      if (item.name !== name) {
+        return;
+      }
+
+      key = item;
+    });
+  });
+
+  if (key) {
+    const tags = profile[key.name];
+
+    tags.forEach((tag) => {
+      let texts = [];
+
+      key.properties.forEach((property) => {
+        if (!tag[property] || tag[property].length === 0) {
+          return;
+        }
+
+        if (property === CastSheetConstants.CAST_SHEET_PROPERTY_KEY_YEAR) {
+          return;
+        }
+
+        texts = [
+          ...texts,
+          tag[property],
+        ];
+      });
+
+      value += `
+      <div class="text-item-wrapper">
+          <div class="text-item-title-wrapper">
+              <div class="text-item-title-content">
+                  ${tag.year}
+              </div>
+          </div>
+          <div class="text-item-content-wrapper">
+              <div class="text-item-content-content">
+                  ${texts.join(', ')}
+              </div>
+          </div>
+      </div>
+      `;
+    });
+  }
+
+  content = content.replace('{value}', value);
+
+  return content;
+};
+
+export const generateHtmlExperienceContent = (profile) => {
+  const name = CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE;
+
+  let content = `
+  <div class="text-catagory-title">
+      <div class="text-catagory-title-icon">
+          <img src="" alt="" />
+      </div>
+      <div class="text-catagory-title-content">
+          ${i18n.t(`app.${name}`)}
+      </div>
+  </div>
+  {value}
+  `;
+
+  const template1 = `
+  <div class="key-value-wrapper">
+      <div class="key-wrapper">
+          <div class="key-content">{key}</div>
+      </div>
+      <div class="value-wrapper">{value}</div>
+  </div>
+  `;
+
+  const template2 = `
+  <div class="text-catagory-subtitle">
+      <!--
+      <div class="text-catagory-subtitle-icon">
+          <img
+              src="images/exp_movies.svg"
+              alt="Awards"
+              width="32px"
+              height="32px"
+          />
+      </div>
+      -->
+      <div class="text-catagory-subtitle-content">
+          {key}
+      </div>
+  </div>
+  {value}
+  `;
+
+  let value = '';
+
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
+    return info.name === name;
+  });
+
+  if (info.length > 0) {
+    info = info[0];
+
+    info.keys.forEach((key) => {
+      const tags = profile[key.name];
+
+      if (key.isMultiple) {
+        if (key.properties) {
+          let categoryContent = template2.replace('{key}', i18n.t(`app.${key.name}`));
+
+          let categoryContentValue = '';
+
+          tags.forEach((tag) => {
+            let texts = [];
+
+            key.properties.forEach((property) => {
+              if (!tag[property] || tag[property].length === 0) {
+                return;
+              }
+
+              if (property === CastSheetConstants.CAST_SHEET_PROPERTY_KEY_YEAR) {
+                return;
+              }
+
+              texts = [
+                ...texts,
+                tag[property],
+              ];
+            });
+
+            categoryContentValue += `
+            <div class="text-item-wrapper">
+                <div class="text-item-title-wrapper">
+                    <div class="text-item-title-content">
+                        ${tag.year}
+                    </div>
+                </div>
+                <div class="text-item-content-wrapper">
+                    <div class="text-item-content-content">
+                        ${texts.join(', ')}
+                    </div>
+                </div>
+            </div>
+            `;
+          });
+
+          categoryContent = categoryContent.replace('{value}', categoryContentValue);
+
+          value += categoryContent;
+        } else {
+          let categoryContent = template1.replace('{key}', i18n.t(`app.${key.name}`));
+
+          let categoryContentValue = '';
+
+          tags.forEach((tag) => {
+            categoryContentValue += `<div class="value-content">${tag.text}</div>`;
+          });
+
+          categoryContent = categoryContent.replace('{value}', categoryContentValue);
+
+          value += categoryContent;
+        }
+      } else {
+        let categoryContent = template1.replace('{key}', i18n.t(`app.${key.name}`));
+
+        categoryContent = categoryContent.replace('{value}', `<div class="value-content">${tags}</div>`);
+
+        value += categoryContent;
+      }
+    });
+  }
+
+  content = content.replace('{value}', value);
+
+  return content;
+};
+
+export const generateHtmlContactsContent = (profile) => {
+  const name = CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS;
+
+  let content = `
+  <div class="footer-header">
+      <div class="text-catagory-title">
+          <div class="text-catagory-title-content">
+              ${i18n.t(`app.${name}`)}
+          </div>
+      </div>
+  </div>
+  <div class="footer-content">
+      <div class="column-view-wrapper">
+          {value}
+      </div>
+  </div>
+  `;
+
+  const template1 = `
+  <div class="column-view column-view-auto">
+      <div class="text-catagory-subtitle">
+          <div class="text-catagory-subtitle-content">
+            {type}
+          </div>
+      </div>
+      <div class="text-item-wrapper">
+        {value}
+      </div>
+  </div>
+  `;
+
+  const template2 = `
+  <div class="text-item-title-wrapper">
+      <div class="text-item-title-content">
+          {value}
+      </div>
+  </div>
+  `;
+
+  let value = '';
+
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
+    return info.name === name;
+  });
+
+  if (info.length > 0) {
+    info = info[0];
+
+    const tags = profile[name];
+
+    [
+      CastSheetConstants.CAST_SHEET_KEY_ADDRESS,
+      CastSheetConstants.CAST_SHEET_KEY_EMAIL,
+      CastSheetConstants.CAST_SHEET_KEY_PHONE,
+      CastSheetConstants.CAST_SHEET_KEY_AGENTS,
+    ].forEach((type) => {
+      let items = [];
+
+      if (type === CastSheetConstants.CAST_SHEET_KEY_AGENTS) {
+        items = profile[type] || [];
+      } else {
+        items = tags.filter((tag) => {
+          return tag.type.toLowerCase() === type.toLowerCase();
+        })
+      }
+
+      if (items.length > 0) {
+        items.forEach((item) => {
+          let itemContent = template1.replace('{type}', StringProcessor.toCapitalize(type));
+
+          let itemInfo = info.keys.filter((key) => {
+            return key.name === type;
+          });
+
+          if (itemInfo.length > 0) {
+            itemInfo = itemInfo[0];
+
+            let itemContentValue = '';
+
+            itemInfo.properties.forEach((property) => {
+              if (!item[property] || item[property].length === 0) {
+                return;
+              }
+
+              itemContentValue += template2.replace('{value}', item[property]);
+            });
+
+            itemContent = itemContent.replace('{value}', itemContentValue);
+          }
+
+          value += itemContent;
+        });
+      } else {
+        let itemContent = template1.replace('{type}', StringProcessor.toCapitalize(type));
+
+        let itemContentValue = '-';
+
+        itemContent = itemContent.replace('{value}', itemContentValue);
+
+        value += itemContent;
+      }
+    });
+
+  }
+
+  content = content.replace('{value}', value);
 
   return content;
 };
@@ -582,6 +905,17 @@ export const generateHtmlProfiles = (profiles) => {
   let content = '';
 
   profiles.forEach((profile) => {
+    let name = UserProcessor.toName(profile);
+    let occupations = '';
+
+    profile[CastSheetConstants.CAST_SHEET_KEY_OCCUPATIONS].forEach((occupation) => {
+      occupations += `${occupation.text}．`;
+    });
+
+    if (occupations.endsWith('．')) {
+      occupations = occupations.substring(0, occupations.lastIndexOf('．'));
+    }
+
     content += `
     <div class="page">
         <div class="header">
@@ -589,10 +923,8 @@ export const generateHtmlProfiles = (profiles) => {
                 <div class="profile-picture-wrapper">
                     <img src="images/cathwong.jpg" alt="" />
                 </div>
-                <div class="account-display-name">Cath Wong 黃妍</div>
-                <div class="accouint-occupation">
-                    Screenwriter．Director．Editor
-                </div>
+                <div class="account-display-name">${name}</div>
+                <div class="accouint-occupation">${occupations}</div>
             </div>
             <!--
             <div class="page-number">
@@ -628,7 +960,7 @@ export const generateHtmlProfiles = (profiles) => {
                             ${i18n.t('app.basic_information')}
                         </div>
                     </div>
-                    ${generateHtmlCategoryContent('basic_information', profile)}
+                    ${generateHtmlCategoryContent(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION, profile)}
                     <div class="text-catagory-title">
                         <div class="text-catagory-title-icon">
                             <img
@@ -642,332 +974,20 @@ export const generateHtmlProfiles = (profiles) => {
                             ${i18n.t('app.appearance')}
                         </div>
                     </div>
-                    ${generateHtmlCategoryContent('appearance', profile)}
+                    ${generateHtmlCategoryContent(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE, profile)}
                 </div>
                 <div class="detail-view">
                     <div class="column-view-wrapper">
                         <div class="column-view column-view-50">
-                            <div class="text-catagory-title">
-                                <div class="text-catagory-title-icon">
-                                    <img
-                                        src="images/personal_awards.svg"
-                                        alt="Awards"
-                                        width="32px"
-                                        height="32px"
-                                    />
-                                </div>
-                                <div class="text-catagory-title-content">
-                                    ${i18n.t('app.awards')}
-                                </div>
-                            </div>
-                            <div class="text-item-wrapper">
-                                <div class="text-item-title-wrapper">
-                                    <div class="text-item-title-content">
-                                        2021
-                                    </div>
-                                </div>
-                                <div class="text-item-content-wrapper">
-                                    <div class="text-item-content-content">
-                                        32屆台灣金曲獎演奏類最佳專輯製作人獎
-                                        得獎
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-item-wrapper">
-                                <div class="text-item-title-wrapper">
-                                    <div class="text-item-title-content">
-                                        2022
-                                    </div>
-                                </div>
-                                <div class="text-item-content-wrapper">
-                                    <div class="text-item-content-content">
-                                        Chill Club 推介榜年度推介21/22 Chill
-                                        Club 年度組合（金獎）組合得獎
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-catagory-title">
-                                <div class="text-catagory-title-icon">
-                                    <img src="" alt="" />
-                                </div>
-                                <div class="text-catagory-title-content">
-                                    ${i18n.t('app.experience')}
-                                </div>
-                            </div>
-                            <div class="text-catagory-subtitle">
-                                <div class="text-catagory-subtitle-icon">
-                                    <img
-                                        src="images/exp_movies.svg"
-                                        alt="Awards"
-                                        width="32px"
-                                        height="32px"
-                                    />
-                                </div>
-                                <div class="text-catagory-subtitle-content">
-                                    MOVIE
-                                </div>
-                            </div>
-                            <div class="text-item-wrapper">
-                                <div class="text-item-title-wrapper">
-                                    <div class="text-item-title-content">
-                                        2016
-                                    </div>
-                                </div>
-                                <div class="text-item-content-wrapper">
-                                    <div class="text-item-content-content">
-                                        《點五步》, 男主角, Locker
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2018
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《某日某月》, 男主角, 家希
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2019
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《犯罪現場》, 男主角, 葉守正團隊CID
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2020
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《Baby復仇記》, 男主角, 羅拔
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2021
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《媽媽的神奇小子》, 男主角, 蘇健瑋
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2021
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《猛鬼3寶》  
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2022
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《闔家辣》, 男主角, 阿熙
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-item-wrapper">
-                              <div class="text-item-title-wrapper">
-                                  <div class="text-item-title-content">
-                                      2022
-                                  </div>
-                              </div>
-                              <div class="text-item-content-wrapper">
-                                  <div class="text-item-content-content">
-                                    《飯戲攻心》, 客串
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="text-catagory-subtitle">
-                            <div class="text-catagory-subtitle-icon">
-                                <img
-                                    src="images/exp_tvshow.svg"
-                                    alt="Awards"
-                                    width="32px"
-                                    height="32px"
-                                />
-                            </div>
-                            <div class="text-catagory-subtitle-content">
-                              TV SHOWS
-                            </div>
-                        </div>
-                        <div class="text-item-wrapper">
-                            <div class="text-item-title-wrapper">
-                                <div class="text-item-title-content">
-                                    2016
-                                </div>
-                            </div>
-                            <div class="text-item-content-wrapper">
-                                <div class="text-item-content-content">
-                                    《點五步》, 男主角, Locker
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="column-view column-view-50">
-                          <div class="text-item-wrapper">
-                            <div class="text-item-title-wrapper">
-                                <div class="text-item-title-content">
-                                    2016
-                                </div>
-                            </div>
-                            <div class="text-item-content-wrapper">
-                                <div class="text-item-content-content">
-                                    《點五步》, 男主角, Locker
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-item-wrapper">
-                          <div class="text-item-title-wrapper">
-                              <div class="text-item-title-content">
-                                  2018
-                              </div>
-                          </div>
-                          <div class="text-item-content-wrapper">
-                              <div class="text-item-content-content">
-                                《某日某月》, 男主角, 家希
-                              </div>
-                          </div>
-                      </div>
-                      <div class="text-item-wrapper">
-                          <div class="text-item-title-wrapper">
-                              <div class="text-item-title-content">
-                                  2019
-                              </div>
-                          </div>
-                          <div class="text-item-content-wrapper">
-                              <div class="text-item-content-content">
-                                《犯罪現場》, 男主角, 葉守正團隊CID
-                              </div>
-                          </div>
-                      </div>
+                            ${generateHtmlAwardsContent(profile)}
+                            ${generateHtmlExperienceContent(profile)}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer">
-            <div class="footer-header">
-                <div class="text-catagory-title">
-                    <div class="text-catagory-title-content">
-                        ${i18n.t('app.contacts')}
-                    </div>
-                </div>
-            </div>
-            <div class="footer-content">
-                <div class="column-view-wrapper">
-                    <div class="column-view column-view-auto">
-                        <div class="text-catagory-subtitle">
-                            <div class="text-catagory-subtitle-content">
-                              Address
-                            </div>
-                        </div>
-                        <div class="text-item-wrapper">
-                            <div class="text-item-title-wrapper">
-                                <div class="text-item-title-content">
-                                    2016
-                                </div>
-                            </div>
-                            <div class="text-item-content-wrapper">
-                                <div class="text-item-content-content">
-                                    《點五步》, 男主角, Locker
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column-view column-view-auto">
-                        <div class="text-catagory-subtitle">
-                            <div class="text-catagory-subtitle-content">
-                                Email
-                            </div>
-                        </div>
-                        <div class="text-item-wrapper">
-                            <div class="text-item-title-wrapper">
-                                <div class="text-item-title-content">
-                                  Work
-                                </div>
-                            </div>
-                            <div class="text-item-content-wrapper">
-                                <div class="text-item-content-content">
-                                  sammi.lam@trialanderror924.com
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-item-wrapper">
-                          <div class="text-item-title-wrapper">
-                              <div class="text-item-title-content">
-                                MUSIC
-                              </div>
-                          </div>
-                          <div class="text-item-content-wrapper">
-                              <div class="text-item-content-content">
-                                edwina.newagetone@gmail.com
-                              </div>
-                          </div>
-                      </div>
-
-                    </div>
-                    <div class="column-view column-view-auto">
-                      <div class="text-catagory-subtitle">
-                          <div class="text-catagory-subtitle-content">
-                            PHONE
-                          </div>
-                      </div>
-                      <div class="text-item-wrapper">
-                          <div class="text-item-title-wrapper">
-                              <div class="text-item-title-content">
-                                GENERAL
-                              </div>
-                          </div>
-                          <div class="text-item-content-wrapper">
-                              <div class="text-item-content-content">
-                                Michelle Ko <br> +852 9732 9499
-                              </div>
-                          </div>
-                      </div>
-
-                  </div>
-                  <div class="column-view column-view-auto">
-                    <div class="text-catagory-subtitle">
-                        <div class="text-catagory-subtitle-content">
-                          AGENT/MGR
-                        </div>
-                    </div>
-                    <div class="text-item-wrapper">
-                        <div class="text-item-content-wrapper">
-                            <div class="text-item-content-content">
-                              New Age Tone Entertainment <br> 試當真
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            ${generateHtmlContactsContent(profile)}
         </div>
     </div>
     `;

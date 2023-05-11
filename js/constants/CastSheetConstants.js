@@ -3,6 +3,13 @@
  * @flow strict-local
  */
 
+// Categories
+export const CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION = 'basic_information';
+export const CAST_SHEET_CATEGORY_KEY_APPEARANCE = 'appearance';
+export const CAST_SHEET_CATEGORY_KEY_EXPERIENCE = 'experience';
+export const CAST_SHEET_CATEGORY_KEY_CONTACTS = 'contacts';
+export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
+
  // Properties
  export const CAST_SHEET_PROPERTY_KEY_SCHOOL = 'school';
  export const CAST_SHEET_PROPERTY_KEY_MAJOR = 'major';
@@ -66,21 +73,19 @@
  export const CAST_SHEET_KEY_EVENTS = 'events';
 
  // Contacts
- export const CAST_SHEET_KEY_CONTACTS = 'contacts';
- export const CAST_SHEET_KEY_CONTACTS_ADDRESS = 'address';
- export const CAST_SHEET_KEY_CONTACTS_EMAIL = 'email';
- export const CAST_SHEET_KEY_CONTACTS_PHONE = 'phone';
- export const CAST_SHEET_KEY_CONTACTS_AGENTS = 'agents';
+ export const CAST_SHEET_KEY_ADDRESS = 'address';
+ export const CAST_SHEET_KEY_EMAIL = 'email';
+ export const CAST_SHEET_KEY_PHONE = 'phone';
+ export const CAST_SHEET_KEY_AGENTS = 'agents';
 
  // Social Media
- export const CAST_SHEET_KEY_SOCIAL_MEDIAS = 'social_medias';
- export const CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM = 'instagram';
- export const CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK = 'facebook';
- export const CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE = 'youtube';
+ export const CAST_SHEET_KEY_INSTAGRAM = 'instagram';
+ export const CAST_SHEET_KEY_FACEBOOK = 'facebook';
+ export const CAST_SHEET_KEY_YOUTUBE = 'youtube';
 
  export const CAST_SHEET_INFO = [
    {
-     name: 'basic_information',
+     name: CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION,
      keys: [
        {
          name: CAST_SHEET_KEY_GENDER,
@@ -139,7 +144,7 @@
      ],
    },
    {
-     name: 'appearance',
+     name: CAST_SHEET_CATEGORY_KEY_APPEARANCE,
      keys: [
        {
          name: CAST_SHEET_KEY_HEIGHT,
@@ -189,7 +194,7 @@
      ],
    },
    {
-     name: 'experience',
+     name: CAST_SHEET_CATEGORY_KEY_EXPERIENCE,
      keys: [
        {
          name: CAST_SHEET_KEY_LICENSES,
@@ -320,11 +325,11 @@
      ],
    },
    {
-     name: 'contacts',
+     name: CAST_SHEET_CATEGORY_KEY_CONTACTS,
      keys: [
        {
-         name: CAST_SHEET_KEY_CONTACTS_ADDRESS,
-         super: CAST_SHEET_KEY_CONTACTS,
+         name: CAST_SHEET_KEY_ADDRESS,
+         super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
          type: 'Address',
          isMultiple: true,
          properties: [
@@ -333,8 +338,8 @@
          ],
        },
        {
-         name: CAST_SHEET_KEY_CONTACTS_EMAIL,
-         super: CAST_SHEET_KEY_CONTACTS,
+         name: CAST_SHEET_KEY_EMAIL,
+         super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
          type: 'Email',
          isMultiple: true,
          properties: [
@@ -343,8 +348,8 @@
          ],
        },
        {
-         name: CAST_SHEET_KEY_CONTACTS_PHONE,
-         super: CAST_SHEET_KEY_CONTACTS,
+         name: CAST_SHEET_KEY_PHONE,
+         super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
          type: 'Phone',
          isMultiple: true,
          properties: [
@@ -353,7 +358,7 @@
          ],
        },
        {
-         name: CAST_SHEET_KEY_CONTACTS_AGENTS,
+         name: CAST_SHEET_KEY_AGENTS,
          isMultiple: true,
          properties: [
            CAST_SHEET_PROPERTY_KEY_NAME,
@@ -365,11 +370,11 @@
      ],
    },
    {
-     name: 'social_media',
+     name: CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
      keys: [
        {
-         name: CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM,
-         super: CAST_SHEET_KEY_SOCIAL_MEDIAS,
+         name: CAST_SHEET_KEY_INSTAGRAM,
+         super: CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
          type: 'Instagram',
          isMultiple: true,
          properties: [
@@ -378,8 +383,8 @@
          ],
        },
        {
-         name: CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK,
-         super: CAST_SHEET_KEY_SOCIAL_MEDIAS,
+         name: CAST_SHEET_KEY_FACEBOOK,
+         super: CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
          type: 'Facebook',
          isMultiple: true,
          properties: [
@@ -388,8 +393,8 @@
          ],
        },
        {
-         name: CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE,
-         super: CAST_SHEET_KEY_SOCIAL_MEDIAS,
+         name: CAST_SHEET_KEY_YOUTUBE,
+         super: CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
          type: 'YouTube',
          isMultiple: true,
          properties: [

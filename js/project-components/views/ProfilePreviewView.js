@@ -351,40 +351,40 @@ class ProfilePreviewView extends Component {
               title: i18n.t('app.contacts'),
               data: [
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_ADDRESS}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_ADDRESS.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_EMAIL}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_EMAIL}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_EMAIL.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_EMAIL.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_PHONE}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_PHONE}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_PHONE.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_PHONE.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_CONTACTS_AGENTS}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_CONTACTS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_AGENTS}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_CONTACTS_AGENTS.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_AGENTS.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
@@ -403,30 +403,30 @@ class ProfilePreviewView extends Component {
               title: i18n.t('app.social_media'),
               data: [
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_INSTAGRAM}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_INSTAGRAM.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_INSTAGRAM.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_FACEBOOK}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_FACEBOOK.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_FACEBOOK.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;
                     }),
                 },
                 {
-                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE}`),
-                  data: props.profile[CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS]
+                  title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_KEY_YOUTUBE}`),
+                  data: props.profile[CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS]
                     .filter((item) => {
-                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SOCIAL_MEDIAS_YOUTUBE.toLowerCase();
+                      return item.type && item.type.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_YOUTUBE.toLowerCase();
                     })
                     .map((item) => {
                       return `${item.category}, ${item.text}`;

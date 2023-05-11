@@ -1014,19 +1014,19 @@ class ProfileCastSheetEditionView extends BaseComponent {
         return this.renderProfileContainer(params);
 
       case 1:
-        return this.renderCategoryContainer('basic_information', params);
+        return this.renderCategoryContainer(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION, params);
 
       case 2:
-        return this.renderCategoryContainer('appearance', params);
+        return this.renderCategoryContainer(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE, params);
 
       case 3:
-        return this.renderCategoryContainer('experience', params);
+        return this.renderCategoryContainer(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE, params);
 
       case 4:
-        return this.renderCategoryContainer('contacts', params);
+        return this.renderCategoryContainer(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS, params);
 
       case 5:
-        return this.renderCategoryContainer('social_media', params);
+        return this.renderCategoryContainer(CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIA, params);
 
       default:
         break;
@@ -1107,7 +1107,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   // );
                   //
                   // const address = ProfileProcessor.fetchApiMultipleField(
-                  //   CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                  //   CastSheetConstants.CAST_SHEET_KEY_ADDRESS,
                   //   [
                   //     CastSheetConstants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
                   //     CastSheetConstants.CAST_SHEET_PROPERTY_KEY_TEXT,
@@ -1123,7 +1123,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   // const contacts =
                   // [
                   //     ...ProfileProcessor.fetchApiMultipleField(
-                  //       CastSheetConstants.CAST_SHEET_KEY_CONTACTS_ADDRESS,
+                  //       CastSheetConstants.CAST_SHEET_KEY_ADDRESS,
                   //       [
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_TEXT,
@@ -1136,7 +1136,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   //         };
                   //       }),
                   //     ...ProfileProcessor.fetchApiMultipleField(
-                  //       CastSheetConstants.CAST_SHEET_KEY_CONTACTS_EMAIL,
+                  //       CastSheetConstants.CAST_SHEET_KEY_EMAIL,
                   //       [
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_TEXT,
@@ -1149,7 +1149,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   //         };
                   //       }),
                   //     ...ProfileProcessor.fetchApiMultipleField(
-                  //       CastSheetConstants.CAST_SHEET_KEY_CONTACTS_PHONE,
+                  //       CastSheetConstants.CAST_SHEET_KEY_PHONE,
                   //       [
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_CATEGORY,
                   //         CastSheetConstants.CAST_SHEET_PROPERTY_KEY_TEXT,
@@ -1164,7 +1164,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   // ];
                   //
                   // const agents = ProfileProcessor.fetchApiMultipleField(
-                  //   CastSheetConstants.CAST_SHEET_KEY_CONTACTS_AGENTS,
+                  //   CastSheetConstants.CAST_SHEET_KEY_AGENTS,
                   //   [
                   //     CastSheetConstants.CAST_SHEET_PROPERTY_KEY_NAME,
                   //     CastSheetConstants.CAST_SHEET_PROPERTY_KEY_PHONE,

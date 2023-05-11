@@ -26,3 +26,17 @@ export const trim = (string, character) => {
     '',
   );
 };
+
+export const toCapitalize = (string, isFirstCharOnly = false) => {
+  if (isFirstCharOnly) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const array = string.split(' ');
+
+  for (var i = 0; i < array.length; i += 1) {
+    array[i] = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+  }
+
+  return array.join(' ');
+}
