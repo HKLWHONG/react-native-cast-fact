@@ -51,7 +51,11 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
-import { CalendarProcessor, ProfileProcessor } from '../../processors';
+import {
+  CalendarProcessor,
+  ProfileProcessor,
+  StringProcessor,
+} from '../../processors';
 
 import {
   AuthProvider,
@@ -135,7 +139,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                     .map((item) => {
                       return {
                         ...item,
-                        type: key.type,
+                        type: StringProcessor.toCapitalize(key.name),
                       };
                   }),
                 ],
@@ -194,7 +198,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                     .map((item) => {
                       return {
                         ...item,
-                        type: key.type,
+                        type: StringProcessor.toCapitalize(key.name),
                       };
                   }),
                 ],
@@ -1042,23 +1046,23 @@ class ProfileCastSheetEditionView extends BaseComponent {
         data: [''],
       },
       {
-        title: i18n.t('app.basic_information'),
+        title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION}`),
         data: [''],
       },
       {
-        title: i18n.t('app.appearance'),
+        title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE}`),
         data: [''],
       },
       {
-        title: i18n.t('app.experience'),
+        title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE}`),
         data: [''],
       },
       {
-        title: i18n.t('app.contacts'),
+        title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS}`),
         data: [''],
       },
       {
-        title: i18n.t('app.social_media'),
+        title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS}`),
         data: [''],
       },
     ];

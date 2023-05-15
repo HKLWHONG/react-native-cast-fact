@@ -330,7 +330,6 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        {
          name: CAST_SHEET_KEY_ADDRESS,
          super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
-         type: 'Address',
          isMultiple: true,
          properties: [
            CAST_SHEET_PROPERTY_KEY_CATEGORY,
@@ -340,7 +339,6 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        {
          name: CAST_SHEET_KEY_EMAIL,
          super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
-         type: 'Email',
          isMultiple: true,
          properties: [
            CAST_SHEET_PROPERTY_KEY_CATEGORY,
@@ -350,7 +348,6 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        {
          name: CAST_SHEET_KEY_PHONE,
          super: CAST_SHEET_CATEGORY_KEY_CONTACTS,
-         type: 'Phone',
          isMultiple: true,
          properties: [
            CAST_SHEET_PROPERTY_KEY_CATEGORY,

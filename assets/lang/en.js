@@ -40,7 +40,7 @@ const en = {
     appearance: 'Appearance',
     experience: 'Experience',
     contacts: 'Contacts',
-    social_media: 'Social Media',
+    social_medias: 'Social Medias',
     gender: 'Gender',
     date_of_birth: 'Date of Birth',
     place_of_birth: 'Place of Birth',

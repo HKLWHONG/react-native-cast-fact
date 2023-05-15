@@ -7,7 +7,7 @@ import { store } from '../redux';
 
 import { AppRegex } from '../regex';
 
-import { Constants } from '../constants';
+import { Constants, CastSheetConstants } from '../constants';
 
 import { CalendarProcessor } from '../processors';
 
@@ -391,3 +391,102 @@ export const addTag = (key, text, state) => {
     };
   });
 };
+
+export const fetchProfilePropertyData = (infoName, keyName, profile) => {
+  let data = [];
+
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
+    return info.name === infoName;
+  });
+
+  if (info.length > 0) {
+    info = info[0];
+
+    let keyInfo = info.keys.filter((key) => {
+      return key.name === keyName;
+    });
+
+    if (keyInfo.length > 0) {
+      keyInfo = keyInfo[0];
+
+      if (keyInfo.isMultiple) {
+        if (keyInfo.properties) {
+          if (keyInfo.super) {
+            const tags = profile[keyInfo.super] || [];
+
+            tags
+              .filter((tag) => {
+                return tag.type && tag.type.toLowerCase() === keyInfo.name.toLowerCase();
+              })
+              .forEach((tag) => {
+                let texts = [];
+
+                keyInfo.properties.forEach((property) => {
+                  if (!tag[property] || tag[property].length === 0) {
+                    return;
+                  }
+
+                  texts = [
+                    ...texts,
+                    tag[property],
+                  ];
+                });
+
+                data = [
+                  ...data,
+                  texts.join(', '),
+                ];
+              });
+          } else {
+            const tags = profile[keyInfo.name] || [];
+
+            tags.forEach((tag) => {
+              let texts = [];
+
+              keyInfo.properties.forEach((property) => {
+                if (!tag[property] || tag[property].length === 0) {
+                  return;
+                }
+
+                texts = [
+                  ...texts,
+                  tag[property],
+                ];
+              });
+
+              data = [
+                ...data,
+                texts.join(', '),
+              ];
+            });
+          }
+        } else {
+          const tags = profile[keyInfo.name] || [];
+
+          tags.forEach((tag) => {
+            data = [
+              ...data,
+              tag.text,
+            ];
+          });
+        }
+      } else {
+        const tags = profile[keyInfo.name] || '-';
+
+        data = [
+          ...data,
+          tags,
+        ];
+      }
+    }
+  }
+
+  if (data.length === 0) {
+    data = [
+      ...data,
+      '-',
+    ];
+  }
+
+  return data;
+}

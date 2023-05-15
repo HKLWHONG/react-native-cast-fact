@@ -534,11 +534,11 @@ export const generateHtmlCategoryContent = (name, profile) => {
     info.keys.forEach((key) => {
       let bypassed = false;
 
-      const tags = profile[key.name];
-
       let categoryContent = template.replace('{key}', i18n.t(`app.${key.name}`));
 
       if (key.isMultiple) {
+        const tags = profile[key.name] || [];
+
         if (key.properties) {
           let value = '';
 
@@ -574,6 +574,8 @@ export const generateHtmlCategoryContent = (name, profile) => {
           categoryContent = categoryContent.replace('{value}', value);
         }
       } else {
+        const tags = profile[key.name] || '';
+
         categoryContent = categoryContent.replace('{value}', `<div class="value-content">${tags}</div>`);
       }
 
@@ -623,7 +625,7 @@ export const generateHtmlAwardsContent = (profile) => {
   });
 
   if (key) {
-    const tags = profile[key.name];
+    const tags = profile[key.name] || [];
 
     tags.forEach((tag) => {
       let texts = [];
@@ -718,9 +720,9 @@ export const generateHtmlExperienceContent = (profile) => {
     info = info[0];
 
     info.keys.forEach((key) => {
-      const tags = profile[key.name];
-
       if (key.isMultiple) {
+        const tags = profile[key.name] || [];
+
         if (key.properties) {
           let categoryContent = template2.replace('{key}', i18n.t(`app.${key.name}`));
 
@@ -777,6 +779,8 @@ export const generateHtmlExperienceContent = (profile) => {
           value += categoryContent;
         }
       } else {
+        const tags = profile[key.name] || '';
+
         let categoryContent = template1.replace('{key}', i18n.t(`app.${key.name}`));
 
         categoryContent = categoryContent.replace('{value}', `<div class="value-content">${tags}</div>`);
@@ -839,7 +843,7 @@ export const generateHtmlContactsContent = (profile) => {
   if (info.length > 0) {
     info = info[0];
 
-    const tags = profile[name];
+    const tags = profile[name] || [];
 
     [
       CastSheetConstants.CAST_SHEET_KEY_ADDRESS,
@@ -996,7 +1000,7 @@ export const generateHtmlProfiles = (profiles) => {
   return generateHtmlTemplate(content);
 }
 
-export const generateHtmlProfilesExample = (profiles) => {
+export const generateHtmlProfilesExample = () => {
   let html = `
   <!DOCTYPE html>
   <html lang="en">
