@@ -524,8 +524,8 @@ export const generateHtmlCategoryContent = (name, profile) => {
   </div>
   `;
 
-  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-    return info.name === name;
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+    return category.name === name;
   });
 
   if (info.length > 0) {
@@ -614,8 +614,8 @@ export const generateHtmlAwardsContent = (profile) => {
 
   let key = undefined;
 
-  CastSheetConstants.CAST_SHEET_INFO.forEach((info) => {
-    info.keys.forEach((item) => {
+  CastSheetConstants.CAST_SHEET_INFO.forEach((category) => {
+    category.keys.forEach((item) => {
       if (item.name !== name) {
         return;
       }
@@ -712,8 +712,8 @@ export const generateHtmlExperienceContent = (profile) => {
 
   let value = '';
 
-  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-    return info.name === name;
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+    return category.name === name;
   });
 
   if (info.length > 0) {
@@ -836,8 +836,8 @@ export const generateHtmlContactsContent = (profile) => {
 
   let value = '';
 
-  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-    return info.name === name;
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+    return category.name === name;
   });
 
   if (info.length > 0) {

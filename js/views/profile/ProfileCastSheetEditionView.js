@@ -963,8 +963,8 @@ class ProfileCastSheetEditionView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
-    let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-      return info.name === name;
+    let info = CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+      return category.name === name;
     });
 
     let children = undefined;

@@ -392,11 +392,11 @@ export const addTag = (key, text, state) => {
   });
 };
 
-export const fetchProfilePropertyData = (infoName, keyName, profile) => {
+export const fetchProfilePropertyData = (categoryName, keyName, profile) => {
   let data = [];
 
-  let info = CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-    return info.name === infoName;
+  let info = CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+    return category.name === categoryName;
   });
 
   if (info.length > 0) {

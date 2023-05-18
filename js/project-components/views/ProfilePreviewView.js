@@ -75,8 +75,8 @@ class ProfilePreviewView extends Component {
           data = [
             {
               title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-                return info.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION;
+              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION;
               })[0].keys.map((key) => {
                 return {
                   title: i18n.t(`app.${key.name}`),
@@ -97,8 +97,8 @@ class ProfilePreviewView extends Component {
           data = [
             {
               title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-                return info.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE;
+              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE;
               })[0].keys.map((key) => {
                 return {
                   title: i18n.t(`app.${key.name}`),
@@ -119,8 +119,8 @@ class ProfilePreviewView extends Component {
           data = [
             {
               title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-                return info.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE;
+              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE;
               })[0].keys.map((key) => {
                 return {
                   title: i18n.t(`app.${key.name}`),
@@ -141,8 +141,8 @@ class ProfilePreviewView extends Component {
           data = [
             {
               title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-                return info.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS;
+              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS;
               })[0].keys.map((key) => {
                 return {
                   title: i18n.t(`app.${key.name}`),
@@ -163,8 +163,8 @@ class ProfilePreviewView extends Component {
           data = [
             {
               title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((info) => {
-                return info.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS;
+              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS;
               })[0].keys.map((key) => {
                 return {
                   title: i18n.t(`app.${key.name}`),
