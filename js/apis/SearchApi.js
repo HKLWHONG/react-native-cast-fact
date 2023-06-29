@@ -36,9 +36,9 @@ export const request = (
       },
     )
       .then((params) => {
-        const { json } = params;
+        const { response } = params;
 
-        if (json) {
+        if (response.status === 200) {
           resolve(params);
         } else {
           reject(`[${IDENTIFIER}] Payload not found.`);
