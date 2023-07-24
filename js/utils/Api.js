@@ -163,10 +163,10 @@ export const GET = (
               if (API_LOGGING) {
                 console.log(
                   '[' + identifier + '] ==================== GET RESPONSE ====================\n',
-                  {
+                  JSON.stringify({
                     status: response.status,
                     body: json,
-                  },
+                  }),
                 );
               }
 
@@ -323,10 +323,10 @@ export const POST = (
               if (API_LOGGING) {
                 console.log(
                   '[' + identifier + '] ==================== POST RESPONSE ====================\n',
-                  {
+                  JSON.stringify({
                     status: response.status,
                     body: json,
-                  },
+                  }),
                 );
               }
 
@@ -407,21 +407,46 @@ export const PUT = (
       url = appendQueryToUrl(url, query);
     }
 
-    const fields = {
-      ...getBasicInfo(),
-      ...body,
-    };
+    const useJson = options && options.useJson;
+    const useFile = options && options.useFile;
 
-    let formData = [];
+    let data = [];
 
-    Object.keys(fields).forEach((key, index) => {
-      const encodedKey = encodeURIComponent(key);
-      const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+    if (useJson) {
+      data = (body && body.json) || [];
 
-      formData.push(encodedKey + "=" + encodedValue);
-    });
+      data = JSON.stringify(data);
+    } else if (useFile) {
+      data = new FormData();
 
-    formData = formData.join("&");
+      if (body && body.file) {
+        const { file } = body;
+
+        if (file.key && file.key.length > 0 && file.type && file.type.toLowerCase().startsWith('image')) {
+          data.append(file.key, {
+            name: file.name || file.key,
+            uri: file.uri ,
+            type: file.type,
+          });
+          data.append('Content-Type', file.type);
+        }
+      }
+    }
+    else {
+      const fields = {
+        ...getBasicInfo(),
+        ...body,
+      };
+
+      Object.keys(fields).forEach((key, index) => {
+        const encodedKey = encodeURIComponent(key);
+        const encodedValue = encodeURIComponent(fields[key] ? fields[key].toString() : '');
+
+        data.push(encodedKey + "=" + encodedValue);
+      });
+
+      data = data.join("&");
+    }
 
     if (API_LOGGING) {
       console.log(
@@ -429,7 +454,7 @@ export const PUT = (
       );
 
       console.log('[Header]', header);
-      console.log('[Body]', formData);
+      console.log('[Body]', data);
     }
 
     const useFetch = options && options.useFetch;
@@ -440,7 +465,7 @@ export const PUT = (
       method: 'PUT',
       timeoutInterval: API_TIMEOUT,
       headers: header,
-      body: formData,
+      body: data,
       disableAllSecurity: !options || !options.certs || !options.certs.length,
       sslPinning: {
         certs: options && options.certs,
@@ -458,10 +483,10 @@ export const PUT = (
               if (API_LOGGING) {
                 console.log(
                   '[' + identifier + '] ==================== PUT RESPONSE ====================\n',
-                  {
+                  JSON.stringify({
                     status: response.status,
                     body: json,
-                  },
+                  }),
                 );
               }
 

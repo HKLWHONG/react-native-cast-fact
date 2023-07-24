@@ -106,7 +106,7 @@ class RangeTag extends Component {
                 if (
                   text && text.length > 0
                   &&
-                  props.regex && !new RegExp(props.regext).test(text)
+                  props.regex && !new RegExp(props.regex).test(text)
                 ) {
                   return;
                 }

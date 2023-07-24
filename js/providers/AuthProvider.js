@@ -3,7 +3,12 @@
  * @flow strict-local
  */
 
-import { store, AppAction, DataAction } from '../redux';
+import {
+  store,
+  AppAction,
+  DataAction,
+  ProfileViewAction,
+} from '../redux';
 
 import { Common } from '../utils';
 
@@ -135,6 +140,7 @@ export const logout = (props, params, options) => {
     ])
       .then(() => {
         store.dispatch(DataAction.reset());
+        store.dispatch(ProfileViewAction.reset());
 
         resolve();
       })

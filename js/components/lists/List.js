@@ -140,7 +140,6 @@ export default class List extends Component {
           sections={sections}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}
-          keyboardShouldPersistTaps={'handled'}
           onEndReachedThreshold={0.5}
           onEndReached={props.onEndReached}
           refreshControl={this.refreshControl()}

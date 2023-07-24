@@ -21,6 +21,7 @@ import {
   SignUpStackNavigatorAction,
   SettingsStackNavigatorAction,
   CalendarModalViewAction,
+  ProfileInfoSetupViewAction,
 } from '../../redux';
 
 import {
@@ -166,6 +167,19 @@ class ProfileCastSheetEditionView extends BaseComponent {
         console.log('[profile]', profile);
 
         console.log('call api...');
+
+        UserProvider.updateProfile(
+          props,
+          profile,
+        )
+          .then((params) => {
+            Router.popToTop(props);
+          })
+          .catch((error) => {
+            console.error(error);
+
+            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+          });
       });
     } else {
       props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
@@ -193,7 +207,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
               profile = {
                 ...profile,
                 [key.super]: [
-                  ...profile[key.super],
                   ...ProfileProcessor.fetchApiMultipleField(key.name, key.properties)
                     .map((item) => {
                       return {
@@ -239,7 +252,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
               UserProvider.uploadProfileImage(
                 props,
                 {
-                  key: 'image',
+                  key: 'image_path',
                   uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
                   type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
                 },
@@ -250,7 +263,20 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 .catch((error) => {
                   console.error(error);
 
-                  Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+                  Alert.alert(
+                    i18n.t('app.system_error'),
+                    i18n.t('app.error.image_upload_message'),
+                    [
+                      {
+                        text: i18n.t('app.ok').toUpperCase(),
+                        onPress: () => {
+                          props.setProfileInfoSetupViewSource(undefined);
+
+                          this.login();
+                        },
+                      },
+                    ],
+                  );
                 });
             } else {
               this.login();
@@ -1474,6 +1500,7 @@ function mapDispatchToProps(dispatch) {
     addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
     setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
     setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
+    setProfileInfoSetupViewSource: (...args) => dispatch(ProfileInfoSetupViewAction.setSource(...args)),
   };
 }
 

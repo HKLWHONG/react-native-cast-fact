@@ -18,6 +18,7 @@ import * as LoginApi from './LoginApi';
 import * as RegisterApi from './RegisterApi';
 import * as RemoveRecentSearchesApi from './RemoveRecentSearchesApi';
 import * as SearchApi from './SearchApi';
+import * as UpdateProfileApi from './UpdateProfileApi';
 import * as UploadProfileImageApi from './UploadProfileImageApi';
 
 export {
@@ -36,5 +37,6 @@ export {
   RegisterApi,
   RemoveRecentSearchesApi,
   SearchApi,
+  UpdateProfileApi,
   UploadProfileImageApi,
 };

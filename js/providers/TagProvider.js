@@ -23,6 +23,7 @@ import {
 
 import {
   Constants,
+  CastSheetConstants,
 } from '../constants';
 
 import {
@@ -95,11 +96,15 @@ export const getTags = (props, params, options) => {
 
         let tags = Constants.TAGS.map((tag) => {
           if (
-            tag.label.toLowerCase() === Constants.HEIGHT.toLowerCase()
-            ||
-            tag.label.toLowerCase() === Constants.WEIGHT.toLowerCase()
-            ||
-            tag.label.toLowerCase() === Constants.AGE.toLowerCase()
+            tag.category_name
+            &&
+            (
+              tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_HEIGHT.toLowerCase()
+              ||
+              tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_WEIGHT.toLowerCase()
+              ||
+              tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_AGE.toLowerCase()
+            )
           ) {
             return tag;
           }
@@ -107,22 +112,34 @@ export const getTags = (props, params, options) => {
           json.forEach((item) => {
             // console.log('[tag-item]', item);
 
-            if (tag.label.toLowerCase() !== item.category_name.toLowerCase()) {
+            if (
+              !tag.category_name
+              ||
+              !item.category_name
+              ||
+              tag.category_name.toLowerCase() !== item.category_name.toLowerCase()
+            ) {
               return;
             }
 
+            tag.label = item.label;
+
             tag.data = item.tags.map((tag) => {
               if (
-                item.category_name.toLowerCase() === Constants.EYES_COLOR.toLowerCase()
-                ||
-                item.category_name.toLowerCase() === Constants.HAIR_COLOR.toLowerCase()
-                ||
-                item.category_name.toLowerCase() === Constants.SKIN_COLOR.toLowerCase()
+                item.category_name
+                &&
+                (
+                  item.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS.toLowerCase()
+                  ||
+                  item.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS.toLowerCase()
+                  ||
+                  item.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_SKIN_COLOR.toLowerCase()
+                )
               ) {
                 tag = {
                   ...tag,
                   leftAccessoryType: 'dot',
-                  suffix: Constants.TAGS_SUFFIX_MAPPING[item.category_name.toLowerCase()],
+                  suffix: CastSheetConstants.findSuffix[item.category_name],
                   color: Constants.TAGS_COLOR_MAPPING[tag.text.toLowerCase()],
                 }
               }

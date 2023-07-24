@@ -18,12 +18,14 @@ import {
   StringProcessor,
 } from '../processors';
 
+import { UserProvider } from '../providers';
+
 import {
   CreateProfileApi,
+  UpdateProfileApi,
   GetProfileApi,
   LinkProfileApi,
   UploadProfileImageApi,
-  GetProfileImageApi,
 } from '../apis';
 
 import { UserStorage } from '../storages';
@@ -72,6 +74,28 @@ export const createAndLinkProfile = (props, params, options) => {
   });
 };
 
+export const updateProfile = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    UpdateProfileApi.request(
+      props,
+      {
+        json: params,
+      },
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
+
+        store.dispatch(DataAction.setUserProfile(json));
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export const uploadProfileImage = (props, params, options) => {
   return new Promise((resolve, reject) => {
     UploadProfileImageApi.request(
@@ -84,14 +108,16 @@ export const uploadProfileImage = (props, params, options) => {
       .then((params) => {
         const { json } = params;
 
-        getProfileImage(props, {}, options)
-          .then(() => {
+        UserProvider.getProfile(props, {}, options)
+          .then((params) => {
+            const { json } = params;
+
+            store.dispatch(DataAction.setUserProfile(json));
+
             resolve(params);
           })
           .catch((error) => {
-            console.error(error);
-
-            resolve(params);
+            reject(error);
           });
       })
       .catch((error) => {
@@ -112,41 +138,7 @@ export const getProfile = (props, params, options) => {
 
         store.dispatch(DataAction.setUserProfile(json));
 
-        getProfileImage(props, {}, options)
-          .then(() => {
-            resolve(params);
-          })
-          .catch((error) => {
-            console.error(error);
-
-            resolve(params);
-          });
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
-export const getProfileImage = (props, params, options) => {
-  return new Promise((resolve, reject) => {
-    GetProfileImageApi.request(
-      props,
-      {},
-      options,
-    )
-      .then((params) => {
-        const { data } = params;
-
-        Converter.blobToBase64Data(data)
-          .then((base64Data) => {
-            store.dispatch(DataAction.setUserProfileImage({ uri: base64Data }));
-
-            resolve(params);
-          })
-          .catch((error) => {
-            reject(error);
-          });
+        resolve(params);
       })
       .catch((error) => {
         reject(error);

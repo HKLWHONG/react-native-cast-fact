@@ -79,6 +79,8 @@ class SettingsStackNavigator extends BaseComponent {
 
     const screens = [
       'SettingsView',
+      'AccountChangePasswordStep1View',
+      'AccountChangePasswordStep2View',
     ];
 
     const filteredScreens = screens.filter((screen) => {

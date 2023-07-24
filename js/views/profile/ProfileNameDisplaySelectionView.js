@@ -11,6 +11,7 @@ import {
   ImageBackground,
   View,
   Text,
+  Alert,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -42,6 +43,10 @@ import { AppRegex } from '../../regex';
 import { Theme, Router } from '../../utils';
 
 import { ProfileProcessor } from '../../processors';
+
+import {
+  UserProvider,
+} from '../../providers';
 
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
@@ -80,9 +85,41 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
       });
 
       props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+        console.log('[signUpViewAccount]', props.signUpViewAccount);
+        console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+        console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+        console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+
+        let profile = props.userProfile;
+
+        console.log('[profile-1]', profile);
+
+        profile = {
+          ...profile,
+          firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+          lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+          firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+          lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+          nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+          name_display_format: store.getState().profileInfoSetupViewReducer.account.info.displayFormat.toString(),
+        }
+
+        console.log('[profile-2]', profile);
+
         console.log('call api...');
 
-        // Router.push(props, 'ProfileCastSheetEditionView');
+        UserProvider.updateProfile(
+          props,
+          profile,
+        )
+          .then((params) => {
+            Router.popToTop(props);
+          })
+          .catch((error) => {
+            console.error(error);
+
+            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+          });
       });
 
       // props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
@@ -94,7 +131,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
       let nameDisplayFormat = 0;
 
       if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
-        nameDisplayFormat = parseInt(profile.name_display_format);
+        nameDisplayFormat = parseInt(props.userProfile.name_display_format);
       }
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat) ;

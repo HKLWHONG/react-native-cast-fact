@@ -7,18 +7,12 @@ import * as CastSheetConstants from './CastSheetConstants';
 
 export const VERSION = 'v1.0.0';
 
-export const HEIGHT = 'Height';
-export const WEIGHT = 'Weight';
-export const AGE = 'Age';
-export const EYES_COLOR = 'Eyes Color';
-export const HAIR_COLOR = 'Hair Color';
-export const SKIN_COLOR = 'Skin Color';
-
 export const TAGS =
 [
     {
         "rightAccessoryType": "plus",
-        "label": HEIGHT,
+        "label": "Height",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_HEIGHT,
         "data": [
             {
                 "id": 1,
@@ -38,7 +32,7 @@ export const TAGS =
                 "color": null,
                 "image": null,
                 "checked": false,
-                "regex": null,
+                "regex": '^[1-9][0-9]*$',
                 "maxLength": 3,
                 "keyboardType": "numeric",
                 "frequence": 0,
@@ -76,7 +70,8 @@ export const TAGS =
     },
     {
         "rightAccessoryType": "plus",
-        "label": WEIGHT,
+        "label": "Weight",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_WEIGHT,
         "data": [
             {
                 "id": 3,
@@ -96,7 +91,7 @@ export const TAGS =
                 "color": null,
                 "image": null,
                 "checked": false,
-                "regex": null,
+                "regex": '^[1-9][0-9]*$',
                 "maxLength": 3,
                 "keyboardType": "numeric",
                 "frequence": 0,
@@ -134,7 +129,8 @@ export const TAGS =
     },
     {
         "rightAccessoryType": "plus",
-        "label": AGE,
+        "label": "Age",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_AGE,
         "data": [
             {
                 "id": 5,
@@ -154,7 +150,7 @@ export const TAGS =
                 "color": null,
                 "image": null,
                 "checked": false,
-                "regex": null,
+                "regex": '^[1-9][0-9]*$',
                 "maxLength": 3,
                 "keyboardType": "number-pad",
                 "frequence": 0,
@@ -166,56 +162,45 @@ export const TAGS =
     },
     {
         "rightAccessoryType": null,
-        "label": "Language",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_LANGUAGES,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Occupation",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_OCCUPATIONS,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Gender",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_GENDER,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": EYES_COLOR,
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": HAIR_COLOR,
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": SKIN_COLOR,
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_SKIN_COLOR,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Body Type",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_BODY_TYPES,
         "data": [],
     },
     {
         "rightAccessoryType": null,
-        "label": "Nationality",
+        "category_name": CastSheetConstants.CAST_SHEET_KEY_NATIONALITIES,
         "data": [],
     }
 ];
-
-export const TAGS_CAST_SHEET_KEY_MAPPING = {
-  [CastSheetConstants.CAST_SHEET_KEY_EYES_COLORS]: EYES_COLOR,
-  [CastSheetConstants.CAST_SHEET_KEY_HAIR_COLORS]: HAIR_COLOR,
-};
-
-export const TAGS_SUFFIX_MAPPING = {
-  [EYES_COLOR.toLowerCase()]: 'eye',
-  [HAIR_COLOR.toLowerCase()]: 'hair',
-  [SKIN_COLOR.toLowerCase()]: 'skin',
-};
 
 export const TAGS_COLOR_MAPPING = {
   'black': '#000000',

@@ -12,35 +12,43 @@ import * as Header from './Header';
 
 import { store } from '../redux';
 
-const IDENTIFIER = 'ListTagByCategoryApi';
-const URL = Environment.API_URL + '/tag/category/';
+import { UserStorage } from '../storages';
+
+const IDENTIFIER = 'UpdateProfileApi';
+const URL = Environment.API_URL + '/profile/{id}/';
 
 export const request = (
   props: PropTypes.object.isRequired,
   body?: PropTypes.object.isRequired,
   options?: PropTypes.object.isRequired,
 ): Promise<void> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    const profileId = await UserStorage.getProfileId()
+      .catch((error) => {
+        reject(error);
+      });
+
     Request.request(
       props,
       IDENTIFIER,
-      URL,
-      'GET',
-      Header.getHeader(),
+      URL.replace('{id}', profileId),
+      'PUT',
+      await Header.getAuthHeader('json'),
       {},
       body,
       {
         ...options,
+        useJson: true,
         useFetch: true,
       },
     )
       .then((params) => {
-        const { response } = params;
+        const { json } = params;
 
-        if (response.status === 200) {
+        if (json) {
           resolve(params);
         } else {
-          reject(`[${IDENTIFIER}] JSON not found.`);
+          reject(`[${IDENTIFIER}] Profile ID not found.`);
         }
       })
       .catch((error) => {

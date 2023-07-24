@@ -50,6 +50,8 @@ import { Camera } from 'react-native-vision-camera';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
+import { Environment } from '../../config';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -83,7 +85,19 @@ class ProfilePictureSelectionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
-      props.setProfileInfoSetupViewSource(props.userProfileImage);
+      let source = undefined;
+
+      if (
+        props.userProfile
+        &&
+        props.userProfile.images
+        &&
+        props.userProfile.images.length > 0
+      ) {
+        source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+      }
+
+      props.setProfileInfoSetupViewSource(source);
       props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
       props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
       props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
@@ -93,7 +107,7 @@ class ProfilePictureSelectionView extends BaseComponent {
       let nameDisplayFormat = 0;
 
       if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
-        nameDisplayFormat = parseInt(profile.name_display_format);
+        nameDisplayFormat = parseInt(props.userProfile.name_display_format);
       }
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
@@ -115,18 +129,18 @@ class ProfilePictureSelectionView extends BaseComponent {
           UserProvider.uploadProfileImage(
             props,
             {
-              key: 'image',
+              key: 'image_path',
               uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
               type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
             },
           )
             .then((params) => {
-              Router.goBack(props);
+              Router.popToTop(props);
             })
             .catch((error) => {
               console.error(error);
 
-              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.image_upload_message'));
             });
         }
       });
@@ -183,13 +197,25 @@ class ProfilePictureSelectionView extends BaseComponent {
   renderProfileContainer = () => {
     const { props } = this;
 
+    let source = undefined;
+
+    if (
+      props.userProfile
+      &&
+      props.userProfile.images
+      &&
+      props.userProfile.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+    }
+
     return (
       <Translation>
         {(t) => (
           <ProfileInfoSetupView
             index={0}
             text={t('views.profile_picture_selection.title')}
-            source={props.userProfileImage}
+            source={source}
           />
         )}
       </Translation>
@@ -416,7 +442,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     signUpViewAccount: state.signUpViewReducer.account,
-    userProfileImage: state.dataReducer.userProfileImage,
     userProfile: state.dataReducer.userProfile,
   };
 }

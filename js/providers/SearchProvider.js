@@ -391,7 +391,7 @@ export const search = (props, params, options) => {
         // length: params && params.length,
         // prefetch: params && params.prefetch,
 
-        json: tags,
+        json: { 'search': tags },
       },
       options,
     )

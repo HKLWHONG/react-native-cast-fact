@@ -84,7 +84,7 @@ class ProfileNameEditionView extends BaseComponent {
       let nameDisplayFormat = 0;
 
       if (props.userProfile.name_display_format && props.userProfile.name_display_format.length > 0) {
-        nameDisplayFormat = parseInt(profile.name_display_format);
+        nameDisplayFormat = parseInt(props.userProfile.name_display_format);
       }
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);

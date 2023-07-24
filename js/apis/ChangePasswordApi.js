@@ -42,7 +42,7 @@ export const request = (
       },
     )
       .then((params) => {
-        const { response, json } = params;
+        const { response } = params;
 
         if (response.status === 200) {
           resolve(params);

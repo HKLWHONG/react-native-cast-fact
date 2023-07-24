@@ -121,6 +121,7 @@ const zhHK = {
       general_message: 'Please contact your system administrator.',
       empty_field_message: '請輸入所需資料。',
       password_validation_message: '密碼必須是由8或以上的字母及數字所組成。',
+      image_upload_message: '無法上傳頭像圖片。',
     },
   },
   components: {

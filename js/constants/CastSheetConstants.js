@@ -3,6 +3,8 @@
  * @flow strict-local
  */
 
+import i18n from '../../i18n';
+
 // Categories
 export const CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION = 'basic_information';
 export const CAST_SHEET_CATEGORY_KEY_APPEARANCE = 'appearance';
@@ -44,6 +46,7 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
  // Appearance
  export const CAST_SHEET_KEY_HEIGHT = 'height';
  export const CAST_SHEET_KEY_WEIGHT = 'weight';
+ export const CAST_SHEET_KEY_AGE = 'age';
  export const CAST_SHEET_KEY_SKIN_COLOR = 'skin_color';
  export const CAST_SHEET_KEY_DRESS_SIZE = 'dress_size';
  export const CAST_SHEET_KEY_SHIRT_SIZE = 'shirt_size';
@@ -105,6 +108,7 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        },
        {
          name: CAST_SHEET_KEY_LANGUAGES,
+         // alias: 'Language',
          isMultiple: true,
        },
        {
@@ -113,6 +117,7 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        },
        {
          name: CAST_SHEET_KEY_OCCUPATIONS,
+         // alias: 'Occupation',
          isMultiple: true,
        },
        {
@@ -139,6 +144,7 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        },
        {
          name: CAST_SHEET_KEY_NATIONALITIES,
+         // alias: 'Nationality',
          isMultiple: true,
        },
      ],
@@ -154,6 +160,8 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        },
        {
          name: CAST_SHEET_KEY_SKIN_COLOR,
+         // alias: 'Skin Color',
+         suffix: 'Skin',
        },
        {
          name: CAST_SHEET_KEY_DRESS_SIZE,
@@ -181,14 +189,20 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
        },
        {
          name: CAST_SHEET_KEY_HAIR_COLORS,
+         // alias: 'Hair Color',
+         suffix: 'Hair',
          isMultiple: true,
        },
        {
          name: CAST_SHEET_KEY_EYES_COLORS,
+         // alias: 'Eyes Color',
+         suffix: 'Eye',
          isMultiple: true,
        },
        {
          name: CAST_SHEET_KEY_BODY_TYPES,
+         // alias: 'Body Type',
+         suffix: 'Body',
          isMultiple: true,
        },
      ],
@@ -402,3 +416,67 @@ export const CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS = 'social_medias';
      ],
    },
  ];
+
+ // export function findName(alias) {
+ //   if (!alias) {
+ //     return '';
+ //   }
+ //
+ //   let name = '';
+ //
+ //   CAST_SHEET_INFO.forEach((category) => {
+ //     const keys = category.keys.filter((key) => {
+ //       return key.alias && key.alias.toLowerCase() === alias.toLowerCase();
+ //     });
+ //
+ //     if (keys.length > 0) {
+ //       name = keys[0].name || '';
+ //     }
+ //   });
+ //
+ //   return name;
+ // }
+
+ // export function findAlias(name) {
+ //   if (!name) {
+ //     return '';
+ //   }
+ //
+ //   let alias = '';
+ //
+ //   CAST_SHEET_INFO.forEach((category) => {
+ //     const keys = category.keys.filter((key) => {
+ //       return key.name && key.name.toLowerCase() === name.toLowerCase();
+ //     });
+ //
+ //     if (keys.length > 0) {
+ //       alias = keys[0].alias || '';
+ //     }
+ //   });
+ //
+ //   if (alias.length === 0) {
+ //     alias = i18n.t(`app.${name}`, { lng: 'en' });
+ //   }
+ //
+ //   return alias;
+ // }
+
+ export function findSuffix(name) {
+   if (!name) {
+     return '';
+   }
+
+   let suffix = '';
+
+   CAST_SHEET_INFO.forEach((category) => {
+     const keys = category.keys.filter((key) => {
+       return key.name && key.name.toLowerCase() === name.toLowerCase();
+     });
+
+     if (keys.length > 0) {
+       suffix = keys[0].suffix || '';
+     }
+   });
+
+   return suffix;
+ }

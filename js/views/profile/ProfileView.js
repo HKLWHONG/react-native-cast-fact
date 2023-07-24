@@ -37,6 +37,8 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
+import { Environment } from '../../config';
+
 import {
   CastSheetConstants,
 } from '../../constants';
@@ -94,11 +96,23 @@ class ProfileView extends BaseComponent {
     const { props } = this;
     const { item, index, section, separators } = params;
 
+    let source = undefined;
+
+    if (
+      props.userProfile
+      &&
+      props.userProfile.images
+      &&
+      props.userProfile.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+    }
+
     return (
       <Translation>
         {(t) => (
           <ProfileInfoView
-            source={props.userProfileImage}
+            source={source}
             profile={props.userProfile}
           />
         )}
@@ -245,6 +259,18 @@ class ProfileView extends BaseComponent {
   renderProfilePreviewView = () => {
     const { props } = this;
 
+    let source = undefined;
+    
+    if (
+      props.userProfile
+      &&
+      props.userProfile.images
+      &&
+      props.userProfile.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+    }
+
     return (
       <Translation>
         {(t) => (
@@ -257,7 +283,7 @@ class ProfileView extends BaseComponent {
               props.setListRef(1, props.navigation.getState().index, ref);
             }}
             index={props.index}
-            source={props.userProfileImage}
+            source={source}
             profile={props.userProfile}
             onPress={(index) => {
               props.setIndex(index);
@@ -442,7 +468,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     index: state.profileViewReducer.index,
-    userProfileImage: state.dataReducer.userProfileImage,
     userProfile: state.dataReducer.userProfile,
   };
 }

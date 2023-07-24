@@ -7,7 +7,7 @@ import { store } from '../redux';
 
 import { AppRegex } from '../regex';
 
-import { Constants, CastSheetConstants } from '../constants';
+import { CastSheetConstants } from '../constants';
 
 import { CalendarProcessor } from '../processors';
 
@@ -345,20 +345,36 @@ export const fetchTagValue = (key, groupFrame) => {
 };
 
 export const fetchTagSuggessionList = (key) => {
-  let label = Constants.TAGS_CAST_SHEET_KEY_MAPPING[key];
+  // let label = CastSheetConstants.findAlias(key);
+  //
+  // if (!label) {
+  //   label = i18n.t(`app.${key}`, { lng: 'en' });
+  // }
 
-  if (!label) {
-    label = i18n.t(`app.${key}`, { lng: 'en' });
-  }
+  let list = store.getState().findTalentSectionReducer.tags.filter((tag) => {
+      if (!tag.category_name) {
+        return false;
+      }
 
-  let list = store.getState().findTalentSectionReducer.tags.filter((tags) => {
-      return tags.label.toLowerCase() === label.toLowerCase();
+      if (
+        tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_HEIGHT.toLowerCase()
+        ||
+        tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_WEIGHT.toLowerCase()
+      ) {
+        return false;
+      }
+
+      return tag.category_name.toLowerCase() === key.toLowerCase();
   });
 
   if (list.length > 0) {
-    list = list[0].data.map((tag) => {
-      return tag.text;
-    });
+    list = list[0].data
+      .filter((tag) => {
+        return !(tag.type && tag.type.toLowerCase() === 'reference'.toLowerCase());
+      })
+      .map((tag) => {
+        return tag.text;
+      });
   }
 
   return list;

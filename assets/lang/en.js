@@ -121,6 +121,7 @@ const en = {
       general_message: 'Please contact your system administrator.',
       empty_field_message: 'Please complete all requuired fields.',
       password_validation_message: 'A password must be 8 or above alphanumeric characters.',
+      image_upload_message: 'Cannot upload profile image.',
     },
   },
   components: {
