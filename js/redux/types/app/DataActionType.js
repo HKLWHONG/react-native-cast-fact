@@ -14,4 +14,3 @@ export const IS_LOGGED_IN = '@DATA_IS_LOGGED_IN';
 
 export const USER_DATA = '@DATA_USER_DATA';
 export const USER_PROFILE = '@DATA_USER_PROFILE';
-export const USER_PROFILE_IMAGE = '@DATA_USER_PROFILE_IMAGE';

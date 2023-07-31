@@ -24,6 +24,7 @@ import {
   CreateProfileApi,
   UpdateProfileApi,
   GetProfileApi,
+  GetHistoryApi,
   LinkProfileApi,
   UploadProfileImageApi,
 } from '../apis';
@@ -137,6 +138,24 @@ export const getProfile = (props, params, options) => {
         const { json } = params;
 
         store.dispatch(DataAction.setUserProfile(json));
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getHistory = (props, params, options) => {
+  return new Promise((resolve, reject) => {
+    GetHistoryApi.request(
+      props,
+      {},
+      options,
+    )
+      .then((params) => {
+        const { json } = params;
 
         resolve(params);
       })

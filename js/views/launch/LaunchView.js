@@ -85,6 +85,7 @@ class LaunchView extends BaseComponent {
     if (jwtToken) {
       tasks = [
         ...tasks,
+        UserProvider.getHistory(props),
         UserProvider.getProfile(props),
       ];
     }

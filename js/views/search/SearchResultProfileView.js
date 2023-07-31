@@ -89,7 +89,6 @@ class SearchResultProfileView extends BaseComponent {
           >
             <ProfilePreviewView
               index={props.index}
-              source={props.userProfileImage}
               profile={props.userProfile}
               onPress={(index) => {
                 props.setIndex(index);
@@ -145,7 +144,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    userProfileImage: state.searchResultProfileViewReducer.userProfileImage,
     userProfile: state.searchResultProfileViewReducer.userProfile,
     index: state.searchResultProfileViewReducer.index,
   };

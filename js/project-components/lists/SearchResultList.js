@@ -17,11 +17,13 @@ import { Button, Separator } from '../../project-components';
 
 import { Theme } from '../../utils';
 
+import { Environment } from '../../config';
+
 import { UserProcessor } from '../../processors';
 
 import { Translation } from 'react-i18next';
 
-const preview = require('../../../assets/images/preview/preview.png');
+const ic_profile_placeholder = require('../../../assets/images/ic_profile_placeholder/ic_profile_placeholder.png');
 
 const ic_placeholder = require('../../../assets/images/ic_placeholder/ic_placeholder.png');
 
@@ -39,16 +41,16 @@ class SearchResultList extends Component {
     const { props } = this;
     const { item, index, separators } = params;
 
-    let source = preview;
+    let source = ic_profile_placeholder;
 
-    let image = item && item.profile && item.profile.image;
-
-    if (image) {
-      const { uri} = image;
-
-      if (uri) {
-        source = { uri: uri };
-      }
+    if (
+      item
+      &&
+      item.images
+      &&
+      item.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${item.images[item.images.length - 1]}` };
     }
 
     return (
@@ -125,7 +127,7 @@ class SearchResultList extends Component {
 
     // console.log('[item]', item);
 
-    let source = preview;
+    let source = ic_profile_placeholder;
 
     let image = item && item.profile && item.profile.image;
 

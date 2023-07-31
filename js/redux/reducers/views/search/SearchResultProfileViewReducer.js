@@ -8,7 +8,6 @@ import { CommonActionType, SearchResultProfileViewActionType } from '../../../ty
 const initState = () => {
   return {
     userProfile: undefined,
-    userProfileImage: undefined,
     index: 0,
   };
 };
@@ -25,12 +24,6 @@ export default function searchResultProfileViewReducer(state = initState(), acti
       return {
         ...state,
         userProfile: action.userProfile,
-      };
-
-    case SearchResultProfileViewActionType.USER_PROFILE_IMAGE:
-      return {
-        ...state,
-        userProfileImage: action.userProfileImage,
       };
 
     case SearchResultProfileViewActionType.INDEX:

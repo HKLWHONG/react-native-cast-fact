@@ -92,7 +92,7 @@ class SearchResultView extends BaseComponent {
 
     console.log('[searched]', props.searched);
     console.log('[results]', props.results);
-    console.log('[searchResultListData]', props.searchResultListData);
+    console.log('[searchResultListData]', JSON.stringify(props.searchResultListData));
 
     props.addSearchStackNavigatorOnRightViewRender(IDENTIFIER, this.renderSearchStackNavigatorRightView);
 
@@ -272,7 +272,6 @@ class SearchResultView extends BaseComponent {
     const { item, index, separators } = params;
 
     props.setSearchResultProfileViewUserProfile(item);
-    props.setSearchResultProfileViewUserProfileImage(undefined);
 
     Router.push(props, 'SearchResultProfileView');
   };
@@ -671,7 +670,6 @@ function mapDispatchToProps(dispatch) {
     resetRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.resetTags(...args)),
     setFindTalentTags: (...args) => dispatch(FindTalentSectionAction.setTags(...args)),
     setSearchResultProfileViewUserProfile: (...args) => dispatch(SearchResultProfileViewAction.setUserProfile(...args)),
-    setSearchResultProfileViewUserProfileImage: (...args) => dispatch(SearchResultProfileViewAction.setUserProfileImage(...args)),
   };
 }
 

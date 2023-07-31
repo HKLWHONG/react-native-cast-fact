@@ -25,6 +25,8 @@ import {
 
 import { Theme } from '../../utils';
 
+import { Environment } from '../../config';
+
 import { UserProcessor } from '../../processors';
 
 import { } from '../../providers';
@@ -47,7 +49,18 @@ class ProfileInfoView extends Component {
       return null;
     }
 
-    let source = props.source || ic_profile_placeholder;
+    let source = ic_profile_placeholder;
+
+    if (
+      props.profile
+      &&
+      props.profile.images
+      &&
+      props.profile.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${props.profile.images[props.profile.images.length - 1]}` };
+    }
+
     let name = UserProcessor.toName(props.profile);
     let occupation = UserProcessor.toOccupation(props.profile);
 
@@ -171,11 +184,6 @@ ProfileInfoView.propTypes = {
   onLayout: PropTypes.func,
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
-  source: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-    PropTypes.number,
-  ]),
   profile: PropTypes.object,
 };
 
@@ -183,7 +191,6 @@ ProfileInfoView.defaultProps = {
   onLayout: undefined,
   style: undefined,
   hidden: false,
-  source: undefined,
   profile: undefined,
 };
 

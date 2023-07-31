@@ -26,6 +26,8 @@ import {
   TagProcessor,
 } from '../processors';
 
+import { AuthProvider } from '../providers';
+
 import {
   SearchStorage,
 } from '../storages';
@@ -282,8 +284,17 @@ export const presearch = async (props, params, options) => {
 
 export const search = (props, params, options) => {
   return new Promise(async (resolve, reject) => {
+    let userId = '';
+
     if (!params || !params.prefetch) {
       store.dispatch(SearchResultViewAction.setSearched(false));
+
+      const jwtToken = await AuthProvider.decodeJWTToken()
+        .catch((error) => {
+          reject(error);
+        });
+        
+      userId = (jwtToken && jwtToken.user_id) || '';
     }
 
     // if (params && params.prefetch) {
@@ -391,7 +402,10 @@ export const search = (props, params, options) => {
         // length: params && params.length,
         // prefetch: params && params.prefetch,
 
-        json: { 'search': tags },
+        json: {
+          user_id: userId,
+          search: tags,
+        },
       },
       options,
     )

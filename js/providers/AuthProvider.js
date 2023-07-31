@@ -58,6 +58,11 @@ export const login = (props, params, options) => {
 
                 store.dispatch(DataAction.setUserData(json));
 
+                UserProvider.getHistory(props, {}, options)
+                  .catch((error) => {
+                    console.error(error);
+                  });
+
                 if (profileId) {
                   UserStorage.setProfileId(profileId)
                     .then(() => {

@@ -207,10 +207,7 @@ class ProfilePreviewView extends Component {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoView
-            source={props.source}
-            profile={props.profile}
-          />
+          <ProfileInfoView profile={props.profile} />
         )}
       </Translation>
     );
@@ -586,11 +583,6 @@ ProfilePreviewView.propTypes = {
   hidden: PropTypes.bool,
   innerRef: PropTypes.func,
   index: PropTypes.number,
-  source: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-    PropTypes.number,
-  ]),
   profile: PropTypes.object,
   onPress: PropTypes.func,
 };
@@ -601,7 +593,6 @@ ProfilePreviewView.defaultProps = {
   hidden: false,
   innerRef: undefined,
   index: undefined,
-  source: undefined,
   profile: undefined,
   onPress: undefined,
 };
