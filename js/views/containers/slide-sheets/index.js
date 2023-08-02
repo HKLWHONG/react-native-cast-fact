@@ -3,12 +3,12 @@
  * @flow strict-local
  */
 
-import CreateProjectSlideSheetContainerView from './CreateProjectSlideSheetContainerView';
+// import CreateProjectSlideSheetContainerView from './CreateProjectSlideSheetContainerView';
 import SettingsSlideSheetContainerView from './SettingsSlideSheetContainerView';
 import WelcomeSlideSheetContainerView from './WelcomeSlideSheetContainerView';
 
 export {
-  CreateProjectSlideSheetContainerView,
+  // CreateProjectSlideSheetContainerView,
   SettingsSlideSheetContainerView,
   WelcomeSlideSheetContainerView,
 };

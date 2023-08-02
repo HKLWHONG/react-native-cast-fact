@@ -12,7 +12,7 @@ import {
 
 import {
   slideSheetReducer,
-  feedListReducer,
+  // feedListReducer,
   profileCastingSheetListReducer,
   searchBarReducer,
   criteriaSectionReducer,
@@ -35,7 +35,7 @@ import {
 import {
   accountChangePasswordStep1ViewReducer,
   accountChangePasswordStep2ViewReducer,
-  feedViewReducer,
+  // feedViewReducer,
   launchViewReducer,
   loginViewReducer,
   cameraViewReducer,
@@ -61,7 +61,7 @@ const reducers = combineReducers({
 
   // components
   slideSheetReducer,
-  feedListReducer,
+  // feedListReducer,
   profileCastingSheetListReducer,
   searchBarReducer,
   criteriaSectionReducer,
@@ -82,7 +82,7 @@ const reducers = combineReducers({
   // views
   accountChangePasswordStep1ViewReducer,
   accountChangePasswordStep2ViewReducer,
-  feedViewReducer,
+  // feedViewReducer,
   launchViewReducer,
   loginViewReducer,
   cameraViewReducer,

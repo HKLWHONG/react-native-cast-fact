@@ -47,10 +47,6 @@ import {
   FeedProvider,
 } from '../../providers';
 
-import {
-  FeedStorage,
-} from '../../storages';
-
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -263,7 +259,7 @@ class LoginView extends BaseComponent {
                   // }
                   //
 
-                  await SearchProvider.prefetchRecentSearches(props);
+                  // await SearchProvider.prefetchRecentSearches(props);
 
                   // await FeedProvider.prefetchFeeds(props);
 

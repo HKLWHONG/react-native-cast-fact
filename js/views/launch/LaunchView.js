@@ -14,8 +14,6 @@ import {
   DataAction,
   DrawerNavigatorAction,
   MainTabNavigatorAction,
-  CriteriaSectionAction,
-  RecentSearchesSectionAction,
 } from '../../redux';
 
 import { Environment } from '../../config';
@@ -37,7 +35,6 @@ import {
   AuthProvider,
   TagProvider,
   SearchProvider,
-  FeedProvider,
   UserProvider,
 } from '../../providers';
 
@@ -85,7 +82,7 @@ class LaunchView extends BaseComponent {
     if (jwtToken) {
       tasks = [
         ...tasks,
-        UserProvider.getHistory(props),
+        SearchProvider.prefetchRecentSearches(props),
         UserProvider.getProfile(props),
       ];
     }
@@ -99,20 +96,6 @@ class LaunchView extends BaseComponent {
 
         Router.route(props, 'DrawerNavigator');
       });
-
-    // AuthStorage.getToken()
-    //   .then(async () => {
-    //     await SearchProvider.prefetchRecentSearches(props);
-    //
-    //     await FeedProvider.prefetchFeeds(props);
-    //
-    //     Router.route(props, 'DrawerNavigator');
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //
-    //     Router.route(props, 'LoginView');
-    //   });
   };
 
   clearData = () => {
@@ -198,8 +181,6 @@ function mapDispatchToProps(dispatch) {
   return {
     selectDrawer: (...args) => dispatch(DrawerNavigatorAction.select(...args)),
     selectTab: (...args) => dispatch(MainTabNavigatorAction.select(...args)),
-    setCriteriaTags: (...args) => dispatch(CriteriaSectionAction.setTags(...args)),
-    setRecentSearchesTags: (...args) => dispatch(RecentSearchesSectionAction.setTags(...args)),
   };
 }
 

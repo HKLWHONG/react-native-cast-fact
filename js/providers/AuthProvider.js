@@ -12,7 +12,7 @@ import {
 
 import { Common } from '../utils';
 
-import { UserProvider } from '../providers';
+import { UserProvider, SearchProvider } from '../providers';
 
 import { AuthStorage, UserStorage } from '../storages';
 
@@ -58,7 +58,7 @@ export const login = (props, params, options) => {
 
                 store.dispatch(DataAction.setUserData(json));
 
-                UserProvider.getHistory(props, {}, options)
+                SearchProvider.prefetchRecentSearches(props, {}, options)
                   .catch((error) => {
                     console.error(error);
                   });

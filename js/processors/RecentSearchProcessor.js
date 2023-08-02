@@ -111,6 +111,9 @@ export const addGroupFrame = (tags, groupFrame) => {
    */
   // tags.push(groupFrame);
 
+  /*
+   * set maximum items
+   */
   tags = tags.filter((groupFrame, index) => {
     return index >= 0 && index < Environment.MAX_RECENT_SEARCHES_NUM;
   });

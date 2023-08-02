@@ -25,7 +25,7 @@ import {
 import { Router } from '../../utils';
 
 import {
-  CreateProjectSlideSheetContainerView,
+  // CreateProjectSlideSheetContainerView,
   SettingsSlideSheetContainerView,
   WelcomeSlideSheetContainerView,
 } from '../../views';
@@ -135,7 +135,11 @@ class DrawerNavigator extends BaseComponent {
             animationEnabled: false,
           }}
         >
-          <Stack.Screen name="CreateProjectSlideSheetContainerView" component={CreateProjectSlideSheetContainerView} />
+          {
+            /*
+              <Stack.Screen name="CreateProjectSlideSheetContainerView" component={CreateProjectSlideSheetContainerView} />
+            */
+          }
           <Stack.Screen name="WelcomeSlideSheetContainerView" component={WelcomeSlideSheetContainerView} />
           <Stack.Screen name="LoginStackNavigator" component={LoginStackNavigator} />
           <Stack.Screen name="SignUpStackNavigator" component={SignUpStackNavigator} />

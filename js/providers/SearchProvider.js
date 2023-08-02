@@ -20,7 +20,6 @@ import {
 
 import {
   CommonProcessor,
-  FeedProcessor,
   RecentSearchProcessor,
   SearchProcessor,
   TagProcessor,
@@ -33,10 +32,8 @@ import {
 } from '../storages';
 
 import {
-  AddRecentSearchesApi,
-  GetRecentSearchesApi,
-  RemoveRecentSearchesApi,
   SearchApi,
+  GetHistoryApi,
 } from '../apis';
 
 const IDENTIFIER = 'SearchProvider';
@@ -52,6 +49,10 @@ export const prefetchRecentSearches = (props, params, options) => {
 
     if (cachedRecentSearches) {
       console.log(`[${IDENTIFIER}] cached-recent-searches-found.`);
+
+      let tags = cachedRecentSearches.map((tag) => {
+        return tag.text;
+      });
 
       store.dispatch(DataAction.setRecentSearchesSectionTags(cachedRecentSearches));
 
@@ -103,8 +104,8 @@ export const prefetchRecentSearches = (props, params, options) => {
           console.error(error);
         });
 
-      if (params && params.json && params.json.payload) {
-        SearchStorage.setRecentSearches(params.json.payload)
+      if (params && params.response && params.response.status === 200) {
+        SearchStorage.setRecentSearches(params.json)
           .catch((error) => {
             console.error(error);
           });
@@ -119,18 +120,24 @@ export const prefetchRecentSearches = (props, params, options) => {
 
 export const getRecentSearches = (props, params, options) => {
   return new Promise((resolve, reject) => {
-    GetRecentSearchesApi.request(
+    GetHistoryApi.request(
       props,
       {
-        page: params && params.page,
-        length: params && params.length,
+        // page: params && params.page,
+        // length: params && params.length,
       },
       options,
     )
       .then((params) => {
         const { json } = params;
 
-        store.dispatch(DataAction.setRecentSearchesSectionTags(json));
+        let tags = json.map((tag) => {
+          return tag.text;
+        });
+
+        // console.log('[recent-tags]', JSON.stringify(tags));
+
+        store.dispatch(DataAction.setRecentSearchesSectionTags(tags));
 
         resolve(params);
       })
@@ -293,7 +300,7 @@ export const search = (props, params, options) => {
         .catch((error) => {
           reject(error);
         });
-        
+
       userId = (jwtToken && jwtToken.user_id) || '';
     }
 

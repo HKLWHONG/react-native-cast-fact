@@ -6,7 +6,7 @@
 import * as CalendarProcessor from './CalendarProcessor';
 import * as CommonProcessor from './CommonProcessor';
 import * as CriteriaProcessor from './CriteriaProcessor';
-import * as FeedProcessor from './FeedProcessor';
+// import * as FeedProcessor from './FeedProcessor';
 import * as FindTalentProcessor from './FindTalentProcessor';
 import * as ProfileProcessor from './ProfileProcessor';
 import * as RecentSearchProcessor from './RecentSearchProcessor';
@@ -19,7 +19,7 @@ export {
   CalendarProcessor,
   CommonProcessor,
   CriteriaProcessor,
-  FeedProcessor,
+  // FeedProcessor,
   FindTalentProcessor,
   ProfileProcessor,
   RecentSearchProcessor,
