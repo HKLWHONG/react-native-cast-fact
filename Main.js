@@ -81,25 +81,7 @@ class Main extends BaseComponent {
             >
               <Stack.Group>
                 <Stack.Screen name="LaunchView" component={LaunchView} />
-                {
-                  /*
-                    <Stack.Screen name="LoginView" component={LoginView} />
-                  */
-                }
                 <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-              </Stack.Group>
-              <Stack.Group
-                screenOptions={{
-                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-                  animationEnabled: true,
-                  gestureEnabled: false,
-                }}
-              >
-                {
-                  /*
-                    <Stack.Screen name="SignUpView" component={SignUpView} />
-                  */
-                }
               </Stack.Group>
             </Stack.Navigator>
             {this.renderActivityIndicator()}

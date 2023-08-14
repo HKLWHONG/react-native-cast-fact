@@ -472,9 +472,7 @@ class SearchResultView extends BaseComponent {
         {(t) => (
           <View style={styles.barContainer}>
             <View style={styles.barSubContainer}>
-              <Text
-                style={styles.barText}
-              >
+              <Text style={styles.barText}>
                 {`${numberOfSelected} Selected`}
               </Text>
             </View>
