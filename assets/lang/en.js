@@ -14,6 +14,7 @@ const en = {
     create_account: 'Create Account',
     upgrade_account: 'Upgrade to Artistes',
     sign_up: 'Sign Up',
+    redeem: 'Redeem Account',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
     based_on_projects_format: 'Based on Project {0}',
@@ -122,12 +123,18 @@ const en = {
       empty_field_message: 'Please complete all requuired fields.',
       password_validation_message: 'A password must be 8 or above alphanumeric characters.',
       image_upload_message: 'Cannot upload profile image.',
+      login_incorrect_message: 'Incorrect username or password.',
     },
   },
   components: {
     feed_list: {
       view_more: 'View More',
     },
+  },
+  project_components: {
+    profile_info: {
+      edit_profile: 'Edit profile'
+    }
   },
   views: {
     welcome: {

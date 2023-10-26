@@ -30,6 +30,7 @@ import {
   searchStackNavigatorReducer,
   settingsStackNavigatorReducer,
   signUpStackNavigatorReducer,
+  profileStackNavigatorReducer
 } from './navigators';
 
 import {
@@ -78,6 +79,7 @@ const reducers = combineReducers({
   searchStackNavigatorReducer,
   settingsStackNavigatorReducer,
   signUpStackNavigatorReducer,
+  profileStackNavigatorReducer,
 
   // views
   accountChangePasswordStep1ViewReducer,

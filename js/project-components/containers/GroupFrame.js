@@ -24,6 +24,7 @@ const ic_checkmark = require('../../../assets/images/ic_checkmark/ic_checkmark.p
 const ic_plus = require('../../../assets/images/ic_plus/ic_plus.png');
 const ic_eye_on = require('../../../assets/images/ic_eye_on/ic_eye_on.png');
 const ic_eye_off = require('../../../assets/images/ic_eye_off/ic_eye_off.png');
+const ic_delete = require('../../../assets/images/ic_delete/ic_delete.png');
 
 class GroupFrame extends Component {
   constructor(props: any) {
@@ -196,6 +197,65 @@ class GroupFrame extends Component {
     );
   };
 
+  renderDeleteGroupButton = () => {
+    const { props } = this;
+
+    let style = {};
+
+    let disabled = props.disabled || props.rightAccessoryDisabled;
+
+    if (
+      disabled
+    ) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      };
+    }
+
+    return (
+      <Translation>
+        {(t) => (
+          <Button
+            style={[styles.visibilityButton, style]}
+            buttonStyle={styles.checkAccessoryButton}
+            imageStyle={styles.checkAccessoryButtonImage}
+            type="small"
+            source={ic_delete}
+            resizeMode="center"
+            onPress={() => {
+              if (!props.onPress) {
+                return;
+              }
+              props.onPress(props.info);
+            }}
+            disabled={disabled}
+          />
+        )}
+      </Translation>
+    );
+  };
+
+  renderEyeAndDeleteButton = () => {
+    return (
+      <Translation>
+        {(t) => (
+
+          <View style={styles.twoButtonRightContainer}>
+            {this.renderDeleteGroupButton()}
+            <View style={{ height: 10 }}></View>
+            {this.renderEyeButton()}
+          </View>
+          // <View >
+
+
+          //   
+          // </View>
+        )}
+      </Translation>
+    )
+  }
+
   renderRightContainer = () => {
     const { props } = this;
 
@@ -214,6 +274,8 @@ class GroupFrame extends Component {
         children = this.renderPlusButton();
       } else if (props.rightAccessoryType.toLowerCase() === 'eye'.toLowerCase()) {
         children = this.renderEyeButton();
+      } else if (props.rightAccessoryType.toLowerCase() === 'eye&delete'.toLowerCase()) {
+        children = this.renderEyeAndDeleteButton();
       }
     }
 
@@ -301,6 +363,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 14,
     paddingHorizontal: 4,
   },
+  twoButtonRightContainer: {
+    // backgroundColor: '#0ff',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    borderTopRightRadius: 14,
+    borderBottomRightRadius: 14,
+    paddingHorizontal: 4,
+  },
   emptyRightAccessoryContainer: {
     // backgroundColor: '#f0f',
     flex: 1,
@@ -344,7 +414,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderWidth: 1,
     borderColor: Theme.colors.background.gray,
-  },
+  }
 });
 
 GroupFrame.propTypes = {

@@ -38,6 +38,7 @@ export const request = (
       certs: Environment.CERTS,
     })
       .then((result) => {
+        console.log(`[url] ${url}`)
         console.log(`[${identifier}] Api called successfully.`);
 
         const block = async () => {
@@ -98,7 +99,7 @@ export const request = (
       })
       .catch((error) => {
         const { code, message } = error;
-
+        console.log(`[url] ${url}`)
         console.error(`[${identifier}] Api called failed.`);
         console.error('[error]', error);
 

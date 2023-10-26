@@ -11,6 +11,8 @@ const initState = () => {
       info: {},
     },
     focusedTag: undefined,
+    deleteTags: {},
+    navigator: undefined
   };
 };
 
@@ -68,12 +70,32 @@ export default function profileCastSheetEditionViewReducer(state = initState(), 
         },
       };
 
+    case ProfileCastSheetEditionViewActionType.SET_DELETE_INFO:
+
+      const currentTags = Array.isArray(state.deleteTags[action.key]) ? state.deleteTags[action.key] : [];
+      const newTag = Array.isArray(action.deleteTag) ? action.deleteTag : [action.deleteTag];
+
+      return {
+        ...state,
+        deleteTags: {
+          ...state.deleteTags,
+          [action.key]: [...currentTags, ...newTag]
+        },
+      };
+
+
     case ProfileCastSheetEditionViewActionType.FOCUSED_TAG:
       return {
         ...state,
         focusedTag: action.focusedTag,
       };
 
+    case ProfileCastSheetEditionViewActionType.SET_NAVIGATOR:
+
+      return {
+        ...state,
+        navigator: action.navigator,
+      }
     default:
       return state;
   }

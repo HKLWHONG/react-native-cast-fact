@@ -163,15 +163,15 @@ class MainTabNavigator extends BaseComponent {
       <Translation>
         {(t) => (
           <Tab.Navigator
-           barStyle={styles.bar}
-           shifting={false}
+            barStyle={styles.bar}
+            shifting={false}
           >
             <Tab.Screen
               name="SearchStackNavigator"
               component={SearchStackNavigator}
               options={{
-                tabBarIcon: ({focused}) => {
-                  let dotStyle= {};
+                tabBarIcon: ({ focused }) => {
+                  let dotStyle = {};
 
                   // if (focused) {
                   //   dotStyle = {
@@ -184,7 +184,7 @@ class MainTabNavigator extends BaseComponent {
                     <ImageBackground
                       style={styles.background}
                       imageStyle={styles.iconContainer}
-                      source={focused ? ic_tab_bar_light: undefined}
+                      source={focused ? ic_tab_bar_light : undefined}
                       resizeMode="center"
                     >
                       <Image
@@ -288,8 +288,8 @@ class MainTabNavigator extends BaseComponent {
               name="ProfileStackNavigator"
               component={ProfileStackNavigator}
               options={{
-                tabBarIcon: ({focused}) => {
-                  let dotStyle= {};
+                tabBarIcon: ({ focused }) => {
+                  let dotStyle = {};
 
                   // if (focused) {
                   //   dotStyle = {
@@ -302,7 +302,7 @@ class MainTabNavigator extends BaseComponent {
                     <ImageBackground
                       style={styles.background}
                       imageStyle={styles.iconContainer}
-                      source={focused ? ic_tab_bar_light: undefined}
+                      source={focused ? ic_tab_bar_light : undefined}
                       resizeMode="center"
                     >
                       <Image
@@ -338,8 +338,8 @@ class MainTabNavigator extends BaseComponent {
               name="SettingsStackNavigator"
               component={SettingsStackNavigator}
               options={{
-                tabBarIcon: ({focused}) => {
-                  let dotStyle= {};
+                tabBarIcon: ({ focused }) => {
+                  let dotStyle = {};
 
                   // if (focused) {
                   //   dotStyle = {
@@ -352,7 +352,7 @@ class MainTabNavigator extends BaseComponent {
                     <ImageBackground
                       style={styles.background}
                       imageStyle={styles.iconContainer}
-                      source={focused ? ic_tab_bar_light: undefined}
+                      source={focused ? ic_tab_bar_light : undefined}
                       resizeMode="center"
                     >
                       <Image
@@ -368,6 +368,7 @@ class MainTabNavigator extends BaseComponent {
               }}
               listeners={(params) => ({
                 tabPress: (event) => {
+
                   this.tabPress(params, event, { index: 2, stack: 'SettingsStackNavigator' });
 
                   AuthProvider.decodeJWTToken()

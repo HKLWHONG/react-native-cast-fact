@@ -48,7 +48,7 @@ export const getTags = () => {
 
   let recentSearches = [...CommonProcessor.deepCopy(store.getState().dataReducer.recentSearchesSectionTags)];
 
-  if (recentSearches.length === 0) {
+  if (recentSearches.length === 0 || recentSearches.map((search) => search === undefined)) {
     return [];
   }
 

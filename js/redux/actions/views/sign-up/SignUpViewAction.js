@@ -143,3 +143,18 @@ export const setPasswordValidationUpperCase = (passwordValidationUpperCase) => (
 
   return Promise.resolve(store.getState());
 };
+
+export const setRedeem = (redeem, id) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_REDEEM,
+    redeem: redeem,
+    id: id
+  });
+};
+
+export const setPasswordMessage = (passwordMessage) => (dispatch) => {
+  dispatch({
+    type: SignUpViewActionType.ACCOUNT_PASSWORD_MESSAGE,
+    passwordMessage: passwordMessage
+  })
+}

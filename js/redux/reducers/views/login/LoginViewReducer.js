@@ -70,6 +70,8 @@ export default function loginViewReducer(state = initState(), action) {
         },
       };
 
+
+
     default:
       return state;
   }

@@ -400,7 +400,6 @@ export const search = (props, params, options) => {
     numberOfTasks += 1;
 
     // console.log('[tags]', JSON.stringify(tags));
-
     SearchApi.request(
       props,
       {
@@ -435,7 +434,6 @@ export const search = (props, params, options) => {
       })
       .catch((error) => {
         store.dispatch(SearchResultViewAction.setSearched(true));
-
         numberOfFinsihedTasks += 1;
 
         if (numberOfTasks === numberOfFinsihedTasks) {

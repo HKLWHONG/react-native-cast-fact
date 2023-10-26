@@ -79,6 +79,12 @@ class SignUpStackNavigator extends BaseComponent {
       'ProfileCompletionView',
     ];
 
+    if (props.accountRedeem.redeem) {
+      screens.push('SignUpView')
+      screens.push('ProfilePictureSelectionView')
+      screens.push('ProfileNameEditionView')
+    }
+
     const filteredScreens = screens.filter((screen) => {
       return screen === name;
     });
@@ -217,6 +223,13 @@ class SignUpStackNavigator extends BaseComponent {
                 title: t('views.profile_picture_selection.header'),
               }}
             />
+            {/* <Stack.Screen
+              name="RedeemProfilePictureSelectionView"
+              component={ProfilePictureSelectionView}
+              options={{
+                title: t('views.profile_picture_selection.header'),
+              }}
+            /> */}
             <Stack.Group
               screenOptions={{
                 headerShown: false,
@@ -297,6 +310,7 @@ function mapStateToProps(state) {
   return {
     hiddenRight: state.signUpStackNavigatorReducer.hiddenRight,
     enabledRight: state.signUpStackNavigatorReducer.enabledRight,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
   };
 }
 

@@ -16,7 +16,9 @@ const initState = () => {
         // lastnameZh: undefined,
         // nickname: undefined,
         phoneCode: '+852',
+        emailMessage: undefined,
         phoneNumber: '61234567',
+        passwordMessage: undefined,
       },
       credentials: {
         email: 'castfact-tester@gmail.com',
@@ -29,6 +31,10 @@ const initState = () => {
       lowerCase: false,
       upperCase: false,
     },
+    accountRedeem: {
+      redeem: false,
+      id: undefined,
+    }
   };
 };
 
@@ -193,6 +199,27 @@ export default function signUpViewReducer(state = initState(), action) {
         },
       };
 
+    case SignUpViewActionType.ACCOUNT_REDEEM:
+      return {
+        ...state,
+        accountRedeem: {
+          redeem: action.redeem,
+          id: action.id
+        }
+      }
+
+    case SignUpViewActionType.ACCOUNT_PASSWORD_MESSAGE:
+      console.log("[passowrdMea", action.passwordMessage)
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          credentials: {
+            ...state.account.credentials,
+            passwordMessage: action.passwordMessage,
+          },
+        }
+      };
     default:
       return state;
   }

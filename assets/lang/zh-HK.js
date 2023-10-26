@@ -14,6 +14,7 @@ const zhHK = {
     create_account: 'Create Account',
     upgrade_account: 'Upgrade to Artistes',
     sign_up: 'Sign Up',
+    redeem: 'Redeem Account',
     criteria: 'Criteria',
     recent_searches: 'Recent Searches',
     based_on_projects_format: 'Based on Project {0}',
@@ -122,12 +123,18 @@ const zhHK = {
       empty_field_message: '請輸入所需資料。',
       password_validation_message: '密碼必須是由8或以上的字母及數字所組成。',
       image_upload_message: '無法上傳頭像圖片。',
+      login_incorrect_message: '用戶名或密碼錯誤。',
     },
   },
   components: {
     feed_list: {
       view_more: '查看更多',
     },
+  },
+  project_components: {
+    profile_info: {
+      edit_profile: 'Edit profile'
+    }
   },
   views: {
     welcome: {

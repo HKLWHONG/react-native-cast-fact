@@ -36,8 +36,8 @@ export const request = (
       },
     )
       .then((params) => {
-        const { response } = params;
-
+        const { response, json } = params;
+        console.log('[test-json] ', JSON.stringify(json));
         if (response.status === 200) {
           resolve(params);
         } else {
@@ -45,6 +45,7 @@ export const request = (
         }
       })
       .catch((error) => {
+        console.log('[test-json] ', JSON.stringify(json));
         reject(error);
       });
   });

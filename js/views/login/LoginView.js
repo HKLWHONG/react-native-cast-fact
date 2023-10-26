@@ -51,9 +51,9 @@ import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
 const ic_header_bg = require('../../../assets/images/ic_header_bg/ic_header_bg.png');
-const ic_apple= require('../../../assets/images/ic_apple/ic_apple.png');
-const ic_facebook= require('../../../assets/images/ic_facebook/ic_facebook.png');
-const ic_google= require('../../../assets/images/ic_google/ic_google.png');
+const ic_apple = require('../../../assets/images/ic_apple/ic_apple.png');
+const ic_facebook = require('../../../assets/images/ic_facebook/ic_facebook.png');
+const ic_google = require('../../../assets/images/ic_google/ic_google.png');
 
 export const IDENTIFIER = 'LoginView';
 
@@ -180,7 +180,7 @@ class LoginView extends BaseComponent {
 
     const secureTextEntry =
       Platform.OS === 'ios' ||
-      (props.credentials.password && props.credentials.password.length > 0)
+        (props.credentials.password && props.credentials.password.length > 0)
         ? true
         : false;
 
@@ -275,14 +275,14 @@ class LoginView extends BaseComponent {
                 })
                 .catch((error) => {
                   console.error(error);
-
-                  Alert.alert(
-                    i18n.t('app.system_error'),
-                    i18n.t('app.error.general_message'),
-                    [{
-                      text: i18n.t('app.ok').toUpperCase(),
-                    }],
-                  );
+                  props.setPasswordMessage('app.error.login_incorrect_message');
+                  // Alert.alert(
+                  //   i18n.t('app.system_error'),
+                  //   i18n.t('app.error.general_message'),
+                  //   [{
+                  //     text: i18n.t('app.ok').toUpperCase(),
+                  //   }],
+                  // );
 
                   // props.hideActivityIndicator({
                   //   holder: ActivityIndicatorHolders.LOGIN,

@@ -41,6 +41,16 @@ export const deleteAccountInfo = (key) => (dispatch) => {
   return Promise.resolve(store.getState());
 };
 
+export const setDeleteInfo = (key, deleteTag) => (dispatch) => {
+  dispatch({
+    type: ProfileCastSheetEditionViewActionType.SET_DELETE_INFO,
+    key: key,
+    deleteTag: deleteTag
+  });
+
+  return Promise.resolve(store.getState());
+};
+
 export const setFocusedTag = (focusedTag) => (dispatch) => {
   dispatch({
     type: ProfileCastSheetEditionViewActionType.FOCUSED_TAG,
@@ -49,3 +59,10 @@ export const setFocusedTag = (focusedTag) => (dispatch) => {
 
   return Promise.resolve(store.getState());
 };
+
+export const setNavigator = (navigator) => (dispatch) => {
+  dispatch({
+    type: ProfileCastSheetEditionViewActionType.SET_NAVIGATOR,
+    navigator: navigator
+  })
+}

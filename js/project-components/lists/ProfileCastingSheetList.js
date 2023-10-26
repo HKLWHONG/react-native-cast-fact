@@ -68,8 +68,11 @@ class ProfileCastingSheetList extends Component {
                       color: Theme.colors.general.white,
                       fontSize: 15,
                       fontFamily: Theme.fonts.bold,
-                      letterSpacing: 5,
+                      letterSpacing: 2,
                       textTransform: 'uppercase',
+                      lineHeight: 20,
+                      marginTop: 3,
+                      marginBottom: 3,
                     }}
                   >
                     {content}
@@ -99,9 +102,12 @@ class ProfileCastingSheetList extends Component {
                   style={{
                     // backgroundColor: '#0ff',
                     color: Theme.colors.text.subtitle,
-                    fontSize: 15,
+                    fontSize: 13,
+                    letterSpacing: 0.5,
+                    marginTop: 2,
                     fontFamily: Theme.fonts.light,
                     textTransform: 'uppercase',
+                    lineHeight: 20,
                   }}
                 >
                   {data.title}

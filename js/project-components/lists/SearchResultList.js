@@ -129,15 +129,25 @@ class SearchResultList extends Component {
 
     let source = ic_profile_placeholder;
 
-    let image = item && item.profile && item.profile.image;
-
-    if (image) {
-      const { uri} = image;
-
-      if (uri) {
-        source = { uri: uri };
-      }
+    if (
+      item
+      &&
+      item.images
+      &&
+      item.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${item.images[item.images.length - 1]}` };
     }
+
+    // let image = item && item.profile && item.profile.image;
+
+    // if (image) {
+    //   const { uri } = image;
+
+    //   if (uri) {
+    //     source = { uri: uri };
+    //   }
+    // }
 
     let style = {};
 
@@ -178,7 +188,7 @@ class SearchResultList extends Component {
       return;
     }
 
-    const { uri, width, height} = image;
+    const { uri, width, height } = image;
 
     if (!uri || !width || !height) {
       return;
@@ -256,7 +266,7 @@ class SearchResultList extends Component {
         return false;
       }
 
-      const { uri, width, height} = image;
+      const { uri, width, height } = image;
 
       if (!uri || !width || !height) {
         return false;
@@ -288,7 +298,7 @@ class SearchResultList extends Component {
       <Translation>
         {(t) => (
           <View style={styles.listCenterContainer}>
-            {this.renderImageList(params)}
+            {/* {this.renderImageList(params)} */}
           </View>
         )}
       </Translation>

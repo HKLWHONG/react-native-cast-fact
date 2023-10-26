@@ -287,17 +287,21 @@ export const fetchApiFields = (key) => {
 
   let tags = (info && info.tags) || [];
 
+
   if (info && info.text && info.text.length > 0) {
     tags = [
       ...tags,
       {
+        id: info.id,
         text: info.text,
       }
     ];
   }
 
+
   return tags.map((tag) => {
     return {
+      id: tag.id,
       text: tag.text,
     };
   });
@@ -309,12 +313,11 @@ export const fetchApiMultipleField = (key, propertyList = []) => {
   if (!info || !info[key] || !info[key].groupFrames) {
     return [];
   }
-
-  return info[key].groupFrames
+  const result = info[key].groupFrames
     .filter((groupFrame) => {
       return (
-        groupFrame.groupFrameId !== 'input'
-        &&
+        // groupFrame.groupFrameId !== 'input'
+        // &&
         !groupFrame.groupFrameId.startsWith('deleted')
       );
     })
@@ -327,12 +330,52 @@ export const fetchApiMultipleField = (key, propertyList = []) => {
           [propertyKey]: fetchTagValue(propertyKey, groupFrame),
         };
       });
+      const idText = groupFrame.data.find(tag => tag.key === 'id')?.text || '';
 
-      return field;
-    });
+      if (idText) {
+        field = {
+          ...field,
+          id: idText
+        }
+      }
+      const allValuesEmpty = Object.values(field).every(value => value === '');
+
+      return allValuesEmpty ? null : field;
+    })
+    .filter(field => field !== null);
+
+  return result;
 };
 
+// for api delete tag
+export const deleteTag = (key) => {
+  const { info } = store.getState().profileCastSheetEditionViewReducer.account;
+
+  if (!info || !info[key] || !info[key].groupFrames) {
+    return [];
+  }
+
+  const result = info[key].groupFrames.filter((groupFrame) => {
+    if (!groupFrame.groupFrameId.startsWith('deleted')) {
+      return false;
+    }
+
+    return groupFrame.data.some((obj) => {
+      return obj.key === 'id';
+    });
+  })
+    .flatMap((tags) => {
+      return tags.data
+        .filter((tag) => tag.key === 'id')
+        .map((tag) => ({ id: tag.text }));
+    });
+
+  return result
+
+}
+
 export const fetchTagValue = (key, groupFrame) => {
+
   let value = groupFrame.data
     .filter((tag) => {
       return tag.key === key;
@@ -352,19 +395,19 @@ export const fetchTagSuggessionList = (key) => {
   // }
 
   let list = store.getState().findTalentSectionReducer.tags.filter((tag) => {
-      if (!tag.category_name) {
-        return false;
-      }
+    if (!tag.category_name) {
+      return false;
+    }
 
-      if (
-        tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_HEIGHT.toLowerCase()
-        ||
-        tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_WEIGHT.toLowerCase()
-      ) {
-        return false;
-      }
+    if (
+      tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_HEIGHT.toLowerCase()
+      ||
+      tag.category_name.toLowerCase() === CastSheetConstants.CAST_SHEET_KEY_WEIGHT.toLowerCase()
+    ) {
+      return false;
+    }
 
-      return tag.category_name.toLowerCase() === key.toLowerCase();
+    return tag.category_name.toLowerCase() === key.toLowerCase();
   });
 
   if (list.length > 0) {
@@ -407,6 +450,8 @@ export const addTag = (key, text, state) => {
     };
   });
 };
+
+
 
 export const fetchProfilePropertyData = (categoryName, keyName, profile) => {
   let data = [];

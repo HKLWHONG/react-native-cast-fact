@@ -27,7 +27,6 @@ export const request = (
       .catch((error) => {
         reject(error);
       });
-
     Request.request(
       props,
       IDENTIFIER,
@@ -43,7 +42,6 @@ export const request = (
     )
       .then((params) => {
         const { response, json } = params;
-
         if (response.status === 200) {
           resolve(params);
         } else {

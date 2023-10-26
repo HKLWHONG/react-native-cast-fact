@@ -104,6 +104,8 @@ export const jumpTo = (props, stack, name, params) => {
 };
 
 export const push = (props, stack, name, params) => {
+
+
   if (!props || !props.navigation || !props.navigation.navigate) {
     return;
   }
@@ -125,6 +127,7 @@ export const push = (props, stack, name, params) => {
   //   props.navigation.dispatch(DrawerActions.closeDrawer());
   // }
 };
+
 
 export const popToTop = (props) => {
   if (!props || !props.navigation || !props.navigation.popToTop) {

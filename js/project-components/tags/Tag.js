@@ -56,7 +56,7 @@ class Tag extends Component {
       <Translation>
         {(t) => (
           <View style={styles.dotView}>
-            <Dot style={[styles.dot, props.dotStyle]}/>
+            <Dot style={[styles.dot, props.dotStyle]} />
           </View>
         )}
       </Translation>
@@ -171,7 +171,7 @@ class Tag extends Component {
       <Translation>
         {(t) => (
           <Text style={styles.text}>
-           {' '}
+            {' '}
           </Text>
         )}
       </Translation>

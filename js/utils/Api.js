@@ -265,7 +265,7 @@ export const POST = (
         if (file.key && file.key.length > 0 && file.type && file.type.toLowerCase().startsWith('image')) {
           data.append(file.key, {
             name: file.name || file.key,
-            uri: file.uri ,
+            uri: file.uri,
             type: file.type,
           });
           data.append('Content-Type', file.type);
@@ -425,7 +425,7 @@ export const PUT = (
         if (file.key && file.key.length > 0 && file.type && file.type.toLowerCase().startsWith('image')) {
           data.append(file.key, {
             name: file.name || file.key,
-            uri: file.uri ,
+            uri: file.uri,
             type: file.type,
           });
           data.append('Content-Type', file.type);

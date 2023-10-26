@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import {
   WelcomeViewAction,
   MainTabNavigatorAction,
+  SignUpViewAction
 } from '../../redux';
 
 import {
@@ -200,6 +201,7 @@ class WelcomeView extends BaseComponent {
             style={styles.createAccountButton}
             text={t('app.create_account')}
             onPress={() => {
+              props.setRedeem(false, undefined);
               Router.push(props.slideSheetPropsList[WelcomeSlideSheetContainerView.IDENTIFIER], 'SignUpStackNavigator');
             }}
           />
@@ -247,7 +249,7 @@ class WelcomeView extends BaseComponent {
                 <Text style={styles.login}>
                   {t('app.login')}
                 </Text>
-                <Separator style={styles.separator}/>
+                <Separator style={styles.separator} />
                 <View style={styles.redeemAccountContainer}>
                   <View style={styles.redeemAccountSubContainer}>
                     <Text style={styles.redeemAccountText}>
@@ -447,7 +449,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    setRedeem: (...args) => dispatch(SignUpViewAction.setRedeem(...args)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WelcomeView);

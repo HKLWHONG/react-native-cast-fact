@@ -80,47 +80,58 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
-      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-        this.validateAll();
-      });
+      if (props.accountRedeem.redeem) {
+        props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          this.validateAll();
+        });
 
-      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-        console.log('[signUpViewAccount]', props.signUpViewAccount);
-        console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
-        console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
-        console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+        props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          Router.push(props, 'ProfileCastSheetEditionView');
+        });
 
-        let profile = props.userProfile;
+      } else {
+        props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          this.validateAll();
+        });
 
-        console.log('[profile-1]', profile);
+        props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          console.log('[signUpViewAccount]', props.signUpViewAccount);
+          console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+          console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+          console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
-        profile = {
-          ...profile,
-          firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
-          lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
-          firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
-          lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
-          nickname: props.profileInfoSetupViewAccount.info.nickname || '',
-          name_display_format: store.getState().profileInfoSetupViewReducer.account.info.displayFormat.toString(),
-        }
+          let profile = props.userProfile;
 
-        console.log('[profile-2]', profile);
+          console.log('[profile-1]', profile);
 
-        console.log('call api...');
+          profile = {
+            ...profile,
+            firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+            lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+            firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+            lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+            nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+            name_display_format: store.getState().profileInfoSetupViewReducer.account.info.displayFormat.toString(),
+          }
 
-        UserProvider.updateProfile(
-          props,
-          profile,
-        )
-          .then((params) => {
-            Router.popToTop(props);
-          })
-          .catch((error) => {
-            console.error(error);
+          console.log('[profile-2]', profile);
 
-            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
-          });
-      });
+          console.log('call api...');
+
+          UserProvider.updateProfile(
+            props,
+            profile,
+          )
+            .then((params) => {
+              Router.popToTop(props);
+            })
+            .catch((error) => {
+              console.error(error);
+
+              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+            });
+        });
+      }
 
       // props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
       // props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
@@ -134,7 +145,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
         nameDisplayFormat = parseInt(props.userProfile.name_display_format);
       }
 
-      props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat) ;
+      props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
     } else {
       props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         this.validateAll();
@@ -159,7 +170,7 @@ class ProfileNameDisplaySelectionView extends BaseComponent {
 
     const setStackNavigatorEnabledRight = props.userProfile
       ?
-      props.setSettingsStackNavigatorEnabledRight
+      props.accountRedeem.redeem ? props.setSignUpStackNavigatorEnabledRight : props.setSettingsStackNavigatorEnabledRight
       :
       props.setSignUpStackNavigatorEnabledRight;
 
@@ -631,6 +642,7 @@ function mapStateToProps(state) {
   return {
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
     userProfile: state.dataReducer.userProfile,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
   };
 }
 

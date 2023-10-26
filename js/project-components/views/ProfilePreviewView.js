@@ -71,117 +71,117 @@ class ProfilePreviewView extends Component {
     if (props.profile) {
       switch (props.index) {
         case 0:
-        {
-          data = [
-            {
-              title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
-                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION;
-              })[0].keys.map((key) => {
-                return {
-                  title: i18n.t(`app.${key.name}`),
-                  data: ProfileProcessor.fetchProfilePropertyData(
-                    CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION,
-                    key.name,
-                    props.profile,
-                  ),
-                };
-              }),
-            },
-          ];
-        }
+          {
+            data = [
+              {
+                title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION}`),
+                data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                  return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION;
+                })[0].keys.map((key) => {
+                  return {
+                    title: i18n.t(`app.${key.name}`),
+                    data: ProfileProcessor.fetchProfilePropertyData(
+                      CastSheetConstants.CAST_SHEET_CATEGORY_KEY_BASIC_INFORMATION,
+                      key.name,
+                      props.profile,
+                    ),
+                  };
+                }),
+              },
+            ];
+          }
           break;
 
         case 1:
-        {
-          data = [
-            {
-              title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
-                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE;
-              })[0].keys.map((key) => {
-                return {
-                  title: i18n.t(`app.${key.name}`),
-                  data: ProfileProcessor.fetchProfilePropertyData(
-                    CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE,
-                    key.name,
-                    props.profile,
-                  ),
-                };
-              }),
-            },
-          ];
-        }
+          {
+            data = [
+              {
+                title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE}`),
+                data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                  return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE;
+                })[0].keys.map((key) => {
+                  return {
+                    title: i18n.t(`app.${key.name}`),
+                    data: ProfileProcessor.fetchProfilePropertyData(
+                      CastSheetConstants.CAST_SHEET_CATEGORY_KEY_APPEARANCE,
+                      key.name,
+                      props.profile,
+                    ),
+                  };
+                }),
+              },
+            ];
+          }
           break;
 
         case 2:
-        {
-          data = [
-            {
-              title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
-                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE;
-              })[0].keys.map((key) => {
-                return {
-                  title: i18n.t(`app.${key.name}`),
-                  data: ProfileProcessor.fetchProfilePropertyData(
-                    CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE,
-                    key.name,
-                    props.profile,
-                  ),
-                };
-              }),
-            },
-          ];
-        }
+          {
+            data = [
+              {
+                title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE}`),
+                data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                  return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE;
+                })[0].keys.map((key) => {
+                  return {
+                    title: i18n.t(`app.${key.name}`),
+                    data: ProfileProcessor.fetchProfilePropertyData(
+                      CastSheetConstants.CAST_SHEET_CATEGORY_KEY_EXPERIENCE,
+                      key.name,
+                      props.profile,
+                    ),
+                  };
+                }),
+              },
+            ];
+          }
           break;
 
         case 3:
-        {
-          data = [
-            {
-              title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
-                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS;
-              })[0].keys.map((key) => {
-                return {
-                  title: i18n.t(`app.${key.name}`),
-                  data: ProfileProcessor.fetchProfilePropertyData(
-                    CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS,
-                    key.name,
-                    props.profile,
-                  ),
-                };
-              }),
-            },
-          ];
-        }
+          {
+            data = [
+              {
+                title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS}`),
+                data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                  return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS;
+                })[0].keys.map((key) => {
+                  return {
+                    title: i18n.t(`app.${key.name}`),
+                    data: ProfileProcessor.fetchProfilePropertyData(
+                      CastSheetConstants.CAST_SHEET_CATEGORY_KEY_CONTACTS,
+                      key.name,
+                      props.profile,
+                    ),
+                  };
+                }),
+              },
+            ];
+          }
           break;
 
         case 4:
-        {
-          data = [
-            {
-              title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS}`),
-              data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
-                return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS;
-              })[0].keys.map((key) => {
-                return {
-                  title: i18n.t(`app.${key.name}`),
-                  data: ProfileProcessor.fetchProfilePropertyData(
-                    CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
-                    key.name,
-                    props.profile,
-                  ),
-                };
-              }),
-            },
-          ];
-        }
+          {
+            data = [
+              {
+                title: i18n.t(`app.${CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS}`),
+                data: CastSheetConstants.CAST_SHEET_INFO.filter((category) => {
+                  return category.name === CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS;
+                })[0].keys.map((key) => {
+                  return {
+                    title: i18n.t(`app.${key.name}`),
+                    data: ProfileProcessor.fetchProfilePropertyData(
+                      CastSheetConstants.CAST_SHEET_CATEGORY_KEY_SOCIAL_MEDIAS,
+                      key.name,
+                      props.profile,
+                    ),
+                  };
+                }),
+              },
+            ];
+          }
           break;
 
         default:
-            break;
+          break;
       }
     }
 
@@ -207,7 +207,9 @@ class ProfilePreviewView extends Component {
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoView profile={props.profile} />
+          <ProfileInfoView
+            profile={props.profile}
+            onPress={props.onPressEditProfile} />
         )}
       </Translation>
     );
@@ -397,7 +399,7 @@ class ProfilePreviewView extends Component {
     let androidRefreshControlColor = undefined;
     let iosRefreshControlColor = undefined;
     let refreshing = undefined;
-    let onRefresh= undefined;
+    let onRefresh = undefined;
 
     if (props.profile) {
       sections = [
@@ -585,6 +587,7 @@ ProfilePreviewView.propTypes = {
   index: PropTypes.number,
   profile: PropTypes.object,
   onPress: PropTypes.func,
+  onPressEditProfile: PropTypes.func,
 };
 
 ProfilePreviewView.defaultProps = {
@@ -595,6 +598,7 @@ ProfilePreviewView.defaultProps = {
   index: undefined,
   profile: undefined,
   onPress: undefined,
+  onPressEditProfile: undefined,
 };
 
 function mapStateToProps(state) {

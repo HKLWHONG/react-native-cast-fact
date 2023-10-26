@@ -88,10 +88,11 @@ class ProfileInfoSetupView extends Component {
     } else if (props.account.info.displayFormat === 3) {
       name = `${nickname}`.trim();
     }
-
+    console.log("[name]", props.account.info)
     if (name && name.length === 0) {
       name = undefined;
     }
+
 
     if (props.userProfile) {
       occupation = UserProcessor.toOccupation(props.userProfile);

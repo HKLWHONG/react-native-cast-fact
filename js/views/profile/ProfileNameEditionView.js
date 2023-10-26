@@ -43,6 +43,8 @@ import { Theme, Router } from '../../utils';
 
 import { ProfileProcessor } from '../../processors';
 
+import { Environment } from '../../config';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -62,6 +64,8 @@ class ProfileNameEditionView extends BaseComponent {
 
     const { props } = this;
 
+
+
     this.initialize();
   }
 
@@ -75,6 +79,19 @@ class ProfileNameEditionView extends BaseComponent {
     const { props } = this;
 
     if (props.userProfile) {
+      let source = undefined;
+
+      if (
+        props.userProfile
+        &&
+        props.userProfile.images
+        &&
+        props.userProfile.images.length > 0
+      ) {
+        source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+      }
+
+      props.setProfileInfoSetupViewSource(source);
       props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
       props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
       props.setProfileInfoSetupViewFirstnameZh(props.userProfile.firstname_zh);
@@ -89,23 +106,34 @@ class ProfileNameEditionView extends BaseComponent {
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
 
-      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-        props.setProfileInfoSetupViewDisplayFormat(undefined);
+      if (props.accountRedeem.redeem) {
+        props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          this.validateAll();
+        });
 
-        this.validateAll();
-      });
+        props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          Router.push(props, 'ProfileNameDisplaySelectionView');
+        });
+      } else {
+        props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          // props.setProfileInfoSetupViewDisplayFormat(undefined);
 
-      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-        // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
-        // props.setProfileInfoSetupViewLastnameEn('Chan');
-        // props.setProfileInfoSetupViewFirstnameZh('大文');
-        // props.setProfileInfoSetupViewLastnameZh('陳');
-        // props.setProfileInfoSetupViewNickname('別名');
+          this.validateAll();
+        });
 
-        Router.push(props, 'ProfileNameDisplaySelectionView');
-      });
+        props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          // props.setProfileInfoSetupViewFirstnameEn('Tai Man');
+          // props.setProfileInfoSetupViewLastnameEn('Chan');
+          // props.setProfileInfoSetupViewFirstnameZh('大文');
+          // props.setProfileInfoSetupViewLastnameZh('陳');
+          // props.setProfileInfoSetupViewNickname('別名');
 
-      props.setProfileInfoSetupViewNumberOfIndicators(2);
+          Router.push(props, 'ProfileNameDisplaySelectionView');
+        });
+
+        props.setProfileInfoSetupViewNumberOfIndicators(2);
+      }
+
     } else {
       props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         props.setProfileInfoSetupViewDisplayFormat(undefined);
@@ -150,7 +178,7 @@ class ProfileNameEditionView extends BaseComponent {
 
     const setStackNavigatorEnabledRight = props.userProfile
       ?
-      props.setSettingsStackNavigatorEnabledRight
+      props.accountRedeem.redeem ? props.setSignUpStackNavigatorEnabledRight : props.setSettingsStackNavigatorEnabledRight
       :
       props.setSignUpStackNavigatorEnabledRight;
 
@@ -194,12 +222,25 @@ class ProfileNameEditionView extends BaseComponent {
 
     const index = props.userProfile ? 0 : 1;
 
+    let source = undefined;
+
+    if (
+      props.userProfile
+      &&
+      props.userProfile.images
+      &&
+      props.userProfile.images.length > 0
+    ) {
+      source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
+    }
+
     return (
       <Translation>
         {(t) => (
           <ProfileInfoSetupView
             index={index}
             text={t('views.profile_name_edition.title')}
+            source={source}
           />
         )}
       </Translation>
@@ -371,6 +412,7 @@ function mapStateToProps(state) {
     refs: state.profileNameEditionViewReducer.refs,
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
     userProfile: state.dataReducer.userProfile,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
   };
 }
 

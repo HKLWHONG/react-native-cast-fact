@@ -26,6 +26,7 @@ import {
   GetProfileApi,
   LinkProfileApi,
   UploadProfileImageApi,
+  UnlinkProfileInfoApi
 } from '../apis';
 
 import { UserStorage } from '../storages';
@@ -33,6 +34,31 @@ import { UserStorage } from '../storages';
 import i18n from '../../i18n';
 
 const IDENTIFIER = 'UserProvider';
+
+export const linkProfile = (props, params, options) => {
+
+  return new Promise((resolve, reject) => {
+    LinkProfileApi.request(
+      props,
+      {
+        profile_id: params.profile_id,
+      },
+      options,
+    )
+      .then((params) => {
+        UserStorage.setProfileId(params.profileId)
+          .then(() => {
+            resolve(params);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
 export const createAndLinkProfile = (props, params, options) => {
   return new Promise((resolve, reject) => {
@@ -145,6 +171,26 @@ export const getProfile = (props, params, options) => {
       });
   });
 };
+
+export const unlinkProfileInfo = (props, params, options) => {
+
+  return new Promise((resolve, reject) => {
+    UnlinkProfileInfoApi.request(
+      props,
+      {
+        json: params,
+      },
+      options,
+    )
+      .then((params) => {
+
+        resolve(params);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  })
+}
 
 export const generateHtmlTemplate = (content) => {
   let html = `

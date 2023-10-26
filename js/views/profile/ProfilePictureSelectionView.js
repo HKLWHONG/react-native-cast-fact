@@ -95,8 +95,8 @@ class ProfilePictureSelectionView extends BaseComponent {
         props.userProfile.images.length > 0
       ) {
         source = { uri: `${Environment.API_URL}${props.userProfile.images[props.userProfile.images.length - 1]}` };
-      }
 
+      }
       props.setProfileInfoSetupViewSource(source);
       props.setProfileInfoSetupViewFirstnameEn(props.userProfile.firstname_en);
       props.setProfileInfoSetupViewLastnameEn(props.userProfile.lastname_en);
@@ -112,40 +112,82 @@ class ProfilePictureSelectionView extends BaseComponent {
 
       props.setProfileInfoSetupViewDisplayFormat(nameDisplayFormat);
 
-      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-        props.setSettingsStackNavigatorEnabledRight(true);
-      });
+      if (props.accountRedeem.redeem) {
+        props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          props.setSignUpStackNavigatorEnabledRight(true);
+        });
 
-      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-        if (
-          store.getState().profileInfoSetupViewReducer.source
-          &&
-          store.getState().profileInfoSetupViewReducer.source.photo
-          &&
-          store.getState().profileInfoSetupViewReducer.source.photo.path
-          &&
-          store.getState().profileInfoSetupViewReducer.source.photo.mime
-        ) {
-          UserProvider.uploadProfileImage(
-            props,
-            {
-              key: 'image_path',
-              uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
-              type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
-            },
-          )
-            .then((params) => {
-              Router.popToTop(props);
-            })
-            .catch((error) => {
-              console.error(error);
+        props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          if (
+            store.getState().profileInfoSetupViewReducer.source
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo.path
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo.mime
+          ) {
+            UserProvider.uploadProfileImage(
+              props,
+              {
+                key: 'image_path',
+                uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
+                type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
+              },
+            )
+              .then((params) => {
 
-              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.image_upload_message'));
-            });
-        }
-      });
+                Router.push(props, 'ProfileNameEditionView');
+              })
+              .catch((error) => {
+                console.error(error);
 
-      props.setProfileInfoSetupViewNumberOfIndicators(0);
+                Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.image_upload_message'));
+              });
+          } else {
+            Router.push(props, 'ProfileNameEditionView');
+          }
+        });
+
+        props.setProfileInfoSetupViewNumberOfIndicators(3);
+      } else {
+        props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          props.setSettingsStackNavigatorEnabledRight(true);
+        });
+
+        props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          if (
+            store.getState().profileInfoSetupViewReducer.source
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo.path
+            &&
+            store.getState().profileInfoSetupViewReducer.source.photo.mime
+          ) {
+            UserProvider.uploadProfileImage(
+              props,
+              {
+                key: 'image_path',
+                uri: 'file://' + store.getState().profileInfoSetupViewReducer.source.photo.path,
+                type: store.getState().profileInfoSetupViewReducer.source.photo.mime,
+              },
+            )
+              .then((params) => {
+
+                Router.popToTop(props);
+              })
+              .catch((error) => {
+                console.error(error);
+
+                Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.image_upload_message'));
+              });
+          }
+        });
+
+        props.setProfileInfoSetupViewNumberOfIndicators(0);
+      }
+
     } else {
       props.setSignUpStackNavigatorHiddenRight(false);
 
@@ -280,7 +322,7 @@ class ProfilePictureSelectionView extends BaseComponent {
                         'Please grant the library permission.',
                         [{
                           text: i18n.t('app.ok').toUpperCase(),
-                          onPress: () => {},
+                          onPress: () => { },
                         }],
                       );
                     }
@@ -443,6 +485,7 @@ function mapStateToProps(state) {
   return {
     signUpViewAccount: state.signUpViewReducer.account,
     userProfile: state.dataReducer.userProfile,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
   };
 }
 

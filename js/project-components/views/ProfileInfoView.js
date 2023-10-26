@@ -23,7 +23,9 @@ import {
   Button,
 } from '../../project-components';
 
-import { Theme } from '../../utils';
+import { Theme, Router } from '../../utils';
+
+import i18n from '../../../i18n';
 
 import { Environment } from '../../config';
 
@@ -35,22 +37,22 @@ import { Translation } from 'react-i18next';
 
 const ic_profile_placeholder = require('../../../assets/images/ic_profile_placeholder/ic_profile_placeholder.png');
 
-class ProfileInfoView extends Component {
-  constructor(props: any) {
-    super(props);
+const ic_pen = require('../../../assets/images/ic_pen/ic_pen.png');
 
+class ProfileInfoView extends Component {
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
   render() {
     const { props } = this;
-
+    console.log(props)
     if (props.hidden) {
       return null;
     }
 
     let source = ic_profile_placeholder;
-
     if (
       props.profile
       &&
@@ -125,10 +127,22 @@ class ProfileInfoView extends Component {
                     {` ${occupation || ' '} `}
                   </Text>
                 </View>
+                <View style={{ marginTop: 10 }}>
+                  <Button
+                    buttonStyle={styles.editButton}
+                    textStyle={styles.editButtonText}
+                    text={i18n.t('project_components.profile_info.edit_profile')}
+                    type="small"
+                    leftAccessorySource={ic_pen}
+                    leftAccessoryResizeMode="center"
+                    onPress={props.onPress}
+                  />
+                </View>
               </View>
             </ImageBackground>
           </ImageBackground>
-        )}
+        )
+        }
       </Translation>
     );
   }
@@ -149,6 +163,15 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'flex-start',
   },
+  editButton: {
+    backgroundColor: Theme.colors.background.secondary,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  editButtonText: {
+    fontSize: 13,
+    letterSpacing: 2.22,
+  },
   photo: {
     backgroundColor: Theme.colors.background.gray,
     width: 100,
@@ -162,7 +185,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#f00',
     backgroundColor: Theme.colors.background.gray,
     borderRadius: 4,
-    marginVertical: 4,
+    // marginVertical: 4,
   },
   name: {
     // backgroundColor: '#00f',
@@ -185,6 +208,7 @@ ProfileInfoView.propTypes = {
   style: ViewPropTypes.style,
   hidden: PropTypes.bool,
   profile: PropTypes.object,
+  onPress: PropTypes.func,
 };
 
 ProfileInfoView.defaultProps = {
@@ -192,6 +216,7 @@ ProfileInfoView.defaultProps = {
   style: undefined,
   hidden: false,
   profile: undefined,
+  onPress: undefined,
 };
 
 function mapStateToProps(state) {

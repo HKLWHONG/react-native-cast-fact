@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { ProfileViewAction, MainTabNavigatorAction } from '../../redux';
+import { ProfileViewAction, MainTabNavigatorAction, DataAction, ProfileCastSheetEditionViewAction } from '../../redux';
 
 import {
   BaseComponent,
@@ -93,11 +93,13 @@ class ProfileView extends BaseComponent {
   renderProfileInfoView = (params) => {
     const { props } = this;
     const { item, index, section, separators } = params;
-
     return (
       <Translation>
         {(t) => (
-          <ProfileInfoView profile={props.userProfile} />
+          <ProfileInfoView
+            profile={props.userProfile}
+
+          />
         )}
       </Translation>
     );
@@ -250,13 +252,18 @@ class ProfileView extends BaseComponent {
               if (!ref) {
                 return;
               }
-
               props.setListRef(1, props.navigation.getState().index, ref);
             }}
             index={props.index}
             profile={props.userProfile}
             onPress={(index) => {
               props.setIndex(index);
+            }}
+            onPressEditProfile={() => {
+              // Router.dispatch(props, [{ name: 'SettingsStackNavigator' }])
+              props.setIsLoggedIn(true);
+              props.setNavigator('ProfileStackNavigator')
+              Router.push(props, 'ProfileCastSheetEditionView')
             }}
           />
         )}
@@ -446,6 +453,8 @@ function mapDispatchToProps(dispatch) {
   return {
     setIndex: (...args) => dispatch(ProfileViewAction.setIndex(...args)),
     setListRef: (...args) => dispatch(MainTabNavigatorAction.setListRef(...args)),
+    setIsLoggedIn: (...args) => dispatch(DataAction.setIsLoggedIn(...args)),
+    setNavigator: (...args) => dispatch(ProfileCastSheetEditionViewAction.setNavigator(...args)),
   };
 }
 

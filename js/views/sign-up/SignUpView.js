@@ -15,6 +15,7 @@ import {
 import { connect } from 'react-redux';
 import {
   store,
+  AppAction,
   SignUpViewAction,
   SignUpStackNavigatorAction,
 } from '../../redux';
@@ -39,6 +40,8 @@ import { AppRegex } from '../../regex';
 
 import { Theme, Router } from '../../utils';
 
+import { AuthProvider, UserProvider } from '../../providers';
+
 import i18n from '../../../i18n';
 import { Translation } from 'react-i18next';
 
@@ -58,6 +61,14 @@ class SignUpView extends BaseComponent {
     super.componentDidMount();
 
     const { props } = this;
+    // console.log(store.getState().dataReducer.isLoggedIn)
+    AuthProvider.decodeJWTToken()
+      .then((jwtToken) => {
+        Router.goBack(props);
+      })
+      .catch((error) => {
+
+      });
 
     this.initialize();
   }
@@ -78,7 +89,43 @@ class SignUpView extends BaseComponent {
     });
 
     props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-      Router.push(props, 'SignUpAccountTypeSelectionView');
+      if (props.accountRedeem.redeem) {
+        // Router.push(props, 'RedeemProfilePictureSelectionView');
+        store.dispatch(AppAction.showActivityIndicator());
+        const { account } = store.getState().signUpViewReducer
+        AuthProvider.register(props, {
+          email: account.credentials.email,
+          password: account.credentials.password,
+          phoneNumber: `${account.info.phoneCode}${account.info.phoneNumber}`,
+        })
+          .then(() => {
+            UserProvider.linkProfile(props, {
+              profile_id: props.accountRedeem.id
+            })
+              .then(() => {
+                this.login();
+                store.dispatch(AppAction.hideActivityIndicator());
+              })
+              .catch((error) => {
+                console.error(error);
+                props.setPasswordMessage(error);
+                store.dispatch(AppAction.hideActivityIndicator());
+                Alert.alert(i18n.t('app.system_error'), error || i18n.t('app.error.general_message'));
+              });
+
+          })
+          .catch((error) => {
+            console.error(error);
+            props.setPasswordMessage(error);
+            store.dispatch(AppAction.hideActivityIndicator());
+            Alert.alert(i18n.t('app.system_error'), error || i18n.t('app.error.general_message'));
+          });
+      } else {
+        Router.push(props, 'SignUpAccountTypeSelectionView');
+      }
+
+
+
     });
 
     if (
@@ -88,6 +135,29 @@ class SignUpView extends BaseComponent {
     ) {
       props.refs['EmailTextField'].focus();
     }
+  };
+
+  login = () => {
+    const { props } = this;
+
+    AuthProvider.login(props, {
+      email: props.account.credentials.email,
+      password: props.account.credentials.password,
+    })
+      .then(async () => {
+        Router.push(props, 'ProfilePictureSelectionView');
+      })
+      .catch((error) => {
+        console.error(error);
+
+        Alert.alert(
+          i18n.t('app.system_error'),
+          i18n.t('app.error.general_message'),
+          [{
+            text: i18n.t('app.ok').toUpperCase(),
+          }],
+        );
+      });
   };
 
   clearData = () => {
@@ -260,7 +330,7 @@ class SignUpView extends BaseComponent {
             resizeMode="contain"
           >
             <Text style={styles.headerText}>
-              {t('app.sign_up')}
+              {props.accountRedeem.redeem ? t('app.redeem') : t('app.sign_up')}
             </Text>
           </Header>
         )}
@@ -273,7 +343,7 @@ class SignUpView extends BaseComponent {
 
     const secureTextEntry =
       Platform.OS === 'ios' ||
-      (props.account.credentials.password && props.account.credentials.password.length > 0)
+        (props.account.credentials.password && props.account.credentials.password.length > 0)
         ? true
         : false;
 
@@ -370,6 +440,7 @@ class SignUpView extends BaseComponent {
               label={t('views.sign_up.password_label')}
               value={props.account.credentials.password}
               secureTextEntry={secureTextEntry}
+              message={t(props.account.credentials.passwordMessage)}
               onChangeText={(text) => {
                 props.setPassword(text);
 
@@ -472,7 +543,7 @@ class SignUpView extends BaseComponent {
         {(t) => (
           <Body style={styles.body}>
             {this.renderTextInputs()}
-          {/* this.renderNextButton() */}
+            {/* this.renderNextButton() */}
           </Body>
         )}
       </Translation>
@@ -583,6 +654,8 @@ function mapStateToProps(state) {
     refs: state.signUpViewReducer.refs,
     account: state.signUpViewReducer.account,
     validation: state.signUpViewReducer.validation,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
+    isLoggedIn: state.dataReducer.isLoggedIn,
   };
 }
 
@@ -599,6 +672,7 @@ function mapDispatchToProps(dispatch) {
     setPhoneCode: (...args) => dispatch(SignUpViewAction.setPhoneCode(...args)),
     setPhoneNumber: (...args) => dispatch(SignUpViewAction.setPhoneNumber(...args)),
     setPassword: (...args) => dispatch(SignUpViewAction.setPassword(...args)),
+    setPasswordMessage: (...args) => dispatch(SignUpViewAction.setPasswordMessage(...args)),
     setPasswordValidationLength: (...args) => dispatch(SignUpViewAction.setPasswordValidationLength(...args)),
     setPasswordValidationSymbol: (...args) => dispatch(SignUpViewAction.setPasswordValidationSymbol(...args)),
     setPasswordValidationLowerCase: (...args) => dispatch(SignUpViewAction.setPasswordValidationLowerCase(...args)),

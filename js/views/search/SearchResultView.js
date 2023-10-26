@@ -62,7 +62,7 @@ const ic_no_result = require('../../../assets/images/ic_no_result/ic_no_result.p
 const ic_select_all = require('../../../assets/images/ic_select_all/ic_select_all.png');
 const ic_select_none = require('../../../assets/images/ic_select_none/ic_select_none.png');
 
-const ic_export= require('../../../assets/images/ic_export/ic_export.png');
+const ic_export = require('../../../assets/images/ic_export/ic_export.png');
 
 export const IDENTIFIER = 'SearchResultView';
 

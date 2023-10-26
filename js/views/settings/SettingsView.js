@@ -243,20 +243,20 @@ class SettingsView extends BaseComponent {
             style={styles.body}
             scrollable={false}
           >
-          {
-            <List
-              innerRef={(ref) => {
-                if (!ref) {
-                  return;
-                }
+            {
+              <List
+                innerRef={(ref) => {
+                  if (!ref) {
+                    return;
+                  }
 
-                props.setListRef(2, props.navigation.getState().index, ref);
-              }}
-              contentContainerStyle={styles.listContentContainer}
-              sections={sections}
-              renderItem={this.renderItem}
-            />
-          }
+                  props.setListRef(2, props.navigation.getState().index, ref);
+                }}
+                contentContainerStyle={styles.listContentContainer}
+                sections={sections}
+                renderItem={this.renderItem}
+              />
+            }
           </Body>
         )}
       </Translation>

@@ -21,7 +21,7 @@ import { BaseComponent } from '../../components';
 import {
   Header,
   Button,
- } from '../../project-components';
+} from '../../project-components';
 
 import {
   CameraStackNavigator,

@@ -17,11 +17,14 @@ import {
 import { connect } from 'react-redux';
 import {
   store,
+  AppAction,
   ProfileCastSheetEditionViewAction,
   SignUpStackNavigatorAction,
   SettingsStackNavigatorAction,
   CalendarModalViewAction,
   ProfileInfoSetupViewAction,
+  DataAction,
+  ProfileStackNavigatorAction,
 } from '../../redux';
 
 import {
@@ -117,70 +120,114 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
       props.setAccountInfo(info);
 
-      props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
-        props.setSettingsStackNavigatorEnabledRight(true);
-      });
-
-      props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
-        console.log('[signUpViewAccount]', props.signUpViewAccount);
-        console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
-        console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
-        console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
-
-        let profile = props.userProfile;
-
-        CastSheetConstants.CAST_SHEET_INFO.forEach((category) => {
-          category.keys.forEach((key) => {
-            if (key.super && key.isMultiple && key.properties) {
-              profile = {
-                ...profile,
-                [key.super]: [
-                  ...(profile[key.super] || []),
-                  ...ProfileProcessor.fetchApiMultipleField(key.name, key.properties)
-                    .map((item) => {
-                      return {
-                        ...item,
-                        type: StringProcessor.toCapitalize(key.name),
-                      };
-                  }),
-                ],
-              };
-            } else if (key.isMultiple && key.properties) {
-              profile = {
-                ...profile,
-                [key.name]: ProfileProcessor.fetchApiMultipleField(key.name, key.properties),
-              };
-            } else if (key.isMultiple) {
-              profile = {
-                ...profile,
-                [key.name]: ProfileProcessor.fetchApiFields(key.name),
-              };
-            } else {
-              profile = {
-                ...profile,
-                [key.name]: ProfileProcessor.fetchApiField(key.name),
-              };
-            }
-          });
+      if (props.accountRedeem.redeem) {
+        props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+          props.setSignUpStackNavigatorEnabledRight(true);
         });
 
-        console.log('[profile]', profile);
+        props.addSignUpStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+          console.log('[signUpViewAccount]', props.signUpViewAccount);
+          console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+          console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+          console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
-        console.log('call api...');
+          store.dispatch(AppAction.showActivityIndicator());
 
-        UserProvider.updateProfile(
-          props,
-          profile,
-        )
-          .then((params) => {
-            Router.popToTop(props);
-          })
-          .catch((error) => {
-            console.error(error);
+          let profile = {
+            firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+            lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+            firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+            lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+            nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+            name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
+          };
 
-            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+          CastSheetConstants.CAST_SHEET_INFO.forEach((category) => {
+            category.keys.forEach((key) => {
+              if (key.super && key.isMultiple && key.properties) {
+                profile = {
+                  ...profile,
+                  [key.super]: [
+                    ...ProfileProcessor.fetchApiMultipleField(key.name, key.properties)
+                      .map((item) => {
+                        return {
+                          ...item,
+                          type: StringProcessor.toCapitalize(key.name),
+                        };
+                      }),
+                  ],
+                };
+              } else if (key.isMultiple && key.properties) {
+                profile = {
+                  ...profile,
+                  [key.name]: ProfileProcessor.fetchApiMultipleField(key.name, key.properties),
+                };
+              } else if (key.isMultiple) {
+                profile = {
+                  ...profile,
+                  [key.name]: ProfileProcessor.fetchApiFields(key.name),
+                };
+              } else {
+                profile = {
+                  ...profile,
+                  [key.name]: ProfileProcessor.fetchApiField(key.name),
+                };
+              }
+            });
           });
-      });
+
+          console.log(`[Call api Profile json]`, profile)
+
+          UserProvider.updateProfile(
+            props,
+            profile,
+          )
+            .then((params) => {
+              let deleteTags = store.getState().profileCastSheetEditionViewReducer.deleteTags
+              UserProvider.unlinkProfileInfo(
+                props,
+                deleteTags
+              )
+                .then((params) => {
+                  store.dispatch(DataAction.setUserProfile(UserProvider.getProfile()));
+                  store.dispatch(AppAction.hideActivityIndicator());
+                  // Router.goBack(props);
+                  Router.push(props, 'ProfileCompletionView');
+                })
+                .catch((error) => {
+                  console.error(error);
+                  store.dispatch(AppAction.hideActivityIndicator());
+                  Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+                });
+
+            })
+            .catch((error) => {
+              console.error(error);
+              store.dispatch(AppAction.hideActivityIndicator());
+              Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+            });
+        });
+      } else {
+
+        if (props.navigator === 'ProfileStackNavigator') {
+          props.addProfileStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+            props.setProfileStackNavigatorEnabledRight(true);
+          })
+
+          props.addProfileStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+            this.updateProfile()
+          })
+        } else {
+          props.addSettingsStackNavigatorOnScreenAppear(IDENTIFIER, () => {
+            props.setSettingsStackNavigatorEnabledRight(true);
+          });
+
+          props.addSettingsStackNavigatorOnRightButtonPress(IDENTIFIER, () => {
+            this.updateProfile()
+          });
+        }
+
+      }
     } else {
       props.addSignUpStackNavigatorOnScreenAppear(IDENTIFIER, () => {
         props.setSignUpStackNavigatorEnabledRight(true);
@@ -192,13 +239,15 @@ class ProfileCastSheetEditionView extends BaseComponent {
         console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
         console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
 
+        store.dispatch(AppAction.showActivityIndicator());
+
         let profile = {
-            firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
-            lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
-            firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
-            lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
-            nickname: props.profileInfoSetupViewAccount.info.nickname || '',
-            name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
+          firstname_en: props.profileInfoSetupViewAccount.info.firstnameEn || '',
+          lastname_en: props.profileInfoSetupViewAccount.info.lastnameEn || '',
+          firstname_zh: props.profileInfoSetupViewAccount.info.firstnameZh || '',
+          lastname_zh: props.profileInfoSetupViewAccount.info.lastnameZh || '',
+          nickname: props.profileInfoSetupViewAccount.info.nickname || '',
+          name_display_format: props.profileInfoSetupViewAccount.info.displayFormat.toString(),
         };
 
         CastSheetConstants.CAST_SHEET_INFO.forEach((category) => {
@@ -213,7 +262,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                         ...item,
                         type: StringProcessor.toCapitalize(key.name),
                       };
-                  }),
+                    }),
                 ],
               };
             } else if (key.isMultiple && key.properties) {
@@ -235,6 +284,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
           });
         });
 
+        console.log(`[Call api Profile json]`, profile)
         UserProvider.createAndLinkProfile(
           props,
           [profile],
@@ -258,11 +308,12 @@ class ProfileCastSheetEditionView extends BaseComponent {
                 },
               )
                 .then((params) => {
+                  store.dispatch(AppAction.hideActivityIndicator());
                   this.login();
                 })
                 .catch((error) => {
                   console.error(error);
-
+                  store.dispatch(AppAction.hideActivityIndicator());
                   Alert.alert(
                     i18n.t('app.system_error'),
                     i18n.t('app.error.image_upload_message'),
@@ -284,12 +335,99 @@ class ProfileCastSheetEditionView extends BaseComponent {
           })
           .catch((error) => {
             console.error(error);
-
+            store.dispatch(AppAction.hideActivityIndicator());
             Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
           });
       });
     }
   };
+
+  updateProfile = () => {
+    const { props } = this;
+
+    console.log('[signUpViewAccount]', props.signUpViewAccount);
+    console.log('[profileInfoSetupViewAccount]', props.profileInfoSetupViewAccount);
+    console.log('[profileInfoSetupViewPhoto]', props.profileInfoSetupViewPhoto);
+    console.log('[profileCastSheetEditionAccount]', JSON.stringify(store.getState().profileCastSheetEditionViewReducer.account));
+
+    store.dispatch(AppAction.showActivityIndicator());
+
+    let profile = props.userProfile;
+
+    CastSheetConstants.CAST_SHEET_INFO.forEach((category) => {
+      category.keys.forEach((key) => {
+        if (key.super && key.isMultiple && key.properties) {
+          profile = {
+            ...profile,
+            [key.super]: [
+              ...(profile[key.super] || []),
+              ...ProfileProcessor.fetchApiMultipleField(key.name, key.properties)
+                .map((item) => {
+                  return {
+                    ...item,
+                    type: StringProcessor.toCapitalize(key.name),
+                  };
+                }),
+            ],
+          };
+        } else if (key.isMultiple && key.properties) {
+          profile = {
+            ...profile,
+            [key.name]: ProfileProcessor.fetchApiMultipleField(key.name, key.properties),
+          };
+          let deleteTag = ProfileProcessor.deleteTag(key.name, key.properties)
+          if (deleteTag.length) {
+
+            props.setDeleteInfo(key.name, deleteTag.flat())
+          }
+
+        } else if (key.isMultiple) {
+          profile = {
+            ...profile,
+            [key.name]: ProfileProcessor.fetchApiFields(key.name),
+          };
+        } else {
+          profile = {
+            ...profile,
+            [key.name]: ProfileProcessor.fetchApiField(key.name),
+          };
+        }
+      });
+    });
+
+    console.log('[profile]', profile);
+
+    console.log('call api...');
+
+    UserProvider.updateProfile(
+      props,
+      profile,
+    )
+      .then((params) => {
+        let deleteTags = store.getState().profileCastSheetEditionViewReducer.deleteTags
+        console.log(deleteTags)
+        UserProvider.unlinkProfileInfo(
+          props,
+          deleteTags
+        )
+          .then((params) => {
+            // store.dispatch(DataAction.setUserProfile(UserProvider.getProfile()))
+            store.dispatch(AppAction.hideActivityIndicator());
+            Router.popToTop(props);
+          })
+          .catch((error) => {
+            console.error(error);
+            store.dispatch(AppAction.hideActivityIndicator());
+            Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+          });
+
+      })
+      .catch((error) => {
+        console.error(error);
+        store.dispatch(AppAction.hideActivityIndicator());
+        Alert.alert(i18n.t('app.system_error'), i18n.t('app.error.general_message'));
+      });
+  }
 
   clearData = () => {
     const { props } = this;
@@ -327,9 +465,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
       return info;
     }
 
-    let tags =  [{
-        tagId: '0',
-        text: props.userProfile[key],
+    let tags = [{
+      tagId: '0',
+      text: props.userProfile[key],
+      state: undefined,
     }];
 
     return {
@@ -338,7 +477,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
         ...info[key],
         tags: tags,
         text: undefined,
-        state: undefined,
       },
     };
   };
@@ -352,8 +490,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
 
     let tags = props.userProfile[key].map((tag, index) => {
       return {
-        tagId: index.toString(),
+        id: tag.id,
+        tagId: index,
         text: tag.text,
+        state: undefined,
       };
     });
 
@@ -363,7 +503,6 @@ class ProfileCastSheetEditionView extends BaseComponent {
         ...info[key],
         tags: tags,
         text: undefined,
-        state: undefined,
       },
     };
   };
@@ -468,6 +607,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
     let visible = undefined;
 
     if (info) {
+
       tags = info.tags || [];
       text = info.text;
       state = info.state;
@@ -502,6 +642,18 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   ||
                   []
                 );
+                let deleteTag = tags.filter((tag) => {
+                  return tag.tagId === tagId;
+                })
+
+                if (deleteTag[0].id) {
+                  const { state: _, tagId: __, ...restOfDeleteTag } = deleteTag[0];
+
+                  const newTag = Array.isArray(restOfDeleteTag) ? restOfDeleteTag : [restOfDeleteTag];
+
+                  props.setDeleteInfo(key, newTag)
+                }
+
 
                 tags = tags.filter((tag) => {
                   return tag.tagId !== tagId;
@@ -888,11 +1040,10 @@ class ProfileCastSheetEditionView extends BaseComponent {
               }}
               style={styles.castSheetMultipleInputItemGroupFrame}
               contentContainerStyle={styles.castSheetMultipleInputItemGroupFrameContentContainer}
-              rightAccessoryType="eye"
+              rightAccessoryType="eye&delete"
               visible={visible}
               onPress={(info) => {
                 const { groupFrameId } = info;
-
                 Alert.alert(
                   i18n.t('app.delete'),
                   i18n.t(''),
@@ -931,6 +1082,7 @@ class ProfileCastSheetEditionView extends BaseComponent {
                   groupFrames: groupFrames,
                 });
               }}
+
             >
               {propertyChildren}
             </GroupFrame>
@@ -1383,6 +1535,8 @@ function mapStateToProps(state) {
     profileInfoSetupViewAccount: state.profileInfoSetupViewReducer.account,
     profileInfoSetupViewPhoto: state.profileInfoSetupViewReducer.photo,
     userProfile: state.dataReducer.userProfile,
+    accountRedeem: state.signUpViewReducer.accountRedeem,
+    navigator: state.profileCastSheetEditionViewReducer.navigator
   };
 }
 
@@ -1392,6 +1546,7 @@ function mapDispatchToProps(dispatch) {
     setAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.setAccountInfo(...args)),
     addAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.addAccountInfo(...args)),
     deleteAccountInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.deleteAccountInfo(...args)),
+    setDeleteInfo: (...args) => dispatch(ProfileCastSheetEditionViewAction.setDeleteInfo(...args)),
     setFocusedTag: (...args) => dispatch(ProfileCastSheetEditionViewAction.setFocusedTag(...args)),
     setSignUpStackNavigatorEnabledRight: (...args) => dispatch(SignUpStackNavigatorAction.setEnabledRight(...args)),
     addSignUpStackNavigatorOnScreenAppear: (...args) => dispatch(SignUpStackNavigatorAction.addOnScreenAppear(...args)),
@@ -1399,6 +1554,9 @@ function mapDispatchToProps(dispatch) {
     addSettingsStackNavigatorOnScreenAppear: (...args) => dispatch(SettingsStackNavigatorAction.addOnScreenAppear(...args)),
     setSettingsStackNavigatorEnabledRight: (...args) => dispatch(SettingsStackNavigatorAction.setEnabledRight(...args)),
     addSettingsStackNavigatorOnRightButtonPress: (...args) => dispatch(SettingsStackNavigatorAction.addOnRightButtonPress(...args)),
+    setProfileStackNavigatorEnabledRight: (...args) => dispatch(ProfileStackNavigatorAction.setEnabledRight(...args)),
+    addProfileStackNavigatorOnScreenAppear: (...args) => dispatch(ProfileStackNavigatorAction.addOnScreenAppear(...args)),
+    addProfileStackNavigatorOnRightButtonPress: (...args) => dispatch(ProfileStackNavigatorAction.addOnRightButtonPress(...args)),
     setCalendarModalViewInitialDate: (...args) => dispatch(CalendarModalViewAction.setInitialDate(...args)),
     setCalendarModalViewOnDayPress: (...args) => dispatch(CalendarModalViewAction.setOnDayPress(...args)),
     setProfileInfoSetupViewSource: (...args) => dispatch(ProfileInfoSetupViewAction.setSource(...args)),

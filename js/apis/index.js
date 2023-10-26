@@ -17,6 +17,7 @@ import * as RegisterApi from './RegisterApi';
 import * as SearchApi from './SearchApi';
 import * as UpdateProfileApi from './UpdateProfileApi';
 import * as UploadProfileImageApi from './UploadProfileImageApi';
+import * as UnlinkProfileInfoApi from './UnlinkProfileInfoApi';
 
 export {
   ChangePasswordApi,
@@ -33,4 +34,5 @@ export {
   SearchApi,
   UpdateProfileApi,
   UploadProfileImageApi,
+  UnlinkProfileInfoApi
 };
